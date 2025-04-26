@@ -80,6 +80,22 @@
             visibility: visible;
             opacity: 1;
         }
+        .slider-thumb::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #38B2AC;
+            cursor: pointer;
+        }
+        .slider-thumb::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #38B2AC;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body class="bg-white">
@@ -204,7 +220,7 @@
                         <div class="mb-8">
                             <div class="flex justify-between mb-2">
                                 <span class="text-sm font-medium text-gray-600">Progress</span>
-                                <span class="text-sm font-medium text-gray-600"><span id="current-step">1</span>/8</span>
+                                <span class="text-sm font-medium text-gray-600"><span id="current-step">1</span>/<span id="total-steps">8</span></span>
                             </div>
                             <div class="progress-bar">
                                 <div id="progress-fill" class="progress-fill" style="width: 12.5%"></div>
@@ -239,7 +255,7 @@
                             <div class="step hidden" data-step="2">
                                 <h4 class="text-lg font-semibold mb-4">What's your annual recurring revenue (ARR)?</h4>
                                 <div class="mb-4">
-                                    <input type="range" min="0" max="10000000" step="50000" value="500000" class="w-full" id="revenue-slider">
+                                    <input type="range" min="0" max="10000000" step="50000" value="500000" class="w-full slider-thumb" id="revenue-slider">
                                     <div class="flex justify-between text-sm text-gray-500 mt-1">
                                         <span>$0</span>
                                         <span>$10M+</span>
@@ -257,7 +273,7 @@
                             <div class="step hidden" data-step="3">
                                 <h4 class="text-lg font-semibold mb-4">What's your annual revenue growth rate?</h4>
                                 <div class="mb-4">
-                                    <input type="range" min="0" max="300" step="5" value="30" class="w-full" id="growth-slider">
+                                    <input type="range" min="0" max="300" step="5" value="30" class="w-full slider-thumb" id="growth-slider">
                                     <div class="flex justify-between text-sm text-gray-500 mt-1">
                                         <span>0%</span>
                                         <span>300%+</span>
@@ -275,7 +291,7 @@
                             <div class="step hidden" data-step="4">
                                 <h4 class="text-lg font-semibold mb-4">What's your gross profit margin?</h4>
                                 <div class="mb-4">
-                                    <input type="range" min="0" max="100" step="1" value="70" class="w-full" id="margin-slider">
+                                    <input type="range" min="0" max="100" step="1" value="70" class="w-full slider-thumb" id="margin-slider">
                                     <div class="flex justify-between text-sm text-gray-500 mt-1">
                                         <span>0%</span>
                                         <span>100%</span>
@@ -293,7 +309,7 @@
                             <div class="step hidden" data-step="5">
                                 <h4 class="text-lg font-semibold mb-4">How many customers do you have?</h4>
                                 <div class="mb-4">
-                                    <input type="range" min="0" max="10000" step="50" value="500" class="w-full" id="customers-slider">
+                                    <input type="range" min="0" max="10000" step="50" value="500" class="w-full slider-thumb" id="customers-slider">
                                     <div class="flex justify-between text-sm text-gray-500 mt-1">
                                         <span>0</span>
                                         <span>10,000+</span>
@@ -311,7 +327,7 @@
                             <div class="step hidden" data-step="6">
                                 <h4 class="text-lg font-semibold mb-4">What's your customer acquisition cost (CAC)?</h4>
                                 <div class="mb-4">
-                                    <input type="range" min="0" max="5000" step="50" value="500" class="w-full" id="cac-slider">
+                                    <input type="range" min="0" max="5000" step="50" value="500" class="w-full slider-thumb" id="cac-slider">
                                     <div class="flex justify-between text-sm text-gray-500 mt-1">
                                         <span>$0</span>
                                         <span>$5,000+</span>
@@ -329,7 +345,7 @@
                             <div class="step hidden" data-step="7">
                                 <h4 class="text-lg font-semibold mb-4">What's your customer lifetime value (LTV)?</h4>
                                 <div class="mb-4">
-                                    <input type="range" min="0" max="50000" step="500" value="5000" class="w-full" id="ltv-slider">
+                                    <input type="range" min="0" max="50000" step="500" value="5000" class="w-full slider-thumb" id="ltv-slider">
                                     <div class="flex justify-between text-sm text-gray-500 mt-1">
                                         <span>$0</span>
                                         <span>$50,000+</span>
@@ -346,7 +362,7 @@
                             <!-- Step 8 -->
                             <div class="step hidden" data-step="8">
                                 <h4 class="text-lg font-semibold mb-4">Where is your business based?</h4>
-                                <select class="w-full p-3 border border-gray-300 rounded-lg focus:ring-teal-500 focus:border-teal-500">
+                                <select id="location" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-teal-500 focus:border-teal-500">
                                     <option value="australia">Australia</option>
                                     <option value="us">United States</option>
                                     <option value="uk">United Kingdom</option>
@@ -355,7 +371,7 @@
                                 </select>
                                 <div class="mt-6">
                                     <label class="flex items-start space-x-3">
-                                        <input type="checkbox" class="mt-1 h-5 w-5 text-teal-500">
+                                        <input type="checkbox" id="agree-terms" class="mt-1 h-5 w-5 text-teal-500">
                                         <span class="text-sm text-gray-600">I agree to receive a free valuation report and occasional business tips via email.</span>
                                     </label>
                                 </div>
@@ -363,58 +379,7 @@
                             
                             <!-- Results -->
                             <div class="step hidden" data-step="results">
-                                <div class="text-center py-8">
-                                    <div class="w-20 h-20 bg-teal-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                                        <i class="fas fa-check-circle text-teal-500 text-4xl"></i>
-                                    </div>
-                                    <h4 class="text-2xl font-bold text-gray-800 mb-2">Valuation Complete!</h4>
-                                    <p class="text-gray-600 mb-6">Here's your estimated business value based on the information provided.</p>
-                                    
-                                    <div class="bg-gray-50 p-6 rounded-lg mb-6">
-                                        <div class="text-3xl font-bold text-teal-500 mb-2" id="valuation-result">$1,250,000 - $1,750,000</div>
-                                        <div class="text-gray-600 mb-4">Estimated Valuation Range</div>
-                                        <div class="bg-teal-500 bg-opacity-20 rounded-lg p-3 text-sm">
-                                            <i class="fas fa-trophy mr-2"></i> Your business is in the <span class="font-bold">Top 30%</span> of SaaS companies
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-                                        <div class="bg-white p-4 rounded-lg border border-gray-200">
-                                            <div class="text-sm text-gray-500 mb-1">Revenue Multiple</div>
-                                            <div class="text-xl font-bold">5.2x</div>
-                                        </div>
-                                        <div class="bg-white p-4 rounded-lg border border-gray-200">
-                                            <div class="text-sm text-gray-500 mb-1">Growth Score</div>
-                                            <div class="text-xl font-bold">8.4/10</div>
-                                        </div>
-                                        <div class="bg-white p-4 rounded-lg border border-border-200">
-                                            <div class="text-sm text-gray-500 mb-1">Profitability</div>
-                                            <div class="text-xl font-bold">Strong</div>
-                                        </div>
-                                    </div>
-                                    
-                                    <h5 class="font-semibold mb-3">Key Strengths</h5>
-                                    <div class="flex flex-wrap justify-center gap-2 mb-6">
-                                        <span class="bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded">High Growth Rate</span>
-                                        <span class="bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded">Strong Margins</span>
-                                        <span class="bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded">Scalable Model</span>
-                                    </div>
-                                    
-                                    <h5 class="font-semibold mb-3">Areas for Improvement</h5>
-                                    <div class="flex flex-wrap justify-center gap-2 mb-8">
-                                        <span class="bg-yellow-100 text-yellow-800 text-xs font-medium px-2.5 py-0.5 rounded">Customer Concentration</span>
-                                        <span class="bg-yellow-100 text-yellow-800 text-xs font-medium px-2.5 py-0.5 rounded">CAC Efficiency</span>
-                                    </div>
-                                    
-                                    <div class="space-y-3">
-                                        <button id="download-report" class="w-full btn-primary text-white font-bold py-3 px-6 rounded-lg">
-                                            <i class="fas fa-download mr-2"></i> Download Full Report (PDF)
-                                        </button>
-                                        <button id="start-over" class="w-full btn-secondary font-bold py-3 px-6 rounded-lg">
-                                            Start New Valuation
-                                        </button>
-                                    </div>
-                                </div>
+                                <!-- Results will be dynamically inserted here -->
                             </div>
                         </div>
                         
@@ -1022,7 +987,7 @@
                 </div>
                 
                 <div class="bg-white rounded-xl shadow-md overflow-hidden border border-gray-100 hover:shadow-lg transition-shadow">
-                    <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1415&q=80" alt="Tech risks" class="w-full h-48 object-cover">
+                    <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwa90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1415&q=80" alt="Tech risks" class="w-full h-48 object-cover">
                     <div class="p-6">
                         <span class="text-xs font-semibold text-teal-500">DUE DILIGENCE</span>
                         <h3 class="text-xl font-bold text-gray-800 mt-2 mb-3">5 Tech Risks Investors Hate (and How to Fix Them)</h3>
@@ -1034,7 +999,7 @@
                 </div>
                 
                 <div class="bg-white rounded-xl shadow-md overflow-hidden border border-gray-100 hover:shadow-lg transition-shadow">
-                    <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Data room" class="w-full h-48 object-cover">
+                    <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwa90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Data room" class="w-full h-48 object-cover">
                     <div class="p-6">
                         <span class="text-xs font-semibold text-teal-500">INVESTOR READINESS</span>
                         <h3 class="text-xl font-bold text-gray-800 mt-2 mb-3">What's Really Inside a Data Room?</h3>
@@ -1156,7 +1121,7 @@
         });
 
         // Demo modal
-        document.getElementById('demo').addEventListener('click', function(e) {
+        document.querySelector('a[href="#demo"]').addEventListener('click', function(e) {
             e.preventDefault();
             document.getElementById('demo-modal').classList.remove('hidden');
             document.body.classList.add('overflow-hidden');
@@ -1165,7 +1130,7 @@
         document.getElementById('close-modal').addEventListener('click', function() {
             document.getElementById('demo-modal').classList.add('hidden');
             document.body.classList.remove('overflow-hidden');
-            document.getElementById('demo-video').src = document.getElementById('demo-video').src; // Reset video
+            document.getElementById('demo-video').src = document.getElementById('demo-video').src;
         });
 
         // Chat widget
@@ -1183,45 +1148,43 @@
         const prevBtn = document.getElementById('prev-btn');
         const currentStepDisplay = document.getElementById('current-step');
         const progressFill = document.getElementById('progress-fill');
+        const startOverBtn = document.getElementById('start-over');
         let currentStep = 1;
+        let formData = {};
 
-        // Slider updates
-        document.getElementById('revenue-slider').addEventListener('input', function() {
-            const value = parseInt(this.value);
-            document.getElementById('revenue-display').textContent = '$' + value.toLocaleString();
-        });
+        // Industry multipliers and data from old site
+        const industryMultipliers = {
+            "Technology": 5.5, "Retail": 2.5, "Hospitality": 2.5, "Media": 3.75, "Marketing": 4.25,
+            "Construction": 2.75, "Healthcare": 4.0, "Finance": 4.25, "Real Estate": 4.25, "Education": 4.0,
+            "Transportation": 3.5, "Agriculture": 2.25, "Manufacturing": 3.5, "Legal": 5.5, "Energy": 4.5,
+            "Arts & Entertainment": 2.75, "Other": 1.0
+        };
 
-        document.getElementById('growth-slider').addEventListener('input', function() {
-            const value = parseInt(this.value);
-            document.getElementById('growth-display').textContent = value + '%';
-        });
+        const aiReplaceability = {
+            "Technology": 0.2, "Retail": 0.75, "Hospitality": 0.8, "Media": 0.3, "Marketing": 0.3,
+            "Construction": 0.5, "Healthcare": 0.2, "Finance": 0.4, "Real Estate": 0.4, "Education": 0.2,
+            "Transportation": 0.6, "Agriculture": 0.5, "Manufacturing": 0.6, "Legal": 0.1, "Energy": 0.4,
+            "Arts & Entertainment": 0.5, "Other": 0.0
+        };
 
-        document.getElementById('margin-slider').addEventListener('input', function() {
-            const value = parseInt(this.value);
-            document.getElementById('margin-display').textContent = value + '%';
-        });
+        const staffValueMultiplier = {
+            "Technology": 4.0, "Retail": 1.5, "Hospitality": 1.0, "Media": 2.75, "Marketing": 3.0,
+            "Construction": 2.0, "Healthcare": 2.5, "Finance": 3.0, "Real Estate": 3.0, "Education": 2.75,
+            "Transportation": 2.5, "Agriculture": 1.75, "Manufacturing": 2.5, "Legal": 4.5, "Energy": 3.5,
+            "Arts & Entertainment": 2.0, "Other": 1.0
+        };
 
-        document.getElementById('customers-slider').addEventListener('input', function() {
-            const value = parseInt(this.value);
-            document.getElementById('customers-display').textContent = value.toLocaleString();
-        });
-
-        document.getElementById('cac-slider').addEventListener('input', function() {
-            const value = parseInt(this.value);
-            document.getElementById('cac-display').textContent = '$' + value.toLocaleString();
-        });
-
-        document.getElementById('ltv-slider').addEventListener('input', function() {
-            const value = parseInt(this.value);
-            document.getElementById('ltv-display').textContent = '$' + value.toLocaleString();
-        });
-
-        // Navigation
-        nextBtn.addEventListener('click', function() {
-            if (currentStep < steps.length - 1) {
-                document.querySelector(`.step[data-step="${currentStep}"]`).classList.add('hidden');
-                currentStep++;
-                
-                if (currentStep === steps.length - 1) {
-                    // Calculate valuation
+        const industryAverages = {
+            "Technology": { income: 150000, expenses: 80000, debt: 30000, staff: 20 },
+            "Retail": { income: 100000, expenses: 60000, debt: 20000, staff: 15 },
+            "Hospitality": { income: 120000, expenses: 70000, debt: 25000, staff: 40 },
+            "Media": { income: 130000, expenses: 72000, debt: 26000, staff: 20 },
+            "Marketing": { income: 115000, expenses: 68000, debt: 23000, staff: 20 },
+            "Construction": { income: 130000, expenses: 70000, debt: 30000, staff: 20 },
+            "Healthcare": { income: 140000, expenses: 75000, debt: 35000, staff: 25 },
+            "Finance": { income: 200000, expenses: 90000, debt: 40000, staff: 30 },
+            "Real Estate": { income: 160000, expenses: 80000, debt: 32000, staff: 25 },
+            "Education": { income: 105000, expenses: 60000, debt: 21000, staff: 15 },
+            "Transportation": { income: 125000, expenses: 70000, debt: 27000, staff: 30 },
+            "Agriculture": { income: 95000, expenses:
 </html>
