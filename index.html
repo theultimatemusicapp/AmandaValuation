@@ -626,3 +626,634 @@
         display: none;
     }
 </style>
+    <!-- Valuation Tool (Steps 4-6) -->
+<!-- Step 4: Market and Industry Factors -->
+<div id="step-4" class="step step-hidden">
+    <h3 class="text-xl font-semibold text-gray-800 mb-4 flex items-center">
+        <i class="fas fa-industry mr-2 text-teal-500"></i> Market and Industry Factors
+    </h3>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div>
+            <label for="industry" class="block text-sm font-medium text-gray-700 mb-1">Select Industry:</label>
+            <select id="industry" class="input-highlight block w-full pl-3 pr-10 py-2 text-base border-gray-300 rounded-md" required aria-describedby="industry-desc">
+                <option value="">--Select Industry--</option>
+                <option value="Technology">Technology</option>
+                <option value="Retail">Retail</option>
+                <option value="Hospitality">Hospitality</option>
+                <option value="Media">Media</option>
+                <option value="Marketing">Marketing</option>
+                <option value="Healthcare">Healthcare</option>
+                <option value="Finance">Finance</option>
+            </select>
+            <p class="mt-1 text-sm text-gray-500" id="industry-desc">Your industry helps our AI tailor valuation benchmarks.</p>
+            <p id="industry-error" class="error-message">Please select an industry.</p>
+        </div>
+        <div>
+            <label for="marketTrendImpact" class="block text-sm font-medium text-gray-700 mb-1">Market Trend Impact (1-10):</label>
+            <div class="flex items-center">
+                <input type="range" id="marketTrendImpact" min="1" max="10" value="5" step="1" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer" oninput="document.getElementById('marketTrendImpactValue').textContent = this.value" aria-describedby="marketTrendImpact-desc">
+                <span id="marketTrendImpactValue" class="ml-3 text-sm font-medium text-gray-700">5</span>
+            </div>
+            <p class="mt-1 text-sm text-gray-500" id="marketTrendImpact-desc">Rate market trends (1 = Negative, 10 = Positive).</p>
+        </div>
+        <div>
+            <label for="competitivePositioning" class="block text-sm font-medium text-gray-700 mb-1">Competitive Positioning (1-10):</label>
+            <div class="flex items-center">
+                <input type="range" id="competitivePositioning" min="1" max="10" value="5" step="1" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer" oninput="document.getElementById('competitivePositioningValue').textContent = this.value" aria-describedby="competitivePositioning-desc">
+                <span id="competitivePositioningValue" class="ml-3 text-sm font-medium text-gray-700">5</span>
+            </div>
+            <p class="mt-1 text-sm text-gray-500" id="competitivePositioning-desc">Rate your market position (1 = Weak, 10 = Dominant).</p>
+        </div>
+        <div>
+            <label for="marketVolatility" class="block text-sm font-medium text-gray-700 mb-1">Market Volatility (1-10):</label>
+            <div class="flex items-center">
+                <input type="range" id="marketVolatility" min="1" max="10" value="5" step="1" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer" oninput="document.getElementById('marketVolatilityValue').textContent = this.value" aria-describedby="marketVolatility-desc">
+                <span id="marketVolatilityValue" class="ml-3 text-sm font-medium text-gray-700">5</span>
+            </div>
+            <p class="mt-1 text-sm text-gray-500" id="marketVolatility-desc">Rate market stability (1 = Volatile, 10 = Stable).</p>
+        </div>
+    </div>
+    <div class="flex justify-between mt-6">
+        <button id="prev-btn-4" class="btn-secondary font-bold py-2 px-6 rounded-lg" aria-label="Previous step">
+            <i class="fas fa-arrow-left mr-2"></i> Previous
+        </button>
+        <button id="next-btn-4" class="btn-primary text-white font-bold py-2 px-6 rounded-lg" aria-label="Next step">
+            Next <i class="fas fa-arrow-right ml-2"></i>
+        </button>
+    </div>
+</div>
+
+<!-- Step 5: Advanced Inputs -->
+<div id="step-5" class="step step-hidden">
+    <h3 class="text-xl font-semibold text-gray-800 mb-4 flex items-center">
+        <i class="fas fa-cogs mr-2 text-teal-500"></i> Advanced Inputs
+    </h3>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div>
+            <label for="aiReplaceable" class="block text-sm font-medium text-gray-700 mb-1">Can Staff be Replaced by AI?</label>
+            <select id="aiReplaceable" onchange="toggleAIReplacement()" required class="input-highlight block w-full pl-3 pr-10 py-2 text-base border-gray-300 rounded-md" aria-describedby="aiReplaceable-desc">
+                <option value="">--Select--</option>
+                <option value="yes">Yes</option>
+                <option value="no">No</option>
+            </select>
+            <p class="mt-1 text-sm text-gray-500" id="aiReplaceable-desc">Select 'Yes' if roles can be automated.</p>
+            <p id="aiReplaceable-error" class="error-message">Please select an option.</p>
+        </div>
+        <div id="aiReplaceCountSection" class="hidden">
+            <label for="aiReplaceCount" class="block text-sm font-medium text-gray-700 mb-1">Number of Staff Replaceable by AI:</label>
+            <input type="number" id="aiReplaceCount" placeholder="2" min="0" class="input-highlight block w-full sm:text-sm border-gray-300 rounded-md" aria-describedby="aiReplaceCount-desc">
+            <p class="mt-1 text-sm text-gray-500" id="aiReplaceCount-desc">Number of automatable positions.</p>
+            <p id="aiReplaceCount-error" class="error-message">Please enter a valid number.</p>
+        </div>
+        <div>
+            <label for="hasIP" class="block text-sm font-medium text-gray-700 mb-1">Do You Have Intellectual Property (IP)?</label>
+            <select id="hasIP" onchange="toggleIPFields()" required class="input-highlight block w-full pl-3 pr-10 py-2 text-base border-gray-300 rounded-md" aria-describedby="hasIP-desc">
+                <option value="">--Select--</option>
+                <option value="yes">Yes</option>
+                <option value="no">No</option>
+            </select>
+            <p class="mt-1 text-sm text-gray-500" id="hasIP-desc">Select 'Yes' for patents or trademarks.</p>
+            <p id="hasIP-error" class="error-message">Please select an option.</p>
+        </div>
+        <div id="ipValueSection" class="hidden">
+            <label for="ipValue" class="block text-sm font-medium text-gray-700 mb-1">IP Value ($):</label>
+            <div class="relative rounded-md shadow-sm">
+                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                    <span class="text-gray-500 sm:text-sm">$</span>
+                </div>
+                <input type="text" id="ipValue" placeholder="50,000.00" class="input-highlight block w-full pl-7 pr-12 sm:text-sm border-gray-300 rounded-md" aria-describedby="ipValue-desc">
+            </div>
+            <p class="mt-1 text-sm text-gray-500" id="ipValue-desc">Estimated value of IP assets.</p>
+            <p id="ipValue-error" class="error-message">Please enter a valid number.</p>
+        </div>
+    </div>
+    <div class="flex justify-between mt-6">
+        <button id="prev-btn-5" class="btn-secondary font-bold py-2 px-6 rounded-lg" aria-label="Previous step">
+            <i class="fas fa-arrow-left mr-2"></i> Previous
+        </button>
+        <button id="next-btn-5" class="btn-primary text-white font-bold py-2 px-6 rounded-lg" aria-label="Next step">
+            Next <i class="fas fa-arrow-right ml-2"></i>
+        </button>
+    </div>
+</div>
+
+<!-- Step 6: Future Projections -->
+<div id="step-6" class="step step-hidden">
+    <h3 class="text-xl font-semibold text-gray-800 mb-4 flex items-center">
+        <i class="fas fa-chart-line mr-2 text-teal-500"></i> Future Projections
+    </h3>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div>
+            <label for="projectedRevenue" class="block text-sm font-medium text-gray-700 mb-1">Projected Revenue Next Year ($):</label>
+            <div class="relative rounded-md shadow-sm">
+                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                    <span class="text-gray-500 sm:text-sm">$</span>
+                </div>
+                <input type="text" id="projectedRevenue" placeholder="150,000.00" required class="input-highlight block w-full pl-7 pr-12 sm:text-sm border-gray-300 rounded-md" aria-describedby="projectedRevenue-desc">
+            </div>
+            <p class="mt-1 text-sm text-gray-500" id="projectedRevenue-desc">Expected revenue next year.</p>
+            <p id="projectedRevenue-error" class="error-message">Please enter a valid number.</p>
+        </div>
+        <div>
+            <label for="expectedGrowthRate" class="block text-sm font-medium text-gray-700 mb-1">Expected Annual Growth Rate (%):</label>
+            <div class="relative rounded-md shadow-sm">
+                <input type="text" id="expectedGrowthRate" placeholder="10.00" required class="input-highlight block w-full sm:text-sm border-gray-300 rounded-md" aria-describedby="expectedGrowthRate-desc">
+                <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                    <span class="text-gray-500 sm:text-sm">%</span>
+                </div>
+            </div>
+            <p class="mt-1 text-sm text-gray-500" id="expectedGrowthRate-desc">Anticipated revenue growth.</p>
+            <p id="expectedGrowthRate-error" class="error-message">Please enter a valid percentage.</p>
+        </div>
+        <div id="dcfFields" class="col-span-2 hidden">
+            <h4 class="text-lg font-semibold text-gray-800 mb-4">Discounted Cash Flow (DCF) Inputs</h4>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <label for="cashFlow1" class="block text-sm font-medium text-gray-700 mb-1">Year 1 Cash Flow ($):</label>
+                    <div class="relative rounded-md shadow-sm">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <span class="text-gray-500 sm:text-sm">$</span>
+                        </div>
+                        <input type="text" id="cashFlow1" placeholder="50,000.00" class="input-highlight block w-full pl-7 pr-12 sm:text-sm border-gray-300 rounded-md" aria-describedby="cashFlow1-desc">
+                    </div>
+                    <p id="cashFlow1-error" class="error-message">Please enter a valid number.</p>
+                </div>
+                <div>
+                    <label for="cashFlow2" class="block text-sm font-medium text-gray-700 mb-1">Year 2 Cash Flow ($):</label>
+                    <div class="relative rounded-md shadow-sm">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <span class="text-gray-500 sm:text-sm">$</span>
+                        </div>
+                        <input type="text" id="cashFlow2" placeholder="55,000.00" class="input-highlight block w-full pl-7 pr-12 sm:text-sm border-gray-300 rounded-md" aria-describedby="cashFlow2-desc">
+                    </div>
+                    <p id="cashFlow2-error" class="error-message">Please enter a valid number.</p>
+                </div>
+                <div>
+                    <label for="cashFlow3" class="block text-sm font-medium text-gray-700 mb-1">Year 3 Cash Flow ($):</label>
+                    <div class="relative rounded-md shadow-sm">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <span class="text-gray-500 sm:text-sm">$</span>
+                        </div>
+                        <input type="text" id="cashFlow3" placeholder="60,000.00" class="input-highlight block w-full pl-7 pr-12 sm:text-sm border-gray-300 rounded-md" aria-describedby="cashFlow3-desc">
+                    </div>
+                    <p id="cashFlow3-error" class="error-message">Please enter a valid number.</p>
+                </div>
+                <div>
+                    <label for="discountRate" class="block text-sm font-medium text-gray-700 mb-1">Discount Rate (%):</label>
+                    <div class="relative rounded-md shadow-sm">
+                        <input type="text" id="discountRate" placeholder="10.00" class="input-highlight block w-full sm:text-sm border-gray-300 rounded-md" aria-describedby="discountRate-desc">
+                        <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                            <span class="text-gray-500 sm:text-sm">%</span>
+                        </div>
+                    </div>
+                    <p id="discountRate-error" class="error-message">Please enter a valid percentage.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="flex justify-between mt-6">
+        <button id="prev-btn-6" class="btn-secondary font-bold py-2 px-6 rounded-lg" aria-label="Previous step">
+            <i class="fas fa-arrow-left mr-2"></i> Previous
+        </button>
+        <button onclick="calculateValuation()" class="btn-primary text-white font-bold py-2 px-6 rounded-lg" aria-label="Calculate valuation">
+            Calculate Valuation <i class="fas fa-calculator ml-2"></i>
+        </button>
+    </div>
+</div>
+
+<!-- Result Display -->
+<div class="mt-8 bg-white rounded-xl shadow-lg overflow-hidden hidden" id="valuationResult">
+    <div class="p-6">
+        <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">Your AI-Powered SaaS Valuation</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+            <div class="bg-teal-50 p-4 rounded-lg">
+                <h3 class="text-lg font-semibold text-teal-800 mb-2">AI-Analyzed Metrics</h3>
+                <div id="financialMetrics" class="space-y-2"></div>
+            </div>
+            <div class="bg-green-50 p-4 rounded-lg">
+                <h3 class="text-lg font-semibold text-green-800 mb-2">Valuation Ranges</h3>
+                <div id="valuationRanges" class="space-y-2"></div>
+            </div>
+        </div>
+        <div class="bg-yellow-50 p-4 rounded-lg mb-8">
+            <h3 class="text-lg font-semibold text-yellow-800 mb-2">Final Valuation</h3>
+            <div id="finalValuation" class="text-center">
+                <p class="text-3xl font-bold text-gray-800" id="valuationAmount"></p>
+                <p class="text-sm text-gray-600 mt-2">Based on AI-driven analysis</p>
+            </div>
+        </div>
+        <div class="flex justify-center mt-6 gap-4">
+            <button onclick="exportResults()" class="btn-primary text-white font-bold py-2 px-6 rounded-lg" aria-label="Export results">
+                <i class="fas fa-file-export mr-2"></i> Export as PDF
+            </button>
+            <button onclick="saveProgress()" class="btn-secondary font-bold py-2 px-6 rounded-lg" aria-label="Save progress">
+                <i class="fas fa-save mr-2"></i> Save Progress
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Charts Display -->
+<div class="mt-8 bg-white rounded-xl shadow-lg overflow-hidden hidden" id="chartsSection">
+    <div class="p-6">
+        <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">AI-Driven Valuation Insights</h2>
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <div class="bg-white p-4 rounded-lg border border-gray-200">
+                <h3 class="text-lg font-semibold text-gray-800 mb-4">Valuation by Method</h3>
+                <div class="chart-container">
+                    <canvas id="valuationChart"></canvas>
+                </div>
+            </div>
+            <div class="bg-white p-4 rounded-lg border border-gray-200">
+                <h3 class="text-lg font-semibold text-gray-800 mb-4">Revenue vs. Expenses</h3>
+                <div class="chart-container">
+                    <canvas id="incomeChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Resources Section -->
+<div class="mt-8">
+    <div class="text-center mb-12">
+        <h2 class="text-3xl font-bold text-gray-800 mb-4">Explore Valuation Resources</h2>
+        <p class="text-lg text-gray-600 max-w-2xl mx-auto">Learn more about valuing your SaaS business with our expert guides and AI-driven insights.</p>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div class="bg-gray-50 p-6 rounded-lg shadow-md">
+            <h3 class="text-xl font-semibold text-gray-800 mb-2">SaaS Valuation Basics</h3>
+            <p class="text-gray-600 mb-4">Understand key metrics like LTV, CAC, and churn rate to value your business accurately.</p>
+            <a href="resources.html#saas-valuation-basics" class="text-teal-500 hover:text-teal-600 font-medium">Read Guide <i class="fas fa-arrow-right ml-2"></i></a>
+        </div>
+        <div class="bg-gray-50 p-6 rounded-lg shadow-md">
+            <h3 class="text-xl font-semibold text-gray-800 mb-2">AI in Business Valuation</h3>
+            <p class="text-gray-600 mb-4">Discover how AI enhances valuation accuracy with data-driven insights.</p>
+            <a href="resources.html#ai-valuation" class="text-teal-500 hover:text-teal-600 font-medium">Learn More <i class="fas fa-arrow-right ml-2"></i></a>
+        </div>
+        <div class="bg-gray-50 p-6 rounded-lg shadow-md">
+            <h3 class="text-xl font-semibold text-gray-800 mb-2">Preparing for a Sale</h3>
+            <p class="text-gray-600 mb-4">Tips to maximize your SaaS business value before selling.</p>
+            <a href="resources.html#preparing-for-sale" class="text-teal-500 hover:text-teal-600 font-medium">Get Tips <i class="fas fa-arrow-right ml-2"></i></a>
+        </div>
+    </div>
+    <div class="text-center mt-12">
+        <a href="resources.html" class="btn-primary text-white font-bold py-3 px-8 rounded-lg">View All Resources</a>
+    </div>
+</div>
+
+</div>
+</div>
+</section>
+
+<!-- Footer -->
+<footer class="bg-gray-800 text-white py-12">
+    <div class="container mx-auto px-6">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+            <div>
+                <h3 class="text-xl font-bold mb-4">Valuation360</h3>
+                <p class="text-gray-400">Use our AI-powered tool to value your SaaS business in just 15 minutes and unlock data-driven insights.</p>
+            </div>
+            <div>
+                <h3 class="text-xl font-bold mb-4">Quick Links</h3>
+                <ul class="space-y-2">
+                    <li><a href="index.html#valuation" class="text-gray-400 hover:text-teal-400">Self Valuation</a></li>
+                    <li><a href="pro.html#tech-due-diligence" class="text-gray-400 hover:text-teal-400">Tech Due Diligence</a></li>
+                    <li><a href="pro.html#data-room" class="text-gray-400 hover:text-teal-400">AI Data Room</a></li>
+                    <li><a href="pro.html#pricing" class="text-gray-400 hover:text-teal-400">Pricing</a></li>
+                </ul>
+            </div>
+            <div>
+                <h3 class="text-xl font-bold mb-4">Resources</h3>
+                <ul class="space-y-2">
+                    <li><a href="resources.html" class="text-gray-400 hover:text-teal-400">Guides & Articles</a></li>
+                    <li><a href="faq.html" class="text-gray-400 hover:text-teal-400">FAQ</a></li>
+                </ul>
+            </div>
+            <div>
+                <h3 class="text-xl font-bold mb-4">Legal</h3>
+                <ul class="space-y-2">
+                    <li><a href="privacy-policy.html" class="text-gray-400 hover:text-teal-400">Privacy Policy</a></li>
+                    <li><a href="terms-and-conditions.html" class="text-gray-400 hover:text-teal-400">Terms & Conditions</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="mt-8 border-t border-gray-700 pt-6 text-center">
+            <p class="text-gray-400">© 2025 Valuation360. All rights reserved.</p>
+        </div>
+    </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script>
+// Update Part 2's next-btn-3 to navigate to step 4
+document.getElementById('next-btn-3').removeEventListener('click', () => {});
+document.getElementById('next-btn-3').addEventListener('click', () => {
+    if (validateStep(3)) {
+        currentStep = 4;
+        showStep(currentStep);
+    }
+});
+
+// Form navigation for steps 4-6
+document.getElementById('next-btn-4').addEventListener('click', () => {
+    if (validateStep(4)) {
+        currentStep = 5;
+        showStep(currentStep);
+    }
+});
+
+document.getElementById('next-btn-5').addEventListener('click', () => {
+    if (validateStep(5)) {
+        currentStep = 6;
+        showStep(currentStep);
+        if (document.getElementById('method-dcf').checked) {
+            document.getElementById('dcfFields').classList.remove('hidden');
+        } else {
+            document.getElementById('dcfFields').classList.add('hidden');
+        }
+    }
+});
+
+document.getElementById('prev-btn-4').addEventListener('click', () => {
+    currentStep = 3;
+    showStep(currentStep);
+});
+
+document.getElementById('prev-btn-5').addEventListener('click', () => {
+    currentStep = 4;
+    showStep(currentStep);
+});
+
+document.getElementById('prev-btn-6').addEventListener('click', () => {
+    currentStep = 5;
+    showStep(currentStep);
+});
+
+// Validation for steps 4-6
+function validateStep(stepNumber) {
+    let isValid = true;
+    if (stepNumber === 4) {
+        const industry = document.getElementById('industry').value;
+        if (!industry) {
+            document.getElementById('industry-error').style.display = 'block';
+            isValid = false;
+        } else {
+            document.getElementById('industry-error').style.display = 'none';
+        }
+    } else if (stepNumber === 5) {
+        const fields = ['aiReplaceable', 'hasIP'];
+        fields.forEach(field => {
+            const input = document.getElementById(field);
+            const error = document.getElementById(`${field}-error`);
+            if (!input.value) {
+                error.style.display = 'block';
+                isValid = false;
+            } else {
+                error.style.display = 'none';
+            }
+        });
+        if (document.getElementById('aiReplaceable').value === 'yes') {
+            const aiReplaceCount = document.getElementById('aiReplaceCount').value;
+            if (!aiReplaceCount || isNaN(aiReplaceCount) || parseInt(aiReplaceCount) < 0) {
+                document.getElementById('aiReplaceCount-error').style.display = 'block';
+                isValid = false;
+            } else {
+                document.getElementById('aiReplaceCount-error').style.display = 'none';
+            }
+        }
+        if (document.getElementById('hasIP').value === 'yes') {
+            const ipValue = document.getElementById('ipValue').value;
+            if (!ipValue || isNaN(ipValue.replace(/,/g, '')) || parseFloat(ipValue.replace(/,/g, '')) < 0) {
+                document.getElementById('ipValue-error').style.display = 'block';
+                isValid = false;
+            } else {
+                document.getElementById('ipValue-error').style.display = 'none';
+            }
+        }
+    } else if (stepNumber === 6) {
+        const fields = ['projectedRevenue', 'expectedGrowthRate'];
+        fields.forEach(field => {
+            const input = document.getElementById(field);
+            const error = document.getElementById(`${field}-error`);
+            const value = input.value.trim();
+            if (!value || isNaN(value.replace(/,/g, '')) || parseFloat(value.replace(/,/g, '')) < 0) {
+                error.style.display = 'block';
+                isValid = false;
+            } else {
+                error.style.display = 'none';
+            }
+        });
+        if (document.getElementById('method-dcf').checked) {
+            const dcfFields = ['cashFlow1', 'cashFlow2', 'cashFlow3', 'discountRate'];
+            dcfFields.forEach(field => {
+                const input = document.getElementById(field);
+                const error = document.getElementById(`${field}-error`);
+                const value = input.value.trim();
+                if (!value || isNaN(value.replace(/,/g, '')) || parseFloat(value.replace(/,/g, '')) < 0) {
+                    error.style.display = 'block';
+                    isValid = false;
+                } else {
+                    error.style.display = 'none';
+                }
+            });
+        }
+    }
+    return isValid;
+}
+
+// Conditional field toggles
+function toggleAIReplacement() {
+    const aiReplaceable = document.getElementById('aiReplaceable').value;
+    document.getElementById('aiReplaceCountSection').classList.toggle('hidden', aiReplaceable !== 'yes');
+}
+
+function toggleIPFields() {
+    const hasIP = document.getElementById('hasIP').value;
+    document.getElementById('ipValueSection').classList.toggle('hidden', hasIP !== 'yes');
+}
+
+// Valuation calculation
+function calculateValuation() {
+    if (!validateStep(6)) return;
+
+    const methods = Array.from(document.querySelectorAll('input[type="checkbox"]:checked')).map(cb => cb.value);
+    const inputs = {
+        ownerSalary: parseFloat(document.getElementById('ownerSalary').value.replace(/,/g, '')) || 0,
+        averageSalary: parseFloat(document.getElementById('averageSalary').value.replace(/,/g, '')) || 0,
+        employeeBenefits: parseFloat(document.getElementById('employeeBenefits').value.replace(/,/g, '')) || 0,
+        staffNumber: parseInt(document.getElementById('staffNumber').value) || 0,
+        expenses: parseFloat(document.getElementById('expenses').value.replace(/,/g, '')) || 0,
+        debt: parseFloat(document.getElementById('debt').value.replace(/,/g, '')) || 0,
+        ltv: parseFloat(document.getElementById('ltv').value.replace(/,/g, '')) || 0,
+        cac: parseFloat(document.getElementById('cac').value.replace(/,/g, '')) || 0,
+        churnRate: parseFloat(document.getElementById('churnRate').value.replace(/,/g, '')) || 0,
+        customerGrowthRate: parseFloat(document.getElementById('customerGrowthRate').value.replace(/,/g, '')) || 0,
+        industry: document.getElementById('industry').value,
+        marketTrendImpact: parseInt(document.getElementById('marketTrendImpact').value),
+        competitivePositioning: parseInt(document.getElementById('competitivePositioning').value),
+        marketVolatility: parseInt(document.getElementById('marketVolatility').value),
+        aiReplaceable: document.getElementById('aiReplaceable').value,
+        aiReplaceCount: parseInt(document.getElementById('aiReplaceCount').value) || 0,
+        hasIP: document.getElementById('hasIP').value,
+        ipValue: parseFloat(document.getElementById('ipValue').value.replace(/,/g, '')) || 0,
+        projectedRevenue: parseFloat(document.getElementById('projectedRevenue').value.replace(/,/g, '')) || 0,
+        expectedGrowthRate: parseFloat(document.getElementById('expectedGrowthRate').value.replace(/,/g, '')) || 0,
+        cashFlow1: parseFloat(document.getElementById('cashFlow1').value.replace(/,/g, '')) || 0,
+        cashFlow2: parseFloat(document.getElementById('cashFlow2').value.replace(/,/g, '')) || 0,
+        cashFlow3: parseFloat(document.getElementById('cashFlow3').value.replace(/,/g, '')) || 0,
+        discountRate: parseFloat(document.getElementById('discountRate').value.replace(/,/g, '')) || 0
+    };
+
+    const valuations = {};
+    let finalValuation = 0;
+
+    // Multiplier Method
+    if (methods.includes('multiplier')) {
+        const industryMultipliers = { Technology: 5, Retail: 2, Hospitality: 1.5, Media: 3, Marketing: 2.5, Healthcare: 4, Finance: 3.5 };
+        const multiplier = industryMultipliers[inputs.industry] || 3;
+        const revenue = inputs.projectedRevenue;
+        valuations.multiplier = revenue * multiplier * (inputs.marketTrendImpact / 10) * (inputs.competitivePositioning / 10);
+    }
+
+    // Income-Based Valuation
+    if (methods.includes('income')) {
+        const revenue = inputs.projectedRevenue;
+        const expenses = inputs.expenses + (inputs.averageSalary * inputs.staffNumber) + inputs.employeeBenefits;
+        valuations.income = revenue - expenses - inputs.debt;
+        if (inputs.hasIP === 'yes') valuations.income += inputs.ipValue * 0.5;
+    }
+
+    // Earnings-Based Valuation
+    if (methods.includes('earnings')) {
+        const netProfit = inputs.projectedRevenue - inputs.expenses - (inputs.averageSalary * inputs.staffNumber) - inputs.employeeBenefits;
+        valuations.earnings = netProfit * 10 * (inputs.marketVolatility / 10);
+    }
+
+    // DCF Valuation
+    if (methods.includes('dcf')) {
+        const discountRate = inputs.discountRate / 100;
+        const cf1 = inputs.cashFlow1 / Math.pow(1 + discountRate, 1);
+        const cf2 = inputs.cashFlow2 / Math.pow(1 + discountRate, 2);
+        const cf3 = inputs.cashFlow3 / Math.pow(1 + discountRate, 3);
+        valuations.dcf = cf1 + cf2 + cf3;
+    }
+
+    // Average valuation
+    const validValuations = Object.values(valuations).filter(v => v > 0);
+    finalValuation = validValuations.length ? validValuations.reduce((a, b) => a + b, 0) / validValuations.length : 0;
+
+    // Display results
+    const financialMetrics = document.getElementById('financialMetrics');
+    financialMetrics.innerHTML = `
+        <p>LTV/CAC Ratio: ${(inputs.ltv / inputs.cac).toFixed(2)}</p>
+        <p>Churn Rate: ${inputs.churnRate}%</p>
+        <p>Projected Revenue: $${inputs.projectedRevenue.toLocaleString()}</p>
+        <p>AI Growth Score: ${Math.round(inputs.customerGrowthRate * (inputs.competitivePositioning / 10) * 10)}%</p>
+    `;
+
+    const valuationRanges = document.getElementById('valuationRanges');
+    valuationRanges.innerHTML = Object.entries(valuations).map(([method, value]) => 
+        `<p>${method.charAt(0).toUpperCase() + method.slice(1)}: $${Math.round(value).toLocaleString()}</p>`
+    ).join('');
+
+    document.getElementById('valuationAmount').textContent = `$${Math.round(finalValuation).toLocaleString()}`;
+    document.getElementById('valuationResult').classList.remove('hidden');
+    document.getElementById('chartsSection').classList.remove('hidden');
+
+    // Charts
+    const valuationCtx = document.getElementById('valuationChart').getContext('2d');
+    new Chart(valuationCtx, {
+        type: 'bar',
+        data: {
+            labels: Object.keys(valuations),
+            datasets: [{
+                label: 'Valuation ($)',
+                data: Object.values(valuations),
+                backgroundColor: 'rgba(56, 178, 172, 0.6)',
+                borderColor: 'rgba(56, 178, 172, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: { scales: { y: { beginAtZero: true } } }
+    });
+
+    const incomeCtx = document.getElementById('incomeChart').getContext('2d');
+    new Chart(incomeCtx, {
+        type: 'bar',
+        data: {
+            labels: ['Revenue', 'Expenses'],
+            datasets: [{
+                label: 'Amount ($)',
+                data: [inputs.projectedRevenue, inputs.expenses],
+                backgroundColor: ['rgba(56, 178, 172, 0.6)', 'rgba(255, 99, 132, 0.6)'],
+                borderColor: ['rgba(56, 178, 172, 1)', 'rgba(255, 99, 132, 1)'],
+                borderWidth: 1
+            }]
+        },
+        options: { scales: { y: { beginAtZero: true } } }
+    });
+}
+
+// Export results as PDF
+function exportResults() {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+    doc.text('SaaS Business Valuation Report', 10, 10);
+    doc.text(`Final Valuation: ${document.getElementById('valuationAmount').textContent}`, 10, 20);
+    doc.text('AI-Analyzed Metrics:', 10, 30);
+    doc.text(document.getElementById('financialMetrics').innerText, 10, 40);
+    doc.text('Valuation Ranges:', 10, 60);
+    doc.text(document.getElementById('valuationRanges').innerText, 10, 70);
+    doc.save('valuation_report.pdf');
+}
+
+// Save progress
+function saveProgress() {
+    const inputs = {};
+    document.querySelectorAll('input, select').forEach(input => {
+        inputs[input.id] = input.type === 'checkbox' ? input.checked : input.value;
+    });
+    localStorage.setItem('valuationProgress', JSON.stringify(inputs));
+    alert('Progress saved!');
+}
+
+// Load saved progress
+window.addEventListener('load', () => {
+    const saved = localStorage.getItem('valuationProgress');
+    if (saved) {
+        const inputs = JSON.parse(saved);
+        Object.entries(inputs).forEach(([id, value]) => {
+            const input = document.getElementById(id);
+            if (input) {
+                if (input.type === 'checkbox') input.checked = value;
+                else input.value = value;
+            }
+        });
+    }
+});
+
+// Debounce for steps 4-6
+document.querySelectorAll('input, select').forEach(input => {
+    input.addEventListener('input', debounce(() => {
+        validateStep(currentStep);
+    }, 300));
+});
+
+</script>
+
+<style>
+    .chart-container {
+        height: 300px;
+        width: 100%;
+    }
+    @media (max-width: 768px) {
+        .chart-container {
+            height: 250px;
+        }
+    }
+</style>
+
+</body>
+</html>
