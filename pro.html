@@ -1,0 +1,1039 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Amanda Valuation Pro | Advanced Business Valuation</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+        .gradient-bg {
+            background: linear-gradient(135deg, #2D3748 0%, #38B2AC 100%);
+        }
+        .nav-link:hover {
+            color: #38B2AC;
+        }
+        .btn-primary {
+            background-color: #38B2AC;
+            transition: all 0.3s ease;
+        }
+        .btn-primary:hover {
+            background-color: #2D3748;
+            transform: translateY(-2px);
+        }
+        .btn-secondary {
+            border: 2px solid #38B2AC;
+            color: #38B2AC;
+            transition: all 0.3s ease;
+        }
+        .btn-secondary:hover {
+            background-color: #38B2AC;
+            color: white;
+        }
+        .progress-bar {
+            height: 10px;
+            border-radius: 5px;
+            background-color: #E2E8F0;
+        }
+        .progress-fill {
+            height: 100%;
+            border-radius: 5px;
+            background-color: #38B2AC;
+            transition: width 0.5s ease;
+        }
+        .input-highlight {
+            transition: all 0.3s ease;
+        }
+        .input-highlight:focus {
+            box-shadow: 0 0 0 3px rgba(56, 178, 172, 0.3);
+            border-color: #38B2AC;
+        }
+        .step {
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+        .step-hidden {
+            opacity: 0;
+            transform: translateX(20px);
+            display: none;
+        }
+        .step-visible {
+            opacity: 1;
+            transform: translateX(0);
+            display: block;
+        }
+        .chart-container {
+            height: 300px;
+            width: 100%;
+        }
+        @media (max-width: 768px) {
+            .chart-container {
+                height: 250px;
+            }
+        }
+        .error-message {
+            color: #e53e3e;
+            font-size: 0.75rem;
+            margin-top: 0.25rem;
+            display: none;
+        }
+        .interactive-panel {
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .interactive-panel:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body class="bg-white">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-md py-4 sticky top-0 z-50">
+        <div class="container mx-auto px-6 flex justify-between items-center">
+            <div class="flex items-center">
+                <a href="index.html" class="text-2xl font-bold text-gray-800">Amanda<span class="text-teal-500">Valuation</span></a>
+            </div>
+            <div class="hidden md:flex space-x-8">
+                <a href="index.html#valuation" class="nav-link text-gray-600 hover:text-teal-500 font-medium">Self Valuation</a>
+                <a href="index.html#tech-due-diligence" class="nav-link text-gray-600 hover:text-teal-500 font-medium">Tech Due Diligence</a>
+                <a href="index.html#data-room" class="nav-link text-gray-600 hover:text-teal-500 font-medium">AI Data Room</a>
+                <a href="index.html#pricing" class="nav-link text-gray-600 hover:text-teal-500 font-medium">Pricing</a>
+                <a href="index.html#resources" class="nav-link text-gray-600 hover:text-teal-500 font-medium">Resources</a>
+            </div>
+            <div class="md:hidden">
+                <button id="menu-toggle" class="text-gray-600 focus:outline-none" aria-label="Toggle mobile menu">
+                    <i class="fas fa-bars text-xl"></i>
+                </button>
+            </div>
+        </div>
+        <div id="mobile-menu" class="hidden md:hidden bg-white px-6 pt-2 pb-4">
+            <a href="index.html#valuation" class="block py-2 text-gray-600 hover:text-teal-500">Self Valuation</a>
+            <a href="index.html#tech-due-diligence" class="block py-2 text-gray-600 hover:text-teal-500">Tech Due Diligence</a>
+            <a href="index.html#data-room" class="block py-2 text-gray-600 hover:text-teal-500">AI Data Room</a>
+            <a href="index.html#pricing" class="block py-2 text-gray-600 hover:text-teal-500">Pricing</a>
+            <a href="index.html#resources" class="block py-2 text-gray-600 hover:text-teal-500">Resources</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="gradient-bg text-white py-20">
+        <div class="container mx-auto px-6 text-center">
+            <h1 class="text-4xl md:text-5xl font-bold mb-4">Amanda Valuation Pro</h1>
+            <h2 class="text-2xl md:text-3xl font-semibold mb-6">Advanced Insights for Growing Businesses</h2>
+            <p class="text-lg mb-8 max-w-2xl mx-auto opacity-90">Unlock deeper valuation analysis, advanced charts, and investor-ready reports with Amanda Valuation Pro.</p>
+            <a href="#pro-valuation" class="btn-primary text-white font-bold py-3 px-8 rounded-lg">Start Your Pro Valuation</a>
+        </div>
+    </section>
+
+    <!-- Pro Valuation Tool (Steps 1-4) -->
+    <section id="pro-valuation" class="py-16 bg-gray-50">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-gray-800 mb-4">Advanced Business Valuation</h2>
+                <p class="text-lg text-gray-600 max-w-2xl mx-auto">Dive deeper with our Pro valuation tool, featuring enhanced inputs and comprehensive analytics for investor-ready insights.</p>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden max-w-6xl mx-auto">
+                <!-- Progress Bar -->
+                <div class="p-6 border-b border-gray-200">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-xl font-semibold text-gray-800">Step <span id="current-step">1</span> of 7</h3>
+                        <button id="start-over" class="text-teal-500 hover:text-teal-600 font-medium flex items-center" aria-label="Start over">
+                            <i class="fas fa-redo-alt mr-2"></i> Start Over
+                        </button>
+                    </div>
+                    <div class="progress-bar">
+                        <div id="progress-fill" class="progress-fill" style="width: 14.29%"></div>
+                    </div>
+                </div>
+
+                <!-- Valuation Form -->
+                <div id="valuation-form" class="p-6">
+                    <!-- Step 1: Valuation Method Selection -->
+                    <div id="step-1" class="step step-visible">
+                        <h2 class="text-xl font-semibold text-gray-800 mb-4 flex items-center">
+                            <i class="fas fa-calculator mr-2 text-teal-500"></i> Valuation Method Selection
+                        </h2>
+                        <div class="mb-4">
+                            <label for="valuationMethod" class="block text-sm font-medium text-gray-700 mb-1">Select Valuation Methods (Choose up to 4):</label>
+                            <div class="space-y-2">
+                                <div class="flex items-center">
+                                    <input type="checkbox" id="method-multiplier" value="multiplier" class="mr-2 input-highlight" aria-describedby="method-multiplier-desc">
+                                    <label for="method-multiplier" class="text-sm text-gray-700">Multiplier Method - Based on industry multipliers.</label>
+                                </div>
+                                <div class="flex items-center">
+                                    <input type="checkbox" id="method-income" value="income" class="mr-2 input-highlight" aria-describedby="method-income-desc">
+                                    <label for="method-income" class="text-sm text-gray-700">Income-Based Valuation - Focuses on total revenue.</label>
+                                </div>
+                                <div class="flex items-center">
+                                    <input type="checkbox" id="method-earnings" value="earnings" class="mr-2 input-highlight" aria-describedby="method-earnings-desc">
+                                    <label for="method-earnings" class="text-sm text-gray-700">Earnings-Based Valuation - Focuses on net profit.</label>
+                                </div>
+                                <div class="flex items-center">
+                                    <input type="checkbox" id="method-dcf" value="dcf" class="mr-2 input-highlight" aria-describedby="method-dcf-desc">
+                                    <label for="method-dcf" class="text-sm text-gray-700">Discounted Cash Flow (DCF) - Based on future cash flows.</label>
+                                </div>
+                                <div class="flex items-center">
+                                    <input type="checkbox" id="method-comparable" value="comparable" class="mr-2 input-highlight" aria-describedby="method-comparable-desc">
+                                    <label for="method-comparable" class="text-sm text-gray-700">Comparable Sales - Based on similar company sales.</label>
+                                </div>
+                            </div>
+                            <p class="mt-1 text-sm text-gray-500" id="method-multiplier-desc">Select methods to compare multiple valuation approaches.</p>
+                            <p id="method-error" class="error-message">Please select 1 to 4 valuation methods.</p>
+                        </div>
+                        <div class="flex justify-end">
+                            <button id="next-btn-1" class="btn-primary text-white font-bold py-2 px-6 rounded-lg" aria-label="Next step">
+                                Next <i class="fas fa-arrow-right ml-2"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Step 2: Business Fundamentals -->
+                    <div id="step-2" class="step step-hidden">
+                        <h2 class="text-xl font-semibold text-gray-800 mb-4 flex items-center">
+                            <i class="fas fa-list-alt mr-2 text-teal-500"></i> Business Fundamentals
+                        </h2>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label for="ownerSalary" class="block text-sm font-medium text-gray-700 mb-1">Owner Salary ($):</label>
+                                <div class="relative rounded-md shadow-sm">
+                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                        <span class="text-gray-500 sm:text-sm">$</span>
+                                    </div>
+                                    <input type="text" id="ownerSalary" placeholder="80,000.00" required class="input-highlight block w-full pl-7 pr-12 sm:text-sm border-gray-300 rounded-md" aria-describedby="ownerSalary-desc">
+                                </div>
+                                <p class="mt-1 text-sm text-gray-500" id="ownerSalary-desc">Enter your annual salary as the owner.</p>
+                                <p id="ownerSalary-error" class="error-message">Please enter a valid number.</p>
+                            </div>
+                            <div>
+                                <label for="averageSalary" class="block text-sm font-medium text-gray-700 mb-1">Average Staff Salary ($):</label>
+                                <div class="relative rounded-md shadow-sm">
+                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                        <span class="text-gray-500 sm:text-sm">$</span>
+                                    </div>
+                                    <input type="text" id="averageSalary" placeholder="50,000.00" required class="input-highlight block w-full pl-7 pr-12 sm:text-sm border-gray-300 rounded-md" aria-describedby="averageSalary-desc">
+                                </div>
+                                <p class="mt-1 text-sm text-gray-500" id="averageSalary-desc">Average annual salary of your staff members.</p>
+                                <p id="averageSalary-error" class="error-message">Please enter a valid number.</p>
+                            </div>
+                            <div>
+                                <label for="employeeBenefits" class="block text-sm font-medium text-gray-700 mb-1">Employee Benefits & Equity ($):</label>
+                                <div class="relative rounded-md shadow-sm">
+                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                        <span class="text-gray-500 sm:text-sm">$</span>
+                                    </div>
+                                    <input type="text" id="employeeBenefits" placeholder="10,000.00" class="input-highlight block w-full pl-7 pr-12 sm:text-sm border-gray-300 rounded-md" aria-describedby="employeeBenefits-desc">
+                                </div>
+                                <p class="mt-1 text-sm text-gray-500" id="employeeBenefits-desc">Include costs like stock options or bonuses.</p>
+                                <p id="employeeBenefits-error" class="error-message">Please enter a valid number.</p>
+                            </div>
+                            <div>
+                                <label for="staffNumber" class="block text-sm font-medium text-gray-700 mb-1">Number of Staff:</label>
+                                <input type="number" id="staffNumber" placeholder="10" min="0" required class="input-highlight block w-full sm:text-sm border-gray-300 rounded-md" aria-describedby="staffNumber-desc">
+                                <p class="mt-1 text-sm text-gray-500" id="staffNumber-desc">Total number of staff employed.</p>
+                                <p id="staffNumber-error" class="error-message">Please enter a valid number.</p>
+                            </div>
+                            <div>
+                                <label for="expenses" class="block text-sm font-medium text-gray-700 mb-1">Annual Operating Expenses ($):</label>
+                                <div class="relative rounded-md shadow-sm">
+                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                        <span class="text-gray-500 sm:text-sm">$</span>
+                                    </div>
+                                    <input type="text" id="expenses" placeholder="50,000.00" required class="input-highlight block w-full pl-7 pr-12 sm:text-sm border-gray-300 rounded-md" aria-describedby="expenses-desc">
+                                </div>
+                                <p class="mt-1 text-sm text-gray-500" id="expenses-desc">Exclude salaries, benefits, and debt repayments.</p>
+                                <p id="expenses-error" class="error-message">Please enter a valid number.</p>
+                            </div>
+                            <div>
+                                <label for="debt" class="block text-sm font-medium text-gray-700 mb-1">Total Debt ($):</label>
+                                <div class="relative rounded-md shadow-sm">
+                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                        <span class="text-gray-500 sm:text-sm">$</span>
+                                    </div>
+                                    <input type="text" id="debt" placeholder="20,000.00" required class="input-highlight block w-full pl-7 pr-12 sm:text-sm border-gray-300 rounded-md" aria-describedby="debt-desc">
+                                </div>
+                                <p class="mt-1 text-sm text-gray-500" id="debt-desc">Total outstanding debts or liabilities.</p>
+                                <p id="debt-error" class="error-message">Please enter a valid number.</p>
+                            </div>
+                            <div>
+                                <label for="scalability" class="block text-sm font-medium text-gray-700 mb-1">Scalability (1-10):</label>
+                                <div class="flex items-center">
+                                    <input type="range" id="scalability" min="1" max="10" value="5" step="1" required class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer" oninput="document.getElementById('scalabilityValue').textContent = this.value" aria-describedby="scalability-desc scalabilityValue">
+                                    <span id="scalabilityValue" class="ml-3 text-sm font-medium text-gray-700">5</span>
+                                </div>
+                                <p class="mt-1 text-sm text-gray-500" id="scalability-desc">Rate how easily your business can scale.</p>
+                            </div>
+                            <div>
+                                <label for="growthRate" class="block text-sm font-medium text-gray-700 mb-1">Growth Rate (%):</label>
+                                <div class="relative rounded-md shadow-sm">
+                                    <input type="text" id="growthRate" placeholder="5.00" required class="input-highlight block w-full sm:text-sm border-gray-300 rounded-md" aria-describedby="growthRate-desc">
+                                    <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                                        <span class="text-gray-500 sm:text-sm">%</span>
+                                    </div>
+                                </div>
+                                <p class="mt-1 text-sm text-gray-500" id="growthRate-desc">Average annual revenue growth rate.</p>
+                                <p id="growthRate-error" class="error-message">Please enter a valid percentage.</p>
+                            </div>
+                            <div>
+                                <label for="yearsOperating" class="block text-sm font-medium text-gray-700 mb-1">Years Operating:</label>
+                                <input type="number" id="yearsOperating" placeholder="5" min="0" required class="input-highlight block w-full sm:text-sm border-gray-300 rounded-md" aria-describedby="yearsOperating-desc">
+                                <p class="mt-1 text-sm text-gray-500" id="yearsOperating-desc">Number of years your business has been operating.</p>
+                                <p id="yearsOperating-error" class="error-message">Please enter a valid number.</p>
+                            </div>
+                        </div>
+                        <div class="flex justify-between mt-6">
+                            <button id="prev-btn-2" class="btn-secondary font-bold py-2 px-6 rounded-lg" aria-label="Previous step">
+                                <i class="fas fa-arrow-left mr-2"></i> Previous
+                            </button>
+                            <button id="next-btn-2" class="btn-primary text-white font-bold py-2 px-6 rounded-lg" aria-label="Next step">
+                                Next <i class="fas fa-arrow-right ml-2"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Step 3: Customer Metrics -->
+                    <div id="step-3" class="step step-hidden">
+                        <h2 class="text-xl font-semibold text-gray-800 mb-4 flex items-center">
+                            <i class="fas fa-users mr-2 text-teal-500"></i> Customer Metrics
+                        </h2>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label for="ltv" class="block text-sm font-medium text-gray-700 mb-1">Customer Lifetime Value (LTV) ($):</label>
+                                <div class="relative rounded-md shadow-sm">
+                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                        <span class="text-gray-500 sm:text-sm">$</span>
+                                    </div>
+                                    <input type="text" id="ltv" placeholder="1,000.00" required class="input-highlight block w-full pl-7 pr-12 sm:text-sm border-gray-300 rounded-md" aria-describedby="ltv-desc">
+                                </div>
+                                <p class="mt-1 text-sm text-gray-500" id="ltv-desc">Average revenue per customer over their lifetime.</p>
+                                <p id="ltv-error" class="error-message">Please enter a valid number.</p>
+                            </div>
+                            <div>
+                                <label for="cac" class="block text-sm font-medium text-gray-700 mb-1">Customer Acquisition Cost (CAC) ($):</label>
+                                <div class="relative rounded-md shadow-sm">
+                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                        <span class="text-gray-500 sm:text-sm">$</span>
+                                    </div>
+                                    <input type="text" id="cac" placeholder="200.00" required class="input-highlight block w-full pl-7 pr-12 sm:text-sm border-gray-300 rounded-md" aria-describedby="cac-desc">
+                                </div>
+                                <p class="mt-1 text-sm text-gray-500" id="cac-desc">Average cost to acquire a new customer.</p>
+                                <p id="cac-error" class="error-message">Please enter a valid number.</p>
+                            </div>
+                            <div>
+                                <label for="churnRate" class="block text-sm font-medium text-gray-700 mb-1">Churn Rate (%):</label>
+                                <div class="relative rounded-md shadow-sm">
+                                    <input type="text" id="churnRate" placeholder="5.00" required class="input-highlight block w-full sm:text-sm border-gray-300 rounded-md" aria-describedby="churnRate-desc">
+                                    <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                                        <span class="text-gray-500 sm:text-sm">%</span>
+                                    </div>
+                                </div>
+                                <p class="mt-1 text-sm text-gray-500" id="churnRate-desc">Percentage of customers lost annually.</p>
+                                <p id="churnRate-error" class="error-message">Please enter a valid percentage.</p>
+                            </div>
+                            <div>
+                                <label for="customerGrowthRate" class="block text-sm font-medium text-gray-700 mb-1">Customer Growth Rate (%):</label>
+                                <div class="relative rounded-md shadow-sm">
+                                    <input type="text" id="customerGrowthRate" placeholder="10.00" required class="input-highlight block w-full sm:text-sm border-gray-300 rounded-md" aria-describedby="customerGrowthRate-desc">
+                                    <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                                        <span class="text-gray-500 sm:text-sm">%</span>
+                                    </div>
+                                </div>
+                                <p class="mt-1 text-sm text-gray-500" id="customerGrowthRate-desc">Annual growth rate of your customer base.</p>
+                                <p id="customerGrowthRate-error" class="error-message">Please enter a valid percentage.</p>
+                            </div>
+                            <div>
+                                <label for="customerSegments" class="block text-sm font-medium text-gray-700 mb-1">Number of Customer Segments:</label>
+                                <input type="number" id="customerSegments" placeholder="3" min="1" required class="input-highlight block w-full sm:text-sm border-gray-300 rounded-md" aria-describedby="customerSegments-desc">
+                                <p class="mt-1 text-sm text-gray-500" id="customerSegments-desc">Number of distinct customer groups (e.g., enterprise, SMB).</p>
+                                <p id="customerSegments-error" class="error-message">Please enter a valid number.</p>
+                            </div>
+                        </div>
+                        <div class="flex justify-between mt-6">
+                            <button id="prev-btn-3" class="btn-secondary font-bold py-2 px-6 rounded-lg" aria-label="Previous step">
+                                <i class="fas fa-arrow-left mr-2"></i> Previous
+                            </button>
+                            <button id="next-btn-3" class="btn-primary text-white font-bold py-2 px-6 rounded-lg" aria-label="Next step">
+                                Next <i class="fas fa-arrow-right ml-2"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Step 4: Market and Industry Factors -->
+                    <div id="step-4" class="step step-hidden">
+                        <h2 class="text-xl font-semibold text-gray-800 mb-4 flex items-center">
+                            <i class="fas fa-industry mr-2 text-teal-500"></i> Market and Industry Factors
+                        </h2>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label for="industry" class="block text-sm font-medium text-gray-700 mb-1">Select Industry:</label>
+                                <select id="industry" class="input-highlight block w-full pl-3 pr-10 py-2 text-base border-gray-300 rounded-md" required aria-describedby="industry-desc">
+                                    <option value="">--Select Industry--</option>
+                                    <option value="Technology">Technology</option>
+                                    <option value="Retail">Retail</option>
+                                    <option value="Hospitality">Hospitality</option>
+                                    <option value="Media">Media</option>
+                                    <option value="Marketing">Marketing</option>
+                                    <option value="Construction">Construction</option>
+                                    <option value="Healthcare">Healthcare</option>
+                                    <option value="Finance">Finance</option>
+                                    <option value="Real Estate">Real Estate</option>
+                                    <option value="Education">Education</option>
+                                    <option value="Transportation">Transportation</option>
+                                    <option value="Agriculture">Agriculture</option>
+                                    <option value="Manufacturing">Manufacturing</option>
+                                    <option value="Legal">Legal</option>
+                                    <option value="Energy">Energy</option>
+                                    <option value="Arts & Entertainment">Arts & Entertainment</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                                <p class="mt-1 text-sm text-gray-500" id="industry-desc">Choose your industry for accurate valuation.</p>
+                                <p id="industry-error" class="error-message">Please select an industry.</p>
+                            </div>
+                            <div>
+                                <label for="marketTrendImpact" class="block text-sm font-medium text-gray-700 mb-1">Market Trend Impact (1-10):</label>
+                                <div class="flex items-center">
+                                    <input type="range" id="marketTrendImpact" min="1" max="10" value="5" step="1" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer" oninput="document.getElementById('marketTrendImpactValue').textContent = this.value" aria-describedby="marketTrendImpact-desc marketTrendImpactValue">
+                                    <span id="marketTrendImpactValue" class="ml-3 text-sm font-medium text-gray-700">5</span>
+                                </div>
+                                <p class="mt-1 text-sm text-gray-500" id="marketTrendImpact-desc">Rate the impact of market trends on your business.</p>
+                            </div>
+                            <div>
+                                <label for="competitivePositioning" class="block text-sm font-medium text-gray-700 mb-1">Competitive Positioning (1-10):</label>
+                                <div class="flex items-center">
+                                    <input type="range" id="competitivePositioning" min="1" max="10" value="5" step="1" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer" oninput="document.getElementById('competitivePositioningValue').textContent = this.value" aria-describedby="competitivePositioning-desc competitivePositioningValue">
+                                    <span id="competitivePositioningValue" class="ml-3 text-sm font-medium text-gray-700">5</span>
+                                </div>
+                                <p class="mt-1 text-sm text-gray-500" id="competitivePositioning-desc">Rate your market position against competitors.</p>
+<!-- Step 5: Advanced Inputs -->
+                    <div id="step-5" class="step step-hidden">
+                        <h2 class="text-xl font-semibold text-gray-800 mb-4 flex items-center">
+                            <i class="fas fa-cogs mr-2 text-teal-500"></i> Advanced Inputs
+                        </h2>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label for="aiReplaceable" class="block text-sm font-medium text-gray-700 mb-1">Can Staff be Replaced by AI?</label>
+                                <select id="aiReplaceable" onchange="toggleAIReplacement()" required class="input-highlight block w-full pl-3 pr-10 py-2 text-base border-gray-300 rounded-md" aria-describedby="aiReplaceable-desc">
+                                    <option value="">--Select--</option>
+                                    <option value="yes">Yes</option>
+                                    <option value="no">No</option>
+                                </select>
+                                <p class="mt-1 text-sm text-gray-500" id="aiReplaceable-desc">Select 'Yes' if some roles can be automated.</p>
+                                <p id="aiReplaceable-error" class="error-message">Please select an option.</p>
+                            </div>
+                            <div id="aiReplaceCountSection" class="hidden">
+                                <label for="aiReplaceCount" class="block text-sm font-medium text-gray-700 mb-1">Number of Staff Replaceable by AI:</label>
+                                <input type="number" id="aiReplaceCount" placeholder="2" min="0" class="input-highlight block w-full sm:text-sm border-gray-300 rounded-md" aria-describedby="aiReplaceCount-desc">
+                                <p class="mt-1 text-sm text-gray-500" id="aiReplaceCount-desc">Number of positions that could be automated.</p>
+                                <p id="aiReplaceCount-error" class="error-message">Please enter a valid number.</p>
+                            </div>
+                            <div>
+                                <label for="hasIP" class="block text-sm font-medium text-gray-700 mb-1">Do You Have Intellectual Property (IP)?</label>
+                                <select id="hasIP" onchange="toggleIPFields()" required class="input-highlight block w-full pl-3 pr-10 py-2 text-base border-gray-300 rounded-md" aria-describedby="hasIP-desc">
+                                    <option value="">--Select--</option>
+                                    <option value="yes">Yes</option>
+                                    <option value="no">No</option>
+                                </select>
+                                <p class="mt-1 text-sm text-gray-500" id="hasIP-desc">Select 'Yes' if you own patents or trademarks.</p>
+                                <p id="hasIP-error" class="error-message">Please select an option.</p>
+                            </div>
+                            <div id="ipValueSection" class="hidden">
+                                <label for="ipValue" class="block text-sm font-medium text-gray-700 mb-1">Estimated IP Value ($):</label>
+                                <div class="relative rounded-md shadow-sm">
+                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                        <span class="text-gray-500 sm:text-sm">$</span>
+                                    </div>
+                                    <input type="text" id="ipValue" placeholder="100,000.00" class="input-highlight block w-full pl-7 pr-12 sm:text-sm border-gray-300 rounded-md" aria-describedby="ipValue-desc">
+                                </div>
+                                <p class="mt-1 text-sm text-gray-500" id="ipValue-desc">Estimated value of your IP assets.</p>
+                                <p id="ipValue-error" class="error-message">Please enter a valid number.</p>
+                            </div>
+                        </div>
+                        <div class="flex justify-between mt-6">
+                            <button id="prev-btn-5" class="btn-secondary font-bold py-2 px-6 rounded-lg" aria-label="Previous step">
+                                <i class="fas fa-arrow-left mr-2"></i> Previous
+                            </button>
+                            <button id="next-btn-5" class="btn-primary text-white font-bold py-2 px-6 rounded-lg" aria-label="Next step">
+                                Next <i class="fas fa-arrow-right ml-2"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Step 6: Valuation Specific Inputs -->
+                    <div id="step-6" class="step step-hidden">
+                        <h2 class="text-xl font-semibold text-gray-800 mb-4 flex items-center">
+                            <i class="fas fa-dollar-sign mr-2 text-teal-500"></i> Valuation Specific Inputs
+                        </h2>
+                        <div id="valuationInputs" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <!-- Dynamic inputs added by toggleValuationFields() -->
+                        </div>
+                        <div class="flex justify-between mt-6">
+                            <button id="prev-btn-6" class="btn-secondary font-bold py-2 px-6 rounded-lg" aria-label="Previous step">
+                                <i class="fas fa-arrow-left mr-2"></i> Previous
+                            </button>
+                            <button id="next-btn-6" class="btn-primary text-white font-bold py-2 px-6 rounded-lg" aria-label="Next step">
+                                Next <i class="fas fa-arrow-right ml-2"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Step 7: Scenario Analysis -->
+                    <div id="step-7" class="step step-hidden">
+                        <h2 class="text-xl font-semibold text-gray-800 mb-4 flex items-center">
+                            <i class="fas fa-chart-line mr-2 text-teal-500"></i> Scenario Analysis
+                        </h2>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label for="expectedGrowthRate" class="block text-sm font-medium text-gray-700 mb-1">Expected Growth Rate (%):</label>
+                                <div class="relative rounded-md shadow-sm">
+                                    <input type="text" id="expectedGrowthRate" placeholder="5.00" required class="input-highlight block w-full sm:text-sm border-gray-300 rounded-md" aria-describedby="expectedGrowthRate-desc">
+                                    <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                                        <span class="text-gray-500 sm:text-sm">%</span>
+                                    </div>
+                                </div>
+                                <p class="mt-1 text-sm text-gray-500" id="expectedGrowthRate-desc">Anticipated revenue growth rate.</p>
+                                <p id="expectedGrowthRate-error" class="error-message">Please enter a valid percentage.</p>
+                            </div>
+                            <div>
+                                <label for="discountRate" class="block text-sm font-medium text-gray-700 mb-1">Discount Rate (%):</label>
+                                <div class="relative rounded-md shadow-sm">
+                                    <input type="text" id="discountRate" placeholder="8.00" required class="input-highlight block w-full sm:text-sm border-gray-300 rounded-md" aria-describedby="discountRate-desc">
+                                    <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                                        <span class="text-gray-500 sm:text-sm">%</span>
+                                    </div>
+                                </div>
+                                <p class="mt-1 text-sm text-gray-500" id="discountRate-desc">Rate used for DCF calculations.</p>
+                                <p id="discountRate-error" class="error-message">Please enter a valid percentage.</p>
+                            </div>
+                            <div>
+                                <label for="optimisticScenario" class="block text-sm font-medium text-gray-700 mb-1">Optimistic Scenario Adjustment (%):</label>
+                                <div class="relative rounded-md shadow-sm">
+                                    <input type="text" id="optimisticScenario" placeholder="10.00" required class="input-highlight block w-full sm:text-sm border-gray-300 rounded-md" aria-describedby="optimisticScenario-desc">
+                                    <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                                        <span class="text-gray-500 sm:text-sm">%</span>
+                                    </div>
+                                </div>
+                                <p class="mt-1 text-sm text-gray-500" id="optimisticScenario-desc">Positive adjustment for best-case scenario.</p>
+                                <p id="optimisticScenario-error" class="error-message">Please enter a valid percentage.</p>
+                            </div>
+                            <div>
+                                <label for="pessimisticScenario" class="block text-sm font-medium text-gray-700 mb-1">Pessimistic Scenario Adjustment (%):</label>
+                                <div class="relative rounded-md shadow-sm">
+                                    <input type="text" id="pessimisticScenario" placeholder="-10.00" required class="input-highlight block w-full sm:text-sm border-gray-300 rounded-md" aria-describedby="pessimisticScenario-desc">
+                                    <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                                        <span class="text-gray-500 sm:text-sm">%</span>
+                                    </div>
+                                </div>
+                                <p class="mt-1 text-sm text-gray-500" id="pessimisticScenario-desc">Negative adjustment for worst-case scenario.</p>
+                                <p id="pessimisticScenario-error" class="error-message">Please enter a valid percentage.</p>
+                            </div>
+                        </div>
+                        <div class="flex justify-between mt-6">
+                            <button id="prev-btn-7" class="btn-secondary font-bold py-2 px-6 rounded-lg" aria-label="Previous step">
+                                <i class="fas fa-arrow-left mr-2"></i> Previous
+                            </button>
+                            <button id="submit-btn" class="btn-primary text-white font-bold py-2 px-6 rounded-lg" aria-label="Submit valuation">
+                                Submit <i class="fas fa-check ml-2"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Results Section -->
+    <section id="results" class="py-16 bg-white hidden">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl font-bold text-gray-800 mb-8 text-center">Valuation Results</h2>
+            <div class="bg-white rounded-xl shadow-lg p-6 max-w-6xl mx-auto">
+                <div id="results-summary" class="mb-8">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-4">Summary</h3>
+                    <p id="base-valuation" class="text-lg text-gray-600"></p>
+                    <p id="optimistic-valuation" class="text-lg text-gray-600"></p>
+                    <p id="pessimistic-valuation" class="text-lg text-gray-600"></p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                    <div>
+                        <h3 class="text-xl font-semibold text-gray-800 mb-4">Valuation Breakdown</h3>
+                        <canvas id="valuation-chart" class="chart-container"></canvas>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-semibold text-gray-800 mb-4">Scenario Analysis</h3>
+                        <canvas id="scenario-chart" class="chart-container"></canvas>
+                    </div>
+                </div>
+                <div class="flex justify-center">
+                    <button id="export-btn" class="btn-primary text-white font-bold py-2 px-6 rounded-lg" aria-label="Export results">
+                        <i class="fas fa-download mr-2"></i> Export Results
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-8">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Amanda Valuation</h3>
+                    <p class="text-sm">Empowering businesses with accurate and actionable valuation insights.</p>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Quick Links</h3>
+                    <ul class="space-y-2">
+                        <li><a href="index.html#valuation" class="hover:text-teal-500">Self Valuation</a></li>
+                        <li><a href="index.html#tech-due-diligence" class="hover:text-teal-500">Tech Due Diligence</a></li>
+                        <li><a href="index.html#data-room" class="hover:text-teal-500">AI Data Room</a></li>
+                        <li><a href="index.html#pricing" class="hover:text-teal-500">Pricing</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Contact</h3>
+                    <p class="text-sm">Email: support@amandavaluation.com</p>
+                    <p class="text-sm">Phone: (123) 456-7890</p>
+                </div>
+            </div>
+            <div class="mt-8 text-center text-sm">
+                <p>&copy; 2023-2025 Amanda Valuation. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        // Navigation
+        document.getElementById('menu-toggle').addEventListener('click', () => {
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', (e) => {
+                e.preventDefault();
+                document.querySelector(anchor.getAttribute('href')).scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+
+        // Form Navigation
+        let currentStep = 1;
+        const totalSteps = 7;
+        let valuationResults = null;
+        let charts = { valuation: null, scenario: null };
+
+        function updateProgress() {
+            const progress = (currentStep / totalSteps) * 100;
+            document.getElementById('progress-fill').style.width = `${progress}%`;
+            document.getElementById('current-step').textContent = currentStep;
+        }
+
+        function showStep(step) {
+            document.querySelectorAll('.step').forEach((s, i) => {
+                s.classList.toggle('step-visible', i + 1 === step);
+                s.classList.toggle('step-hidden', i + 1 !== step);
+            });
+            updateProgress();
+            if (step === 6) toggleValuationFields();
+            saveProgress();
+        }
+
+        document.querySelectorAll('[id^="next-btn"]').forEach(btn => {
+            btn.addEventListener('click', () => {
+                if (validateStep(currentStep)) {
+                    currentStep++;
+                    showStep(currentStep);
+                }
+            });
+        });
+
+        document.querySelectorAll('[id^="prev-btn"]').forEach(btn => {
+            btn.addEventListener('click', () => {
+                currentStep--;
+                showStep(currentStep);
+            });
+        });
+
+        document.getElementById('start-over').addEventListener('click', () => {
+            currentStep = 1;
+            valuationResults = null;
+            destroyCharts();
+            document.getElementById('valuation-form').reset();
+            document.getElementById('results').classList.add('hidden');
+            showStep(currentStep);
+            localStorage.removeItem('valuationProgress');
+        });
+
+        document.getElementById('submit-btn').addEventListener('click', () => {
+            if (validateStep(currentStep)) {
+                calculateValuation();
+                renderCharts();
+                document.getElementById('results').classList.remove('hidden');
+                window.scrollTo({ top: document.getElementById('results').offsetTop, behavior: 'smooth' });
+            }
+        });
+
+        // Conditional Fields
+        function toggleAIReplacement() {
+            const aiReplaceable = document.getElementById('aiReplaceable').value;
+            const aiSection = document.getElementById('aiReplaceCountSection');
+            aiSection.classList.toggle('hidden', aiReplaceable !== 'yes');
+            if (aiReplaceable !== 'yes') document.getElementById('aiReplaceCount').value = '';
+        }
+
+        function toggleIPFields() {
+            const hasIP = document.getElementById('hasIP').value;
+            const ipSection = document.getElementById('ipValueSection');
+            ipSection.classList.toggle('hidden', hasIP !== 'yes');
+            if (hasIP !== 'yes') document.getElementById('ipValue').value = '';
+        }
+
+        function toggleValuationFields() {
+            const valuationInputs = document.getElementById('valuationInputs');
+            valuationInputs.innerHTML = '';
+            const methods = Array.from(document.querySelectorAll('input[id^="method-"]:checked')).map(input => input.value);
+            const fields = {
+                multiplier: [
+                    { id: 'multiplier', label: 'Industry Multiplier', placeholder: '2.5', desc: 'Industry-specific revenue or EBITDA multiplier.' }
+                ],
+                income: [
+                    { id: 'revenue', label: 'Annual Revenue ($)', placeholder: '100,000.00', desc: 'Total annual revenue.' },
+                    { id: 'recurringRevenue', label: 'Recurring Revenue ($)', placeholder: '50,000.00', desc: 'Annual recurring revenue from subscriptions or contracts.' }
+                ],
+                earnings: [
+                    { id: 'ebitda', label: 'EBITDA ($)', placeholder: '20,000.00', desc: 'Earnings before interest, taxes, depreciation, and amortization.' }
+                ],
+                dcf: [
+                    { id: 'cashFlow', label: 'Projected Cash Flow ($)', placeholder: '30,000.00', desc: 'Annual projected cash flow for DCF.' },
+                    { id: 'projectionYears', label: 'Projection Years', placeholder: '5', desc: 'Number of years for cash flow projections.', type: 'number' }
+                ],
+                comparable: [
+                    { id: 'comparableSales', label: 'Comparable Sales Value ($)', placeholder: '200,000.00', desc: 'Average sale price of similar businesses.' }
+                ]
+            };
+
+            methods.forEach(method => {
+                fields[method]?.forEach(field => {
+                    const div = document.createElement('div');
+                    div.innerHTML = `
+                        <label for="${field.id}" class="block text-sm font-medium text-gray-700 mb-1">${field.label}:</label>
+                        <div class="relative rounded-md shadow-sm">
+                            ${field.type === 'number' ? '' : `
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <span class="text-gray-500 sm:text-sm">$</span>
+                            </div>`}
+                            <input type="${field.type || 'text'}" id="${field.id}" placeholder="${field.placeholder}" ${field.type === 'number' ? 'min="0"' : ''} class="input-highlight block w-full ${field.type === 'number' ? '' : 'pl-7 pr-12'} sm:text-sm border-gray-300 rounded-md" aria-describedby="${field.id}-desc">
+                            ${field.type === 'number' ? '' : `
+                            <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                                <span class="text-gray-500 sm:text-sm">${field.type === 'number' ? '' : '$'}</span>
+                            </div>`}
+                        </div>
+                        <p class="mt-1 text-sm text-gray-500" id="${field.id}-desc">${field.desc}</p>
+                        <p id="${field.id}-error" class="error-message">Please enter a valid ${field.type === 'number' ? 'number' : 'amount'}.</p>
+                    `;
+                    valuationInputs.appendChild(div);
+                });
+            });
+
+            // Reattach input formatting for dynamically added fields
+            attachInputFormatting();
+        }
+
+        // Validation
+        function validateNumber(value) {
+            const cleaned = value.replace(/,/g, '');
+            return !isNaN(cleaned) && cleaned !== '' && Number(cleaned) >= 0;
+        }
+
+        function validatePercentage(value) {
+            const cleaned = value.replace(/,/g, '');
+            return !isNaN(cleaned) && cleaned !== '' && Number(cleaned) >= -100 && Number(cleaned) <= 100;
+        }
+
+        function validateStep(step) {
+            let isValid = true;
+            const showError = (id, show) => {
+                document.getElementById(`${id}-error`).style.display = show ? 'block' : 'none';
+            };
+
+            if (step === 1) {
+                const methods = document.querySelectorAll('input[id^="method-"]:checked').length;
+                showError('method', methods < 1 || methods > 4);
+                isValid = methods >= 1 && methods <= 4;
+            } else if (step === 2) {
+                const fields = ['ownerSalary', 'averageSalary', 'employeeBenefits', 'staffNumber', 'expenses', 'debt', 'growthRate', 'yearsOperating'];
+                fields.forEach(field => {
+                    const input = document.getElementById(field);
+                    const value = input.value;
+                    const valid = field === 'growthRate' ? validatePercentage(value) : validateNumber(value);
+                    showError(field, !valid);
+                    if (!valid) isValid = false;
+                });
+            } else if (step === 3) {
+                const fields = ['ltv', 'cac', 'churnRate', 'customerGrowthRate', 'customerSegments'];
+                fields.forEach(field => {
+                    const input = document.getElementById(field);
+                    const value = input.value;
+                    const valid = ['churnRate', 'customerGrowthRate'].includes(field) ? validatePercentage(value) : validateNumber(value);
+                    showError(field, !valid);
+                    if (!valid) isValid = false;
+                });
+            } else if (step === 4) {
+                const industry = document.getElementById('industry').value;
+                showError('industry', !industry);
+                isValid = !!industry;
+            } else if (step === 5) {
+                const aiReplaceable = document.getElementById('aiReplaceable').value;
+                const hasIP = document.getElementById('hasIP').value;
+                showError('aiReplaceable', !aiReplaceable);
+                showError('hasIP', !hasIP);
+                isValid = !!aiReplaceable && !!hasIP;
+                if (aiReplaceable === 'yes') {
+                    const aiReplaceCount = document.getElementById('aiReplaceCount').value;
+                    const valid = validateNumber(aiReplaceCount);
+                    showError('aiReplaceCount', !valid);
+                    if (!valid) isValid = false;
+                }
+                if (hasIP === 'yes') {
+                    const ipValue = document.getElementById('ipValue').value;
+                    const valid = validateNumber(ipValue);
+                    showError('ipValue', !valid);
+                    if (!valid) isValid = false;
+                }
+            } else if (step === 6) {
+                const methods = Array.from(document.querySelectorAll('input[id^="method-"]:checked')).map(input => input.value);
+                const fields = {
+                    multiplier: ['multiplier'],
+                    income: ['revenue', 'recurringRevenue'],
+                    earnings: ['ebitda'],
+                    dcf: ['cashFlow', 'projectionYears'],
+                    comparable: ['comparableSales']
+                };
+                methods.forEach(method => {
+                    fields[method]?.forEach(field => {
+                        const input = document.getElementById(field);
+                        if (input) {
+                            const valid = validateNumber(input.value);
+                            showError(field, !valid);
+                            if (!valid) isValid = false;
+                        }
+                    });
+                });
+            } else if (step === 7) {
+                const fields = ['expectedGrowthRate', 'discountRate', 'optimisticScenario', 'pessimisticScenario'];
+                fields.forEach(field => {
+                    const input = document.getElementById(field);
+                    const valid = validatePercentage(input.value);
+                    showError(field, !valid);
+                    if (!valid) isValid = false;
+                });
+            }
+
+            return isValid;
+        }
+
+        // Valuation Calculation
+        function calculateValuation() {
+            const methods = Array.from(document.querySelectorAll('input[id^="method-"]:checked')).map(input => input.value);
+            const inputs = {
+                ownerSalary: parseFloat(document.getElementById('ownerSalary').value.replace(/,/g, '')) || 0,
+                averageSalary: parseFloat(document.getElementById('averageSalary').value.replace(/,/g, '')) || 0,
+                employeeBenefits: parseFloat(document.getElementById('employeeBenefits').value.replace(/,/g, '')) || 0,
+                staffNumber: parseInt(document.getElementById('staffNumber').value) || 0,
+                expenses: parseFloat(document.getElementById('expenses').value.replace(/,/g, '')) || 0,
+                debt: parseFloat(document.getElementById('debt').value.replace(/,/g, '')) || 0,
+                scalability: parseInt(document.getElementById('scalability').value) || 5,
+                growthRate: parseFloat(document.getElementById('growthRate').value.replace(/,/g, '')) || 0,
+                yearsOperating: parseInt(document.getElementById('yearsOperating').value) || 0,
+                ltv: parseFloat(document.getElementById('ltv').value.replace(/,/g, '')) || 0,
+                cac: parseFloat(document.getElementById('cac').value.replace(/,/g, '')) || 0,
+                churnRate: parseFloat(document.getElementById('churnRate').value.replace(/,/g, '')) || 0,
+                customerGrowthRate: parseFloat(document.getElementById('customerGrowthRate').value.replace(/,/g, '')) || 0,
+                customerSegments: parseInt(document.getElementById('customerSegments').value) || 1,
+                industry: document.getElementById('industry').value,
+                marketTrendImpact: parseInt(document.getElementById('marketTrendImpact').value) || 5,
+                competitivePositioning: parseInt(document.getElementById('competitivePositioning').value) || 5,
+                marketVolatility: parseInt(document.getElementById('marketVolatility').value) || 5,
+                aiReplaceable: document.getElementById('aiReplaceable').value,
+                aiReplaceCount: parseInt(document.getElementById('aiReplaceCount').value) || 0,
+                hasIP: document.getElementById('hasIP').value,
+                ipValue: parseFloat(document.getElementById('ipValue').value.replace(/,/g, '')) || 0,
+                expectedGrowthRate: parseFloat(document.getElementById('expectedGrowthRate').value.replace(/,/g, '')) || 0,
+                discountRate: parseFloat(document.getElementById('discountRate').value.replace(/,/g, '')) || 0,
+                optimisticScenario: parseFloat(document.getElementById('optimisticScenario').value.replace(/,/g, '')) || 0,
+                pessimisticScenario: parseFloat(document.getElementById('pessimisticScenario').value.replace(/,/g, '')) || 0
+            };
+
+            const methodInputs = {
+                multiplier: parseFloat(document.getElementById('multiplier')?.value.replace(/,/g, '')) || 2.5,
+                revenue: parseFloat(document.getElementById('revenue')?.value.replace(/,/g, '')) || 0,
+                recurringRevenue: parseFloat(document.getElementById('recurringRevenue')?.value.replace(/,/g, '')) || 0,
+                ebitda: parseFloat(document.getElementById('ebitda')?.value.replace(/,/g, '')) || 0,
+                cashFlow: parseFloat(document.getElementById('cashFlow')?.value.replace(/,/g, '')) || 0,
+                projectionYears: parseInt(document.getElementById('projectionYears')?.value) || 5,
+                comparableSales: parseFloat(document.getElementById('comparableSales')?.value.replace(/,/g, '')) || 0
+            };
+
+            valuationResults = { base: {}, optimistic: {}, pessimistic: {} };
+            methods.forEach(method => {
+                let baseValue = 0;
+                if (method === 'multiplier') {
+                    baseValue = (methodInputs.revenue || 100000) * methodInputs.multiplier;
+                } else if (method === 'income') {
+                    baseValue = (methodInputs.revenue + methodInputs.recurringRevenue) * 1.5;
+                } else if (method === 'earnings') {
+                    baseValue = methodInputs.ebitda * 5;
+                } else if (method === 'dcf') {
+                    let dcfValue = 0;
+                    for (let i = 1; i <= methodInputs.projectionYears; i++) {
+                        dcfValue += methodInputs.cashFlow / Math.pow(1 + inputs.discountRate / 100, i);
+                    }
+                    baseValue = dcfValue;
+                } else if (method === 'comparable') {
+                    baseValue = methodInputs.comparableSales;
+                }
+
+                baseValue = baseValue * (1 + inputs.scalability / 100) * (1 + inputs.growthRate / 100);
+                if (inputs.hasIP === 'yes') baseValue += inputs.ipValue;
+                baseValue -= inputs.debt;
+                if (inputs.aiReplaceable === 'yes') baseValue *= (1 - inputs.aiReplaceCount * 0.05);
+
+                valuationResults.base[method] = Math.max(0, baseValue);
+                valuationResults.optimistic[method] = adjustValuation(baseValue, inputs.optimisticScenario);
+                valuationResults.pessimistic[method] = adjustValuation(baseValue, inputs.pessimisticScenario);
+            });
+
+            const avgBase = Object.values(valuationResults.base).reduce((a, b) => a + b, 0) / methods.length;
+            const avgOptimistic = Object.values(valuationResults.optimistic).reduce((a, b) => a + b, 0) / methods.length;
+            const avgPessimistic = Object.values(valuationResults.pessimistic).reduce((a, b) => a + b, 0) / methods.length;
+
+            document.getElementById('base-valuation').textContent = `Base Valuation: $${avgBase.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+            document.getElementById('optimistic-valuation').textContent = `Optimistic Scenario: $${avgOptimistic.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+            document.getElementById('pessimistic-valuation').textContent = `Pessimistic Scenario: $${avgPessimistic.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+        }
+
+        function adjustValuation(baseValue, adjustment) {
+            return Math.max(0, baseValue * (1 + adjustment / 100));
+        }
+
+        // Chart Rendering
+        function renderCharts() {
+            destroyCharts();
+            const methods = Object.keys(valuationResults.base);
+            const labels = methods.map(m => m.charAt(0).toUpperCase() + m.slice(1));
+
+            charts.valuation = new Chart(document.getElementById('valuation-chart'), {
+                type: 'bar',
+                data: {
+                    labels,
+                    datasets: [{
+                        label: 'Valuation ($)',
+                        data: methods.map(m => valuationResults.base[m]),
+                        backgroundColor: 'rgba(56, 178, 172, 0.6)',
+                        borderColor: 'rgba(56, 178, 172, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: { y: { beginAtZero: true, title: { display: true, text: 'Valuation ($)' } } },
+                    plugins: { legend: { display: false } }
+                }
+            });
+
+            charts.scenario = new Chart(document.getElementById('scenario-chart'), {
+                type: 'bar',
+                data: {
+                    labels,
+                    datasets: [
+                        { label: 'Optimistic', data: methods.map(m => valuationResults.optimistic[m]), backgroundColor: 'rgba(56, 178, 172, 0.6)' },
+                        { label: 'Base', data: methods.map(m => valuationResults.base[m]), backgroundColor: 'rgba(45, 55, 72, 0.6)' },
+                        { label: 'Pessimistic', data: methods.map(m => valuationResults.pessimistic[m]), backgroundColor: 'rgba(229, 62, 62, 0.6)' }
+                    ]
+                },
+                options: {
+                    scales: { y: { beginAtZero: true, title: { display: true, text: 'Valuation ($)' } } },
+                    plugins: { legend: { position: 'top' } }
+                }
+            });
+        }
+
+        function destroyCharts() {
+            if (charts.valuation) charts.valuation.destroy();
+            if (charts.scenario) charts.scenario.destroy();
+            charts = { valuation: null, scenario: null };
+        }
+
+        // Progress Saving
+        function saveProgress() {
+            const formData = {};
+            document.querySelectorAll('#valuation-form input, #valuation-form select').forEach(input => {
+                if (input.type === 'checkbox') {
+                    formData[input.id] = input.checked;
+                } else {
+                    formData[input.id] = input.value;
+                }
+            });
+            formData.currentStep = currentStep;
+            localStorage.setItem('valuationProgress', JSON.stringify(formData));
+        }
+
+        function loadProgress() {
+            const saved = localStorage.getItem('valuationProgress');
+            if (saved) {
+                const formData = JSON.parse(saved);
+                document.querySelectorAll('#valuation-form input, #valuation-form select').forEach(input => {
+                    if (input.type === 'checkbox') {
+                        input.checked = formData[input.id] || false;
+                    } else {
+                        input.value = formData[input.id] || '';
+                    }
+                });
+                currentStep = formData.currentStep || 1;
+                showStep(currentStep);
+                toggleAIReplacement();
+                toggleIPFields();
+                if (currentStep === 6) toggleValuationFields();
+            }
+        }
+
+        // Input Formatting
+        function formatNumberInput(input) {
+            let value = input.value.replace(/[^0-9.]/g, '');
+            const parts = value.split('.');
+            if (parts.length > 2) value = parts[0] + '.' + parts.slice(1).join('');
+            if (parts[0]) parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+            input.value = parts.join('.');
+        }
+
+        function attachInputFormatting() {
+            document.querySelectorAll('input[type="text"]').forEach(input => {
+                if (input.id.includes('Rate') || input.id.includes('Scenario') || ['revenue', 'recurringRevenue', 'ebitda', 'cashFlow', 'comparableSales', 'multiplier', 'ownerSalary', 'averageSalary', 'employeeBenefits', 'expenses', 'debt', 'ltv', 'cac', 'ipValue'].includes(input.id)) {
+                    input.addEventListener('input', () => formatNumberInput(input));
+                }
+            });
+        }
+
+        // PDF Export
+        document.getElementById('export-btn').addEventListener('click', () => {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+            doc.setFontSize(18);
+            doc.text('Amanda Valuation Pro Report', 20, 20);
+            doc.setFontSize(12);
+            doc.text(document.getElementById('base-valuation').textContent, 20, 40);
+            doc.text(document.getElementById('optimistic-valuation').textContent, 20, 50);
+            doc.text(document.getElementById('pessimistic-valuation').textContent, 20, 60);
+            doc.save('valuation_report.pdf');
+        });
+
+        // Initialize
+        loadProgress();
+        attachInputFormatting();
+    </script>
+</body>
+</html>
