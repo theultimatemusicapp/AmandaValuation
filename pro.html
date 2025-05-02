@@ -90,6 +90,32 @@
             transform: translateY(-3px);
             box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         }
+        .step-container {
+            position: relative;
+        }
+        .step-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(56, 178, 172, 0.9);
+            color: white;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+            border-radius: 0.75rem;
+            z-index: 10;
+            text-align: center;
+            font-size: 0.9rem;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .step-container:hover .step-overlay {
+            display: flex;
+            opacity: 1;
+        }
     </style>
 </head>
 <body class="bg-white">
@@ -131,7 +157,7 @@
         </div>
     </section>
 
-    <!-- Pro Valuation Tool (Steps 1-4) -->
+    <!-- Pro Valuation Tool (Steps 1-3) -->
     <section id="pro-valuation" class="py-16 bg-gray-50">
         <div class="container mx-auto px-6">
             <div class="text-center mb-12">
@@ -156,397 +182,454 @@
                 <!-- Valuation Form -->
                 <div id="valuation-form" class="p-6">
                     <!-- Step 1: Valuation Method Selection -->
-                    <div id="step-1" class="step step-visible">
-                        <h2 class="text-xl font-semibold text-gray-800 mb-4 flex items-center">
-                            <i class="fas fa-calculator mr-2 text-teal-500"></i> Valuation Method Selection
-                        </h2>
-                        <div class="mb-4">
-                            <label for="valuationMethod" class="block text-sm font-medium text-gray-700 mb-1">Select Valuation Methods (Choose up to 4):</label>
-                            <div class="space-y-2">
-                                <div class="flex items-center">
-                                    <input type="checkbox" id="method-multiplier" value="multiplier" class="mr-2 input-highlight" aria-describedby="method-multiplier-desc">
-                                    <label for="method-multiplier" class="text-sm text-gray-700">Multiplier Method - Based on industry multipliers.</label>
+                    <div class="step-container interactive-panel">
+                        <div id="step-1" class="step step-visible">
+                            <h2 class="text-xl font-semibold text-gray-800 mb-4 flex items-center">
+                                <i class="fas fa-calculator mr-2 text-teal-500"></i> Valuation Method Selection
+                            </h2>
+                            <div class="mb-4">
+                                <label for="valuationMethod" class="block text-sm font-medium text-gray-700 mb-1">Select Valuation Methods (Choose up to 4):</label>
+                                <div class="space-y-2">
+                                    <div class="flex items-center">
+                                        <input type="checkbox" id="method-multiplier" value="multiplier" class="mr-2 input-highlight" aria-describedby="method-multiplier-desc">
+                                        <label for="method-multiplier" class="text-sm text-gray-700">Multiplier Method - Based on industry multipliers.</label>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <input type="checkbox" id="method-income" value="income" class="mr-2 input-highlight" aria-describedby="method-income-desc">
+                                        <label for="method-income" class="text-sm text-gray-700">Income-Based Valuation - Focuses on total revenue.</label>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <input type="checkbox" id="method-earnings" value="earnings" class="mr-2 input-highlight" aria-describedby="method-earnings-desc">
+                                        <label for="method-earnings" class="text-sm text-gray-700">Earnings-Based Valuation - Focuses on net profit.</label>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <input type="checkbox" id="method-dcf" value="dcf" class="mr-2 input-highlight" aria-describedby="method-dcf-desc">
+                                        <label for="method-dcf" class="text-sm text-gray-700">Discounted Cash Flow (DCF) - Based on future cash flows.</label>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <input type="checkbox" id="method-comparable" value="comparable" class="mr-2 input-highlight" aria-describedby="method-comparable-desc">
+                                        <label for="method-comparable" class="text-sm text-gray-700">Comparable Sales - Based on similar company sales.</label>
+                                    </div>
                                 </div>
-                                <div class="flex items-center">
-                                    <input type="checkbox" id="method-income" value="income" class="mr-2 input-highlight" aria-describedby="method-income-desc">
-                                    <label for="method-income" class="text-sm text-gray-700">Income-Based Valuation - Focuses on total revenue.</label>
-                                </div>
-                                <div class="flex items-center">
-                                    <input type="checkbox" id="method-earnings" value="earnings" class="mr-2 input-highlight" aria-describedby="method-earnings-desc">
-                                    <label for="method-earnings" class="text-sm text-gray-700">Earnings-Based Valuation - Focuses on net profit.</label>
-                                </div>
-                                <div class="flex items-center">
-                                    <input type="checkbox" id="method-dcf" value="dcf" class="mr-2 input-highlight" aria-describedby="method-dcf-desc">
-                                    <label for="method-dcf" class="text-sm text-gray-700">Discounted Cash Flow (DCF) - Based on future cash flows.</label>
-                                </div>
-                                <div class="flex items-center">
-                                    <input type="checkbox" id="method-comparable" value="comparable" class="mr-2 input-highlight" aria-describedby="method-comparable-desc">
-                                    <label for="method-comparable" class="text-sm text-gray-700">Comparable Sales - Based on similar company sales.</label>
-                                </div>
+                                <p class="mt-1 text-sm text-gray-500" id="method-multiplier-desc">Select methods to compare multiple valuation approaches.</p>
+                                <p id="method-error" class="error-message">Please select 1 to 4 valuation methods.</p>
                             </div>
-                            <p class="mt-1 text-sm text-gray-500" id="method-multiplier-desc">Select methods to compare multiple valuation approaches.</p>
-                            <p id="method-error" class="error-message">Please select 1 to 4 valuation methods.</p>
+                            <div class="flex justify-end">
+                                <button id="next-btn-1" class="btn-primary text-white font-bold py-2 px-6 rounded-lg" aria-label="Next step">
+                                    Next <i class="fas fa-arrow-right ml-2"></i>
+                                </button>
+                            </div>
                         </div>
-                        <div class="flex justify-end">
-                            <button id="next-btn-1" class="btn-primary text-white font-bold py-2 px-6 rounded-lg" aria-label="Next step">
-                                Next <i class="fas fa-arrow-right ml-2"></i>
-                            </button>
+                        <div class="step-overlay">
+                            <p>This step lets you pick different ways to figure out what your business is worth. For example, one method looks at how much money your business makes, while another compares it to similar businesses that were sold. Choosing a few methods gives you a more complete picture.</p>
                         </div>
                     </div>
 
                     <!-- Step 2: Business Fundamentals -->
-                    <div id="step-2" class="step step-hidden">
-                        <h2 class="text-xl font-semibold text-gray-800 mb-4 flex items-center">
-                            <i class="fas fa-list-alt mr-2 text-teal-500"></i> Business Fundamentals
-                        </h2>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <div>
-                                <label for="ownerSalary" class="block text-sm font-medium text-gray-700 mb-1">Owner Salary ($):</label>
-                                <div class="relative rounded-md shadow-sm">
-                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                        <span class="text-gray-500 sm:text-sm">$</span>
+                    <div class="step-container interactive-panel">
+                        <div id="step-2" class="step step-hidden">
+                            <h2 class="text-xl font-semibold text-gray-800 mb-4 flex items-center">
+                                <i class="fas fa-list-alt mr-2 text-teal-500"></i> Business Fundamentals
+                            </h2>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                    <label for="ownerSalary" class="block text-sm font-medium text-gray-700 mb-1">Owner Salary ($):</label>
+                                    <div class="relative rounded-md shadow-sm">
+                                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                            <span class="text-gray-500 sm:text-sm">$</span>
+                                        </div>
+                                        <input type="text" id="ownerSalary" placeholder="80,000.00" required class="input-highlight block w-full pl-7 pr-12 sm:text-sm border-gray-300 rounded-md" aria-describedby="ownerSalary-desc">
                                     </div>
-                                    <input type="text" id="ownerSalary" placeholder="80,000.00" required class="input-highlight block w-full pl-7 pr-12 sm:text-sm border-gray-300 rounded-md" aria-describedby="ownerSalary-desc">
+                                    <p class="mt-1 text-sm text-gray-500" id="ownerSalary-desc">Enter your annual salary as the owner.</p>
+                                    <p id="ownerSalary-error" class="error-message">Please enter a valid number.</p>
                                 </div>
-                                <p class="mt-1 text-sm text-gray-500" id="ownerSalary-desc">Enter your annual salary as the owner.</p>
-                                <p id="ownerSalary-error" class="error-message">Please enter a valid number.</p>
-                            </div>
-                            <div>
-                                <label for="averageSalary" class="block text-sm font-medium text-gray-700 mb-1">Average Staff Salary ($):</label>
-                                <div class="relative rounded-md shadow-sm">
-                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                        <span class="text-gray-500 sm:text-sm">$</span>
+                                <div>
+                                    <label for="averageSalary" class="block text-sm font-medium text-gray-700 mb-1">Average Staff Salary ($):</label>
+                                    <div class="relative rounded-md shadow-sm">
+                                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                            <span class="text-gray-500 sm:text-sm">$</span>
+                                        </div>
+                                        <input type="text" id="averageSalary" placeholder="50,000.00" required class="input-highlight block w-full pl-7 pr-12 sm:text-sm border-gray-300 rounded-md" aria-describedby="averageSalary-desc">
                                     </div>
-                                    <input type="text" id="averageSalary" placeholder="50,000.00" required class="input-highlight block w-full pl-7 pr-12 sm:text-sm border-gray-300 rounded-md" aria-describedby="averageSalary-desc">
+                                    <p class="mt-1 text-sm text-gray-500" id="averageSalary-desc">Average annual salary of your staff members.</p>
+                                    <p id="averageSalary-error" class="error-message">Please enter a valid number.</p>
                                 </div>
-                                <p class="mt-1 text-sm text-gray-500" id="averageSalary-desc">Average annual salary of your staff members.</p>
-                                <p id="averageSalary-error" class="error-message">Please enter a valid number.</p>
-                            </div>
-                            <div>
-                                <label for="employeeBenefits" class="block text-sm font-medium text-gray-700 mb-1">Employee Benefits & Equity ($):</label>
-                                <div class="relative rounded-md shadow-sm">
-                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                        <span class="text-gray-500 sm:text-sm">$</span>
+                                <div>
+                                    <label for="employeeBenefits" class="block text-sm font-medium text-gray-700 mb-1">Employee Benefits & Equity ($):</label>
+                                    <div class="relative rounded-md shadow-sm">
+                                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                            <span class="text-gray-500 sm:text-sm">$</span>
+                                        </div>
+                                        <input type="text" id="employeeBenefits" placeholder="10,000.00" class="input-highlight block w-full pl-7 pr-12 sm:text-sm border-gray-300 rounded-md" aria-describedby="employeeBenefits-desc">
                                     </div>
-                                    <input type="text" id="employeeBenefits" placeholder="10,000.00" class="input-highlight block w-full pl-7 pr-12 sm:text-sm border-gray-300 rounded-md" aria-describedby="employeeBenefits-desc">
+                                    <p class="mt-1 text-sm text-gray-500" id="employeeBenefits-desc">Include costs like stock options or bonuses.</p>
+                                    <p id="employeeBenefits-error" class="error-message">Please enter a valid number.</p>
                                 </div>
-                                <p class="mt-1 text-sm text-gray-500" id="employeeBenefits-desc">Include costs like stock options or bonuses.</p>
-                                <p id="employeeBenefits-error" class="error-message">Please enter a valid number.</p>
-                            </div>
-                            <div>
-                                <label for="staffNumber" class="block text-sm font-medium text-gray-700 mb-1">Number of Staff:</label>
-                                <input type="number" id="staffNumber" placeholder="10" min="0" required class="input-highlight block w-full sm:text-sm border-gray-300 rounded-md" aria-describedby="staffNumber-desc">
-                                <p class="mt-1 text-sm text-gray-500" id="staffNumber-desc">Total number of staff employed.</p>
-                                <p id="staffNumber-error" class="error-message">Please enter a valid number.</p>
-                            </div>
-                            <div>
-                                <label for="expenses" class="block text-sm font-medium text-gray-700 mb-1">Annual Operating Expenses ($):</label>
-                                <div class="relative rounded-md shadow-sm">
-                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                        <span class="text-gray-500 sm:text-sm">$</span>
+                                <div>
+                                    <label for="staffNumber" class="block text-sm font-medium text-gray-700 mb-1">Number of Staff:</label>
+                                    <input type="number" id="staffNumber" placeholder="10" min="0" required class="input-highlight block w-full sm:text-sm border-gray-300 rounded-md" aria-describedby="staffNumber-desc">
+                                    <p class="mt-1 text-sm text-gray-500" id="staffNumber-desc">Total number of staff employed.</p>
+                                    <p id="staffNumber-error" class="error-message">Please enter a valid number.</p>
+                                </div>
+                                <div>
+                                    <label for="expenses" class="block text-sm font-medium text-gray-700 mb-1">Annual Operating Expenses ($):</label>
+                                    <div class="relative rounded-md shadow-sm">
+                                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                            <span class="text-gray-500 sm:text-sm">$</span>
+                                        </div>
+                                        <input type="text" id="expenses" placeholder="50,000.00" required class="input-highlight block w-full pl-7 pr-12 sm:text-sm border-gray-300 rounded-md" aria-describedby="expenses-desc">
                                     </div>
-                                    <input type="text" id="expenses" placeholder="50,000.00" required class="input-highlight block w-full pl-7 pr-12 sm:text-sm border-gray-300 rounded-md" aria-describedby="expenses-desc">
+                                    <p class="mt-1 text-sm text-gray-500" id="expenses-desc">Exclude salaries, benefits, and debt repayments.</p>
+                                    <p id="expenses-error" class="error-message">Please enter a valid number.</p>
                                 </div>
-                                <p class="mt-1 text-sm text-gray-500" id="expenses-desc">Exclude salaries, benefits, and debt repayments.</p>
-                                <p id="expenses-error" class="error-message">Please enter a valid number.</p>
-                            </div>
-                            <div>
-                                <label for="debt" class="block text-sm font-medium text-gray-700 mb-1">Total Debt ($):</label>
-                                <div class="relative rounded-md shadow-sm">
-                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                        <span class="text-gray-500 sm:text-sm">$</span>
+                                <div>
+                                    <label for="debt" class="block text-sm font-medium text-gray-700 mb-1">Total Debt ($):</label>
+                                    <div class="relative rounded-md shadow-sm">
+                                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                            <span class="text-gray-500 sm:text-sm">$</span>
+                                        </div>
+                                        <input type="text" id="debt" placeholder="20,000.00" required class="input-highlight block w-full pl-7 pr-12 sm:text-sm border-gray-300 rounded-md" aria-describedby="debt-desc">
                                     </div>
-                                    <input type="text" id="debt" placeholder="20,000.00" required class="input-highlight block w-full pl-7 pr-12 sm:text-sm border-gray-300 rounded-md" aria-describedby="debt-desc">
+                                    <p class="mt-1 text-sm text-gray-500" id="debt-desc">Total outstanding debts or liabilities.</p>
+                                    <p id="debt-error" class="error-message">Please enter a valid number.</p>
                                 </div>
-                                <p class="mt-1 text-sm text-gray-500" id="debt-desc">Total outstanding debts or liabilities.</p>
-                                <p id="debt-error" class="error-message">Please enter a valid number.</p>
-                            </div>
-                            <div>
-                                <label for="scalability" class="block text-sm font-medium text-gray-700 mb-1">Scalability (1-10):</label>
-                                <div class="flex items-center">
-                                    <input type="range" id="scalability" min="1" max="10" value="5" step="1" required class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer" oninput="document.getElementById('scalabilityValue').textContent = this.value" aria-describedby="scalability-desc scalabilityValue">
-                                    <span id="scalabilityValue" class="ml-3 text-sm font-medium text-gray-700">5</span>
-                                </div>
-                                <p class="mt-1 text-sm text-gray-500" id="scalability-desc">Rate how easily your business can scale.</p>
-                            </div>
-                            <div>
-                                <label for="growthRate" class="block text-sm font-medium text-gray-700 mb-1">Growth Rate (%):</label>
-                                <div class="relative rounded-md shadow-sm">
-                                    <input type="text" id="growthRate" placeholder="5.00" required class="input-highlight block w-full sm:text-sm border-gray-300 rounded-md" aria-describedby="growthRate-desc">
-                                    <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
-                                        <span class="text-gray-500 sm:text-sm">%</span>
+                                <div>
+                                    <label for="scalability" class="block text-sm font-medium text-gray-700 mb-1">Scalability (1-10):</label>
+                                    <div class="flex items-center">
+                                        <input type="range" id="scalability" min="1" max="10" value="5" step="1" required class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer" oninput="document.getElementById('scalabilityValue').textContent = this.value" aria-describedby="scalability-desc scalabilityValue">
+                                        <span id="scalabilityValue" class="ml-3 text-sm font-medium text-gray-700">5</span>
                                     </div>
+                                    <p class="mt-1 text-sm text-gray-500" id="scalability-desc">Rate how easily your business can scale.</p>
                                 </div>
-                                <p class="mt-1 text-sm text-gray-500" id="growthRate-desc">Average annual revenue growth rate.</p>
-                                <p id="growthRate-error" class="error-message">Please enter a valid percentage.</p>
+                                <div>
+                                    <label for="growthRate" class="block text-sm font-medium text-gray-700 mb-1">Growth Rate (%):</label>
+                                    <div class="relative rounded-md shadow-sm">
+                                        <input type="text" id="growthRate" placeholder="5.00" required class="input-highlight block w-full sm:text-sm border-gray-300 rounded-md" aria-describedby="growthRate-desc">
+                                        <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                                            <span class="text-gray-500 sm:text-sm">%</span>
+                                        </div>
+                                    </div>
+                                    <p class="mt-1 text-sm text-gray-500" id="growthRate-desc">Average annual revenue growth rate.</p>
+                                    <p id="growthRate-error" class="error-message">Please enter a valid percentage.</p>
+                                </div>
+                                <div>
+                                    <label for="yearsOperating" class="block text-sm font-medium text-gray-700 mb-1">Years Operating:</label>
+                                    <input type="number" id="yearsOperating" placeholder="5" min="0" required class="input-highlight block w-full sm:text-sm border-gray-300 rounded-md" aria-describedby="yearsOperating-desc">
+                                    <p class="mt-1 text-sm text-gray-500" id="yearsOperating-desc">Number of years your business has been operating.</p>
+                                    <p id="yearsOperating-error" class="error-message">Please enter a valid number.</p>
+                                </div>
                             </div>
-                            <div>
-                                <label for="yearsOperating" class="block text-sm font-medium text-gray-700 mb-1">Years Operating:</label>
-                                <input type="number" id="yearsOperating" placeholder="5" min="0" required class="input-highlight block w-full sm:text-sm border-gray-300 rounded-md" aria-describedby="yearsOperating-desc">
-                                <p class="mt-1 text-sm text-gray-500" id="yearsOperating-desc">Number of years your business has been operating.</p>
-                                <p id="yearsOperating-error" class="error-message">Please enter a valid number.</p>
+                            <div class="flex justify-between mt-6">
+                                <button id="prev-btn-2" class="btn-secondary font-bold py-2 px-6 rounded-lg" aria-label="Previous step">
+                                    <i class="fas fa-arrow-left mr-2"></i> Previous
+                                </button>
+                                <button id="next-btn-2" class="btn-primary text-white font-bold py-2 px-6 rounded-lg" aria-label="Next step">
+                                    Next <i class="fas fa-arrow-right ml-2"></i>
+                                </button>
                             </div>
                         </div>
-                        <div class="flex justify-between mt-6">
-                            <button id="prev-btn-2" class="btn-secondary font-bold py-2 px-6 rounded-lg" aria-label="Previous step">
-                                <i class="fas fa-arrow-left mr-2"></i> Previous
-                            </button>
-                            <button id="next-btn-2" class="btn-primary text-white font-bold py-2 px-6 rounded-lg" aria-label="Next step">
-                                Next <i class="fas fa-arrow-right ml-2"></i>
-                            </button>
+                        <div class="step-overlay">
+                            <p>Here, you tell us about the basic money stuff in your business, like how much you pay yourself, your employees, and your bills. This helps us understand how your business runs and what it costs to keep it going.</p>
                         </div>
                     </div>
 
                     <!-- Step 3: Customer Metrics -->
-                    <div id="step-3" class="step step-hidden">
-                        <h2 class="text-xl font-semibold text-gray-800 mb-4 flex items-center">
-                            <i class="fas fa-users mr-2 text-teal-500"></i> Customer Metrics
-                        </h2>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <div>
-                                <label for="ltv" class="block text-sm font-medium text-gray-700 mb-1">Customer Lifetime Value (LTV) ($):</label>
-                                <div class="relative rounded-md shadow-sm">
-                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                        <span class="text-gray-500 sm:text-sm">$</span>
+                    <div class="step-container interactive-panel">
+                        <div id="step-3" class="step step-hidden">
+                            <h2 class="text-xl font-semibold text-gray-800 mb-4 flex items-center">
+                                <i class="fas fa-users mr-2 text-teal-500"></i> Customer Metrics
+                            </h2>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                    <label for="ltv" class="block text-sm font-medium text-gray-700 mb-1">Customer Lifetime Value (LTV) ($):</label>
+                                    <div class="relative rounded-md shadow-sm">
+                                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                            <span class="text-gray-500 sm:text-sm">$</span>
+                                        </div>
+                                        <input type="text" id="ltv" placeholder="1,000.00" required class="input-highlight block w-full pl-7 pr-12 sm:text-sm border-gray-300 rounded-md" aria-describedby="ltv-desc">
                                     </div>
-                                    <input type="text" id="ltv" placeholder="1,000.00" required class="input-highlight block w-full pl-7 pr-12 sm:text-sm border-gray-300 rounded-md" aria-describedby="ltv-desc">
+                                    <p class="mt-1 text-sm text-gray-500" id="ltv-desc">Average revenue per customer over their lifetime.</p>
+                                    <p id="ltv-error" class="error-message">Please enter a valid number.</p>
                                 </div>
-                                <p class="mt-1 text-sm text-gray-500" id="ltv-desc">Average revenue per customer over their lifetime.</p>
-                                <p id="ltv-error" class="error-message">Please enter a valid number.</p>
-                            </div>
-                            <div>
-                                <label for="cac" class="block text-sm font-medium text-gray-700 mb-1">Customer Acquisition Cost (CAC) ($):</label>
-                                <div class="relative rounded-md shadow-sm">
-                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                        <span class="text-gray-500 sm:text-sm">$</span>
+                                <div>
+                                    <label for="cac" class="block text-sm font-medium text-gray-700 mb-1">Customer Acquisition Cost (CAC) ($):</label>
+                                    <div class="relative rounded-md shadow-sm">
+                                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                            <span class="text-gray-500 sm:text-sm">$</span>
+                                        </div>
+                                        <input type="text" id="cac" placeholder="200.00" required class="input-highlight block w-full pl-7 pr-12 sm:text-sm border-gray-300 rounded-md" aria-describedby="cac-desc">
                                     </div>
-                                    <input type="text" id="cac" placeholder="200.00" required class="input-highlight block w-full pl-7 pr-12 sm:text-sm border-gray-300 rounded-md" aria-describedby="cac-desc">
+                                    <p class="mt-1 text-sm text-gray-500" id="cac-desc">Average cost to acquire a new customer.</p>
+                                    <p id="cac-error" class="error-message">Please enter a valid number.</p>
                                 </div>
-                                <p class="mt-1 text-sm text-gray-500" id="cac-desc">Average cost to acquire a new customer.</p>
-                                <p id="cac-error" class="error-message">Please enter a valid number.</p>
-                            </div>
-                            <div>
-                                <label for="churnRate" class="block text-sm font-medium text-gray-700 mb-1">Churn Rate (%):</label>
-                                <div class="relative rounded-md shadow-sm">
-                                    <input type="text" id="churnRate" placeholder="5.00" required class="input-highlight block w-full sm:text-sm border-gray-300 rounded-md" aria-describedby="churnRate-desc">
-                                    <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
-                                        <span class="text-gray-500 sm:text-sm">%</span>
+                                <div>
+                                    <label for="churnRate" class="block text-sm font-medium text-gray-700 mb-1">Churn Rate (%):</label>
+                                    <div class="relative rounded-md shadow-sm">
+                                        <input type="text" id="churnRate" placeholder="5.00" required class="input-highlight block w-full sm:text-sm border-gray-300 rounded-md" aria-describedby="churnRate-desc">
+                                        <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                                            <span class="text-gray-500 sm:text-sm">%</span>
+                                        </div>
                                     </div>
+                                    <p class="mt-1 text-sm text-gray-500" id="churnRate-desc">Percentage of customers lost annually.</p>
+                                    <p id="churnRate-error" class="error-message">Please enter a valid percentage.</p>
                                 </div>
-                                <p class="mt-1 text-sm text-gray-500" id="churnRate-desc">Percentage of customers lost annually.</p>
-                                <p id="churnRate-error" class="error-message">Please enter a valid percentage.</p>
-                            </div>
-                            <div>
-                                <label for="customerGrowthRate" class="block text-sm font-medium text-gray-700 mb-1">Customer Growth Rate (%):</label>
-                                <div class="relative rounded-md shadow-sm">
-                                    <input type="text" id="customerGrowthRate" placeholder="10.00" required class="input-highlight block w-full sm:text-sm border-gray-300 rounded-md" aria-describedby="customerGrowthRate-desc">
-                                    <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
-                                        <span class="text-gray-500 sm:text-sm">%</span>
+                                <div>
+                                    <label for="customerGrowthRate" class="block text-sm font-medium text-gray-700 mb-1">Customer Growth Rate (%):</label>
+                                    <div class="relative rounded-md shadow-sm">
+                                        <input type="text" id="customerGrowthRate" placeholder="10.00" required class="input-highlight block w-full sm:text-sm border-gray-300 rounded-md" aria-describedby="customerGrowthRate-desc">
+                                        <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                                            <span class="text-gray-500 sm:text-sm">%</span>
+                                        </div>
                                     </div>
+                                    <p class="mt-1 text-sm text-gray-500" id="customerGrowthRate-desc">Annual growth rate of your customer base.</p>
+                                    <p id="customerGrowthRate-error" class="error-message">Please enter a valid percentage.</p>
                                 </div>
-                                <p class="mt-1 text-sm text-gray-500" id="customerGrowthRate-desc">Annual growth rate of your customer base.</p>
-                                <p id="customerGrowthRate-error" class="error-message">Please enter a valid percentage.</p>
+                                <div>
+                                    <label for="customerSegments" class="block text-sm font-medium text-gray-700 mb-1">Number of Customer Segments:</label>
+                                    <input type="number" id="customerSegments" placeholder="3" min="1" required class="input-highlight block w-full sm:text-sm border-gray-300 rounded-md" aria-describedby="customerSegments-desc">
+                                    <p class="mt-1 text-sm text-gray-500" id="customerSegments-desc">Number of distinct customer groups (e.g., enterprise, SMB).</p>
+                                    <p id="customerSegments-error" class="error-message">Please enter a valid number.</p>
+                                </div>
                             </div>
-                            <div>
-                                <label for="customerSegments" class="block text-sm font-medium text-gray-700 mb-1">Number of Customer Segments:</label>
-                                <input type="number" id="customerSegments" placeholder="3" min="1" required class="input-highlight block w-full sm:text-sm border-gray-300 rounded-md" aria-describedby="customerSegments-desc">
-                                <p class="mt-1 text-sm text-gray-500" id="customerSegments-desc">Number of distinct customer groups (e.g., enterprise, SMB).</p>
-                                <p id="customerSegments-error" class="error-message">Please enter a valid number.</p>
+                            <div class="flex justify-between mt-6">
+                                <button id="prev-btn-3" class="btn-secondary font-bold py-2 px-6 rounded-lg" aria-label="Previous step">
+                                    <i class="fas fa-arrow-left mr-2"></i> Previous
+                                </button>
+                                <button id="next-btn-3" class="btn-primary text-white font-bold py-2 px-6 rounded-lg" aria-label="Next step">
+                                    Next <i class="fas fa-arrow-right ml-2"></i>
+                                </button>
                             </div>
                         </div>
-                        <div class="flex justify-between mt-6">
-                            <button id="prev-btn-3" class="btn-secondary font-bold py-2 px-6 rounded-lg" aria-label="Previous step">
-                                <i class="fas fa-arrow-left mr-2"></i> Previous
-                            </button>
-                            <button id="next-btn-3" class="btn-primary text-white font-bold py-2 px-6 rounded-lg" aria-label="Next step">
-                                Next <i class="fas fa-arrow-right ml-2"></i>
-                            </button>
+                        <div class="step-overlay">
+                            <p>This step is about your customers. We ask how much money you make from each customer, how much it costs to get them, and how many stick around or leave. This shows how strong your customer base is and how fast it’s growing.</p>
+                        </div>
+                    </div>
+                    <!-- Step 4: Market and Industry Factors -->
+                    <div class="step-container interactive-panel">
+                        <div id="step-4" class="step step-hidden">
+                            <h2 class="text-xl font-semibold text-gray-800 mb-4 flex items-center">
+                                <i class="fas fa-industry mr-2 text-teal-500"></i> Market and Industry Factors
+                            </h2>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                    <label for="industry" class="block text-sm font-medium text-gray-700 mb-1">Select Industry:</label>
+                                    <select id="industry" class="input-highlight block w-full pl-3 pr-10 py-2 text-base border-gray-300 rounded-md" required aria-describedby="industry-desc">
+                                        <option value="">--Select Industry--</option>
+                                        <option value="Technology">Technology</option>
+                                        <option value="Retail">Retail</option>
+                                        <option value="Hospitality">Hospitality</option>
+                                        <option value="Media">Media</option>
+                                        <option value="Marketing">Marketing</option>
+                                        <option value="Construction">Construction</option>
+                                        <option value="Healthcare">Healthcare</option>
+                                        <option value="Finance">Finance</option>
+                                        <option value="Real Estate">Real Estate</option>
+                                        <option value="Education">Education</option>
+                                        <option value="Transportation">Transportation</option>
+                                        <option value="Agriculture">Agriculture</option>
+                                        <option value="Manufacturing">Manufacturing</option>
+                                        <option value="Legal">Legal</option>
+                                        <option value="Energy">Energy</option>
+                                        <option value="Arts & Entertainment">Arts & Entertainment</option>
+                                        <option value="Other">Other</option>
+                                    </select>
+                                    <p class="mt-1 text-sm text-gray-500" id="industry-desc">Choose your industry for accurate valuation.</p>
+                                    <p id="industry-error" class="error-message">Please select an industry.</p>
+                                </div>
+                                <div>
+                                    <label for="marketTrendImpact" class="block text-sm font-medium text-gray-700 mb-1">Market Trend Impact (1-10):</label>
+                                    <div class="flex items-center">
+                                        <input type="range" id="marketTrendImpact" min="1" max="10" value="5" step="1" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer" oninput="document.getElementById('marketTrendImpactValue').textContent = this.value" aria-describedby="marketTrendImpact-desc marketTrendImpactValue">
+                                        <span id="marketTrendImpactValue" class="ml-3 text-sm font-medium text-gray-700">5</span>
+                                    </div>
+                                    <p class="mt-1 text-sm text-gray-500" id="marketTrendImpact-desc">Rate the impact of market trends on your business.</p>
+                                </div>
+                                <div>
+                                    <label for="competitivePositioning" class="block text-sm font-medium text-gray-700 mb-1">Competitive Positioning (1-10):</label>
+                                    <div class="flex items-center">
+                                        <input type="range" id="competitivePositioning" min="1" max="10" value="5" step="1" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer" oninput="document.getElementById('competitivePositioningValue').textContent = this.value" aria-describedby="competitivePositioning-desc competitivePositioningValue">
+                                        <span id="competitivePositioningValue" class="ml-3 text-sm font-medium text-gray-700">5</span>
+                                    </div>
+                                    <p class="mt-1 text-sm text-gray-500" id="competitivePositioning-desc">Rate your market position against competitors.</p>
+                                </div>
+                                <div>
+                                    <label for="marketVolatility" class="block text-sm font-medium text-gray-700 mb-1">Market Volatility (1-10):</label>
+                                    <div class="flex items-center">
+                                        <input type="range" id="marketVolatility" min="1" max="10" value="5" step="1" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer" oninput="document.getElementById('marketVolatilityValue').textContent = this.value" aria-describedby="marketVolatility-desc marketVolatilityValue">
+                                        <span id="marketVolatilityValue" class="ml-3 text-sm font-medium text-gray-700">5</span>
+                                    </div>
+                                    <p class="mt-1 text-sm text-gray-500" id="marketVolatility-desc">Rate market stability.</p>
+                                </div>
+                            </div>
+                            <div class="flex justify-between mt-6">
+                                <button id="prev-btn-4" class="btn-secondary font-bold py-2 px-6 rounded-lg" aria-label="Previous step">
+                                    <i class="fas fa-arrow-left mr-2"></i> Previous
+                                </button>
+                                <button id="next-btn-4" class="btn-primary text-white font-bold py-2 px-6 rounded-lg" aria-label="Next step" style="display: block;">
+                                    Next <i class="fas fa-arrow-right ml-2"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="step-overlay">
+                            <p>This step asks about the bigger picture of your industry. You pick what field your business is in and rate things like how much new trends help or hurt you, how strong you are compared to competitors, and how risky your market is.</p>
                         </div>
                     </div>
 
-                    <!-- Step 4: Market and Industry Factors -->
-                    <div id="step-4" class="step step-hidden">
-                        <h2 class="text-xl font-semibold text-gray-800 mb-4 flex items-center">
-                            <i class="fas fa-industry mr-2 text-teal-500"></i> Market and Industry Factors
-                        </h2>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <div>
-                                <label for="industry" class="block text-sm font-medium text-gray-700 mb-1">Select Industry:</label>
-                                <select id="industry" class="input-highlight block w-full pl-3 pr-10 py-2 text-base border-gray-300 rounded-md" required aria-describedby="industry-desc">
-                                    <option value="">--Select Industry--</option>
-                                    <option value="Technology">Technology</option>
-                                    <option value="Retail">Retail</option>
-                                    <option value="Hospitality">Hospitality</option>
-                                    <option value="Media">Media</option>
-                                    <option value="Marketing">Marketing</option>
-                                    <option value="Construction">Construction</option>
-                                    <option value="Healthcare">Healthcare</option>
-                                    <option value="Finance">Finance</option>
-                                    <option value="Real Estate">Real Estate</option>
-                                    <option value="Education">Education</option>
-                                    <option value="Transportation">Transportation</option>
-                                    <option value="Agriculture">Agriculture</option>
-                                    <option value="Manufacturing">Manufacturing</option>
-                                    <option value="Legal">Legal</option>
-                                    <option value="Energy">Energy</option>
-                                    <option value="Arts & Entertainment">Arts & Entertainment</option>
-                                    <option value="Other">Other</option>
-                                </select>
-                                <p class="mt-1 text-sm text-gray-500" id="industry-desc">Choose your industry for accurate valuation.</p>
-                                <p id="industry-error" class="error-message">Please select an industry.</p>
-                            </div>
-                            <div>
-                                <label for="marketTrendImpact" class="block text-sm font-medium text-gray-700 mb-1">Market Trend Impact (1-10):</label>
-                                <div class="flex items-center">
-                                    <input type="range" id="marketTrendImpact" min="1" max="10" value="5" step="1" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer" oninput="document.getElementById('marketTrendImpactValue').textContent = this.value" aria-describedby="marketTrendImpact-desc marketTrendImpactValue">
-                                    <span id="marketTrendImpactValue" class="ml-3 text-sm font-medium text-gray-700">5</span>
+                    <!-- Step 5: Advanced Inputs -->
+                    <div class="step-container interactive-panel">
+                        <div id="step-5" class="step step-hidden">
+                            <h2 class="text-xl font-semibold text-gray-800 mb-4 flex items-center">
+                                <i class="fas fa-cogs mr-2 text-teal-500"></i> Advanced Inputs
+                            </h2>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                    <label for="aiReplaceable" class="block text-sm font-medium text-gray-700 mb-1">Can Staff be Replaced by AI?</label>
+                                    <select id="aiReplaceable" onchange="toggleAIReplacement()" required class="input-highlight block w-full pl-3 pr-10 py-2 text-base border-gray-300 rounded-md" aria-describedby="aiReplaceable-desc">
+                                        <option value="">--Select--</option>
+                                        <option value="yes">Yes</option>
+                                        <option value="no">No</option>
+                                    </select>
+                                    <p class="mt-1 text-sm text-gray-500" id="aiReplaceable-desc">Select 'Yes' if some roles can be automated.</p>
+                                    <p id="aiReplaceable-error" class="error-message">Please select an option.</p>
                                 </div>
-                                <p class="mt-1 text-sm text-gray-500" id="marketTrendImpact-desc">Rate the impact of market trends on your business.</p>
-                            </div>
-                            <div>
-                                <label for="competitivePositioning" class="block text-sm font-medium text-gray-700 mb-1">Competitive Positioning (1-10):</label>
-                                <div class="flex items-center">
-                                    <input type="range" id="competitivePositioning" min="1" max="10" value="5" step="1" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer" oninput="document.getElementById('competitivePositioningValue').textContent = this.value" aria-describedby="competitivePositioning-desc competitivePositioningValue">
-                                    <span id="competitivePositioningValue" class="ml-3 text-sm font-medium text-gray-700">5</span>
+                                <div id="aiReplaceCountSection" class="hidden">
+                                    <label for="aiReplaceCount" class="block text-sm font-medium text-gray-700 mb-1">Number of Staff Replaceable by AI:</label>
+                                    <input type="number" id="aiReplaceCount" placeholder="2" min="0" class="input-highlight block w-full sm:text-sm border-gray-300 rounded-md" aria-describedby="aiReplaceCount-desc">
+                                    <p class="mt-1 text-sm text-gray-500" id="aiReplaceCount-desc">Number of positions that could be automated.</p>
+                                    <p id="aiReplaceCount-error" class="error-message">Please enter a valid number.</p>
                                 </div>
-                                <p class="mt-1 text-sm text-gray-500" id="competitivePositioning-desc">Rate your market position against competitors.</p>
-<!-- Step 5: Advanced Inputs -->
-                    <div id="step-5" class="step step-hidden">
-                        <h2 class="text-xl font-semibold text-gray-800 mb-4 flex items-center">
-                            <i class="fas fa-cogs mr-2 text-teal-500"></i> Advanced Inputs
-                        </h2>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <div>
-                                <label for="aiReplaceable" class="block text-sm font-medium text-gray-700 mb-1">Can Staff be Replaced by AI?</label>
-                                <select id="aiReplaceable" onchange="toggleAIReplacement()" required class="input-highlight block w-full pl-3 pr-10 py-2 text-base border-gray-300 rounded-md" aria-describedby="aiReplaceable-desc">
-                                    <option value="">--Select--</option>
-                                    <option value="yes">Yes</option>
-                                    <option value="no">No</option>
-                                </select>
-                                <p class="mt-1 text-sm text-gray-500" id="aiReplaceable-desc">Select 'Yes' if some roles can be automated.</p>
-                                <p id="aiReplaceable-error" class="error-message">Please select an option.</p>
-                            </div>
-                            <div id="aiReplaceCountSection" class="hidden">
-                                <label for="aiReplaceCount" class="block text-sm font-medium text-gray-700 mb-1">Number of Staff Replaceable by AI:</label>
-                                <input type="number" id="aiReplaceCount" placeholder="2" min="0" class="input-highlight block w-full sm:text-sm border-gray-300 rounded-md" aria-describedby="aiReplaceCount-desc">
-                                <p class="mt-1 text-sm text-gray-500" id="aiReplaceCount-desc">Number of positions that could be automated.</p>
-                                <p id="aiReplaceCount-error" class="error-message">Please enter a valid number.</p>
-                            </div>
-                            <div>
-                                <label for="hasIP" class="block text-sm font-medium text-gray-700 mb-1">Do You Have Intellectual Property (IP)?</label>
-                                <select id="hasIP" onchange="toggleIPFields()" required class="input-highlight block w-full pl-3 pr-10 py-2 text-base border-gray-300 rounded-md" aria-describedby="hasIP-desc">
-                                    <option value="">--Select--</option>
-                                    <option value="yes">Yes</option>
-                                    <option value="no">No</option>
-                                </select>
-                                <p class="mt-1 text-sm text-gray-500" id="hasIP-desc">Select 'Yes' if you own patents or trademarks.</p>
-                                <p id="hasIP-error" class="error-message">Please select an option.</p>
-                            </div>
-                            <div id="ipValueSection" class="hidden">
-                                <label for="ipValue" class="block text-sm font-medium text-gray-700 mb-1">Estimated IP Value ($):</label>
-                                <div class="relative rounded-md shadow-sm">
-                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                        <span class="text-gray-500 sm:text-sm">$</span>
+                                <div>
+                                    <label for="hasIP" class="block text-sm font-medium text-gray-700 mb-1">Do You Have Intellectual Property (IP)?</label>
+                                    <select id="hasIP" onchange="toggleIPFields()" required class="input-highlight block w-full pl-3 pr-10 py-2 text-base border-gray-300 rounded-md" aria-describedby="hasIP-desc">
+                                        <option value="">--Select--</option>
+                                        <option value="yes">Yes</option>
+                                        <option value="no">No</option>
+                                    </select>
+                                    <p class="mt-1 text-sm text-gray-500" id="hasIP-desc">Select 'Yes' if you own patents or trademarks.</p>
+                                    <p id="hasIP-error" class="error-message">Please select an option.</p>
+                                </div>
+                                <div id="ipValueSection" class="hidden">
+                                    <label for="ipValue" class="block text-sm font-medium text-gray-700 mb-1">Estimated IP Value ($):</label>
+                                    <div class="relative rounded-md shadow-sm">
+                                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                            <span class="text-gray-500 sm:text-sm">$</span>
+                                        </div>
+                                        <input type="text" id="ipValue" placeholder="100,000.00" class="input-highlight block w-full pl-7 pr-12 sm:text-sm border-gray-300 rounded-md" aria-describedby="ipValue-desc">
                                     </div>
-                                    <input type="text" id="ipValue" placeholder="100,000.00" class="input-highlight block w-full pl-7 pr-12 sm:text-sm border-gray-300 rounded-md" aria-describedby="ipValue-desc">
+                                    <p class="mt-1 text-sm text-gray-500" id="ipValue-desc">Estimated value of your IP assets.</p>
+                                    <p id="ipValue-error" class="error-message">Please enter a valid number.</p>
                                 </div>
-                                <p class="mt-1 text-sm text-gray-500" id="ipValue-desc">Estimated value of your IP assets.</p>
-                                <p id="ipValue-error" class="error-message">Please enter a valid number.</p>
+                            </div>
+                            <div class="flex justify-between mt-6">
+                                <button id="prev-btn-5" class="btn-secondary font-bold py-2 px-6 rounded-lg" aria-label="Previous step">
+                                    <i class="fas fa-arrow-left mr-2"></i> Previous
+                                </button>
+                                <button id="next-btn-5" class="btn-primary text-white font-bold py-2 px-6 rounded-lg" aria-label="Next step">
+                                    Next <i class="fas fa-arrow-right ml-2"></i>
+                                </button>
                             </div>
                         </div>
-                        <div class="flex justify-between mt-6">
-                            <button id="prev-btn-5" class="btn-secondary font-bold py-2 px-6 rounded-lg" aria-label="Previous step">
-                                <i class="fas fa-arrow-left mr-2"></i> Previous
-                            </button>
-                            <button id="next-btn-5" class="btn-primary text-white font-bold py-2 px-6 rounded-lg" aria-label="Next step">
-                                Next <i class="fas fa-arrow-right ml-2"></i>
-                            </button>
+                        <div class="step-overlay">
+                            <p>This step looks at special things about your business, like whether computers or robots could do some of your workers’ jobs, or if you own unique ideas or inventions (like patents). These can make your business more or less valuable.</p>
                         </div>
                     </div>
 
                     <!-- Step 6: Valuation Specific Inputs -->
-                    <div id="step-6" class="step step-hidden">
-                        <h2 class="text-xl font-semibold text-gray-800 mb-4 flex items-center">
-                            <i class="fas fa-dollar-sign mr-2 text-teal-500"></i> Valuation Specific Inputs
-                        </h2>
-                        <div id="valuationInputs" class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <!-- Dynamic inputs added by toggleValuationFields() -->
+                    <div class="step-container interactive-panel">
+                        <div id="step-6" class="step step-hidden">
+                            <h2 class="text-xl font-semibold text-gray-800 mb-4 flex items-center">
+                                <i class="fas fa-dollar-sign mr-2 text-teal-500"></i> Valuation Specific Inputs
+                            </h2>
+                            <div id="valuationInputs" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <!-- Dynamic inputs added by toggleValuationFields() -->
+                            </div>
+                            <div class="flex justify-between mt-6">
+                                <button id="prev-btn-6" class="btn-secondary font-bold py-2 px-6 rounded-lg" aria-label="Previous step">
+                                    <i class="fas fa-arrow-left mr-2"></i> Previous
+                                </button>
+                                <button id="next-btn-6" class="btn-primary text-white font-bold py-2 px-6 rounded-lg" aria-label="Next step">
+                                    Next <i class="fas fa-arrow-right ml-2"></i>
+                                </button>
+                            </div>
                         </div>
-                        <div class="flex justify-between mt-6">
-                            <button id="prev-btn-6" class="btn-secondary font-bold py-2 px-6 rounded-lg" aria-label="Previous step">
-                                <i class="fas fa-arrow-left mr-2"></i> Previous
-                            </button>
-                            <button id="next-btn-6" class="btn-primary text-white font-bold py-2 px-6 rounded-lg" aria-label="Next step">
-                                Next <i class="fas fa-arrow-right ml-2"></i>
-                            </button>
+                        <div class="step-overlay">
+                            <p>Here, you give specific numbers based on the valuation methods you picked earlier, like how much money your business makes or what similar businesses sold for. This fine-tunes the estimate of your business’s worth.</p>
                         </div>
                     </div>
 
                     <!-- Step 7: Scenario Analysis -->
-                    <div id="step-7" class="step step-hidden">
-                        <h2 class="text-xl font-semibold text-gray-800 mb-4 flex items-center">
-                            <i class="fas fa-chart-line mr-2 text-teal-500"></i> Scenario Analysis
-                        </h2>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <div>
-                                <label for="expectedGrowthRate" class="block text-sm font-medium text-gray-700 mb-1">Expected Growth Rate (%):</label>
-                                <div class="relative rounded-md shadow-sm">
-                                    <input type="text" id="expectedGrowthRate" placeholder="5.00" required class="input-highlight block w-full sm:text-sm border-gray-300 rounded-md" aria-describedby="expectedGrowthRate-desc">
-                                    <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
-                                        <span class="text-gray-500 sm:text-sm">%</span>
+                    <div class="step-container interactive-panel">
+                        <div id="step-7" class="step step-hidden">
+                            <h2 class="text-xl font-semibold text-gray-800 mb-4 flex items-center">
+                                <i class="fas fa-chart-line mr-2 text-teal-500"></i> Scenario Analysis
+                            </h2>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                    <label for="expectedGrowthRate" class="block text-sm font-medium text-gray-700 mb-1">Expected Growth Rate (%):</label>
+                                    <div class="relative rounded-md shadow-sm">
+                                        <input type="text" id="expectedGrowthRate" placeholder="5.00" required class="input-highlight block w-full sm:text-sm border-gray-300 rounded-md" aria-describedby="expectedGrowthRate-desc">
+                                        <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                                            <span class="text-gray-500 sm:text-sm">%</span>
+                                        </div>
                                     </div>
+                                    <p class="mt-1 text-sm text-gray-500" id="expectedGrowthRate-desc">Anticipated revenue growth rate.</p>
+                                    <p id="expectedGrowthRate-error" class="error-message">Please enter a valid percentage.</p>
                                 </div>
-                                <p class="mt-1 text-sm text-gray-500" id="expectedGrowthRate-desc">Anticipated revenue growth rate.</p>
-                                <p id="expectedGrowthRate-error" class="error-message">Please enter a valid percentage.</p>
+                                <div>
+                                    <label for="discountRate" class="block text-sm font-medium text-gray-700 mb-1">Discount Rate (%):</label>
+                                    <div class="relative rounded-md shadow-sm">
+                                        <input type="text" id="discountRate" placeholder="8.00" required class="input-highlight block w-full sm:text-sm border-gray-300 rounded-md" aria-describedby="discountRate-desc">
+                                        <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                                            <span class="text-gray-500 sm:text-sm">%</span>
+                                        </div>
+                                    </div>
+                                    <p class="mt-1 text-sm text-gray-500" id="discountRate-desc">Rate used for DCF calculations.</p>
+                                    <p id="discountRate-error" class="error-message">Please enter a valid percentage.</p>
+                                </div>
+                                <div>
+                                    <label for="optimisticScenario" class="block text-sm font-medium text-gray-700 mb-1">Optimistic Scenario Adjustment (%):</label>
+                                    <div class="relative rounded-md shadow-sm">
+                                        <input type="text" id="optimisticScenario" placeholder="10.00" required class="input-highlight block w-full sm:text-sm border-gray-300 rounded-md" aria-describedby="optimisticScenario-desc">
+                                        <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                                            <span class="text-gray-500 sm:text-sm">%</span>
+                                        </div>
+                                    </div>
+                                    <p class="mt-1 text-sm text-gray-500" id="optimisticScenario-desc">Positive adjustment for best-case scenario.</p>
+                                    <p id="optimisticScenario-error" class="error-message">Please enter a valid percentage.</p>
+                                </div>
+                                <div>
+                                    <label for="pessimisticScenario" class="block text-sm font-medium text-gray-700 mb-1">Pessimistic Scenario Adjustment (%):</label>
+                                    <div class="relative rounded-md shadow-sm">
+                                        <input type="text" id="pessimisticScenario" placeholder="-10.00" required class="input-highlight block w-full sm:text-sm border-gray-300 rounded-md" aria-describedby="pessimisticScenario-desc">
+                                        <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                                            <span class="text-gray-500 sm:text-sm">%</span>
+                                        </div>
+                                    </div>
+                                    <p class="mt-1 text-sm text-gray-500" id="pessimisticScenario-desc">Negative adjustment for worst-case scenario.</p>
+                                    <p id="pessimisticScenario-error" class="error-message">Please enter a valid percentage.</p>
+                                </div>
                             </div>
-                            <div>
-                                <label for="discountRate" class="block text-sm font-medium text-gray-700 mb-1">Discount Rate (%):</label>
-                                <div class="relative rounded-md shadow-sm">
-                                    <input type="text" id="discountRate" placeholder="8.00" required class="input-highlight block w-full sm:text-sm border-gray-300 rounded-md" aria-describedby="discountRate-desc">
-                                    <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
-                                        <span class="text-gray-500 sm:text-sm">%</span>
-                                    </div>
-                                </div>
-                                <p class="mt-1 text-sm text-gray-500" id="discountRate-desc">Rate used for DCF calculations.</p>
-                                <p id="discountRate-error" class="error-message">Please enter a valid percentage.</p>
-                            </div>
-                            <div>
-                                <label for="optimisticScenario" class="block text-sm font-medium text-gray-700 mb-1">Optimistic Scenario Adjustment (%):</label>
-                                <div class="relative rounded-md shadow-sm">
-                                    <input type="text" id="optimisticScenario" placeholder="10.00" required class="input-highlight block w-full sm:text-sm border-gray-300 rounded-md" aria-describedby="optimisticScenario-desc">
-                                    <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
-                                        <span class="text-gray-500 sm:text-sm">%</span>
-                                    </div>
-                                </div>
-                                <p class="mt-1 text-sm text-gray-500" id="optimisticScenario-desc">Positive adjustment for best-case scenario.</p>
-                                <p id="optimisticScenario-error" class="error-message">Please enter a valid percentage.</p>
-                            </div>
-                            <div>
-                                <label for="pessimisticScenario" class="block text-sm font-medium text-gray-700 mb-1">Pessimistic Scenario Adjustment (%):</label>
-                                <div class="relative rounded-md shadow-sm">
-                                    <input type="text" id="pessimisticScenario" placeholder="-10.00" required class="input-highlight block w-full sm:text-sm border-gray-300 rounded-md" aria-describedby="pessimisticScenario-desc">
-                                    <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
-                                        <span class="text-gray-500 sm:text-sm">%</span>
-                                    </div>
-                                </div>
-                                <p class="mt-1 text-sm text-gray-500" id="pessimisticScenario-desc">Negative adjustment for worst-case scenario.</p>
-                                <p id="pessimisticScenario-error" class="error-message">Please enter a valid percentage.</p>
+                            <div class="flex justify-between mt-6">
+                                <button id="prev-btn-7" class="btn-secondary font-bold py-2 px-6 rounded-lg" aria-label="Previous step">
+                                    <i class="fas fa-arrow-left mr-2"></i> Previous
+                                </button>
+                                <button id="submit-btn" class="btn-primary text-white font-bold py-2 px-6 rounded-lg" aria-label="Submit valuation">
+                                    Submit <i class="fas fa-check ml-2"></i>
+                                </button>
                             </div>
                         </div>
-                        <div class="flex justify-between mt-6">
-                            <button id="prev-btn-7" class="btn-secondary font-bold py-2 px-6 rounded-lg" aria-label="Previous step">
-                                <i class="fas fa-arrow-left mr-2"></i> Previous
-                            </button>
-                            <button id="submit-btn" class="btn-primary text-white font-bold py-2 px-6 rounded-lg" aria-label="Submit valuation">
-                                Submit <i class="fas fa-check ml-2"></i>
-                            </button>
+                        <div class="step-overlay">
+                            <p>This step lets you plan for the future by guessing how fast your business might grow and what could happen in good or bad times. It helps show how your business’s value could change under different conditions.</p>
                         </div>
                     </div>
                 </div>
             </div>
+            <!-- Pro Version Benefits Paragraph -->
+            <div class="text-center mt-8 max-w-2xl mx-auto">
+                <p class="text-lg text-gray-600">Amanda Valuation Pro offers a superior experience compared to the standard version, providing multiple valuation methods for a comprehensive analysis, advanced inputs like AI automation and intellectual property valuation, and investor-ready reports with detailed charts. This ensures you get a precise, actionable estimate of your business’s worth, tailored to impress stakeholders and guide strategic decisions.</p>
+            </div>
         </div>
     </section>
-
     <!-- Results Section -->
     <section id="results" class="py-16 bg-white hidden">
         <div class="container mx-auto px-6">
@@ -601,7 +684,7 @@
                 </div>
             </div>
             <div class="mt-8 text-center text-sm">
-                <p>&copy; 2023-2025 Amanda Valuation. All rights reserved.</p>
+                <p>© 2023-2025 Amanda Valuation. All rights reserved.</p>
             </div>
         </div>
     </footer>
@@ -631,12 +714,16 @@
             const progress = (currentStep / totalSteps) * 100;
             document.getElementById('progress-fill').style.width = `${progress}%`;
             document.getElementById('current-step').textContent = currentStep;
+            console.log(`Progress updated: Step ${currentStep}, ${progress}%`);
         }
 
         function showStep(step) {
+            console.log(`Showing step: ${step}`);
             document.querySelectorAll('.step').forEach((s, i) => {
-                s.classList.toggle('step-visible', i + 1 === step);
-                s.classList.toggle('step-hidden', i + 1 !== step);
+                const isVisible = i + 1 === step;
+                s.classList.toggle('step-visible', isVisible);
+                s.classList.toggle('step-hidden', !isVisible);
+                console.log(`Step ${i + 1}: ${isVisible ? 'Visible' : 'Hidden'}`);
             });
             updateProgress();
             if (step === 6) toggleValuationFields();
@@ -645,21 +732,27 @@
 
         document.querySelectorAll('[id^="next-btn"]').forEach(btn => {
             btn.addEventListener('click', () => {
+                console.log(`Next button clicked for step ${currentStep}, button ID: ${btn.id}`);
                 if (validateStep(currentStep)) {
                     currentStep++;
+                    console.log(`Advancing to step ${currentStep}`);
                     showStep(currentStep);
+                } else {
+                    console.log(`Validation failed for step ${currentStep}`);
                 }
             });
         });
 
         document.querySelectorAll('[id^="prev-btn"]').forEach(btn => {
             btn.addEventListener('click', () => {
+                console.log(`Previous button clicked for step ${currentStep}, button ID: ${btn.id}`);
                 currentStep--;
                 showStep(currentStep);
             });
         });
 
         document.getElementById('start-over').addEventListener('click', () => {
+            console.log('Starting over');
             currentStep = 1;
             valuationResults = null;
             destroyCharts();
@@ -670,13 +763,18 @@
         });
 
         document.getElementById('submit-btn').addEventListener('click', () => {
+            console.log('Submit button clicked');
             if (validateStep(currentStep)) {
                 calculateValuation();
                 renderCharts();
                 document.getElementById('results').classList.remove('hidden');
                 window.scrollTo({ top: document.getElementById('results').offsetTop, behavior: 'smooth' });
+            } else {
+                console.log('Validation failed for step 7');
             }
         });
+
+        // Overlay Interactionම
 
         // Conditional Fields
         function toggleAIReplacement() {
@@ -1003,7 +1101,7 @@
 
         // Input Formatting
         function formatNumberInput(input) {
-            let value = input.value.replace(/[^0-9.]/g, '');
+            let value = input.value.replace(/[^0-9.-]/g, '');
             const parts = value.split('.');
             if (parts.length > 2) value = parts[0] + '.' + parts.slice(1).join('');
             if (parts[0]) parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
