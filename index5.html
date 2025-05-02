@@ -1415,4 +1415,165 @@
                                                             <canvas id="staffChart"></canvas>
                                                         </div>
                                                     </div>
+                                                                                                        <div className="bg-white p-4 rounded-lg border border-gray-200">
+                                                        <h3 className="text-lg font-semibold text-gray-800 mb-4">Revenue Trend</h3>
+                                                        <div className="chart-container">
+                                                            <canvas id="incomeChart"></canvas>
+                                                        </div>
+                                                    </div>
+                                                    {formData.valuationMethods.includes('dcf') && (
+                                                        <div className="bg-white p-4 rounded-lg border border-gray-200">
+                                                            <h3 className="text-lg font-semibold text-gray-800 mb-4">DCF Cash Flows</h3>
+                                                            <div className="chart-container">
+                                                                <canvas id="dcfChart"></canvas>
+                                                            </div>
+                                                        </div>
+                                                    )}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </>
+                                ) : (
+                                    renderStep()
+                                )}
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            );
+        };
+
+        // Main App Component
+        const App = () => {
+            const [isDemoModalOpen, setIsDemoModalOpen] = useState(false);
+
+            const openDemoModal = () => setIsDemoModalOpen(true);
+            const closeDemoModal = () => setIsDemoModalOpen(false);
+
+            return (
+                <>
+                    <Navigation />
+                    <Hero openDemoModal={openDemoModal} />
+                    <DemoModal isOpen={isDemoModalOpen} closeModal={closeDemoModal} />
+                    <ValuationForm />
+                    <section className="py-16 bg-white">
+                        <div className="container mx-auto px-6">
+                            <div className="text-center mb-12">
+                                <h2 className="text-3xl font-bold text-gray-800 mb-4">Why Choose Amanda Valuation?</h2>
+                                <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+                                    Our platform combines cutting-edge technology with industry expertise to deliver fast, accurate, and actionable business valuations.
+                                </p>
+                            </div>
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                                {[
+                                    {
+                                        icon: 'fas fa-bolt',
+                                        title: 'Fast & Accurate',
+                                        desc: 'Get a comprehensive valuation in just 15 minutes with our AI-powered tools.'
+                                    },
+                                    {
+                                        icon: 'fas fa-lock',
+                                        title: 'Secure & Confidential',
+                                        desc: 'Your data is protected with enterprise-grade encryption and privacy measures.'
+                                    },
+                                    {
+                                        icon: 'fas fa-chart-line',
+                                        title: 'Actionable Insights',
+                                        desc: 'Receive detailed reports and recommendations to maximize your business value.'
+                                    }
+                                ].map((feature, index) => (
+                                    <div key={index} className="feature-card bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-transform duration-300 text-center">
+                                        <i className={`${feature.icon} text-4xl text-teal-500 mb-4`}></i>
+                                        <h3 className="text-xl font-semibold text-gray-800 mb-2">{feature.title}</h3>
+                                        <p className="text-gray-600">{feature.desc}</p>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    </section>
+                    <section className="py-16 bg-gray-50">
+                        <div className="container mx-auto px-6">
+                            <div className="text-center mb-12">
+                                <h2 className="text-3xl font-bold text-gray-800 mb-4">What Our Users Say</h2>
+                                <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+                                    Join thousands of business owners who trust Amanda Valuation for their valuation needs.
+                                </p>
+                            </div>
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                                {[
+                                    {
+                                        quote: 'Amanda Valuation gave me a clear picture of my business worth in minutes. The insights were invaluable for our funding round!',
+                                        author: 'Sarah J., SaaS Founder',
+                                        img: 'https://randomuser.me/api/portraits/women/44.jpg'
+                                    },
+                                    {
+                                        quote: 'The step-by-step process was so easy to follow, and the PDF report was professional and detailed.',
+                                        author: 'Michael T., Retail Owner',
+                                        img: 'https://randomuser.me/api/portraits/men/32.jpg'
+                                    },
+                                    {
+                                        quote: 'I was skeptical at first, but the accuracy and depth of the valuation blew me away. Highly recommend!',
+                                        author: 'Emily R., Marketing Agency CEO',
+                                        img: 'https://randomuser.me/api/portraits/women/65.jpg'
+                                    }
+                                ].map((testimonial, index) => (
+                                    <div key={index} className="testimonial-card bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-transform duration-300 text-center">
+                                        <img src={testimonial.img} alt={testimonial.author} className="w-16 h-16 rounded-full mx-auto mb-4 object-cover" />
+                                        <p className="text-gray-600 italic mb-4">"{testimonial.quote}"</p>
+                                        <p className="text-sm font-semibold text-gray-800">{testimonial.author}</p>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    </section>
+                    <footer className="gradient-bg text-white py-12">
+                        <div className="container mx-auto px-6">
+                            <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+                                <div>
+                                    <h3 className="text-xl font-bold mb-4">Amanda Valuation</h3>
+                                    <p className="text-sm opacity-80">
+                                        Empowering business owners with fast, accurate, and actionable valuation tools.
+                                    </p>
+                                </div>
+                                <div>
+                                    <h4 className="text-lg font-semibold mb-4">Quick Links</h4>
+                                    <ul className="space-y-2">
+                                        <li><a href="#valuation" className="hover:text-teal-200">Self Valuation</a></li>
+                                        <li><a href="#tech-due-diligence" className="hover:text-teal-200">Tech Due Diligence</a></li>
+                                        <li><a href="#data-room" className="hover:text-teal-200">AI Data Room</a></li>
+                                        <li><a href="#pricing" className="hover:text-teal-200">Pricing</a></li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <h4 className="text-lg font-semibold mb-4">Resources</h4>
+                                    <ul className="space-y-2">
+                                        <li><a href="#blog" className="hover:text-teal-200">Blog</a></li>
+                                        <li><a href="#guides" className="hover:text-teal-200">Guides</a></li>
+                                        <li><a href="#faq" className="hover:text-teal-200">FAQ</a></li>
+                                        <li><a href="#support" className="hover:text-teal-200">Support</a></li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <h4 className="text-lg font-semibold mb-4">Connect With Us</h4>
+                                    <div className="flex space-x-4">
+                                        <a href="#twitter" className="hover:text-teal-200"><i className="fab fa-twitter text-xl"></i></a>
+                                        <a href="#linkedin" className="hover:text-teal-200"><i className="fab fa-linkedin text-xl"></i></a>
+                                        <a href="#facebook" className="hover:text-teal-200"><i className="fab fa-facebook text-xl"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="mt-12 border-t border-white border-opacity-20 pt-6 text-center">
+                                <p className="text-sm opacity-80">&copy; {new Date().getFullYear()} Amanda Valuation. All rights reserved.</p>
+                            </div>
+                        </div>
+                    </footer>
+                </>
+            );
+        };
+
+        // Render the App
+        ReactDOM.render(<App />, document.getElementById('root'));
+    </script>
+</body>
+</html>
                                                    
