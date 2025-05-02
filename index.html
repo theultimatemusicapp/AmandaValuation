@@ -626,7 +626,7 @@
         display: none;
     }
 </style>
-    <!-- Valuation Tool (Steps 4-6) -->
+   <!-- Valuation Tool (Steps 4-6) -->
 <!-- Step 4: Market and Industry Factors -->
 <div id="step-4" class="step step-hidden">
     <h3 class="text-xl font-semibold text-gray-800 mb-4 flex items-center">
@@ -651,7 +651,7 @@
         <div>
             <label for="marketTrendImpact" class="block text-sm font-medium text-gray-700 mb-1">Market Trend Impact (1-10):</label>
             <div class="flex items-center">
-                <input type="range" id="marketTrendImpact" min="1" max="10" value="5" step="1" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer" oninput="document.getElementById('marketTrendImpactValue').textContent = this.value" aria-describedby="marketTrendImpact-desc">
+                <input type="range" id="marketTrendImpact" min="1" max="10" value="5" step="1" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer" aria-describedby="marketTrendImpact-desc">
                 <span id="marketTrendImpactValue" class="ml-3 text-sm font-medium text-gray-700">5</span>
             </div>
             <p class="mt-1 text-sm text-gray-500" id="marketTrendImpact-desc">Rate market trends (1 = Negative, 10 = Positive).</p>
@@ -659,7 +659,7 @@
         <div>
             <label for="competitivePositioning" class="block text-sm font-medium text-gray-700 mb-1">Competitive Positioning (1-10):</label>
             <div class="flex items-center">
-                <input type="range" id="competitivePositioning" min="1" max="10" value="5" step="1" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer" oninput="document.getElementById('competitivePositioningValue').textContent = this.value" aria-describedby="competitivePositioning-desc">
+                <input type="range" id="competitivePositioning" min="1" max="10" value="5" step="1" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer" aria-describedby="competitivePositioning-desc">
                 <span id="competitivePositioningValue" class="ml-3 text-sm font-medium text-gray-700">5</span>
             </div>
             <p class="mt-1 text-sm text-gray-500" id="competitivePositioning-desc">Rate your market position (1 = Weak, 10 = Dominant).</p>
@@ -667,7 +667,7 @@
         <div>
             <label for="marketVolatility" class="block text-sm font-medium text-gray-700 mb-1">Market Volatility (1-10):</label>
             <div class="flex items-center">
-                <input type="range" id="marketVolatility" min="1" max="10" value="5" step="1" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer" oninput="document.getElementById('marketVolatilityValue').textContent = this.value" aria-describedby="marketVolatility-desc">
+                <input type="range" id="marketVolatility" min="1" max="10" value="5" step="1" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer" aria-describedby="marketVolatility-desc">
                 <span id="marketVolatilityValue" class="ml-3 text-sm font-medium text-gray-700">5</span>
             </div>
             <p class="mt-1 text-sm text-gray-500" id="marketVolatility-desc">Rate market stability (1 = Volatile, 10 = Stable).</p>
@@ -691,7 +691,7 @@
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div>
             <label for="aiReplaceable" class="block text-sm font-medium text-gray-700 mb-1">Can Staff be Replaced by AI?</label>
-            <select id="aiReplaceable" onchange="toggleAIReplacement()" required class="input-highlight block w-full pl-3 pr-10 py-2 text-base border-gray-300 rounded-md" aria-describedby="aiReplaceable-desc">
+            <select id="aiReplaceable" required class="input-highlight block w-full pl-3 pr-10 py-2 text-base border-gray-300 rounded-md" aria-describedby="aiReplaceable-desc">
                 <option value="">--Select--</option>
                 <option value="yes">Yes</option>
                 <option value="no">No</option>
@@ -707,7 +707,7 @@
         </div>
         <div>
             <label for="hasIP" class="block text-sm font-medium text-gray-700 mb-1">Do You Have Intellectual Property (IP)?</label>
-            <select id="hasIP" onchange="toggleIPFields()" required class="input-highlight block w-full pl-3 pr-10 py-2 text-base border-gray-300 rounded-md" aria-describedby="hasIP-desc">
+            <select id="hasIP" required class="input-highlight block w-full pl-3 pr-10 py-2 text-base border-gray-300 rounded-md" aria-describedby="hasIP-desc">
                 <option value="">--Select--</option>
                 <option value="yes">Yes</option>
                 <option value="no">No</option>
@@ -815,7 +815,7 @@
         <button id="prev-btn-6" class="btn-secondary font-bold py-2 px-6 rounded-lg" aria-label="Previous step">
             <i class="fas fa-arrow-left mr-2"></i> Previous
         </button>
-        <button onclick="calculateValuation()" class="btn-primary text-white font-bold py-2 px-6 rounded-lg" aria-label="Calculate valuation">
+        <button id="calculate-btn" class="btn-primary text-white font-bold py-2 px-6 rounded-lg" aria-label="Calculate valuation">
             Calculate Valuation <i class="fas fa-calculator ml-2"></i>
         </button>
     </div>
@@ -843,10 +843,10 @@
             </div>
         </div>
         <div class="flex justify-center mt-6 gap-4">
-            <button onclick="exportResults()" class="btn-primary text-white font-bold py-2 px-6 rounded-lg" aria-label="Export results">
+            <button id="export-btn" class="btn-primary text-white font-bold py-2 px-6 rounded-lg" aria-label="Export results">
                 <i class="fas fa-file-export mr-2"></i> Export as PDF
             </button>
-            <button onclick="saveProgress()" class="btn-secondary font-bold py-2 px-6 rounded-lg" aria-label="Save progress">
+            <button id="save-btn" class="btn-secondary font-bold py-2 px-6 rounded-lg" aria-label="Save progress">
                 <i class="fas fa-save mr-2"></i> Save Progress
             </button>
         </div>
@@ -947,6 +947,33 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script>
+// Optimized debounce function
+function debounce(func, wait) {
+    let timeout;
+    return function executedFunction(...args) {
+        const later = () => {
+            clearTimeout(timeout);
+            func(...args);
+        };
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+    };
+}
+
+// Update slider values
+function updateSliderValues() {
+    ['marketTrendImpact', 'competitivePositioning', 'marketVolatility'].forEach(id => {
+        const slider = document.getElementById(id);
+        const valueSpan = document.getElementById(`${id}Value`);
+        if (slider && valueSpan) {
+            slider.addEventListener('input', () => {
+                valueSpan.textContent = slider.value;
+            });
+        }
+    });
+}
+updateSliderValues();
+
 // Update Part 2's next-btn-3 to navigate to step 4
 document.getElementById('next-btn-3').removeEventListener('click', () => {});
 document.getElementById('next-btn-3').addEventListener('click', () => {
@@ -1074,6 +1101,21 @@ function toggleIPFields() {
     document.getElementById('ipValueSection').classList.toggle('hidden', hasIP !== 'yes');
 }
 
+// Lazy load charts
+let valuationChartInstance = null;
+let incomeChartInstance = null;
+
+function destroyCharts() {
+    if (valuationChartInstance) {
+        valuationChartInstance.destroy();
+        valuationChartInstance = null;
+    }
+    if (incomeChartInstance) {
+        incomeChartInstance.destroy();
+        incomeChartInstance = null;
+    }
+}
+
 // Valuation calculation
 function calculateValuation() {
     if (!validateStep(6)) return;
@@ -1162,9 +1204,10 @@ function calculateValuation() {
     document.getElementById('valuationResult').classList.remove('hidden');
     document.getElementById('chartsSection').classList.remove('hidden');
 
-    // Charts
+    // Lazy load charts
+    destroyCharts();
     const valuationCtx = document.getElementById('valuationChart').getContext('2d');
-    new Chart(valuationCtx, {
+    valuationChartInstance = new Chart(valuationCtx, {
         type: 'bar',
         data: {
             labels: Object.keys(valuations),
@@ -1176,11 +1219,14 @@ function calculateValuation() {
                 borderWidth: 1
             }]
         },
-        options: { scales: { y: { beginAtZero: true } } }
+        options: {
+            scales: { y: { beginAtZero: true } },
+            animation: false // Disable animations for performance
+        }
     });
 
     const incomeCtx = document.getElementById('incomeChart').getContext('2d');
-    new Chart(incomeCtx, {
+    incomeChartInstance = new Chart(incomeCtx, {
         type: 'bar',
         data: {
             labels: ['Revenue', 'Expenses'],
@@ -1192,7 +1238,10 @@ function calculateValuation() {
                 borderWidth: 1
             }]
         },
-        options: { scales: { y: { beginAtZero: true } } }
+        options: {
+            scales: { y: { beginAtZero: true } },
+            animation: false // Disable animations for performance
+        }
     });
 }
 
@@ -1200,7 +1249,9 @@ function calculateValuation() {
 function exportResults() {
     const { jsPDF } = window.jspdf;
     const doc = new jsPDF();
+    doc.setFontSize(16);
     doc.text('SaaS Business Valuation Report', 10, 10);
+    doc.setFontSize(12);
     doc.text(`Final Valuation: ${document.getElementById('valuationAmount').textContent}`, 10, 20);
     doc.text('AI-Analyzed Metrics:', 10, 30);
     doc.text(document.getElementById('financialMetrics').innerText, 10, 40);
@@ -1231,26 +1282,44 @@ window.addEventListener('load', () => {
                 else input.value = value;
             }
         });
+        ['marketTrendImpact', 'competitivePositioning', 'marketVolatility'].forEach(id => {
+            const slider = document.getElementById(id);
+            const valueSpan = document.getElementById(`${id}Value`);
+            if (slider && valueSpan) valueSpan.textContent = slider.value;
+        });
+        toggleAIReplacement();
+        toggleIPFields();
     }
 });
 
-// Debounce for steps 4-6
-document.querySelectorAll('input, select').forEach(input => {
+// Event listeners for conditional fields
+document.getElementById('aiReplaceable').addEventListener('change', toggleAIReplacement);
+document.getElementById('hasIP').addEventListener('change', toggleIPFields);
+
+// Single input event listener with debounce
+const inputs = document.querySelectorAll('input, select');
+inputs.forEach(input => {
+    input.removeEventListener('input', () => {}); // Clear any existing listeners
     input.addEventListener('input', debounce(() => {
         validateStep(currentStep);
     }, 300));
 });
 
+// Button event listeners
+document.getElementById('calculate-btn').addEventListener('click', calculateValuation);
+document.getElementById('export-btn').addEventListener('click', exportResults);
+document.getElementById('save-btn').addEventListener('click', saveProgress);
+
 </script>
 
 <style>
     .chart-container {
-        height: 300px;
+        height: 250px;
         width: 100%;
     }
     @media (max-width: 768px) {
         .chart-container {
-            height: 250px;
+            height: 200px;
         }
     }
 </style>
