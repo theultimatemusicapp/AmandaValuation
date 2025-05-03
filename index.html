@@ -94,11 +94,18 @@
         </div>
     </header>
 
-    <!-- Hero Section -->
+    <!-- Hero Section with Valuation Dashboard -->
     <section class="gradient-bg text-white py-20">
         <div class="container mx-auto px-6 text-center">
             <h1 class="text-4xl md:text-5xl font-bold mb-4">Understand Your SaaS Business Worth in Minutes</h1>
             <p class="text-lg md:text-xl mb-8 opacity-90 max-w-2xl mx-auto">SaaS Valuation App helps founders like you get an accurate valuation of your business using advanced AI tools—no financial expertise needed.</p>
+            <div class="mb-8">
+                <h2 class="text-2xl font-semibold mb-2">Live Valuation Dashboard</h2>
+                <div class="bg-white rounded-lg p-4 shadow-lg inline-block">
+                    <p class="text-3xl font-bold text-teal-600" id="dashboardValuation">$500,000</p>
+                    <p class="text-sm text-gray-600">Sample valuation (update with your data)</p>
+                </div>
+            </div>
             <div class="flex justify-center space-x-4">
                 <a href="#valuation" class="btn-primary text-white font-bold py-3 px-8 rounded-lg">Get Your Valuation</a>
                 <a href="#demo" class="btn-secondary font-bold py-3 px-8 rounded-lg">Watch Demo</a>
@@ -728,7 +735,7 @@
                 </div>
             </div>
             <div class="border-t border-gray-700 mt-8 pt-6 text-center">
-                <p class="text-gray-400">&copy; 2025 SaaS Valuation App. All rights reserved.</p>
+                <p class="text-gray-400">© 2025 SaaS Valuation App. All rights reserved.</p>
             </div>
         </div>
     </footer>
@@ -785,7 +792,6 @@
                     methodError.classList.add('hidden');
                 }
 
-                // Show/hide DCF and Earnings fields based on selection
                 const dcfSelected = document.getElementById('method-dcf').checked;
                 const earningsSelected = document.getElementById('method-earnings').checked;
                 document.getElementById('dcfFields').classList.toggle('hidden', !dcfSelected);
@@ -808,7 +814,7 @@
                 inputs.forEach(input => {
                     const element = document.getElementById(input.id);
                     const errorElement = document.getElementById(input.error);
-                    if (!input.regex.test(element.value.trim())) {
+                    if (!input.regex.test(element.value.trim()) || (element.value.trim() === '' && input.id !== 'debt')) {
                         element.classList.add('input-error');
                         errorElement.classList.remove('hidden');
                         isValid = false;
@@ -830,7 +836,7 @@
                 inputs.forEach(input => {
                     const element = document.getElementById(input.id);
                     const errorElement = document.getElementById(input.error);
-                    if (!input.regex.test(element.value.trim())) {
+                    if (!input.regex.test(element.value.trim()) || element.value.trim() === '') {
                         element.classList.add('input-error');
                         errorElement.classList.remove('hidden');
                         isValid = false;
@@ -872,7 +878,7 @@
                 if (aiReplaceable.value === 'yes') {
                     const aiReplaceCount = document.getElementById('aiReplaceCount');
                     const aiReplaceCountError = document.getElementById('aiReplaceCount-error');
-                    if (!/^\d+$/.test(aiReplaceCount.value.trim())) {
+                    if (!/^\d+$/.test(aiReplaceCount.value.trim()) || aiReplaceCount.value.trim() === '') {
                         aiReplaceCount.classList.add('input-error');
                         aiReplaceCountError.classList.remove('hidden');
                         isValid = false;
@@ -897,7 +903,7 @@
                     const ipUnique = document.getElementById('ipUnique');
                     const ipUniqueError = document.getElementById('ipUnique-error');
 
-                    if (!/^\d+(\.\d{1,2})?$/.test(ipValue.value.trim())) {
+                    if (!/^\d+(\.\d{1,2})?$/.test(ipValue.value.trim()) || ipValue.value.trim() === '') {
                         ipValue.classList.add('input-error');
                         ipValueError.classList.remove('hidden');
                         isValid = false;
@@ -926,7 +932,7 @@
                 inputs.forEach(input => {
                     const element = document.getElementById(input.id);
                     const errorElement = document.getElementById(input.error);
-                    if (!input.regex.test(element.value.trim())) {
+                    if (!input.regex.test(element.value.trim()) || element.value.trim() === '') {
                         element.classList.add('input-error');
                         errorElement.classList.remove('hidden');
                         isValid = false;
@@ -940,9 +946,9 @@
                     const dcfInputs = [
                         { id: 'cashFlow1', error: 'cashFlow1-error', regex: /^\d+(\.\d{1,2})?$/ },
                         { id: 'cashFlow2', error: 'cashFlow2-error', regex: /^\d+(\.\d{1,2})?$/ },
-                        { id: 'cashFlow3', error: 'cashFlow3-error', regex: 'cashFlow3-error', regex: /^\d+(\.\d{1,2})?$/ },
-                        { id: 'cashFlow4', error: 'cashFlow4-error', regex: 'cashFlow4-error', regex: /^\d+(\.\d{1,2})?$/ },
-                        { id: 'cashFlow5', error: 'cashFlow5-error', regex: 'cashFlow5-error', regex: /^\d+(\.\d{1,2})?$/ },
+                        { id: 'cashFlow3', error: 'cashFlow3-error', regex: /^\d+(\.\d{1,2})?$/ },
+                        { id: 'cashFlow4', error: 'cashFlow4-error', regex: /^\d+(\.\d{1,2})?$/ },
+                        { id: 'cashFlow5', error: 'cashFlow5-error', regex: /^\d+(\.\d{1,2})?$/ },
                         { id: 'discountRate', error: 'discountRate-error', regex: /^(100|[0-9]{1,2})$/ },
                         { id: 'terminalGrowthRate', error: 'terminalGrowthRate-error', regex: /^(100|[0-9]{1,2})$/ }
                     ];
@@ -950,7 +956,7 @@
                     dcfInputs.forEach(input => {
                         const element = document.getElementById(input.id);
                         const errorElement = document.getElementById(input.error);
-                        if (!input.regex.test(element.value.trim())) {
+                        if (!input.regex.test(element.value.trim()) || element.value.trim() === '') {
                             element.classList.add('input-error');
                             errorElement.classList.remove('hidden');
                             isValid = false;
@@ -964,7 +970,7 @@
                 if (document.getElementById('method-earnings').checked) {
                     const assets = document.getElementById('assets');
                     const assetsError = document.getElementById('assets-error');
-                    if (!/^\d+(\.\d{1,2})?$/.test(assets.value.trim())) {
+                    if (!/^\d+(\.\d{1,2})?$/.test(assets.value.trim()) || assets.value.trim() === '') {
                         assets.classList.add('input-error');
                         assetsError.classList.remove('hidden');
                         isValid = false;
@@ -1044,6 +1050,7 @@
             const valueDisplay = document.getElementById(`${id}Value`);
             slider.addEventListener('input', () => {
                 valueDisplay.textContent = slider.value;
+                updateDashboard();
             });
         });
 
@@ -1051,16 +1058,72 @@
         window.toggleAIReplacement = function() {
             const aiReplaceable = document.getElementById('aiReplaceable').value;
             document.getElementById('aiReplaceCountSection').classList.toggle('hidden', aiReplaceable !== 'yes');
+            updateDashboard();
         };
 
         window.toggleIPFields = function() {
             const hasIP = document.getElementById('hasIP').value;
             document.getElementById('ipValueSection').classList.toggle('hidden', hasIP !== 'yes');
             document.getElementById('ipUniqueSection').classList.toggle('hidden', hasIP !== 'yes');
+            updateDashboard();
         };
 
-        // Valuation calculation
+        // Valuation calculation and dashboard update
         let valuationData = {};
+
+        function updateDashboard() {
+            if (currentStep === 1) return;
+
+            const methods = Array.from(document.querySelectorAll('input[type="checkbox"]:checked')).map(cb => cb.value);
+            const projectedRevenue = parseFloat(document.getElementById('projectedRevenue').value) || 500000;
+            let baseMultiplier = 3;
+
+            const ltv = parseFloat(document.getElementById('ltv').value) || 5000;
+            const cac = parseFloat(document.getElementById('cac').value) || 1000;
+            const ltvCacRatio = cac > 0 ? ltv / cac : 0;
+            if (ltvCacRatio > 3) baseMultiplier += 1;
+            if (ltvCacRatio < 1) baseMultiplier -= 1;
+
+            const churnRate = parseFloat(document.getElementById('churnRate').value) || 5;
+            if (churnRate < 5) baseMultiplier += 0.5;
+            if (churnRate > 10) baseMultiplier -= 0.5;
+
+            const growthRate = parseFloat(document.getElementById('growthRate').value) || 15;
+            if (growthRate > 20) baseMultiplier += 1;
+
+            const customerGrowthRate = parseFloat(document.getElementById('customerGrowthRate').value) || 10;
+            if (customerGrowthRate > 15) baseMultiplier += 0.5;
+
+            const scalability = parseInt(document.getElementById('scalability').value) || 5;
+            if (scalability > 7) baseMultiplier += 0.5;
+
+            const marketTrendImpact = parseInt(document.getElementById('marketTrendImpact').value) || 5;
+            if (marketTrendImpact > 7) baseMultiplier += 0.5;
+
+            const competitivePositioning = parseInt(document.getElementById('competitivePositioning').value) || 5;
+            if (competitivePositioning > 7) baseMultiplier += 0.5;
+
+            const marketVolatility = parseInt(document.getElementById('marketVolatility').value) || 5;
+            if (marketVolatility > 7) baseMultiplier -= 0.5;
+
+            const aiReplaceable = document.getElementById('aiReplaceable').value || 'no';
+            const aiReplaceCount = aiReplaceable === 'yes' ? parseInt(document.getElementById('aiReplaceCount').value) || 0 : 0;
+            if (aiReplaceable === 'yes' && aiReplaceCount > 0) baseMultiplier -= 0.5;
+
+            const hasIP = document.getElementById('hasIP').value || 'no';
+            const ipUnique = hasIP === 'yes' ? document.getElementById('ipUnique').value || 'not-unique' : 'not-unique';
+            if (hasIP === 'yes' && ipUnique === 'unique') baseMultiplier += 1;
+
+            const operationalEfficiency = parseInt(document.getElementById('operationalEfficiency').value) || 5;
+            if (operationalEfficiency > 7) baseMultiplier += 0.5;
+
+            const industry = document.getElementById('industry').value || 'Technology';
+            const highGrowthIndustries = ['Technology', 'Healthcare', 'Finance'];
+            if (highGrowthIndustries.includes(industry)) baseMultiplier += 0.5;
+
+            const dashboardValuation = projectedRevenue * baseMultiplier;
+            document.getElementById('dashboardValuation').textContent = `$${Math.round(dashboardValuation).toLocaleString()}`;
+        }
 
         window.calculateValuation = function() {
             if (!validateStep(6)) return;
@@ -1079,15 +1142,15 @@
             const cac = parseFloat(document.getElementById('cac').value) || 0;
             const churnRate = parseFloat(document.getElementById('churnRate').value) || 0;
             const customerGrowthRate = parseFloat(document.getElementById('customerGrowthRate').value) || 0;
-            const industry = document.getElementById('industry').value;
+            const industry = document.getElementById('industry').value || '';
             const marketTrendImpact = parseInt(document.getElementById('marketTrendImpact').value) || 5;
             const competitivePositioning = parseInt(document.getElementById('competitivePositioning').value) || 5;
             const marketVolatility = parseInt(document.getElementById('marketVolatility').value) || 5;
-            const aiReplaceable = document.getElementById('aiReplaceable').value;
+            const aiReplaceable = document.getElementById('aiReplaceable').value || 'no';
             const aiReplaceCount = aiReplaceable === 'yes' ? parseInt(document.getElementById('aiReplaceCount').value) || 0 : 0;
-            const hasIP = document.getElementById('hasIP').value;
+            const hasIP = document.getElementById('hasIP').value || 'no';
             const ipValue = hasIP === 'yes' ? parseFloat(document.getElementById('ipValue').value) || 0 : 0;
-            const ipUnique = hasIP === 'yes' ? document.getElementById('ipUnique').value : 'no';
+            const ipUnique = hasIP === 'yes' ? document.getElementById('ipUnique').value || 'not-unique' : 'not-unique';
             const operationalEfficiency = parseInt(document.getElementById('operationalEfficiency').value) || 5;
             const projectedRevenue = parseFloat(document.getElementById('projectedRevenue').value) || 0;
             const expectedGrowthRate = parseFloat(document.getElementById('expectedGrowthRate').value) || 0;
@@ -1112,7 +1175,6 @@
             if (operationalEfficiency > 7) baseMultiplier += 0.5;
 
             // Industry adjustments
-            const highGrowthIndustries = ['Technology', 'Healthcare', 'Finance'];
             if (highGrowthIndustries.includes(industry)) baseMultiplier += 0.5;
 
             if (methods.includes('multiplier')) {
@@ -1120,7 +1182,7 @@
                 valuations['Revenue Multiplier'] = {
                     value: multiplierValuation,
                     range: [multiplierValuation * 0.9, multiplierValuation * 1.1],
-                    explanation: `The Revenue Multiplier method calculates your SaaS valuation by applying a multiplier to your projected annual revenue. In this case, a multiplier of ${baseMultiplier.toFixed(1)} was used, adjusted based on your growth rate (${growthRate}%), churn rate (${churnRate}%), and LTV:CAC ratio (${ltvCacRatio.toFixed(1)}). Additional factors like scalability (${scalability}/10), market trends (${marketTrendImpact}/10), and competitive positioning (${competitivePositioning}/10) were considered. This method is particularly effective for SaaS businesses with stable revenue streams, providing a straightforward estimate of market value. However, it may not fully capture future growth potential or unique business risks.`
+                    explanation: `The Revenue Multiplier method calculates your valuation by applying a multiplier of ${baseMultiplier.toFixed(1)} to your projected revenue (${projectedRevenue.toLocaleString()}). This is adjusted based on your LTV:CAC ratio (${ltvCacRatio.toFixed(1)}), churn rate (${churnRate}%), and growth rate (${growthRate}%). Factors like scalability (${scalability}/10) and competitive positioning (${competitivePositioning}/10) also influence the result, making it ideal for SaaS companies with stable revenue, though it may not fully account for future risks or growth potential.`
                 };
             }
 
@@ -1130,7 +1192,7 @@
                 valuations['Income-Based'] = {
                     value: incomeValuation,
                     range: [incomeValuation * 0.85, incomeValuation * 1.15],
-                    explanation: `The Income-Based Valuation method focuses on your net income, calculated as projected revenue (${projectedRevenue.toLocaleString()}) minus expenses (${expenses.toLocaleString()}), staff costs (${(averageSalary * staffNumber + employeeBenefits).toLocaleString()}), and owner’s salary (${ownerSalary.toLocaleString()}). A multiplier of ${(baseMultiplier + 1).toFixed(1)} was applied, adjusted for factors like operational efficiency (${operationalEfficiency}/10) and industry trends. This method highlights profitability, making it ideal for businesses with strong margins. However, it may undervalue high-growth SaaS companies where reinvestment reduces net income. Adjustments for debt (${debt.toLocaleString()}) and market volatility (${marketVolatility}/10) were also factored in.`
+                    explanation: `The Income-Based method uses your net income (${netIncome.toLocaleString()}), calculated from projected revenue (${projectedRevenue.toLocaleString()}) minus expenses (${expenses.toLocaleString()}) and staff costs (${(averageSalary * staffNumber + employeeBenefits + ownerSalary).toLocaleString()}), multiplied by ${baseMultiplier + 1}. Adjustments for operational efficiency (${operationalEfficiency}/10) and market volatility (${marketVolatility}/10) are included. This suits profitable businesses but may undervalue high-growth SaaS firms due to reinvestment, with debt (${debt.toLocaleString()}) factored in as a reduction.`
                 };
             }
 
@@ -1140,7 +1202,7 @@
                 valuations['Earnings-Based'] = {
                     value: earningsValuation,
                     range: [earningsValuation * 0.9, earningsValuation * 1.1],
-                    explanation: `The Earnings-Based Valuation method combines your earnings potential with tangible assets (${assets.toLocaleString()}) and subtracts outstanding debt (${debt.toLocaleString()}). A multiplier of ${(baseMultiplier - 1).toFixed(1)} was applied to your projected revenue (${projectedRevenue.toLocaleString()}), adjusted for factors like years in operation (${yearsOperating}) and market positioning (${competitivePositioning}/10). This method is useful for businesses with significant assets or established operations. It accounts for financial health by factoring in debt, but may not fully reflect intangible value like brand or customer loyalty in SaaS models.`
+                    explanation: `The Earnings-Based method combines your adjusted revenue (${(projectedRevenue * (baseMultiplier - 1)).toLocaleString()}) with assets (${assets.toLocaleString()}) and subtracts debt (${debt.toLocaleString()}), yielding ${earningsValuation.toLocaleString()}. It considers years in operation (${yearsOperating}) and competitive positioning (${competitivePositioning}/10). This is effective for asset-rich firms but may overlook intangible value like brand strength in SaaS, with market trends (${marketTrendImpact}/10) also influencing the result.`
                 };
             }
 
@@ -1165,7 +1227,7 @@
                 valuations['DCF'] = {
                     value: dcfValuation,
                     range: [dcfValuation * 0.95, dcfValuation * 1.05],
-                    explanation: `The Discounted Cash Flow (DCF) method estimates your SaaS valuation by discounting projected cash flows over five years (Year 1: ${cashFlows[0].toLocaleString()}, Year 5: ${cashFlows[4].toLocaleString()}) back to their present value using a discount rate of ${(discountRate * 100).toFixed(1)}%. A terminal value was calculated using a growth rate of ${(terminalGrowthRate * 100).toFixed(1)}%, reflecting long-term growth potential. This method is ideal for SaaS businesses with predictable cash flows, capturing future value accurately. However, it’s sensitive to assumptions about discount rates and growth, which can significantly impact the result. Adjustments for market volatility (${marketVolatility}/10) were also considered.`
+                    explanation: `The DCF method discounts your projected cash flows (e.g., Year 1: ${cashFlows[0].toLocaleString()}, Year 5: ${cashFlows[4].toLocaleString()}) at a ${discountRate * 100}% rate, adding a terminal value based on a ${terminalGrowthRate * 100}% growth rate, resulting in ${dcfValuation.toLocaleString()}. This captures future cash flow potential, ideal for predictable SaaS models, but is sensitive to discount rate and growth assumptions. Market volatility (${marketVolatility}/10) was factored in to refine the estimate.`
                 };
             }
 
@@ -1189,17 +1251,12 @@
                     'Market Volatility': `${marketVolatility}/10`,
                     'Operational Efficiency': `${operationalEfficiency}/10`
                 },
-                cashFlows: methods.includes('dcf') ? [
-                    parseFloat(document.getElementById('cashFlow1').value) || 0,
-                    parseFloat(document.getElementById('cashFlow2').value) || 0,
-                    parseFloat(document.getElementById('cashFlow3').value) || 0,
-                    parseFloat(document.getElementById('cashFlow4').value) || 0,
-                    parseFloat(document.getElementById('cashFlow5').value) || 0
-                ] : []
+                cashFlows: methods.includes('dcf') ? cashFlows : []
             };
 
-            // Display results
             document.getElementById('valuationAmount').textContent = `$${Math.round(averageValuation).toLocaleString()}`;
+            document.getElementById('dashboardValuation').textContent = `$${Math.round(averageValuation).toLocaleString()}`;
+
             const financialMetrics = document.getElementById('financialMetrics');
             financialMetrics.innerHTML = '';
             for (const [key, value] of Object.entries(valuationData.financials)) {
@@ -1225,7 +1282,6 @@
                 s.classList.remove('step-visible');
             });
 
-            // Charts
             const valuationChart = new Chart(document.getElementById('valuationChart'), {
                 type: 'bar',
                 data: {
@@ -1242,18 +1298,10 @@
                     scales: {
                         y: {
                             beginAtZero: true,
-                            title: {
-                                display: true,
-                                text: 'Valuation ($)'
-                            }
+                            title: { display: true, text: 'Valuation ($)' }
                         }
                     },
-                    plugins: {
-                        title: {
-                            display: true,
-                            text: 'Valuation Comparison'
-                        }
-                    }
+                    plugins: { title: { display: true, text: 'Valuation Comparison' } }
                 }
             });
 
@@ -1271,20 +1319,9 @@
                 },
                 options: {
                     scales: {
-                        y: {
-                            beginAtZero: true,
-                            title: {
-                                display: true,
-                                text: 'Revenue ($)'
-                            }
-                        }
+                        y: { beginAtZero: true, title: { display: true, text: 'Revenue ($)' } }
                     },
-                    plugins: {
-                        title: {
-                            display: true,
-                            text: 'Revenue Comparison'
-                        }
-                    }
+                    plugins: { title: { display: true, text: 'Revenue Comparison' } }
                 }
             });
 
@@ -1303,20 +1340,9 @@
                     },
                     options: {
                         scales: {
-                            y: {
-                                beginAtZero: true,
-                                title: {
-                                    display: true,
-                                    text: 'Cash Flow ($)'
-                                }
-                            }
+                            y: { beginAtZero: true, title: { display: true, text: 'Cash Flow ($)' } }
                         },
-                        plugins: {
-                            title: {
-                                display: true,
-                                text: 'DCF Valuation Analysis'
-                            }
-                        }
+                        plugins: { title: { display: true, text: 'DCF Valuation Analysis' } }
                     }
                 });
             }
@@ -1327,41 +1353,35 @@
             const { jsPDF } = window.jspdf;
             const doc = new jsPDF();
 
-            // Set up fonts and colors
             doc.setFontSize(18);
             doc.setTextColor(255, 255, 255);
-            doc.setFillColor(56, 178, 172); // Teal header background
-            doc.rect(0, 0, 210, 40, 'F'); // Header background
+            doc.setFillColor(56, 178, 172);
+            doc.rect(0, 0, 210, 40, 'F');
             doc.text('SaaS Valuation Report', 105, 25, { align: 'center' });
 
-            // Reset for body text
             doc.setFontSize(12);
             doc.setTextColor(0, 0, 0);
             let yPosition = 50;
 
-            // Title
             doc.setFontSize(16);
             doc.setTextColor(56, 178, 172);
             doc.text('Your SaaS Valuation Overview', 20, yPosition);
             yPosition += 5;
             doc.setLineWidth(0.5);
             doc.setDrawColor(56, 178, 172);
-            doc.line(20, yPosition, 190, yPosition); // Underline
+            doc.line(20, yPosition, 190, yPosition);
             yPosition += 10;
 
-            // Valuation Amount
             doc.setFontSize(14);
             doc.setTextColor(0, 0, 0);
             doc.text(`Valuation: $${Math.round(valuationData.average).toLocaleString()}`, 20, yPosition);
             yPosition += 10;
 
-            // Valuation Methods
             doc.setFontSize(14);
             doc.setTextColor(56, 178, 172);
             doc.text('Valuation Methods', 20, yPosition);
             yPosition += 5;
-            doc.setLineWidth(0.5);
-            doc.line(20, yPosition, 190, yPosition); // Underline
+            doc.line(20, yPosition, 190, yPosition);
             yPosition += 10;
             doc.setFontSize(12);
             doc.setTextColor(0, 0, 0);
@@ -1376,32 +1396,26 @@
                 yPosition += 5;
             }
 
-            // Add new page for charts
             doc.addPage();
             yPosition = 20;
 
-            // Charts Title
             doc.setFontSize(14);
             doc.setTextColor(56, 178, 172);
             doc.text('Valuation Insights', 20, yPosition);
             yPosition += 5;
-            doc.setLineWidth(0.5);
-            doc.line(20, yPosition, 190, yPosition); // Underline
+            doc.line(20, yPosition, 190, yPosition);
             yPosition += 10;
 
-            // Add Valuation Chart
             const valuationCanvas = document.getElementById('valuationChart');
             const valuationImg = valuationCanvas.toDataURL('image/png');
             doc.addImage(valuationImg, 'PNG', 20, yPosition, 170, 80);
             yPosition += 90;
 
-            // Add Income Chart
             const incomeCanvas = document.getElementById('incomeChart');
             const incomeImg = incomeCanvas.toDataURL('image/png');
             doc.addImage(incomeImg, 'PNG', 20, yPosition, 170, 80);
             yPosition += 90;
 
-            // Add DCF Chart if applicable
             if (document.getElementById('method-dcf').checked) {
                 doc.addPage();
                 yPosition = 20;
@@ -1411,17 +1425,14 @@
                 yPosition += 90;
             }
 
-            // Add new page for additional details
             doc.addPage();
             yPosition = 20;
 
-            // Financial Metrics
             doc.setFontSize(14);
             doc.setTextColor(56, 178, 172);
             doc.text('Key Financial Metrics', 20, yPosition);
             yPosition += 5;
-            doc.setLineWidth(0.5);
-            doc.line(20, yPosition, 190, yPosition); // Underline
+            doc.line(20, yPosition, 190, yPosition);
             yPosition += 10;
             doc.setFontSize(12);
             doc.setTextColor(0, 0, 0);
@@ -1431,13 +1442,11 @@
             }
             yPosition += 10;
 
-            // Valuation Factors
             doc.setFontSize(14);
             doc.setTextColor(56, 178, 172);
             doc.text('Valuation Factors', 20, yPosition);
             yPosition += 5;
-            doc.setLineWidth(0.5);
-            doc.line(20, yPosition, 190, yPosition); // Underline
+            doc.line(20, yPosition, 190, yPosition);
             yPosition += 10;
             doc.setFontSize(12);
             doc.setTextColor(0, 0, 0);
@@ -1447,13 +1456,11 @@
             }
             yPosition += 10;
 
-            // Contact Information
             doc.setFontSize(14);
             doc.setTextColor(56, 178, 172);
             doc.text('Contact Information', 20, yPosition);
             yPosition += 5;
-            doc.setLineWidth(0.5);
-            doc.line(20, yPosition, 190, yPosition); // Underline
+            doc.line(20, yPosition, 190, yPosition);
             yPosition += 10;
             doc.setFontSize(12);
             doc.setTextColor(0, 0, 0);
@@ -1462,24 +1469,21 @@
             doc.text('Website: SaaSValuation.app', 20, yPosition);
             yPosition += 10;
 
-            // Disclaimer
             doc.setFontSize(14);
             doc.setTextColor(56, 178, 172);
             doc.text('Disclaimer', 20, yPosition);
             yPosition += 5;
-            doc.setLineWidth(0.5);
-            doc.line(20, yPosition, 190, yPosition); // Underline
+            doc.line(20, yPosition, 190, yPosition);
             yPosition += 10;
             doc.setFontSize(10);
             doc.setTextColor(0, 0, 0);
-            const disclaimerText = 'This valuation report is provided for informational purposes only and does not constitute financial, legal, or investment advice. The calculations and estimates are based on the data provided by the user and general industry standards, which may not fully reflect your company’s unique circumstances. SaaS Valuation App is not responsible for any decisions made based on this report. We recommend consulting with a qualified financial advisor or professional before making any business or investment decisions.';
+            const disclaimerText = 'This valuation report is for informational purposes only and does not constitute financial, legal, or investment advice. Calculations are based on user-provided data and industry standards, which may not reflect your company’s unique circumstances. SaaS Valuation App is not liable for decisions made using this report. Consult a qualified financial advisor before making business or investment decisions.';
             const disclaimerLines = doc.splitTextToSize(disclaimerText, 170);
             disclaimerLines.forEach(line => {
                 doc.text(line, 20, yPosition);
                 yPosition += 5;
             });
 
-            // Add page numbers
             const pageCount = doc.internal.getNumberOfPages();
             for (let i = 1; i <= pageCount; i++) {
                 doc.setPage(i);
@@ -1538,6 +1542,7 @@
             const savedData = localStorage.getItem('valuationFormData');
             if (savedData) {
                 const formData = JSON.parse(savedData);
+                document.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = formData.methods.includes(cb.value));
                 document.getElementById('ownerSalary').value = formData.ownerSalary || '';
                 document.getElementById('averageSalary').value = formData.averageSalary || '';
                 document.getElementById('employeeBenefits').value = formData.employeeBenefits || '';
@@ -1577,10 +1582,6 @@
                 document.getElementById('terminalGrowthRate').value = formData.terminalGrowthRate || '';
                 document.getElementById('assets').value = formData.assets || '';
 
-                formData.methods.forEach(method => {
-                    document.getElementById(`method-${method}`).checked = true;
-                });
-
                 const dcfSelected = formData.methods.includes('dcf');
                 const earningsSelected = formData.methods.includes('earnings');
                 document.getElementById('dcfFields').classList.toggle('hidden', !dcfSelected);
@@ -1588,6 +1589,7 @@
                 document.getElementById('dcfChartContainer').classList.toggle('hidden', !dcfSelected);
                 toggleAIReplacement();
                 toggleIPFields();
+                updateDashboard();
             }
         };
 
