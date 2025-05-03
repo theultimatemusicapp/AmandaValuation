@@ -1079,7 +1079,7 @@
         // Stripe Checkout integration
         document.getElementById('checkout-button').addEventListener('click', () => {
             stripe.redirectToCheckout({
-                lineItems: [{ price: 'prod_SFDhHjKZy4dsem', quantity: 1 }], // Replace with your actual Price ID from Stripe
+                lineItems: [{ price: 'price_1RKjG2PJ6Ffvx3xx82dQGzka', quantity: 1 }], // Replace with your actual Price ID from Stripe
                 mode: 'payment',
                 successUrl: window.location.href + '?success=true',
                 cancelUrl: window.location.href + '?cancel=true',
