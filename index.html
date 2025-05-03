@@ -65,6 +65,42 @@
         .tooltip-hidden {
             display: none;
         }
+        .dashboard-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            padding: 20px;
+            color: white;
+            text-align: left;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .value-bar {
+            height: 20px;
+            background: #4A5568;
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+        }
+        .value-fill {
+            height: 100%;
+            background: #48BB78;
+            border-radius: 10px 0 0 10px;
+            transition: width 0.3s ease;
+        }
+        .metric-box {
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 10px;
+            padding: 10px;
+            margin: 10px 0;
+        }
+        .indicator {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 5px;
+        }
     </style>
 </head>
 <body class="font-sans">
@@ -100,10 +136,33 @@
             <h1 class="text-4xl md:text-5xl font-bold mb-4">Understand Your SaaS Business Worth in Minutes</h1>
             <p class="text-lg md:text-xl mb-8 opacity-90 max-w-2xl mx-auto">SaaS Valuation App helps founders like you get an accurate valuation of your business using advanced AI tools—no financial expertise needed.</p>
             <div class="mb-8">
-                <h2 class="text-2xl font-semibold mb-2">Live Valuation Dashboard</h2>
-                <div class="bg-white rounded-lg p-4 shadow-lg inline-block">
-                    <p class="text-3xl font-bold text-teal-600" id="dashboardValuation">$500,000</p>
-                    <p class="text-sm text-gray-600">Sample valuation (update with your data)</p>
+                <h2 class="text-2xl font-semibold mb-2">Valuation Dashboard</h2>
+                <div class="dashboard-card">
+                    <div class="flex justify-between items-center mb-4">
+                        <span class="text-sm">Estimated Value Range</span>
+                        <span class="text-lg font-bold">$1.2M - $1.8M</span>
+                    </div>
+                    <div class="value-bar">
+                        <div class="value-fill" style="width: 60%;"></div>
+                    </div>
+                    <div class="flex justify-between mt-4">
+                        <div class="metric-box">
+                            <p class="text-sm">Revenue Growth</p>
+                            <p class="text-lg font-semibold">32%</p>
+                            <p class="text-xs text-green-300">+8% from last year</p>
+                        </div>
+                        <div class="metric-box">
+                            <p class="text-sm">Profit Margin</p>
+                            <p class="text-lg font-semibold">18%</p>
+                            <p class="text-xs text-green-300">+3% from last year</p>
+                        </div>
+                    </div>
+                    <div class="mt-4 text-center text-sm">
+                        <span class="indicator" style="background: #EF4444;"></span>
+                        <span class="indicator" style="background: #FBBF24;"></span>
+                        <span class="indicator" style="background: #48BB78;"></span>
+                        Your business is in the Top 30% of SaaS Companies
+                    </div>
                 </div>
             </div>
             <div class="flex justify-center space-x-4">
@@ -782,6 +841,14 @@
         function validateStep(step) {
             let isValid = true;
 
+            // Helper function to clean and validate numeric input
+            function cleanNumericInput(value, regex, allowEmpty = false) {
+                // Remove commas and trim whitespace
+                const cleanedValue = value.replace(/,/g, '').trim();
+                if (allowEmpty && cleanedValue === '') return true;
+                return regex.test(cleanedValue) && cleanedValue !== '';
+            }
+
             if (step === 1) {
                 const methods = document.querySelectorAll('input[type="checkbox"]:checked');
                 const methodError = document.getElementById('method-error');
@@ -806,7 +873,7 @@
                     { id: 'employeeBenefits', error: 'employeeBenefits-error', regex: /^\d+(\.\d{1,2})?$/ },
                     { id: 'staffNumber', error: 'staffNumber-error', regex: /^\d+$/ },
                     { id: 'expenses', error: 'expenses-error', regex: /^\d+(\.\d{1,2})?$/ },
-                    { id: 'debt', error: 'debt-error', regex: /^\d+(\.\d{1,2})?$/ },
+                    { id: 'debt', error: 'debt-error', regex: /^\d+(\.\d{1,2})?$/, allowEmpty: true },
                     { id: 'growthRate', error: 'growthRate-error', regex: /^(100|[0-9]{1,2})$/ },
                     { id: 'yearsOperating', error: 'yearsOperating-error', regex: /^\d+$/ }
                 ];
@@ -814,7 +881,8 @@
                 inputs.forEach(input => {
                     const element = document.getElementById(input.id);
                     const errorElement = document.getElementById(input.error);
-                    if (!input.regex.test(element.value.trim()) || (element.value.trim() === '' && input.id !== 'debt')) {
+                    const isValidInput = cleanNumericInput(element.value, input.regex, input.allowEmpty);
+                    if (!isValidInput) {
                         element.classList.add('input-error');
                         errorElement.classList.remove('hidden');
                         isValid = false;
@@ -836,7 +904,7 @@
                 inputs.forEach(input => {
                     const element = document.getElementById(input.id);
                     const errorElement = document.getElementById(input.error);
-                    if (!input.regex.test(element.value.trim()) || element.value.trim() === '') {
+                    if (!cleanNumericInput(element.value, input.regex)) {
                         element.classList.add('input-error');
                         errorElement.classList.remove('hidden');
                         isValid = false;
@@ -878,7 +946,7 @@
                 if (aiReplaceable.value === 'yes') {
                     const aiReplaceCount = document.getElementById('aiReplaceCount');
                     const aiReplaceCountError = document.getElementById('aiReplaceCount-error');
-                    if (!/^\d+$/.test(aiReplaceCount.value.trim()) || aiReplaceCount.value.trim() === '') {
+                    if (!cleanNumericInput(aiReplaceCount.value, /^\d+$/)) {
                         aiReplaceCount.classList.add('input-error');
                         aiReplaceCountError.classList.remove('hidden');
                         isValid = false;
@@ -903,7 +971,7 @@
                     const ipUnique = document.getElementById('ipUnique');
                     const ipUniqueError = document.getElementById('ipUnique-error');
 
-                    if (!/^\d+(\.\d{1,2})?$/.test(ipValue.value.trim()) || ipValue.value.trim() === '') {
+                    if (!cleanNumericInput(ipValue.value, /^\d+(\.\d{1,2})?$/)) {
                         ipValue.classList.add('input-error');
                         ipValueError.classList.remove('hidden');
                         isValid = false;
@@ -932,7 +1000,7 @@
                 inputs.forEach(input => {
                     const element = document.getElementById(input.id);
                     const errorElement = document.getElementById(input.error);
-                    if (!input.regex.test(element.value.trim()) || element.value.trim() === '') {
+                    if (!cleanNumericInput(element.value, input.regex)) {
                         element.classList.add('input-error');
                         errorElement.classList.remove('hidden');
                         isValid = false;
@@ -956,7 +1024,7 @@
                     dcfInputs.forEach(input => {
                         const element = document.getElementById(input.id);
                         const errorElement = document.getElementById(input.error);
-                        if (!input.regex.test(element.value.trim()) || element.value.trim() === '') {
+                        if (!cleanNumericInput(element.value, input.regex)) {
                             element.classList.add('input-error');
                             errorElement.classList.remove('hidden');
                             isValid = false;
@@ -970,7 +1038,7 @@
                 if (document.getElementById('method-earnings').checked) {
                     const assets = document.getElementById('assets');
                     const assetsError = document.getElementById('assets-error');
-                    if (!/^\d+(\.\d{1,2})?$/.test(assets.value.trim()) || assets.value.trim() === '') {
+                    if (!cleanNumericInput(assets.value, /^\d+(\.\d{1,2})?$/)) {
                         assets.classList.add('input-error');
                         assetsError.classList.remove('hidden');
                         isValid = false;
@@ -1050,7 +1118,6 @@
             const valueDisplay = document.getElementById(`${id}Value`);
             slider.addEventListener('input', () => {
                 valueDisplay.textContent = slider.value;
-                updateDashboard();
             });
         });
 
@@ -1058,88 +1125,32 @@
         window.toggleAIReplacement = function() {
             const aiReplaceable = document.getElementById('aiReplaceable').value;
             document.getElementById('aiReplaceCountSection').classList.toggle('hidden', aiReplaceable !== 'yes');
-            updateDashboard();
         };
 
         window.toggleIPFields = function() {
             const hasIP = document.getElementById('hasIP').value;
             document.getElementById('ipValueSection').classList.toggle('hidden', hasIP !== 'yes');
             document.getElementById('ipUniqueSection').classList.toggle('hidden', hasIP !== 'yes');
-            updateDashboard();
         };
 
-        // Valuation calculation and dashboard update
+        // Valuation calculation
         let valuationData = {};
-
-        function updateDashboard() {
-            if (currentStep === 1) return;
-
-            const methods = Array.from(document.querySelectorAll('input[type="checkbox"]:checked')).map(cb => cb.value);
-            const projectedRevenue = parseFloat(document.getElementById('projectedRevenue').value) || 500000;
-            let baseMultiplier = 3;
-
-            const ltv = parseFloat(document.getElementById('ltv').value) || 5000;
-            const cac = parseFloat(document.getElementById('cac').value) || 1000;
-            const ltvCacRatio = cac > 0 ? ltv / cac : 0;
-            if (ltvCacRatio > 3) baseMultiplier += 1;
-            if (ltvCacRatio < 1) baseMultiplier -= 1;
-
-            const churnRate = parseFloat(document.getElementById('churnRate').value) || 5;
-            if (churnRate < 5) baseMultiplier += 0.5;
-            if (churnRate > 10) baseMultiplier -= 0.5;
-
-            const growthRate = parseFloat(document.getElementById('growthRate').value) || 15;
-            if (growthRate > 20) baseMultiplier += 1;
-
-            const customerGrowthRate = parseFloat(document.getElementById('customerGrowthRate').value) || 10;
-            if (customerGrowthRate > 15) baseMultiplier += 0.5;
-
-            const scalability = parseInt(document.getElementById('scalability').value) || 5;
-            if (scalability > 7) baseMultiplier += 0.5;
-
-            const marketTrendImpact = parseInt(document.getElementById('marketTrendImpact').value) || 5;
-            if (marketTrendImpact > 7) baseMultiplier += 0.5;
-
-            const competitivePositioning = parseInt(document.getElementById('competitivePositioning').value) || 5;
-            if (competitivePositioning > 7) baseMultiplier += 0.5;
-
-            const marketVolatility = parseInt(document.getElementById('marketVolatility').value) || 5;
-            if (marketVolatility > 7) baseMultiplier -= 0.5;
-
-            const aiReplaceable = document.getElementById('aiReplaceable').value || 'no';
-            const aiReplaceCount = aiReplaceable === 'yes' ? parseInt(document.getElementById('aiReplaceCount').value) || 0 : 0;
-            if (aiReplaceable === 'yes' && aiReplaceCount > 0) baseMultiplier -= 0.5;
-
-            const hasIP = document.getElementById('hasIP').value || 'no';
-            const ipUnique = hasIP === 'yes' ? document.getElementById('ipUnique').value || 'not-unique' : 'not-unique';
-            if (hasIP === 'yes' && ipUnique === 'unique') baseMultiplier += 1;
-
-            const operationalEfficiency = parseInt(document.getElementById('operationalEfficiency').value) || 5;
-            if (operationalEfficiency > 7) baseMultiplier += 0.5;
-
-            const industry = document.getElementById('industry').value || 'Technology';
-            const highGrowthIndustries = ['Technology', 'Healthcare', 'Finance'];
-            if (highGrowthIndustries.includes(industry)) baseMultiplier += 0.5;
-
-            const dashboardValuation = projectedRevenue * baseMultiplier;
-            document.getElementById('dashboardValuation').textContent = `$${Math.round(dashboardValuation).toLocaleString()}`;
-        }
 
         window.calculateValuation = function() {
             if (!validateStep(6)) return;
 
             const methods = Array.from(document.querySelectorAll('input[type="checkbox"]:checked')).map(cb => cb.value);
-            const ownerSalary = parseFloat(document.getElementById('ownerSalary').value) || 0;
-            const averageSalary = parseFloat(document.getElementById('averageSalary').value) || 0;
-            const employeeBenefits = parseFloat(document.getElementById('employeeBenefits').value) || 0;
+            const ownerSalary = parseFloat(document.getElementById('ownerSalary').value.replace(/,/g, '')) || 0;
+            const averageSalary = parseFloat(document.getElementById('averageSalary').value.replace(/,/g, '')) || 0;
+            const employeeBenefits = parseFloat(document.getElementById('employeeBenefits').value.replace(/,/g, '')) || 0;
             const staffNumber = parseInt(document.getElementById('staffNumber').value) || 0;
-            const expenses = parseFloat(document.getElementById('expenses').value) || 0;
-            const debt = parseFloat(document.getElementById('debt').value) || 0;
+            const expenses = parseFloat(document.getElementById('expenses').value.replace(/,/g, '')) || 0;
+            const debt = parseFloat(document.getElementById('debt').value.replace(/,/g, '')) || 0;
             const growthRate = parseFloat(document.getElementById('growthRate').value) || 0;
             const yearsOperating = parseInt(document.getElementById('yearsOperating').value) || 0;
             const scalability = parseInt(document.getElementById('scalability').value) || 5;
-            const ltv = parseFloat(document.getElementById('ltv').value) || 0;
-            const cac = parseFloat(document.getElementById('cac').value) || 0;
+            const ltv = parseFloat(document.getElementById('ltv').value.replace(/,/g, '')) || 0;
+            const cac = parseFloat(document.getElementById('cac').value.replace(/,/g, '')) || 0;
             const churnRate = parseFloat(document.getElementById('churnRate').value) || 0;
             const customerGrowthRate = parseFloat(document.getElementById('customerGrowthRate').value) || 0;
             const industry = document.getElementById('industry').value || '';
@@ -1149,14 +1160,15 @@
             const aiReplaceable = document.getElementById('aiReplaceable').value || 'no';
             const aiReplaceCount = aiReplaceable === 'yes' ? parseInt(document.getElementById('aiReplaceCount').value) || 0 : 0;
             const hasIP = document.getElementById('hasIP').value || 'no';
-            const ipValue = hasIP === 'yes' ? parseFloat(document.getElementById('ipValue').value) || 0 : 0;
+            const ipValue = hasIP === 'yes' ? parseFloat(document.getElementById('ipValue').value.replace(/,/g, '')) || 0 : 0;
             const ipUnique = hasIP === 'yes' ? document.getElementById('ipUnique').value || 'not-unique' : 'not-unique';
             const operationalEfficiency = parseInt(document.getElementById('operationalEfficiency').value) || 5;
-            const projectedRevenue = parseFloat(document.getElementById('projectedRevenue').value) || 0;
+            const projectedRevenue = parseFloat(document.getElementById('projectedRevenue').value.replace(/,/g, '')) || 0;
             const expectedGrowthRate = parseFloat(document.getElementById('expectedGrowthRate').value) || 0;
 
             let valuations = {};
             let baseMultiplier = 3;
+            const highGrowthIndustries = ['Technology', 'Healthcare', 'Finance'];
 
             // Adjust multiplier based on SaaS metrics
             const ltvCacRatio = cac > 0 ? ltv / cac : 0;
@@ -1173,8 +1185,6 @@
             if (aiReplaceable === 'yes' && aiReplaceCount > 0) baseMultiplier -= 0.5;
             if (hasIP === 'yes' && ipUnique === 'unique') baseMultiplier += 1;
             if (operationalEfficiency > 7) baseMultiplier += 0.5;
-
-            // Industry adjustments
             if (highGrowthIndustries.includes(industry)) baseMultiplier += 0.5;
 
             if (methods.includes('multiplier')) {
@@ -1197,7 +1207,7 @@
             }
 
             if (methods.includes('earnings')) {
-                const assets = parseFloat(document.getElementById('assets').value) || 0;
+                const assets = parseFloat(document.getElementById('assets').value.replace(/,/g, '')) || 0;
                 const earningsValuation = (projectedRevenue * (baseMultiplier - 1)) + assets - debt;
                 valuations['Earnings-Based'] = {
                     value: earningsValuation,
@@ -1208,11 +1218,11 @@
 
             if (methods.includes('dcf')) {
                 const cashFlows = [
-                    parseFloat(document.getElementById('cashFlow1').value) || 0,
-                    parseFloat(document.getElementById('cashFlow2').value) || 0,
-                    parseFloat(document.getElementById('cashFlow3').value) || 0,
-                    parseFloat(document.getElementById('cashFlow4').value) || 0,
-                    parseFloat(document.getElementById('cashFlow5').value) || 0
+                    parseFloat(document.getElementById('cashFlow1').value.replace(/,/g, '')) || 0,
+                    parseFloat(document.getElementById('cashFlow2').value.replace(/,/g, '')) || 0,
+                    parseFloat(document.getElementById('cashFlow3').value.replace(/,/g, '')) || 0,
+                    parseFloat(document.getElementById('cashFlow4').value.replace(/,/g, '')) || 0,
+                    parseFloat(document.getElementById('cashFlow5').value.replace(/,/g, '')) || 0
                 ];
                 const discountRate = (parseFloat(document.getElementById('discountRate').value) || 10) / 100;
                 const terminalGrowthRate = (parseFloat(document.getElementById('terminalGrowthRate').value) || 3) / 100;
@@ -1255,7 +1265,6 @@
             };
 
             document.getElementById('valuationAmount').textContent = `$${Math.round(averageValuation).toLocaleString()}`;
-            document.getElementById('dashboardValuation').textContent = `$${Math.round(averageValuation).toLocaleString()}`;
 
             const financialMetrics = document.getElementById('financialMetrics');
             financialMetrics.innerHTML = '';
@@ -1589,7 +1598,6 @@
                 document.getElementById('dcfChartContainer').classList.toggle('hidden', !dcfSelected);
                 toggleAIReplacement();
                 toggleIPFields();
-                updateDashboard();
             }
         };
 
