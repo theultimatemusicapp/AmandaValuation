@@ -661,7 +661,7 @@
                     </div>
                 </div>
 
-                <div class="step step-hidden" id="paywall-step">
+             <div class="step step-hidden" id="paywall-step">
                     <h3 class="text-xl font-semibold text-gray-800 mb-4">Unlock Your Valuation Report</h3>
                     <p class="text-gray-600 mb-4">You've completed the PRO valuation tool! To access your detailed valuation report, pay a one-time fee.</p>
                     <div class="bg-gray-100 p-4 rounded-lg mb-4">
@@ -698,6 +698,11 @@
         const progressFill = document.getElementById('progress-fill');
 
         // Initialize Stripe with your Publishable Key
+        if (typeof Stripe === 'undefined') {
+            console.error('Stripe JavaScript library is not loaded. Please ensure <script src="https://js.stripe.com/v3/"></script> is included in the <head> section.');
+        } else {
+            console.log('Stripe JavaScript library loaded successfully.');
+        }
         const stripe = Stripe('pk_test_51RKjADPJ6Ffvx3xx1wiFNTLKntbHiA1BYOFTSDxzpymIclpjyn0grUmM50nPPjs6xtLhWun6QOy638yE4C3aGhbh00vjBVgLUN');
 
         function updateProgress() {
@@ -1076,26 +1081,31 @@
             document.getElementById('innovation-capacity-value').textContent = document.getElementById('innovation-capacity').value;
         });
 
-       <script>
-        // ... (previous script content remains the same until the Stripe Checkout part)
-
-        // Stripe Checkout integration
-        document.getElementById('checkout-button').addEventListener('click', () => {
-            stripe.redirectToCheckout({
-                lineItems: [{ price: 'price_1RKjG2PJ6Ffvx3xx82dQGzka', quantity: 1 }], // Confirmed Price ID
-                mode: 'payment',
-                successUrl: window.location.href + '?success=true',
-                cancelUrl: window.location.href + '?cancel=true',
-                clientReferenceId: 'valuation-report-' + Date.now()
-            }).then(function (result) {
-                if (result.error) {
-                    console.error(result.error.message);
-                }
+        // Stripe Checkout integration with debugging
+        const checkoutButton = document.getElementById('checkout-button');
+        if (checkoutButton) {
+            console.log('Checkout button found, adding event listener.');
+            checkoutButton.addEventListener('click', () => {
+                console.log('Checkout button clicked!');
+                stripe.redirectToCheckout({
+                    lineItems: [{ price: 'price_1RKkiLAllg3p8PieeBOLfosn', quantity: 1 }],
+                    mode: 'payment',
+                    successUrl: window.location.href + '?success=true',
+                    cancelUrl: window.location.href + '?cancel=true',
+                    clientReferenceId: 'valuation-report-' + Date.now()
+                }).then(function (result) {
+                    if (result.error) {
+                        console.error('Stripe Checkout error:', result.error.message);
+                    } else {
+                        console.log('Redirecting to Stripe Checkout...');
+                    }
+                }).catch(function (error) {
+                    console.error('Stripe redirectToCheckout failed:', error);
+                });
             });
-        });
-
-        // ... (rest of the script remains the same)
-    </script>
+        } else {
+            console.error('Checkout button not found in the DOM.');
+        }
 
         // Menu toggle for mobile
         document.getElementById('menu-toggle').addEventListener('click', () => {
