@@ -1076,10 +1076,13 @@
             document.getElementById('innovation-capacity-value').textContent = document.getElementById('innovation-capacity').value;
         });
 
+       <script>
+        // ... (previous script content remains the same until the Stripe Checkout part)
+
         // Stripe Checkout integration
         document.getElementById('checkout-button').addEventListener('click', () => {
             stripe.redirectToCheckout({
-                lineItems: [{ price: 'price_1RKjG2PJ6Ffvx3xx82dQGzka', quantity: 1 }], // Replace with your actual Price ID from Stripe
+                lineItems: [{ price: 'price_1RKjG2PJ6Ffvx3xx82dQGzka', quantity: 1 }], // Confirmed Price ID
                 mode: 'payment',
                 successUrl: window.location.href + '?success=true',
                 cancelUrl: window.location.href + '?cancel=true',
@@ -1090,6 +1093,9 @@
                 }
             });
         });
+
+        // ... (rest of the script remains the same)
+    </script>
 
         // Menu toggle for mobile
         document.getElementById('menu-toggle').addEventListener('click', () => {
