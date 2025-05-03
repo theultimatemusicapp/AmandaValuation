@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://js.stripe.com/v3/"></script>
     <style>
         .gradient-bg {
             background: linear-gradient(135deg, #38B2AC 0%, #2D3748 100%);
@@ -106,10 +107,10 @@
                 <a href="/">SaaS Valuation App</a>
             </div>
             <nav class="hidden md:flex space-x-6">
-                <a href="index.html#valuation" class="hover:text-teal-400">Self Valuation</a>
-                <a href="index.html#data-room" class="hover:text-teal-400">AI Data Room</a>
-                <a href="index.html#pricing" class="hover:text-teal-400">Pricing</a>
-                <a href="blog.html" class="hover:text-teal-400">Resources</a>
+                <a href="#valuation" class="hover:text-teal-400">Self Valuation</a>
+                <a href="#data-room" class="hover:text-teal-400">AI Data Room</a>
+                <a href="#pricing" class="hover:text-teal-400">Pricing</a>
+                <a href="#resources" class="hover:text-teal-400">Resources</a>
             </nav>
             <button id="menu-toggle" class="md:hidden focus:outline-none">
                 <i class="fas fa-bars text-2xl"></i>
@@ -117,10 +118,10 @@
         </div>
         <div id="mobile-menu" class="md:hidden hidden">
             <nav class="flex flex-col space-y-4 mt-4 px-6">
-                <a href="index.html#valuation" class="hover:text-teal-400">Self Valuation</a>
-                <a href="index.html#data-room" class="hover:text-teal-400">AI Data Room</a>
-                <a href="index.html#pricing" class="hover:text-teal-400">Pricing</a>
-                <a href="blog.html" class="hover:text-teal-400">Resources</a>
+                <a href="#valuation" class="hover:text-teal-400">Self Valuation</a>
+                <a href="#data-room" class="hover:text-teal-400">AI Data Room</a>
+                <a href="#pricing" class="hover:text-teal-400">Pricing</a>
+                <a href="#resources" class="hover:text-teal-400">Resources</a>
             </nav>
         </div>
     </header>
@@ -545,18 +546,31 @@
 
                 <div class="step step-hidden" id="paywall-step">
                     <h3 class="text-xl font-semibold text-gray-800 mb-4">Unlock Your Valuation Report</h3>
-                    <p class="text-gray-600 mb-4">You've completed the PRO valuation tool! To access your detailed valuation report, upgrade to the PRO plan.</p>
+                    <p class="text-gray-600 mb-4">You've completed the PRO valuation tool! To access your detailed valuation report, pay a one-time fee.</p>
                     <div class="bg-gray-100 p-4 rounded-lg mb-4">
-                        <h4 class="text-lg font-semibold text-gray-800">PRO Plan Benefits</h4>
+                        <h4 class="text-lg font-semibold text-gray-800">Valuation Report Access</h4>
                         <ul class="list-disc list-inside text-gray-600 mt-2">
-                            <li>Full access to detailed valuation reports</li>
-                            <li>Downloadable PDF reports with charts and insights</li>
-                            <li>Priority support and advanced analytics</li>
+                            <li>Full access to detailed valuation report</li>
+                            <li>Downloadable PDF with charts and insights</li>
+                            <li>One-time payment, no subscription</li>
                         </ul>
+                        <p class="text-gray-600 mt-2">Only $99</p>
                     </div>
                     <div class="flex justify-center space-x-4">
-                        <a href="payment.html" class="btn-primary text-white font-bold py-3 px-8 rounded-lg">Upgrade to PRO</a>
+                        <button id="upgrade-btn" class="btn-primary text-white font-bold py-3 px-8 rounded-lg">Pay Now</button>
                         <button id="back-btn-paywall" class="btn-secondary font-bold py-3 px-8 rounded-lg">Back to Form</button>
+                    </div>
+                </div>
+
+                <div class="step step-hidden" id="results-step">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-4">Your Valuation Results</h3>
+                    <p class="text-gray-600 mb-4">Congratulations! Here is your detailed PRO valuation report.</p>
+                    <div class="bg-gray-100 p-4 rounded-lg mb-4">
+                        <p class="text-gray-600">Valuation: $2.5M (Placeholder)</p>
+                        <p class="text-gray-600 mt-2">This is a placeholder for the detailed valuation results, which would include charts, breakdowns, and insights based on your inputs.</p>
+                    </div>
+                    <div class="flex justify-center">
+                        <button id="back-to-start-btn" class="btn-primary text-white font-bold py-2 px-4 rounded-lg">Back to Start</button>
                     </div>
                 </div>
             </div>
@@ -574,9 +588,9 @@
                     <h3 class="text-lg font-semibold mb-4">Quick Links</h3>
                     <ul class="space-y-2">
                         <li><a href="/" class="text-gray-400 hover:text-teal-400">Home</a></li>
-                        <li><a href="index.html#valuation" class="text-gray-400 hover:text-teal-400">Valuation</a></li>
-                        <li><a href="index.html#pricing" class="text-gray-400 hover:text-teal-400">Pricing</a></li>
-                        <li><a href="blog.html" class="text-gray-400 hover:text-teal-400">Resources</a></li>
+                        <li><a href="#valuation" class="text-gray-400 hover:text-teal-400">Valuation</a></li>
+                        <li><a href="#pricing" class="text-gray-400 hover:text-teal-400">Pricing</a></li>
+                        <li><a href="#resources" class="text-gray-400 hover:text-teal-400">Resources</a></li>
                     </ul>
                 </div>
                 <div>
@@ -591,7 +605,7 @@
                 </div>
             </div>
             <div class="border-t border-gray-700 mt-8 pt-4 text-center">
-                <p class="text-gray-400">&copy; 2025 SaaS Valuation App. All rights reserved.</p>
+                <p class="text-gray-400">© 2025 SaaS Valuation App. All rights reserved.</p>
             </div>
         </div>
     </footer>
@@ -601,6 +615,9 @@
         const totalSteps = 10;
         const steps = document.querySelectorAll('.step');
         const progressFill = document.getElementById('progress-fill');
+
+        // Initialize Stripe with your Publishable Key
+        const stripe = Stripe('pk_test_51RKjADPJ6Ffvx3xx1wiFNTLKntbHiA1BYOFTSDxzpymIclpjyn0grUmM50nPPjs6xtLhWun6QOy638yE4C3aGhbh00vjBVgLUN');
 
         function updateProgress() {
             const progress = (currentStep / totalSteps) * 100;
@@ -613,7 +630,9 @@
                 s.classList.toggle('step-visible', index + 1 === step);
                 s.classList.toggle('step-hidden', index + 1 !== step);
             });
-            updateProgress();
+            if (step <= totalSteps) {
+                updateProgress();
+            }
         }
 
         function cleanNumericInput(value, regex, allowEmpty = false) {
@@ -871,59 +890,56 @@
 
         document.getElementById('next-btn-10').addEventListener('click', () => {
             if (validateStep(10)) {
-                currentStep = 11;
+                currentStep = 11; // Show paywall
                 showStep(currentStep);
             }
         });
 
-        document.getElementById('prev-btn-2').addEventListener('click', () => {
-            currentStep = 1;
-            showStep(currentStep);
-        });
-
-        document.getElementById('prev-btn-3').addEventListener('click', () => {
-            currentStep = 2;
-            showStep(currentStep);
-        });
-
-        document.getElementById('prev-btn-4').addEventListener('click', () => {
-            currentStep = 3;
-            showStep(currentStep);
-        });
-
-        document.getElementById('prev-btn-5').addEventListener('click', () => {
-            currentStep = 4;
-            showStep(currentStep);
-        });
-
-        document.getElementById('prev-btn-6').addEventListener('click', () => {
-            currentStep = 5;
-            showStep(currentStep);
-        });
-
-        document.getElementById('prev-btn-7').addEventListener('click', () => {
-            currentStep = 6;
-            showStep(currentStep);
-        });
-
-        document.getElementById('prev-btn-8').addEventListener('click', () => {
-            currentStep = 7;
-            showStep(currentStep);
-        });
-
-        document.getElementById('prev-btn-9').addEventListener('click', () => {
-            currentStep = 8;
-            showStep(currentStep);
-        });
-
-        document.getElementById('prev-btn-10').addEventListener('click', () => {
-            currentStep = 9;
-            showStep(currentStep);
+        document.getElementById('upgrade-btn').addEventListener('click', () => {
+            // Redirect to Stripe Checkout
+            stripe.redirectToCheckout({
+                lineItems: [
+                    {
+                        price: 'price_1xxxxx', // Replace with your Price ID
+                        quantity: 1,
+                    },
+                ],
+                mode: 'payment',
+                successUrl: window.location.origin + '/valuation.html#results',
+                cancelUrl: window.location.origin + '/valuation.html#paywall',
+            }).then(function (result) {
+                if (result.error) {
+                    // Handle errors (e.g., display to user)
+                    alert(result.error.message);
+                }
+            });
         });
 
         document.getElementById('back-btn-paywall').addEventListener('click', () => {
             currentStep = 10;
             showStep(currentStep);
+        });
+
+        document.getElementById('back-to-start-btn').addEventListener('click', () => {
+            currentStep = 1;
+            showStep(currentStep);
+            // Reset form
+            document.querySelectorAll('input').forEach(input => {
+                if (input.type === 'checkbox') input.checked = false;
+                else if (input.type === 'range') input.value = 5;
+                else input.value = '';
+            });
+        });
+
+        // Check URL hash on page load to show results if payment was successful
+        window.addEventListener('load', () => {
+            if (window.location.hash === '#results') {
+                currentStep = 12;
+                showStep(currentStep);
+            } else if (window.location.hash === '#paywall') {
+                currentStep = 11;
+                showStep(currentStep);
+            }
         });
 
         document.getElementById('growth-consistency').addEventListener('input', () => {
