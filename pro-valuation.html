@@ -521,6 +521,8 @@
                     </div>
                     </div>
 
+                  </div>
+
                     <div class="step step-hidden">
                         <h3 class="text-xl font-semibold text-gray-800 mb-4">Step 8: Market Metrics</h3>
                         <p class="text-gray-600 mb-4">Provide market metrics to evaluate your industry position and growth potential.</p>
@@ -685,7 +687,6 @@
         </section>
     </main>
 
-    <!-- Footer -->
     <footer class="bg-gray-800 text-white py-8">
         <div class="container mx-auto px-6">
             <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
@@ -953,90 +954,6 @@
 
             return isValid;
         }
-
-        document.getElementById('next-btn-1').addEventListener('click', () => {
-            if (validateStep(1)) {
-                currentStep = 2;
-                showStep(currentStep);
-            }
-        });
-
-        document.getElementById('prev-btn-2').addEventListener('click', () => {
-            currentStep = 1;
-            showStep(currentStep);
-        });
-
-        document.getElementById('next-btn-2').addEventListener('click', () => {
-            if (validateStep(2)) {
-                currentStep = 3;
-                showStep(currentStep);
-            }
-        });
-
-        document.getElementById('prev-btn-3').addEventListener('click', () => {
-            currentStep = 2;
-            showStep(currentStep);
-        });
-
-        document.getElementById('next-btn-3').addEventListener('click', () => {
-            if (validateStep(3)) {
-                currentStep = 4;
-                showStep(currentStep);
-            }
-        });
-
-        document.getElementById('prev-btn-4').addEventListener('click', () => {
-            currentStep = 3;
-            showStep(currentStep);
-        });
-
-        document.getElementById('next-btn-4').addEventListener('click', () => {
-            if (validateStep(4)) {
-                currentStep = 5;
-                showStep(currentStep);
-            }
-        });
-
-        document.getElementById('prev-btn-5').addEventListener('click', () => {
-            currentStep = 4;
-            showStep(currentStep);
-        });
-
-        document.getElementById('next-btn-5').addEventListener('click', () => {
-            if (validateStep(5)) {
-                currentStep = 6;
-                showStep(currentStep);
-            }
-        });
-
-        document.getElementById('prev-btn-6').addEventListener('click', () => {
-            currentStep = 5;
-            showStep(currentStep);
-        });
-
-        document.getElementById('next-btn-6').addEventListener('click', () => {
-            if (validateStep(6)) {
-                currentStep = 7;
-                showStep(currentStep);
-            }
-        });
-
-        document.getElementById('prev-btn-7').addEventListener('click', () => {
-            currentStep = 6;
-            showStep(currentStep);
-        });
-
-        document.getElementById('next-btn-7').addEventListener('click', () => {
-            if (validateStep(7)) {
-                currentStep = 8;
-                showStep(currentStep);
-            }
-        });
-
-        document.getElementById('prev-btn-8').addEventListener('click', () => {
-            currentStep = 7;
-            showStep(currentStep);
-        });
 
         document.getElementById('next-btn-8').addEventListener('click', () => {
             if (validateStep(8)) {
