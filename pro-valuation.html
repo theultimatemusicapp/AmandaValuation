@@ -1,4 +1,4 @@
-.<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -109,7 +109,7 @@
         }
     </style>
 </head>
-<body class="font-sans">
+<body class="font-sans flex flex-col min-h-screen">
     <header class="bg-gray-800 text-white py-4 sticky top-0 z-50">
         <div class="container mx-auto px-6 flex justify-between items-center">
             <div class="text-2xl font-bold">
@@ -135,552 +135,299 @@
         </div>
     </header>
 
-    <section class="gradient-bg text-white py-20">
-        <div class="container mx-auto px-6 text-center">
-            <h1 class="text-4xl md:text-5xl font-bold mb-4">Understand Your SaaS Business Worth in Minutes</h1>
-            <p class="text-lg md:text-xl mb-8 opacity-90 max-w-2xl mx-auto">SaaS Valuation App helps founders like you get an accurate valuation of your business using advanced AI tools—no financial expertise needed.</p>
-            <div class="mb-8">
-                <h2 class="text-2xl font-semibold mb-2">Valuation Dashboard</h2>
-                <div class="dashboard-card">
-                    <div class="flex justify-between items-center mb-4">
-                        <span class="text-sm">Estimated Value Range</span>
-                        <span class="text-lg font-bold">$1.2M - $1.8M</span>
-                    </div>
-                    <div class="value-bar">
-                        <div class="value-fill" style="width: 60%;"></div>
-                    </div>
-                    <div class="flex justify-between mt-4">
-                        <div class="metric-box">
-                            <p class="text-sm">Revenue Growth</p>
-                            <p class="text-lg font-semibold">32%</p>
-                            <p class="text-xs text-green-300">+8% from last year</p>
-                        </div>
-                        <div class="metric-box">
-                            <p class="text-sm">Profit Margin</p>
-                            <p class="text-lg font-semibold">18%</p>
-                            <p class="text-xs text-green-300">+3% from last year</p>
-                        </div>
-                    </div>
-                    <div class="mt-4 text-center text-sm">
-                        <span class="indicator" style="background: #EF4444;"></span>
-                        <span class="indicator" style="background: #FBBF24;"></span>
-                        <span class="indicator" style="background: #48BB78;"></span>
-                        Your business is in the Top 30% of SaaS Companies
-                    </div>
-                </div>
-            </div>
-            <div class="flex justify-center space-x-4">
-                <a href="#valuation" class="btn-primary text-white font-bold py-3 px-8 rounded-lg">Get Your Valuation</a>
-                <a href="#demo" class="btn-secondary font-bold py-3 px-8 rounded-lg">Watch Demo</a>
-            </div>
-        </div>
-    </section>
-
-    <section id="valuation" class="py-16 bg-gray-50">
-        <div class="container mx-auto px-6">
-            <div class="text-center mb-12">
-                <h2 class="text-3xl font-bold text-gray-800 mb-4">PRO Self Valuation Tool</h2>
-                <p class="text-lg text-gray-600 max-w-2xl mx-auto">Answer a few questions to get a detailed PRO valuation report for your SaaS business in minutes.</p>
-            </div>
-            <div id="valuation-form" class="bg-white rounded-xl shadow-lg p-6 max-w-3xl mx-auto">
+    <main class="flex-1">
+        <section class="gradient-bg text-white py-20">
+            <div class="container mx-auto px-6 text-center">
+                <h1 class="text-4xl md:text-5xl font-bold mb-4">Understand Your SaaS Business Worth in Minutes</h1>
+                <p class="text-lg md:text-xl mb-8 opacity-90 max-w-2xl mx-auto">SaaS Valuation App helps founders like you get an accurate valuation of your business using advanced AI tools—no financial expertise needed.</p>
                 <div class="mb-8">
-                    <div class="relative pt-1">
-                        <div class="overflow-hidden h-2 mb-4 text-xs flex rounded bg-gray-200">
-                            <div id="progress-fill" class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-teal-500" style="width: 10%"></div>
+                    <h2 class="text-2xl font-semibold mb-2">Valuation Dashboard</h2>
+                    <div class="dashboard-card">
+                        <div class="flex justify-between items-center mb-4">
+                            <span class="text-sm">Estimated Value Range</span>
+                            <span class="text-lg font-bold">$1.2M - $1.8M</span>
                         </div>
-                        <p class="text-center text-gray-600">Step <span id="current-step">1</span> of 10</p>
+                        <div class="value-bar">
+                            <div class="value-fill" style="width: 60%;"></div>
+                        </div>
+                        <div class="flex justify-between mt-4">
+                            <div class="metric-box">
+                                <p class="text-sm">Revenue Growth</p>
+                                <p class="text-lg font-semibold">32%</p>
+                                <p class="text-xs text-green-300">+8% from last year</p>
+                            </div>
+                            <div class="metric-box">
+                                <p class="text-sm">Profit Margin</p>
+                                <p class="text-lg font-semibold">18%</p>
+                                <p class="text-xs text-green-300">+3% from last year</p>
+                            </div>
+                        </div>
+                        <div class="mt-4 text-center text-sm">
+                            <span class="indicator" style="background: #EF4444;"></span>
+                            <span class="indicator" style="background: #FBBF24;"></span>
+                            <span class="indicator" style="background: #48BB78;"></span>
+                            Your business is in the Top 30% of SaaS Companies
+                        </div>
                     </div>
                 </div>
-
-                <div class="step step-visible">
-                    <h3 class="text-xl font-semibold text-gray-800 mb-4">Step 1: Select Valuation Method</h3>
-                    <p class="text-gray-600 mb-4">Choose up to 3 methods for a comprehensive valuation. <span data-tooltip="Select methods based on your business model. Multiplier is best for established SaaS companies, while DCF suits those with predictable cash flows." class="text-teal-500 underline cursor-pointer">Learn more</span></p>
-                    <div class="space-y-2">
-                        <label class="flex items-center">
-                            <input type="checkbox" id="method-multiplier" value="multiplier" class="form-checkbox h-5 w-5 text-teal-500">
-                            <span class="ml-2 text-gray-600">Revenue Multiplier</span>
-                        </label>
-                        <label class="flex items-center">
-                            <input type="checkbox" id="method-income" value="income" class="form-checkbox h-5 w-5 text-teal-500">
-                            <span class="ml-2 text-gray-600">Income-Based Valuation</span>
-                        </label>
-                        <label class="flex items-center">
-                            <input type="checkbox" id="method-earnings" value="earnings" class="form-checkbox h-5 w-5 text-teal-500">
-                            <span class="ml-2 text-gray-600">Earnings-Based Valuation</span>
-                        </label>
-                        <label class="flex items-center">
-                            <input type="checkbox" id="method-dcf" value="dcf" class="form-checkbox h-5 w-5 text-teal-500">
-                            <span class="ml-2 text-gray-600">Discounted Cash Flow (DCF)</span>
-                        </label>
-                    </div>
-                    <p id="method-error" class="text-red-500 text-sm mt-2 hidden">Please select 1 to 3 methods.</p>
-                    <img src="https://via.placeholder.com/600x200?text=Valuation+Methods+Illustration" alt="Valuation Methods Illustration" class="step-image">
-                    <div class="mt-6 flex justify-end">
-                        <button id="next-btn-1" class="btn-primary text-white font-bold py-2 px-4 rounded-lg">Next</button>
-                    </div>
-                    <div class="explanation-box">
-                        <p><strong>Super Simple Explanation:</strong> These are different ways to figure out how much your business is worth. Think of them like different recipes to bake a cake—pick the ones that fit your business best!</p>
-                        <ul>
-                            <li><strong>Revenue Multiplier:</strong> Uses your yearly income to guess your value. Good if you have steady sales.</li>
-                            <li><strong>Income-Based Valuation:</strong> Looks at your profits to set a value. Works if you make money after expenses.</li>
-                            <li><strong>Earnings-Based Valuation:</strong> Similar to income, but focuses on how much you earn overall.</li>
-                            <li><strong>Discounted Cash Flow (DCF):</strong> Predicts your future money based on today’s cash. Best if you can guess future earnings.</li>
-                        </ul>
-                        <p><strong>How to Get This Info:</strong> You don’t need exact numbers yet—just pick what sounds closest to how your business works. If unsure, ask your accountant or look at your yearly financial reports. If you don’t have these, guess based on what you earn monthly and multiply by 12 for a rough yearly amount.</p>
-                    </div>
-                </div>
-
-                <div class="step step-hidden">
-                    <h3 class="text-xl font-semibold text-gray-800 mb-4">Step 2: Revenue Metrics</h3>
-                    <p class="text-gray-600 mb-4">Provide detailed revenue metrics to assess your financial performance.</p>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
-                            <label for="arr" class="block text-gray-600 mb-1">Annual Recurring Revenue (ARR) ($)</label>
-                            <input type="text" id="arr" class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-500" placeholder="e.g., 500,000">
-                            <p id="arr-error" class="text-red-500 text-sm mt-1 hidden">Please enter a valid number.</p>
-                        </div>
-                        <div>
-                            <label for="mrr" class="block text-gray-600 mb-1">Monthly Recurring Revenue (MRR) ($)</label>
-                            <input type="text" id="mrr" class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-500" placeholder="e.g., 41,667">
-                            <p id="mrr-error" class="text-red-500 text-sm mt-1 hidden">Please enter a valid number.</p>
-                        </div>
-                        <div>
-                            <label for="expansion-revenue" class="block text-gray-600 mb-1">Expansion Revenue (% of ARR)</label>
-                            <input type="number" id="expansion-revenue" class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-500" placeholder="e.g., 10">
-                            <p id="expansion-revenue-error" class="text-red-500 text-sm mt-1 hidden">Please enter a valid percentage (0-100).</p>
-                        </div>
-                        <div>
-                            <label for="non-recurring-revenue" class="block text-gray-600 mb-1">Non-Recurring Revenue ($/year)</label>
-                            <input type="text" id="non-recurring-revenue" class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-500" placeholder="e.g., 50,000">
-                            <p id="non-recurring-revenue-error" class="text-red-500 text-sm mt-1 hidden">Please enter a valid number.</p>
-                        </div>
-                        <div>
-                            <label for="gross-margin" class="block text-gray-600 mb-1">Gross Margin (%)</label>
-                            <input type="number" id="gross-margin" class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-500" placeholder="e.g., 80">
-                            <p id="gross-margin-error" class="text-red-500 text-sm mt-1 hidden">Please enter a valid percentage (0-100).</p>
-                        </div>
-                    </div>
-                    <img src="https://via.placeholder.com/600x200?text=Revenue+Metrics+Illustration" alt="Revenue Metrics Illustration" class="step-image">
-                    <div class="mt-6 flex justify-between">
-                        <button id="prev-btn-2" class="btn-secondary font-bold py-2 px-4 rounded-lg">Previous</button>
-                        <button id="next-btn-2" class="btn-primary text-white font-bold py-2 px-4 rounded-lg">Next</button>
-                    </div>
-                    <div class="explanation-box">
-                        <p><strong>Super Simple Explanation:</strong> These are about how much money your business makes and keeps.</p>
-                        <ul>
-                            <li><strong>Annual Recurring Revenue (ARR):</strong> The money you get every year from customers who keep paying (like subscriptions).</li>
-                            <li><strong>Monthly Recurring Revenue (MRR):</strong> The same, but for one month—multiply by 12 to get ARR if you only have this.</li>
-                            <li><strong>Expansion Revenue (% of ARR):</strong> Extra money from existing customers (e.g., upgrades). Guess a percentage if unsure.</li>
-                            <li><strong>Non-Recurring Revenue:</strong> One-time payments (e.g., setup fees). Add up big one-off sales from the year.</li>
-                            <li><strong>Gross Margin (%):</strong> How much profit you make after costs, shown as a percentage of sales.</li>
-                        </ul>
-                        <p><strong>How to Get This Info:</strong> Check your bank statements or accounting software (like QuickBooks) for subscription income. If you don’t track this, estimate based on your average monthly sales. For gross margin, divide profit by revenue and multiply by 100. Ask your bookkeeper if you’re lost!</p>
-                    </div>
-                </div>
-
-                <div class="step step-hidden">
-                    <h3 class="text-xl font-semibold text-gray-800 mb-4">Step 3: Growth Metrics</h3>
-                    <p class="text-gray-600 mb-4">Provide growth metrics to evaluate your business's scalability and momentum.</p>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
-                            <label for="arr-growth-rate" class="block text-gray-600 mb-1">Annual ARR Growth Rate (%)</label>
-                            <input type="number" id="arr-growth-rate" class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-500" placeholder="e.g., 25">
-                            <p id="arr-growth-rate-error" class="text-red-500 text-sm mt-1 hidden">Please enter a valid percentage (0-1000).</p>
-                        </div>
-                        <div>
-                            <label for="nrr" class="block text-gray-600 mb-1">Net Revenue Retention (NRR) (%)</label>
-                            <input type="number" id="nrr" class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-500" placeholder="e.g., 110">
-                            <p id="nrr-error" class="text-red-500 text-sm mt-1 hidden">Please enter a valid percentage (0-500).</p>
-                        </div>
-                        <div>
-                            <label for="customer-growth" class="block text-gray-600 mb-1">Customer Growth Rate (%)</label>
-                            <input type="number" id="customer-growth" class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-500" placeholder="e.g., 20">
-                            <p id="customer-growth-error" class="text-red-500 text-sm mt-1 hidden">Please enter a valid percentage (0-1000).</p>
-                        </div>
-                        <div>
-                            <label for="expansion-growth" class="block text-gray-600 mb-1">Expansion Growth Rate (%)</label>
-                            <input type="number" id="expansion-growth" class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-500" placeholder="e.g., 15">
-                            <p id="expansion-growth-error" class="text-red-500 text-sm mt-1 hidden">Please enter a valid percentage (0-1000).</p>
-                        </div>
-                        <div class="md:col-span-2">
-                            <label for="growth-consistency" class="block text-gray-600 mb-1">Growth Consistency (1-10) <span data-tooltip="Rate how consistent your growth has been over the past 12 months." class="text-teal-500 underline cursor-pointer">?</span></label>
-                            <input type="range" id="growth-consistency" min="1" max="10" value="5" class="w-full">
-                            <p class="text-gray-600">Score: <span id="growth-consistency-value">5</span></p>
-                        </div>
-                    </div>
-                    <img src="https://via.placeholder.com/600x200?text=Growth+Metrics+Illustration" alt="Growth Metrics Illustration" class="step-image">
-                    <div class="mt-6 flex justify-between">
-                        <button id="prev-btn-3" class="btn-secondary font-bold py-2 px-4 rounded-lg">Previous</button>
-                        <button id="next-btn-3" class="btn-primary text-white font-bold py-2 px-4 rounded-lg">Next</button>
-                    </div>
-                    <div class="explanation-box">
-                        <p><strong>Super Simple Explanation:</strong> These show how fast your business is growing and staying strong.</p>
-                        <ul>
-                            <li><strong>Annual ARR Growth Rate:</strong> How much your yearly recurring revenue grew (e.g., 25% means it went up by a quarter).</li>
-                            <li><strong>Net Revenue Retention (NRR):</strong> What percentage of revenue stays or grows from existing customers (over 100% is great!).</li>
-                            <li><strong>Customer Growth Rate:</strong> How many new customers you gained, as a percentage.</li>
-                            <li><strong>Expansion Growth Rate:</strong> Extra growth from current customers (e.g., upgrades), as a percentage.</li>
-                            <li><strong>Growth Consistency:</strong> How steady your growth has been (1 = all over the place, 10 = super steady).</li>
-                        </ul>
-                        <p><strong>How to Get This Info:</strong> Look at your customer list or sales records from last year to this year. Compare total revenue or customer numbers. If you don’t have data, guess based on how many new customers you’ve added or how much more you’re earning. Ask your sales team for help!</p>
-                    </div>
-                </div>
-
-                <div class="step step-hidden">
-                    <h3 class="text-xl font-semibold text-gray-800 mb-4">Step 4: Customer Metrics</h3>
-                    <p class="text-gray-600 mb-4">Tell us about your customer acquisition and retention metrics.</p>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
-                            <label for="ltv" class="block text-gray-600 mb-1">Customer Lifetime Value (LTV) ($)</label>
-                            <input type="text" id="ltv" class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-500" placeholder="e.g., 5,000">
-                            <p id="ltv-error" class="text-red-500 text-sm mt-1 hidden">Please enter a valid number.</p>
-                        </div>
-                        <div>
-                            <label for="cac" class="block text-gray-600 mb-1">Customer Acquisition Cost (CAC) ($)</label>
-                            <input type="text" id="cac" class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-500" placeholder="e.g., 1,000">
-                            <p id="cac-error" class="text-red-500 text-sm mt-1 hidden">Please enter a valid number.</p>
-                        </div>
-                        <div>
-                            <label for="churn-rate" class="block text-gray-600 mb-1">Churn Rate (%)</label>
-                            <input type="number" id="churn-rate" class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-500" placeholder="e.g., 5">
-                            <p id="churn-rate-error" class="text-red-500 text-sm mt-1 hidden">Please enter a valid percentage (0-100).</p>
-                        </div>
-                        <div>
-                            <label for="customer-growth-rate" class="block text-gray-600 mb-1">Customer Growth Rate (%)</label>
-                            <input type="number" id="customer-growth-rate" class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-500" placeholder="e.g., 10">
-                            <p id="customer-growth-rate-error" class="text-red-500 text-sm mt-1 hidden">Please enter a valid percentage (0-100).</p>
-                        </div>
-                        <div>
-                            <label for="net-promoter-score" class="block text-gray-600 mb-1">Net Promoter Score (NPS) (-100 to 100)</label>
-                            <input type="number" id="net-promoter-score" class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-500" placeholder="e.g., 30">
-                            <p id="net-promoter-score-error" class="text-red-500 text-sm mt-1 hidden">Please enter a valid number (-100 to 100).</p>
-                        </div>
-                    </div>
-                    <img src="https://via.placeholder.com/600x200?text=Customer+Metrics+Illustration" alt="Customer Metrics Illustration" class="step-image">
-                    <div class="mt-6 flex justify-between">
-                        <button id="prev-btn-4" class="btn-secondary font-bold py-2 px-4 rounded-lg">Previous</button>
-                        <button id="next-btn-4" class="btn-primary text-white font-bold py-2 px-4 rounded-lg">Next</button>
-                    </div>
-                    <div class="explanation-box">
-                        <p><strong>Super Simple Explanation:</strong> These are about your customers—how you get them, keep them, and how happy they are.</p>
-                        <ul>
-                            <li><strong>Customer Lifetime Value (LTV):</strong> How much money one customer gives you over time they use your service.</li>
-                            <li><strong>Customer Acquisition Cost (CAC):</strong> How much you spend to get a new customer (e.g., ads, sales).</li>
-                            <li><strong>Churn Rate:</strong> Percentage of customers who leave each year (lower is better).</li>
-                            <li><strong>Customer Growth Rate:</strong> How many new customers you gain, as a percentage.</li>
-                            <li><strong>Net Promoter Score (NPS):</strong> A score from -100 to 100 showing if customers would recommend you (higher is better).</li>
-                        </ul>
-                        <p><strong>How to Get This Info:</strong> Check your sales or CRM software for customer data. LTV is average revenue per customer times how long they stay. CAC is marketing/sales costs divided by new customers. Churn is customers lost divided by total customers. NPS comes from surveys asking “Would you recommend us?” If you don’t have this, estimate based on your gut or ask customers directly!</p>
-                    </div>
-                </div>
-
-                <div class="step step-hidden">
-                    <h3 class="text-xl font-semibold text-gray-800 mb-4">Step 5: Efficiency Metrics</h3>
-                    <p class="text-gray-600 mb-4">Provide efficiency metrics to evaluate your business's operational performance.</p>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
-                            <label for="ltv-cac-ratio" class="block text-gray-600 mb-1">LTV to CAC Ratio <span data-tooltip="A ratio above 3 is generally considered healthy for SaaS businesses." class="text-teal-500 underline cursor-pointer">?</span></label>
-                            <input type="number" id="ltv-cac-ratio" class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-500" placeholder="e.g., 3.5" step="0.1">
-                            <p id="ltv-cac-ratio-error" class="text-red-500 text-sm mt-1 hidden">Please enter a valid number (0-100).</p>
-                        </div>
-                        <div>
-                            <label for="cac-payback" class="block text-gray-600 mb-1">CAC Payback Period (Months)</label>
-                            <input type="number" id="cac-payback" class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-500" placeholder="e.g., 12">
-                            <p id="cac-payback-error" class="text-red-500 text-sm mt-1 hidden">Please enter a valid number (0-120).</p>
-                        </div>
-                        <div>
-                            <label for="magic-number" class="block text-gray-600 mb-1">Magic Number <span data-tooltip="A value above 0.75 indicates efficient growth." class="text-teal-500 underline cursor-pointer">?</span></label>
-                            <input type="number" id="magic-number" class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-500" placeholder="e.g., 0.8" step="0.1">
-                            <p id="magic-number-error" class="text-red-500 text-sm mt-1 hidden">Please enter a valid number (0-10).</p>
-                        </div>
-                        <div>
-                            <label for="burn-rate" class="block text-gray-600 mb-1">Monthly Burn Rate ($)</label>
-                            <input type="text" id="burn-rate" class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-500" placeholder="e.g., 50,000">
-                            <p id="burn-rate-error" class="text-red-500 text-sm mt-1 hidden">Please enter a valid number.</p>
-                        </div>
-                        <div class="md:col-span-2">
-                            <label for="efficiency-score" class="block text-gray-600 mb-1">Efficiency Score (1-10) <span data-tooltip="Rate your overall operational efficiency." class="text-teal-500 underline cursor-pointer">?</span></label>
-                            <input type="range" id="efficiency-score" min="1" max="10" value="5" class="w-full">
-                            <p class="text-gray-600">Score: <span id="efficiency-score-value">5</span></p>
-                        </div>
-                    </div>
-                    <img src="https://via.placeholder.com/600x200?text=Efficiency+Metrics+Illustration" alt="Efficiency Metrics Illustration" class="step-image">
-                    <div class="mt-6 flex justify-between">
-                        <button id="prev-btn-5" class="btn-secondary font-bold py-2 px-4 rounded-lg">Previous</button>
-                        <button id="next-btn-5" class="btn-primary text-white font-bold py-2 px-4 rounded-lg">Next</button>
-                    </div>
-                    <div class="explanation-box">
-                        <p><strong>Super Simple Explanation:</strong> These measure how well you use money and time to grow.</p>
-                        <ul>
-                            <li><strong>LTV to CAC Ratio:</strong> How much you earn from a customer compared to what you spend to get them (aim for 3 or higher).</li>
-                            <li><strong>CAC Payback Period:</strong> How many months it takes to earn back what you spent on a customer.</li>
-                            <li><strong>Magic Number:</strong> Shows if your growth is worth the money spent (above 0.75 is good).</li>
-                            <li><strong>Burn Rate:</strong> How much cash you lose each month if you’re not profitable yet.</li>
-                            <li><strong>Efficiency Score:</strong> How smooth and smart your operations are (1 = messy, 10 = perfect).</li>
-                        </ul>
-                        <p><strong>How to Get This Info:</strong> Use LTV and CAC from the last step. Payback is CAC divided by monthly profit per customer. Magic number needs revenue and cost data—ask your finance person. Burn rate is your monthly expenses minus income. If you don’t have exact numbers, estimate based on bills and sales, or guess a score for efficiency!</p>
-                    </div>
-                </div>
-
-                <div class="step step-hidden">
-                    <h3 class="text-xl font-semibold text-gray-800 mb-4">Step 6: Sales Metrics</h3>
-                    <p class="text-gray-600 mb-4">Provide sales metrics to assess your sales performance and efficiency.</p>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
-                            <label for="acv" class="block text-gray-600 mb-1">Average Annual Contract Value (ACV) ($)</label>
-                            <input type="text" id="acv" class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-500" placeholder="e.g., 12,000">
-                            <p id="acv-error" class="text-red-500 text-sm mt-1 hidden">Please enter a valid number.</p>
-                        </div>
-                        <div>
-                            <label for="sales-cycle" class="block text-gray-600 mb-1">Average Sales Cycle Length (Days)</label>
-                            <input type="number" id="sales-cycle" class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-500" placeholder="e.g., 90">
-                            <p id="sales-cycle-error" class="text-red-500 text-sm mt-1 hidden">Please enter a valid number (0-365).</p>
-                        </div>
-                        <div>
-                            <label for="win-rate" class="block text-gray-600 mb-1">Win Rate (%)</label>
-                            <input type="number" id="win-rate" class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-500" placeholder="e.g., 30">
-                            <p id="win-rate-error" class="text-red-500 text-sm mt-1 hidden">Please enter a valid percentage (0-100).</p>
-                        </div>
-                        <div>
-                            <label for="sales-growth" class="block text-gray-600 mb-1">Sales Growth Rate (%)</label>
-                            <input type="number" id="sales-growth" class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-500" placeholder="e.g., 20">
-                            <p id="sales-growth-error" class="text-red-500 text-sm mt-1 hidden">Please enter a valid percentage (0-1000).</p>
-                        </div>
-                        <div class="md:col-span-2">
-                            <label for="sales-efficiency" class="block text-gray-600 mb-1">Sales Efficiency (1-10) <span data-tooltip="Rate your sales team's efficiency in converting leads to customers." class="text-teal-500 underline cursor-pointer">?</span></label>
-                            <input type="range" id="sales-efficiency" min="1" max="10" value="5" class="w-full">
-                            <p class="text-gray-600">Score: <span id="sales-efficiency-value">5</span></p>
-                        </div>
-                    </div>
-                    <img src="https://via.placeholder.com/600x200?text=Sales+Metrics+Illustration" alt="Sales Metrics Illustration" class="step-image">
-                    <div class="mt-6 flex justify-between">
-                        <button id="prev-btn-6" class="btn-secondary font-bold py-2 px-4 rounded-lg">Previous</button>
-                        <button id="next-btn-6" class="btn-primary text-white font-bold py-2 px-4 rounded-lg">Next</button>
-                    </div>
-                    <div class="explanation-box">
-                        <p><strong>Super Simple Explanation:</strong> These are about how well your sales team brings in customers.</p>
-                        <ul>
-                            <li><strong>Average Annual Contract Value (ACV):</strong> Average money you get yearly from each customer contract.</li>
-                            <li><strong>Sales Cycle Length:</strong> How many days it takes to close a sale, on average.</li>
-                            <li><strong>Win Rate:</strong> Percentage of sales pitches that turn into customers.</li>
-                            <li><strong>Sales Growth Rate:</strong> How much your sales have grown, as a percentage.</li>
-                            <li><strong>Sales Efficiency:</strong> How good your team is at turning leads into sales (1 = bad, 10 = awesome).</li>
-                        </ul>
-                        <p><strong>How to Get This Info:</strong> ACV is total contract value divided by number of customers. Sales cycle is the average time from first contact to sale—check your CRM. Win rate is deals won divided by total pitches. Growth rate compares this year’s sales to last year’s. If you don’t track this, ask your sales team or estimate based on recent deals!</p>
-                    </div>
-                </div>
-                <div class="step step-hidden">
-                    <h3 class="text-xl font-semibold text-gray-800 mb-4">Step 7: Product Metrics</h3>
-                    <p class="text-gray-600 mb-4">Provide details about your product, intellectual property, and innovation.</p>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
-                            <label for="feature-adoption" class="block text-gray-600 mb-1">Feature Adoption Rate (%)</label>
-                            <input type="number" id="feature-adoption" class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-500" placeholder="e.g., 70">
-                            <p id="feature-adoption-error" class="text-red-500 text-sm mt-1 hidden">Please enter a valid percentage (0-100).</p>
-                        </div>
-                        <div>
-                            <label for="patents" class="block text-gray-600 mb-1">Number of Patents or IP Assets</label>
-                            <input type="number" id="patents" class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-500" placeholder="e.g., 3">
-                            <p id="patents-error" class="text-red-500 text-sm mt-1 hidden">Please enter a valid number (0-100).</p>
-                        </div>
-                        <div>
-                            <label for="product-stickiness" class="block text-gray-600 mb-1">Product Stickiness (DAU/MAU Ratio) <span data-tooltip="A higher ratio indicates better user engagement (e.g., 0.5 means users engage 50% of the time)." class="text-teal-500 underline cursor-pointer">?</span></label>
-                            <input type="number" id="product-stickiness" class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-500" placeholder="e.g., 0.5" step="0.1">
-                            <p id="product-stickiness-error" class="text-red-500 text-sm mt-1 hidden">Please enter a valid number (0-1).</p>
-                        </div>
-                        <div>
-                            <label for="update-frequency" class="block text-gray-600 mb-1">Update Frequency (Updates per Year)</label>
-                            <input type="number" id="update-frequency" class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-500" placeholder="e.g., 4">
-                            <p id="update-frequency-error" class="text-red-500 text-sm mt-1 hidden">Please enter a valid number (0-50).</p>
-                        </div>
-                        <div class="md:col-span-2">
-                            <label for="innovation-index" class="block text-gray-600 mb-1">Innovation Index (1-10) <span data-tooltip="Rate your product's innovation compared to competitors." class="text-teal-500 underline cursor-pointer">?</span></label>
-                            <input type="range" id="innovation-index" min="1" max="10" value="5" class="w-full">
-                            <p class="text-gray-600">Score: <span id="innovation-index-value">5</span></p>
-                        </div>
-                    </div>
-                    <img src="https://via.placeholder.com/600x200?text=Product+Metrics+Illustration" alt="Product Metrics Illustration" class="step-image">
-                    <div class="mt-6 flex justify-between">
-                        <button id="prev-btn-7" class="btn-secondary font-bold py-2 px-4 rounded-lg">Previous</button>
-                        <button id="next-btn-7" class="btn-primary text-white font-bold py-2 px-4 rounded-lg">Next</button>
-                    </div>
-                    <div class="explanation-box">
-                        <p><strong>Super Simple Explanation:</strong> These are about how good your product is and how often it improves.</p>
-                        <ul>
-                            <li><strong>Feature Adoption Rate:</strong> Percentage of customers using new features you add.</li>
-                            <li><strong>Patents or IP Assets:</strong> Number of official patents or unique ideas you own.</li>
-                            <li><strong>Product Stickiness:</strong> How often customers use your product (daily users divided by monthly users).</li>
-                            <li><strong>Update Frequency:</strong> How many times you improve your product each year.</li>
-                            <li><strong>Innovation Index:</strong> How new and different your product is compared to others (1 = same old, 10 = super unique).</li>
-                        </ul>
-                        <p><strong>How to Get This Info:</strong> Check usage data for feature adoption or ask customers. Patents are from legal records. Stickiness needs daily and monthly user counts—use analytics tools. Update frequency is how many times you release updates. If unsure, guess based on customer feedback or how often you tweak the product!</p>
-                    </div>
-                </div>
-
-                <div class="step step-hidden">
-                    <h3 class="text-xl font-semibold text-gray-800 mb-4">Step 8: Market Metrics</h3>
-                    <p class="text-gray-600 mb-4">Provide market metrics to evaluate your industry position and growth potential.</p>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
-                            <label for="tam" class="block text-gray-600 mb-1">Total Addressable Market (TAM) ($M)</label>
-                            <input type="text" id="tam" class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-500" placeholder="e.g., 500">
-                            <p id="tam-error" class="text-red-500 text-sm mt-1 hidden">Please enter a valid number.</p>
-                        </div>
-                        <div>
-                            <label for="market-share" class="block text-gray-600 mb-1">Current Market Share (%)</label>
-                            <input type="number" id="market-share" class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-500" placeholder="e.g., 5">
-                            <p id="market-share-error" class="text-red-500 text-sm mt-1 hidden">Please enter a valid percentage (0-100).</p>
-                        </div>
-                        <div>
-                            <label for="market-growth-rate" class="block text-gray-600 mb-1">Market Growth Rate (%)</label>
-                            <input type="number" id="market-growth-rate" class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-500" placeholder="e.g., 10">
-                            <p id="market-growth-rate-error" class="text-red-500 text-sm mt-1 hidden">Please enter a valid percentage (0-100).</p>
-                        </div>
-                        <div>
-                            <label for="competitor-count" class="block text-gray-600 mb-1">Number of Direct Competitors</label>
-                            <input type="number" id="competitor-count" class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-500" placeholder="e.g., 5">
-                            <p id="competitor-count-error" class="text-red-500 text-sm mt-1 hidden">Please enter a valid number (0-100).</p>
-                        </div>
-                        <div class="md:col-span-2">
-                            <label for="market-position" class="block text-gray-600 mb-1">Market Position (1-10) <span data-tooltip="Rate your competitive position in the market." class="text-teal-500 underline cursor-pointer">?</span></label>
-                            <input type="range" id="market-position" min="1" max="10" value="5" class="w-full">
-                            <p class="text-gray-600">Score: <span id="market-position-value">5</span></p>
-                        </div>
-                    </div>
-                    <img src="https://via.placeholder.com/600x200?text=Market+Metrics+Illustration" alt="Market Metrics Illustration" class="step-image">
-                    <div class="mt-6 flex justify-between">
-                        <button id="prev-btn-8" class="btn-secondary font-bold py-2 px-4 rounded-lg">Previous</button>
-                        <button id="next-btn-8" class="btn-primary text-white font-bold py-2 px-4 rounded-lg">Next</button>
-                    </div>
-                    <div class="explanation-box">
-                        <p><strong>Super Simple Explanation:</strong> These are about the big picture—your place in the industry.</p>
-                        <ul>
-                            <li><strong>Total Addressable Market (TAM):</strong> Total money available in your market (e.g., $500M if everyone could buy).</li>
-                            <li><strong>Current Market Share:</strong> Percentage of that market you own (e.g., 5% of $500M).</li>
-                            <li><strong>Market Growth Rate:</strong> How fast the market is growing each year.</li>
-                            <li><strong>Number of Direct Competitors:</strong> How many other companies do what you do.</li>
-                            <li><strong>Market Position:</strong> How strong you are compared to competitors (1 = weak, 10 = leader).</li>
-                        </ul>
-                        <p><strong>How to Get This Info:</strong> TAM and growth rate come from industry reports or Google research. Market share is your revenue divided by total market revenue. Count competitors by looking at similar businesses. If you don’t have data, guess based on your industry size or ask a mentor!</p>
-                    </div>
-                </div>
-
-                <div class="step step-hidden">
-                    <h3 class="text-xl font-semibold text-gray-800 mb-4">Step 9: Risk Metrics</h3>
-                    <p class="text-gray-600 mb-4">Provide risk metrics to evaluate potential challenges for your business.</p>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
-                            <label for="financial-risk" class="block text-gray-600 mb-1">Financial Risk (1-10) <span data-tooltip="Rate the financial risks (e.g., cash flow issues, debt)." class="text-teal-500 underline cursor-pointer">?</span></label>
-                            <input type="range" id="financial-risk" min="1" max="10" value="5" class="w-full">
-                            <p class="text-gray-600">Score: <span id="financial-risk-value">5</span></p>
-                        </div>
-                        <div>
-                            <label for="operational-risk" class="block text-gray-600 mb-1">Operational Risk (1-10) <span data-tooltip="Rate operational risks (e.g., downtime, supply chain issues)." class="text-teal-500 underline cursor-pointer">?</span></label>
-                            <input type="range" id="operational-risk" min="1" max="10" value="5" class="w-full">
-                            <p class="text-gray-600">Score: <span id="operational-risk-value">5</span></p>
-                        </div>
-                        <div>
-                            <label for="market-risk" class="block text-gray-600 mb-1">Market Risk (1-10) <span data-tooltip="Rate market risks (e.g., competition, economic downturn)." class="text-teal-500 underline cursor-pointer">?</span></label>
-                            <input type="range" id="market-risk" min="1" max="10" value="5" class="w-full">
-                            <p class="text-gray-600">Score: <span id="market-risk-value">5</span></p>
-                        </div>
-                        <div>
-                            <label for="dependency-risk" class="block text-gray-600 mb-1">Dependency Risk (1-10) <span data-tooltip="Rate dependency on key customers or vendors." class="text-teal-500 underline cursor-pointer">?</span></label>
-                            <input type="range" id="dependency-risk" min="1" max="10" value="5" class="w-full">
-                            <p class="text-gray-600">Score: <span id="dependency-risk-value">5</span></p>
-                        </div>
-                        <div>
-                            <label for="regulatory-risk" class="block text-gray-600 mb-1">Regulatory Risk (1-10) <span data-tooltip="Rate risks related to regulations or compliance." class="text-teal-500 underline cursor-pointer">?</span></label>
-                            <input type="range" id="regulatory-risk" min="1" max="10" value="5" class="w-full">
-                            <p class="text-gray-600">Score: <span id="regulatory-risk-value">5</span></p>
-                        </div>
-                    </div>
-                    <img src="https://via.placeholder.com/600x200?text=Risk+Metrics+Illustration" alt="Risk Metrics Illustration" class="step-image">
-                    <div class="mt-6 flex justify-between">
-                        <button id="prev-btn-9" class="btn-secondary font-bold py-2 px-4 rounded-lg">Previous</button>
-                        <button id="next-btn-9" class="btn-primary text-white font-bold py-2 px-4 rounded-lg">Next</button>
-                    </div>
-                    <div class="explanation-box">
-                        <p><strong>Super Simple Explanation:</strong> These are about potential problems that could hurt your business.</p>
-                        <ul>
-                            <li><strong>Financial Risk:</strong> Chance of running out of money or having debt (1 = safe, 10 = risky).</li>
-                            <li><strong>Operational Risk:</strong> Problems like tech breakdowns or delays (1 = smooth, 10 = chaotic).</li>
-                            <li><strong>Market Risk:</strong> Risks from competition or economy (1 = stable, 10 = shaky).</li>
-                            <li><strong>Dependency Risk:</strong> Relying too much on one customer or supplier (1 = diverse, 10 = dependent).</li>
-                            <li><strong>Regulatory Risk:</strong> Trouble from laws or rules (1 = clear, 10 = tricky).</li>
-                        </ul>
-                        <p><strong>How to Get This Info:</strong> These are guesses based on your situation. Think about your cash flow, tech issues, or big customers. If you’re unsure, talk to a business advisor or rate based on how stressed you feel about these areas!</p>
-                    </div>
-                </div>
-
-                <div class="step step-hidden">
-                    <h3 class="text-xl font-semibold text-gray-800 mb-4">Step 10: Team/Innovation Metrics</h3>
-                    <p class="text-gray-600 mb-4">Provide details about your team and innovation capabilities.</p>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
-                            <label for="team-size" class="block text-gray-600 mb-1">Team Size (Number of Employees)</label>
-                            <input type="number" id="team-size" class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-500" placeholder="e.g., 50">
-                            <p id="team-size-error" class="text-red-500 text-sm mt-1 hidden">Please enter a valid number (0-10000).</p>
-                        </div>
-                        <div>
-                            <label for="founder-experience" class="block text-gray-600 mb-1">Founder Experience (Years)</label>
-                            <input type="number" id="founder-experience" class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-500" placeholder="e.g., 10">
-                            <p id="founder-experience-error" class="text-red-500 text-sm mt-1 hidden">Please enter a valid number (0-50).</p>
-                        </div>
-                        <div class="md:col-span-2">
-                            <label for="culture-score" class="block text-gray-600 mb-1">Culture Score (1-10) <span data-tooltip="Rate your company's culture and employee satisfaction." class="text-teal-500 underline cursor-pointer">?</span></label>
-                            <input type="range" id="culture-score" min="1" max="10" value="5" class="w-full">
-                            <p class="text-gray-600">Score: <span id="culture-score-value">5</span></p>
-                        </div>
-                        <div class="md:col-span-2">
-                            <label for="innovation-capacity" class="block text-gray-600 mb-1">Innovation Capacity (1-10) <span data-tooltip="Rate your team's ability to innovate and adapt." class="text-teal-500 underline cursor-pointer">?</span></label>
-                            <input type="range" id="innovation-capacity" min="1" max="10" value="5" class="w-full">
-                            <p class="text-gray-600">Score: <span id="innovation-capacity-value">5</span></p>
-                        </div>
-                        <div class="md:col-span-2">
-                            <label for="turnover-rate" class="block text-gray-600 mb-1">Employee Turnover Rate (%)</label>
-                            <input type="number" id="turnover-rate" class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-500" placeholder="e.g., 10">
-                            <p id="turnover-rate-error" class="text-red-500 text-sm mt-1 hidden">Please enter a valid percentage (0-100).</p>
-                        </div>
-                    </div>
-                    <img src="https://via.placeholder.com/600x200?text=Team+and+Innovation+Illustration" alt="Team and Innovation Illustration" class="step-image">
-                    <div class="mt-6 flex justify-between">
-                        <button id="prev-btn-10" class="btn-secondary font-bold py-2 px-4 rounded-lg">Previous</button>
-                        <button id="next-btn-10" class="btn-primary text-white font-bold py-2 px-4 rounded-lg">Submit</button>
-                    </div>
-                    <div class="explanation-box">
-                        <p><strong>Super Simple Explanation:</strong> These are about your team and how creative they are.</p>
-                        <ul>
-                            <li><strong>Team Size:</strong> Total number of people working for you.</li>
-                            <li><strong>Founder Experience:</strong> How many years you’ve been running or working in this field.</li>
-                            <li><strong>Culture Score:</strong> How happy and united your team is (1 = bad vibes, 10 = great team).</li>
-                            <li><strong>Innovation Capacity:</strong> How good your team is at coming up with new ideas (1 = stuck, 10 = creative).</li>
-                            <li><strong>Employee Turnover Rate:</strong> Percentage of employees who leave each year (lower is better).</li>
-                        </ul>
-                        <p><strong>How to Get This Info:</strong> Count your employees for team size. Founder experience is your own history. Culture and innovation are your gut feeling or team feedback. Turnover is employees lost divided by total employees. If unsure, ask your HR person or estimate based on how long people stay!</p>
-                    </div>
-                </div>
-
-             <div class="step step-hidden" id="paywall-step">
-                    <h3 class="text-xl font-semibold text-gray-800 mb-4">Unlock Your Valuation Report</h3>
-                    <p class="text-gray-600 mb-4">You've completed the PRO valuation tool! To access your detailed valuation report, pay a one-time fee.</p>
-                    <div class="bg-gray-100 p-4 rounded-lg mb-4">
-                        <h4 class="text-lg font-semibold text-gray-800">Valuation Report Access</h4>
-                        <ul class="list-disc list-inside text-gray-600 mt-2">
-                            <li>Full access to detailed valuation report</li>
-                            <li>Downloadable PDF with charts and insights</li>
-                            <li>One-time payment, no subscription</li>
-                        </ul>
-                        <p class="text-gray-600 mt-2">Only $49</p>
-                    </div>
-                    <button id="checkout-button" class="btn-primary text-white font-bold py-3 px-6 rounded-lg w-full md:w-auto">Pay Now with Stripe</button>
-                    <p class="text-gray-500 text-sm mt-2">Secure payment processed by Stripe.</p>
+                <div class="flex justify-center space-x-4">
+                    <a href="#valuation" class="btn-primary text-white font-bold py-3 px-8 rounded-lg">Get Your Valuation</a>
+                    <a href="#demo" class="btn-secondary font-bold py-3 px-8 rounded-lg">Watch Demo</a>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <footer class="bg-gray-800 text-white py-6 mt-12">
+        <section id="valuation" class="py-16 bg-gray-50">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl font-bold text-gray-800 mb-4">PRO Self Valuation Tool</h2>
+                    <p class="text-lg text-gray-600 max-w-2xl mx-auto">Answer a few questions to get a detailed PRO valuation report for your SaaS business in minutes.</p>
+                </div>
+                <div id="valuation-form" class="bg-white rounded-xl shadow-lg p-6 max-w-3xl mx-auto">
+                    <div class="mb-8">
+                        <div class="relative pt-1">
+                            <div class="overflow-hidden h-2 mb-4 text-xs flex rounded bg-gray-200">
+                                <div id="progress-fill" class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-teal-500" style="width: 10%"></div>
+                            </div>
+                            <p class="text-center text-gray-600">Step <span id="current-step">1</span> of 10</p>
+                        </div>
+                    </div>
+
+                    <div class="step step-visible">
+                        <h3 class="text-xl font-semibold text-gray-800 mb-4">Step 1: Select Valuation Method</h3>
+                        <p class="text-gray-600 mb-4">Choose up to 3 methods for a comprehensive valuation. <span data-tooltip="Select methods based on your business model. Multiplier is best for established SaaS companies, while DCF suits those with predictable cash flows." class="text-teal-500 underline cursor-pointer">Learn more</span></p>
+                        <div class="space-y-2">
+                            <label class="flex items-center">
+                                <input type="checkbox" id="method-multiplier" value="multiplier" class="form-checkbox h-5 w-5 text-teal-500">
+                                <span class="ml-2 text-gray-600">Revenue Multiplier</span>
+                            </label>
+                            <label class="flex items-center">
+                                <input type="checkbox" id="method-income" value="income" class="form-checkbox h-5 w-5 text-teal-500">
+                                <span class="ml-2 text-gray-600">Income-Based Valuation</span>
+                            </label>
+                            <label class="flex items-center">
+                                <input type="checkbox" id="method-earnings" value="earnings" class="form-checkbox h-5 w-5 text-teal-500">
+                                <span class="ml-2 text-gray-600">Earnings-Based Valuation</span>
+                            </label>
+                            <label class="flex items-center">
+                                <input type="checkbox" id="method-dcf" value="dcf" class="form-checkbox h-5 w-5 text-teal-500">
+                                <span class="ml-2 text-gray-600">Discounted Cash Flow (DCF)</span>
+                            </label>
+                        </div>
+                        <p id="method-error" class="text-red-500 text-sm mt-2 hidden">Please select 1 to 3 methods.</p>
+                        <img src="https://via.placeholder.com/600x200?text=Valuation+Methods+Illustration" alt="Valuation Methods Illustration" class="step-image">
+                        <div class="mt-6 flex justify-end">
+                            <button id="next-btn-1" class="btn-primary text-white font-bold py-2 px-4 rounded-lg">Next</button>
+                        </div>
+                        <div class="explanation-box">
+                            <p><strong>Super Simple Explanation:</strong> These are different ways to figure out how much your business is worth. Think of them like different recipes to bake a cake—pick the ones that fit your business best!</p>
+                            <ul>
+                                <li><strong>Revenue Multiplier:</strong> Uses your yearly income to guess your value. Good if you have steady sales.</li>
+                                <li><strong>Income-Based Valuation:</strong> Looks at your profits to set a value. Works if you make money after expenses.</li>
+                                <li><strong>Earnings-Based Valuation:</strong> Similar to income, but focuses on how much you earn overall.</li>
+                                <li><strong>Discounted Cash Flow (DCF):</strong> Predicts your future money based on today’s cash. Best if you can guess future earnings.</li>
+                            </ul>
+                            <p><strong>How to Get This Info:</strong> You don’t need exact numbers yet—just pick what sounds closest to how your business works. If unsure, ask your accountant or look at your yearly financial reports. If you don’t have these, guess based on what you earn monthly and multiply by 12 for a rough yearly amount.</p>
+                        </div>
+                    </div>
+
+                    <div class="step step-hidden">
+                        <h3 class="text-xl font-semibold text-gray-800 mb-4">Step 2: Revenue Metrics</h3>
+                        <p class="text-gray-600 mb-4">Provide detailed revenue metrics to assess your financial performance.</p>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label for="arr" class="block text-gray-600 mb-1">Annual Recurring Revenue (ARR) ($)</label>
+                                <input type="text" id="arr" class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-500" placeholder="e.g., 500,000">
+                                <p id="arr-error" class="text-red-500 text-sm mt-1 hidden">Please enter a valid number.</p>
+                            </div>
+                            <div>
+                                <label for="mrr" class="block text-gray-600 mb-1">Monthly Recurring Revenue (MRR) ($)</label>
+                                <input type="text" id="mrr" class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-500" placeholder="e.g., 41,667">
+                                <p id="mrr-error" class="text-red-500 text-sm mt-1 hidden">Please enter a valid number.</p>
+                            </div>
+                            <div>
+                                <label for="expansion-revenue" class="block text-gray-600 mb-1">Expansion Revenue (% of ARR)</label>
+                                <input type="number" id="expansion-revenue" class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-500" placeholder="e.g., 10">
+                                <p id="expansion-revenue-error" class="text-red-500 text-sm mt-1 hidden">Please enter a valid percentage (0-100).</p>
+                            </div>
+                            <div>
+                                <label for="non-recurring-revenue" class="block text-gray-600 mb-1">Non-Recurring Revenue ($/year)</label>
+                                <input type="text" id="non-recurring-revenue" class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-500" placeholder="e.g., 50,000">
+                                <p id="non-recurring-revenue-error" class="text-red-500 text-sm mt-1 hidden">Please enter a valid number.</p>
+                            </div>
+                            <div>
+                                <label for="gross-margin" class="block text-gray-600 mb-1">Gross Margin (%)</label>
+                                <input type="number" id="gross-margin" class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-500" placeholder="e.g., 80">
+                                <p id="gross-margin-error" class="text-red-500 text-sm mt-1 hidden">Please enter a valid percentage (0-100).</p>
+                            </div>
+                        </div>
+                        <img src="https://via.placeholder.com/600x200?text=Revenue+Metrics+Illustration" alt="Revenue Metrics Illustration" class="step-image">
+                        <div class="mt-6 flex justify-between">
+                            <button id="prev-btn-2" class="btn-secondary font-bold py-2 px-4 rounded-lg">Previous</button>
+                            <button id="next-btn-2" class="btn-primary text-white font-bold py-2 px-4 rounded-lg">Next</button>
+                        </div>
+                        <div class="explanation-box">
+                            <p><strong>Super Simple Explanation:</strong> These are about how much money your business makes and keeps.</p>
+                            <ul>
+                                <li><strong>Annual Recurring Revenue (ARR):</strong> The money you get every year from customers who keep paying (like subscriptions).</li>
+                                <li><strong>Monthly Recurring Revenue (MRR):</strong> The same, but for one month—multiply by 12 to get ARR if you only have this.</li>
+                                <li><strong>Expansion Revenue (% of ARR):</strong> Extra money from existing customers (e.g., upgrades). Guess a percentage if unsure.</li>
+                                <li><strong>Non-Recurring Revenue:</strong> One-time payments (e.g., setup fees). Add up big one-off sales from the year.</li>
+                                <li><strong>Gross Margin (%):</strong> How much profit you make after costs, shown as a percentage of sales.</li>
+                            </ul>
+                            <p><strong>How to Get This Info:</strong> Check your bank statements or accounting software (like QuickBooks) for subscription income. If you don’t track this, estimate based on your average monthly sales. For gross margin, divide profit by revenue and multiply by 100. Ask your bookkeeper if you’re lost!</p>
+                        </div>
+                    </div>
+
+                    <div class="step step-hidden">
+                        <h3 class="text-xl font-semibold text-gray-800 mb-4">Step 3: Growth Metrics</h3>
+                        <p class="text-gray-600 mb-4">Provide growth metrics to evaluate your business's scalability and momentum.</p>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label for="arr-growth-rate" class="block text-gray-600 mb-1">Annual ARR Growth Rate (%)</label>
+                                <input type="number" id="arr-growth-rate" class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-500" placeholder="e.g., 25">
+                                <p id="arr-growth-rate-error" class="text-red-500 text-sm mt-1 hidden">Please enter a valid percentage (0-1000).</p>
+                            </div>
+                            <div>
+                                <label for="nrr" class="block text-gray-600 mb-1">Net Revenue Retention (NRR) (%)</label>
+                                <input type="number" id="nrr" class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-500" placeholder="e.g., 110">
+                                <p id="nrr-error" class="text-red-500 text-sm mt-1 hidden">Please enter a valid percentage (0-500).</p>
+                            </div>
+                            <div>
+                                <label for="customer-growth" class="block text-gray-600 mb-1">Customer Growth Rate (%)</label>
+                                <input type="number" id="customer-growth" class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-500" placeholder="e.g., 20">
+                                <p id="customer-growth-error" class="text-red-500 text-sm mt-1 hidden">Please enter a valid percentage (0-1000).</p>
+                            </div>
+                            <div>
+                                <label for="expansion-growth" class="block text-gray-600 mb-1">Expansion Growth Rate (%)</label>
+                                <input type="number" id="expansion-growth" class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-500" placeholder="e.g., 15">
+                                <p id="expansion-growth-error" class="text-red-500 text-sm mt-1 hidden">Please enter a valid percentage (0-1000).</p>
+                            </div>
+                            <div class="md:col-span-2">
+                                <label for="growth-consistency" class="block text-gray-600 mb-1">Growth Consistency (1-10) <span data-tooltip="Rate how consistent your growth has been over the past 12 months." class="text-teal-500 underline cursor-pointer">?</span></label>
+                                <input type="range" id="growth-consistency" min="1" max="10" value="5" class="w-full">
+                                <p class="text-gray-600">Score: <span id="growth-consistency-value">5</span></p>
+                            </div>
+                        </div>
+                        <img src="https://via.placeholder.com/600x200?text=Growth+Metrics+Illustration" alt="Growth Metrics Illustration" class="step-image">
+                        <div class="mt-6 flex justify-between">
+                            <button id="prev-btn-3" class="btn-secondary font-bold py-2 px-4 rounded-lg">Previous</button>
+                            <button id="next-btn-3" class="btn-primary text-white font-bold py-2 px-4 rounded-lg">Next</button>
+                        </div>
+                        <div class="explanation-box">
+                            <p><strong>Super Simple Explanation:</strong> These show how fast your business is growing and staying strong.</p>
+                            <ul>
+                                <li><strong>Annual ARR Growth Rate:</strong> How much your yearly recurring revenue grew (e.g., 25% means it went up by a quarter).</li>
+                                <li><strong>Net Revenue Retention (NRR):</strong> What percentage of revenue stays or grows from existing customers (over 100% is great!).</li>
+                                <li><strong>Customer Growth Rate:</strong> How many new customers you gained, as a percentage.</li>
+                                <li><strong>Expansion Growth Rate:</strong> Extra growth from current customers (e.g., upgrades), as a percentage.</li>
+                                <li><strong>Growth Consistency:</strong> How steady your growth has been (1 = all over the place, 10 = super steady).</li>
+                            </ul>
+                            <p><strong>How to Get This Info:</strong> Look at your customer list or sales records from last year to this year. Compare total revenue or customer numbers. If you don’t have data, guess based on how many new customers you’ve added or how much more you’re earning. Ask your sales team for help!</p>
+                        </div>
+                    </div>
+
+                    <div class="step step-hidden">
+                        <h3 class="text-xl font-semibold text-gray-800 mb-4">Step 4: Customer Metrics</h3>
+                        <p class="text-gray-600 mb-4">Tell us about your customer acquisition and retention metrics.</p>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label for="ltv" class="block text-gray-600 mb-1">Customer Lifetime Value (LTV) ($)</label>
+                                <input type="text" id="ltv" class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-500" placeholder="e.g., 5,000">
+                                <p id="ltv-error" class="text-red-500 text-sm mt-1 hidden">Please enter a valid number.</p>
+                            </div>
+                            <div>
+                                <label for="cac" class="block text-gray-600 mb-1">Customer Acquisition Cost (CAC) ($)</label>
+                                <input type="text" id="cac" class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-500" placeholder="e.g., 1,000">
+                                <p id="cac-error" class="text-red-500 text-sm mt-1 hidden">Please enter a valid number.</p>
+                            </div>
+                            <div>
+                                <label for="churn-rate" class="block text-gray-600 mb-1">Churn Rate (%)</label>
+                                <input type="number" id="churn-rate" class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-500" placeholder="e.g., 5">
+                                <p id="churn-rate-error" class="text-red-500 text-sm mt-1 hidden">Please enter a valid percentage (0-100).</p>
+                            </div>
+                            <div>
+                                <label for="customer-growth-rate" class="block text-gray-600 mb-1">Customer Growth Rate (%)</label>
+                                <input type="number" id="customer-growth-rate" class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-500" placeholder="e.g., 10">
+                                <p id="customer-growth-rate-error" class="text-red-500 text-sm mt-1 hidden">Please enter a valid percentage (0-100).</p>
+                            </div>
+                            <div>
+                                <label for="net-promoter-score" class="block text-gray-600 mb-1">Net Promoter Score (NPS) (-100 to 100)</label>
+                                <input type="number" id="net-promoter-score" class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-500" placeholder="e.g., 30">
+                                <p id="net-promoter-score-error" class="text-red-500 text-sm mt-1 hidden">Please enter a valid number (-100 to 100).</p>
+                            </div>
+                        </div>
+                        <img src="https://via.placeholder.com/600x200?text=Customer+Metrics+Illustration" alt="Customer Metrics Illustration" class="step-image">
+                        <div class="mt-6 flex justify-between">
+                            <button id="prev-btn-4" class="btn-secondary font-bold py-2 px-4 rounded-lg">Previous</button>
+                            <button id="next-btn-4" class="btn-primary text-white font-bold py-2 px-4 rounded-lg">Next</button>
+                        </div>
+                        <div class="explanation-box">
+                            <p><strong>Super Simple Explanation:</strong> These are about your customers—how you get them, keep them, and how happy they are.</p>
+                            <ul>
+                                <li><strong>Customer Lifetime Value (LTV):</strong> How much money one customer gives you over time they use your service.</li>
+                                <li><strong>Customer Acquisition Cost (CAC):</strong> How much you spend to get a new customer (e.g., ads, sales).</li>
+                                <li><strong>Churn Rate:</strong> Percentage of customers who leave each year (lower is better).</li>
+                                <li><strong>Customer Growth Rate:</strong> How many new customers you gain, as a percentage.</li>
+                                <li><strong>Net Promoter Score (NPS):</strong> A score from -100 to 100 showing if customers would recommend you (higher is better).</li>
+                            </ul>
+                            <p><strong>How to Get This Info:</strong> Check your sales or CRM software for customer data. LTV is average revenue per customer times how long they stay. CAC is marketing/sales costs divided by new customers. Churn is customers lost divided by total customers. NPS comes from surveys asking “Would you recommend us?” If you don’t have this, estimate based on your gut or ask customers directly!</p>
+                        </div>
+                    </div>
+
+                    <div class="step step-hidden">
+                        <h3 class="text-xl font-semibold text-gray-800 mb-4">Step 5: Efficiency Metrics</h3>
+                        <p class="text-gray-600 mb-4">Provide efficiency metrics to evaluate your business's operational performance.</p>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label for="ltv-cac-ratio" class="block text-gray-600 mb-1">LTV to CAC Ratio <span data-tooltip="A ratio above 3 is generally considered healthy for SaaS businesses." class="text-teal-500 underline cursor-pointer">?</span></label>
+                                <input type="number" id="ltv-cac-ratio" class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-500" placeholder="e.g., 3.5" step="0.1">
+                                <p id="ltv-cac-ratio-error" class="text-red-500 text-sm mt-1 hidden">Please enter a valid number (0-100).</p>
+                            </div>
+                            <div>
+                                <label for="cac-payback" class="block text-gray-600 mb-1">CAC Payback Period (Months)</label>
+                                <input type="number" id="cac-payback" class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-500" placeholder="e.g., 12">
+                                <p id="cac-payback-error" class="text-red-500 text-sm mt-1 hidden">Please enter a valid number (0-120).</p>
+                            </div>
+                            <div>
+                                <label for="magic-number" class="block text-gray-600 mb-1">Magic Number <span data-tooltip="A value above 0.75 indicates efficient growth." class="text-teal-500 underline cursor-pointer">?</span></label>
+                                <input type="number" id="magic-number" class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-500" placeholder="e.g., 0.8" step="0.1">
+                                <p id="magic-number-error" class="text-red-500 text-sm mt-1 hidden">Please enter a valid number (0-10).</p>
+                            </div>
+                            <div>
+                                <label for="burn-rate" class="block text-gray-600 mb-1">Monthly Burn Rate ($)</label>
+                                <input type="text" id="burn-rate" class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-500" placeholder="e.g., 50,000">
+                                <p id="burn-rate-error" class="text-red-500 text-sm mt-1 hidden">Please enter a valid number.</p>
+                            </div>
+                            <div class="md:col-span-2">
+                                <label for="efficiency-score" class="block text-gray-600 mb-1">Efficiency Score (1-10) <span data-tooltip="Rate your overall operational efficiency." class="text-teal-500 underline cursor-pointer">?</span></label>
+                                <input type="range" id="efficiency-score" min="1" max="10" value="5" class="w-full">
+                                <p class="text-gray-600">Score: <span id="efficiency-score-value">5</span></p>
+                            </div>
+                        </div>
+                        <img src="https://via.placeholder.com/600x200?text=Efficiency+Metrics+Illustration" alt="Efficiency Metrics Illustration" class="step-image">
+                        <div class="mt-6 flex justify-between">
+                            <button id="prev-btn-5" class="btn-secondary font-bold py-2 px-4 rounded-lg">Previous</button>
+                            <button id="next-btn-5" class="btn-primary text-white font-bold py-2 px-4 rounded-lg">Next</button>
+                        </div>
+                        <div class="explanation-box">
+                            <p><strong>Super Simple Explanation:</strong> These measure how well you use money and time to grow.</p>
+                            <ul>
+                                <li><strong>LTV to CAC Ratio:</strong> How much you earn from a customer compared to what you spend to get them (aim for 3 or higher).</li>
+                                <li><strong>CAC Payback Period:</strong> How many months it takes to earn back what you spent on a customer.</li>
+                                <li><strong>Magic Number:</strong> Shows if your growth is worth the money spent (above 0.75 is good).</li>
+                                <li><strong>Burn Rate:</strong> How much cash you lose each month if you’re not profitable yet.</li>
+                                <li><strong>Efficiency Score:</strong> How smooth and smart your operations are (1 = messy, 10 = perfect).</li>
+                            </ul>
+                            <p><strong>How to Get This Info:</strong> Use LTV and CAC from the last step. Payback is CAC divided by monthly profit per customer. Magic number needs revenue and cost data—ask your finance person. Burn rate is your monthly expenses minus income. If you don’t have exact numbers, estimate based on bills and sales, or guess a score for efficiency!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-gray-800 text-white py-6">
         <div class="container mx-auto px-6 text-center">
             <p>© 2025 SaaS Valuation App. All rights reserved.</p>
             <div class="mt-4 space-x-4">
@@ -690,431 +437,3 @@
             </div>
         </div>
     </footer>
-
-    <script>
-        let currentStep = 1;
-        const totalSteps = 10;
-        const steps = document.querySelectorAll('.step');
-        const progressFill = document.getElementById('progress-fill');
-
-        // Initialize Stripe with your Publishable Key
-        if (typeof Stripe === 'undefined') {
-            console.error('Stripe JavaScript library is not loaded. Please ensure <script src="https://js.stripe.com/v3/"></script> is included in the <head> section.');
-        } else {
-            console.log('Stripe JavaScript library loaded successfully.');
-        }
-        const stripe = Stripe('pk_test_51RKjADPJ6Ffvx3xx1wiFNTLKntbHiA1BYOFTSDxzpymIclpjyn0grUmM50nPPjs6xtLhWun6QOy638yE4C3aGhbh00vjBVgLUN');
-
-        function updateProgress() {
-            const progress = (currentStep / totalSteps) * 100;
-            progressFill.style.width = `${progress}%`;
-            document.getElementById('current-step').textContent = currentStep;
-        }
-
-        function showStep(step) {
-            steps.forEach((s, index) => {
-                s.classList.toggle('step-visible', index + 1 === step);
-                s.classList.toggle('step-hidden', index + 1 !== step);
-            });
-            if (step <= totalSteps) {
-                updateProgress();
-            }
-        }
-
-        function cleanNumericInput(value, regex, allowEmpty = false) {
-            const cleanedValue = value.replace(/,/g, '').trim();
-            if (allowEmpty && cleanedValue === '') return true;
-            return regex.test(cleanedValue) && cleanedValue !== '';
-        }
-
-        function validateStep(step) {
-            let isValid = true;
-
-            if (step === 1) {
-                const methods = document.querySelectorAll('input[type="checkbox"]:checked');
-                const errorElement = document.getElementById('method-error');
-                if (methods.length < 1 || methods.length > 3) {
-                    errorElement.classList.remove('hidden');
-                    isValid = false;
-                } else {
-                    errorElement.classList.add('hidden');
-                }
-            }
-
-            if (step === 2) {
-                const inputs = [
-                    { id: 'arr', error: 'arr-error', regex: /^\d+(\.\d{1,2})?$/ },
-                    { id: 'mrr', error: 'mrr-error', regex: /^\d+(\.\d{1,2})?$/ },
-                    { id: 'expansion-revenue', error: 'expansion-revenue-error', regex: /^(100|[0-9]{1,2})$/ },
-                    { id: 'non-recurring-revenue', error: 'non-recurring-revenue-error', regex: /^\d+(\.\d{1,2})?$/ },
-                    { id: 'gross-margin', error: 'gross-margin-error', regex: /^(100|[0-9]{1,2})$/ }
-                ];
-                inputs.forEach(input => {
-                    const element = document.getElementById(input.id);
-                    const errorElement = document.getElementById(input.error);
-                    if (!cleanNumericInput(element.value, input.regex)) {
-                        element.classList.add('input-error');
-                        errorElement.classList.remove('hidden');
-                        isValid = false;
-                    } else {
-                        element.classList.remove('input-error');
-                        errorElement.classList.add('hidden');
-                    }
-                });
-            }
-
-            if (step === 3) {
-                const inputs = [
-                    { id: 'arr-growth-rate', error: 'arr-growth-rate-error', regex: /^(1000|[0-9]{1,3})$/ },
-                    { id: 'nrr', error: 'nrr-error', regex: /^(500|[0-9]{1,3})$/ },
-                    { id: 'customer-growth', error: 'customer-growth-error', regex: /^(1000|[0-9]{1,3})$/ },
-                    { id: 'expansion-growth', error: 'expansion-growth-error', regex: /^(1000|[0-9]{1,3})$/ }
-                ];
-                inputs.forEach(input => {
-                    const element = document.getElementById(input.id);
-                    const errorElement = document.getElementById(input.error);
-                    if (!cleanNumericInput(element.value, input.regex)) {
-                        element.classList.add('input-error');
-                        errorElement.classList.remove('hidden');
-                        isValid = false;
-                    } else {
-                        element.classList.remove('input-error');
-                        errorElement.classList.add('hidden');
-                    }
-                });
-            }
-
-            if (step === 4) {
-                const inputs = [
-                    { id: 'ltv', error: 'ltv-error', regex: /^\d+(\.\d{1,2})?$/ },
-                    { id: 'cac', error: 'cac-error', regex: /^\d+(\.\d{1,2})?$/ },
-                    { id: 'churn-rate', error: 'churn-rate-error', regex: /^(100|[0-9]{1,2})$/ },
-                    { id: 'customer-growth-rate', error: 'customer-growth-rate-error', regex: /^(100|[0-9]{1,2})$/ },
-                    { id: 'net-promoter-score', error: 'net-promoter-score-error', regex: /^(-?[0-9]{1,2}|-?100)$/ }
-                ];
-                inputs.forEach(input => {
-                    const element = document.getElementById(input.id);
-                    const errorElement = document.getElementById(input.error);
-                    if (!cleanNumericInput(element.value, input.regex)) {
-                        element.classList.add('input-error');
-                        errorElement.classList.remove('hidden');
-                        isValid = false;
-                    } else {
-                        element.classList.remove('input-error');
-                        errorElement.classList.add('hidden');
-                    }
-                });
-            }
-
-            if (step === 5) {
-                const inputs = [
-                    { id: 'ltv-cac-ratio', error: 'ltv-cac-ratio-error', regex: /^(100|[0-9]{1,2})(\.[0-9]{1,2})?$/ },
-                    { id: 'cac-payback', error: 'cac-payback-error', regex: /^(120|[0-9]{1,2})$/ },
-                    { id: 'magic-number', error: 'magic-number-error', regex: /^(10|[0-9])(\.[0-9]{1,2})?$/ },
-                    { id: 'burn-rate', error: 'burn-rate-error', regex: /^\d+(\.\d{1,2})?$/ }
-                ];
-                inputs.forEach(input => {
-                    const element = document.getElementById(input.id);
-                    const errorElement = document.getElementById(input.error);
-                    if (!cleanNumericInput(element.value, input.regex)) {
-                        element.classList.add('input-error');
-                        errorElement.classList.remove('hidden');
-                        isValid = false;
-                    } else {
-                        element.classList.remove('input-error');
-                        errorElement.classList.add('hidden');
-                    }
-                });
-            }
-
-            if (step === 6) {
-                const inputs = [
-                    { id: 'acv', error: 'acv-error', regex: /^\d+(\.\d{1,2})?$/ },
-                    { id: 'sales-cycle', error: 'sales-cycle-error', regex: /^(365|[0-9]{1,3})$/ },
-                    { id: 'win-rate', error: 'win-rate-error', regex: /^(100|[0-9]{1,2})$/ },
-                    { id: 'sales-growth', error: 'sales-growth-error', regex: /^(1000|[0-9]{1,3})$/ }
-                ];
-                inputs.forEach(input => {
-                    const element = document.getElementById(input.id);
-                    const errorElement = document.getElementById(input.error);
-                    if (!cleanNumericInput(element.value, input.regex)) {
-                        element.classList.add('input-error');
-                        errorElement.classList.remove('hidden');
-                        isValid = false;
-                    } else {
-                        element.classList.remove('input-error');
-                        errorElement.classList.add('hidden');
-                    }
-                });
-            }
-
-            if (step === 7) {
-                const inputs = [
-                    { id: 'feature-adoption', error: 'feature-adoption-error', regex: /^(100|[0-9]{1,2})$/ },
-                    { id: 'patents', error: 'patents-error', regex: /^(100|[0-9]{1,2})$/ },
-                    { id: 'product-stickiness', error: 'product-stickiness-error', regex: /^(1|[0-9](\.[0-9]{1,2})?)$/ },
-                    { id: 'update-frequency', error: 'update-frequency-error', regex: /^(50|[0-9]{1,2})$/ }
-                ];
-                inputs.forEach(input => {
-                    const element = document.getElementById(input.id);
-                    const errorElement = document.getElementById(input.error);
-                    if (!cleanNumericInput(element.value, input.regex)) {
-                        element.classList.add('input-error');
-                        errorElement.classList.remove('hidden');
-                        isValid = false;
-                    } else {
-                        element.classList.remove('input-error');
-                        errorElement.classList.add('hidden');
-                    }
-                });
-            }
-
-            if (step === 8) {
-                const inputs = [
-                    { id: 'tam', error: 'tam-error', regex: /^\d+(\.\d{1,2})?$/ },
-                    { id: 'market-share', error: 'market-share-error', regex: /^(100|[0-9]{1,2})$/ },
-                    { id: 'market-growth-rate', error: 'market-growth-rate-error', regex: /^(100|[0-9]{1,2})$/ },
-                    { id: 'competitor-count', error: 'competitor-count-error', regex: /^(100|[0-9]{1,2})$/ }
-                ];
-                inputs.forEach(input => {
-                    const element = document.getElementById(input.id);
-                    const errorElement = document.getElementById(input.error);
-                    if (!cleanNumericInput(element.value, input.regex)) {
-                        element.classList.add('input-error');
-                        errorElement.classList.remove('hidden');
-                        isValid = false;
-                    } else {
-                        element.classList.remove('input-error');
-                        errorElement.classList.add('hidden');
-                    }
-                });
-            }
-
-            if (step === 9) {
-                // No numeric inputs to validate for Step 9 (all are ranges)
-                isValid = true;
-            }
-
-            if (step === 10) {
-                const inputs = [
-                    { id: 'team-size', error: 'team-size-error', regex: /^(10000|[0-9]{1,4})$/ },
-                    { id: 'founder-experience', error: 'founder-experience-error', regex: /^(50|[0-9]{1,2})$/ },
-                    { id: 'turnover-rate', error: 'turnover-rate-error', regex: /^(100|[0-9]{1,2})$/ }
-                ];
-                inputs.forEach(input => {
-                    const element = document.getElementById(input.id);
-                    const errorElement = document.getElementById(input.error);
-                    if (!cleanNumericInput(element.value, input.regex)) {
-                        element.classList.add('input-error');
-                        errorElement.classList.remove('hidden');
-                        isValid = false;
-                    } else {
-                        element.classList.remove('input-error');
-                        errorElement.classList.add('hidden');
-                    }
-                });
-            }
-
-            return isValid;
-        }
-
-        document.getElementById('next-btn-1').addEventListener('click', () => {
-            if (validateStep(1)) {
-                currentStep = 2;
-                showStep(currentStep);
-            }
-        });
-
-        document.getElementById('prev-btn-2').addEventListener('click', () => {
-            currentStep = 1;
-            showStep(currentStep);
-        });
-
-        document.getElementById('next-btn-2').addEventListener('click', () => {
-            if (validateStep(2)) {
-                currentStep = 3;
-                showStep(currentStep);
-            }
-        });
-
-        document.getElementById('prev-btn-3').addEventListener('click', () => {
-            currentStep = 2;
-            showStep(currentStep);
-        });
-
-        document.getElementById('next-btn-3').addEventListener('click', () => {
-            if (validateStep(3)) {
-                currentStep = 4;
-                showStep(currentStep);
-            }
-        });
-
-        document.getElementById('prev-btn-4').addEventListener('click', () => {
-            currentStep = 3;
-            showStep(currentStep);
-        });
-
-        document.getElementById('next-btn-4').addEventListener('click', () => {
-            if (validateStep(4)) {
-                currentStep = 5;
-                showStep(currentStep);
-            }
-        });
-
-        document.getElementById('prev-btn-5').addEventListener('click', () => {
-            currentStep = 4;
-            showStep(currentStep);
-        });
-
-        document.getElementById('next-btn-5').addEventListener('click', () => {
-            if (validateStep(5)) {
-                currentStep = 6;
-                showStep(currentStep);
-            }
-        });
-
-        document.getElementById('prev-btn-6').addEventListener('click', () => {
-            currentStep = 5;
-            showStep(currentStep);
-        });
-
-        document.getElementById('next-btn-6').addEventListener('click', () => {
-            if (validateStep(6)) {
-                currentStep = 7;
-                showStep(currentStep);
-            }
-        });
-
-        document.getElementById('prev-btn-7').addEventListener('click', () => {
-            currentStep = 6;
-            showStep(currentStep);
-        });
-
-        document.getElementById('next-btn-7').addEventListener('click', () => {
-            if (validateStep(7)) {
-                currentStep = 8;
-                showStep(currentStep);
-            }
-        });
-
-        document.getElementById('prev-btn-8').addEventListener('click', () => {
-            currentStep = 7;
-            showStep(currentStep);
-        });
-
-        document.getElementById('next-btn-8').addEventListener('click', () => {
-            if (validateStep(8)) {
-                currentStep = 9;
-                showStep(currentStep);
-            }
-        });
-
-        document.getElementById('prev-btn-9').addEventListener('click', () => {
-            currentStep = 8;
-            showStep(currentStep);
-        });
-
-        document.getElementById('next-btn-9').addEventListener('click', () => {
-            if (validateStep(9)) {
-                currentStep = 10;
-                showStep(currentStep);
-            }
-        });
-
-        document.getElementById('prev-btn-10').addEventListener('click', () => {
-            currentStep = 9;
-            showStep(currentStep);
-        });
-
-        document.getElementById('next-btn-10').addEventListener('click', () => {
-            if (validateStep(10)) {
-                currentStep = 11; // Move to paywall step
-                showStep(currentStep);
-            }
-        });
-
-        document.getElementById('growth-consistency').addEventListener('input', () => {
-            document.getElementById('growth-consistency-value').textContent = document.getElementById('growth-consistency').value;
-        });
-
-        document.getElementById('efficiency-score').addEventListener('input', () => {
-            document.getElementById('efficiency-score-value').textContent = document.getElementById('efficiency-score').value;
-        });
-
-        document.getElementById('sales-efficiency').addEventListener('input', () => {
-            document.getElementById('sales-efficiency-value').textContent = document.getElementById('sales-efficiency').value;
-        });
-
-        document.getElementById('innovation-index').addEventListener('input', () => {
-            document.getElementById('innovation-index-value').textContent = document.getElementById('innovation-index').value;
-        });
-
-        document.getElementById('market-position').addEventListener('input', () => {
-            document.getElementById('market-position-value').textContent = document.getElementById('market-position').value;
-        });
-
-        document.getElementById('financial-risk').addEventListener('input', () => {
-            document.getElementById('financial-risk-value').textContent = document.getElementById('financial-risk').value;
-        });
-
-        document.getElementById('operational-risk').addEventListener('input', () => {
-            document.getElementById('operational-risk-value').textContent = document.getElementById('operational-risk').value;
-        });
-
-        document.getElementById('market-risk').addEventListener('input', () => {
-            document.getElementById('market-risk-value').textContent = document.getElementById('market-risk').value;
-        });
-
-        document.getElementById('dependency-risk').addEventListener('input', () => {
-            document.getElementById('dependency-risk-value').textContent = document.getElementById('dependency-risk').value;
-        });
-
-        document.getElementById('regulatory-risk').addEventListener('input', () => {
-            document.getElementById('regulatory-risk-value').textContent = document.getElementById('regulatory-risk').value;
-        });
-
-        document.getElementById('culture-score').addEventListener('input', () => {
-            document.getElementById('culture-score-value').textContent = document.getElementById('culture-score').value;
-        });
-
-        document.getElementById('innovation-capacity').addEventListener('input', () => {
-            document.getElementById('innovation-capacity-value').textContent = document.getElementById('innovation-capacity').value;
-        });
-
-        // Stripe Checkout integration with debugging
-        const checkoutButton = document.getElementById('checkout-button');
-        if (checkoutButton) {
-            console.log('Checkout button found, adding event listener.');
-            checkoutButton.addEventListener('click', () => {
-                console.log('Checkout button clicked!');
-                stripe.redirectToCheckout({
-                    lineItems: [{ price: 'price_1RKkiLAllg3p8PieeBOLfosn', quantity: 1 }],
-                    mode: 'payment',
-                    successUrl: window.location.href + '?success=true',
-                    cancelUrl: window.location.href + '?cancel=true',
-                    clientReferenceId: 'valuation-report-' + Date.now()
-                }).then(function (result) {
-                    if (result.error) {
-                        console.error('Stripe Checkout error:', result.error.message);
-                    } else {
-                        console.log('Redirecting to Stripe Checkout...');
-                    }
-                }).catch(function (error) {
-                    console.error('Stripe redirectToCheckout failed:', error);
-                });
-            });
-        } else {
-            console.error('Checkout button not found in the DOM.');
-        }
-
-        // Menu toggle for mobile
-        document.getElementById('menu-toggle').addEventListener('click', () => {
-            const mobileMenu = document.getElementById('mobile-menu');
-            mobileMenu.classList.toggle('hidden');
-        });
-
-        // Show the first step initially
-        showStep(currentStep);
-    </script>
-</body>
-</html>
