@@ -6,7 +6,7 @@
     <title>Pro Valuation - SaaS Valuation App</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script src="https://www.paypal.com/sdk/js?client-id=BAAmPIUOhFD8WnPzN-tp-rQwqJ-5hrys3ik4nE0y2X41APCpAHOeX3swr5esUvo6CBAZzZH5iY8lcuBQB4&components=hosted-buttons&disable-funding=venmo&currency=AUD"></script>
+    <script src="https://www.paypal.com/sdk/js?client-id=ASbONAws0tGaypMS50qHDTjRMz8m92MS4xP66GYI6HW-ALR-F38gMfyrPGn5lLy0aBx7a57Vbj8UgEII&components=hosted-buttons&disable-funding=venmo&currency=AUD"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
         
@@ -246,7 +246,7 @@
                 <div class="mb-8">
                     <div class="flex justify-between items-center mb-2">
                         <span class="text-sm font-medium text-gray-600">Step <span id="current-step">1</span> of 11</span>
-                        <span class="text-sm font-medium text-blue-600"><span id="progress-percentage">9%</span> Complete</span>
+                        <span class="text-sm font-medium text-blue-600"><span id="progress-percentage">9</span>% Complete</span>
                     </div>
                     <div class="progress-bar">
                         <div id="progress-fill" class="progress-fill" style="width: 9.09%"></div>
@@ -266,37 +266,37 @@
                     
                     <div class="space-y-3">
                         <label class="checkbox-container">
-                            <input type="checkbox" id="method-multiplier" value="multiplier" class="hidden">
-                            <span class="checkmark"></span>
+                            <input type="checkbox" id="method-multiplier" value="multiplier" class="hidden" aria-checked="false">
+                            <span class="checkmark" role="checkbox" aria-labelledby="method-multiplier-label"></span>
                             <div>
-                                <span class="checkbox-label">Revenue Multiplier</span>
+                                <span class="checkbox-label" id="method-multiplier-label">Revenue Multiplier</span>
                                 <p class="checkbox-description">Calculates value based on a multiple of your annual recurring revenue (ARR).</p>
                             </div>
                         </label>
                         
                         <label class="checkbox-container">
-                            <input type="checkbox" id="method-income" value="income" class="hidden">
-                            <span class="checkmark"></span>
+                            <input type="checkbox" id="method-income" value="income" class="hidden" aria-checked="false">
+                            <span class="checkmark" role="checkbox" aria-labelledby="method-income-label"></span>
                             <div>
-                                <span class="checkbox-label">Income-Based Valuation</span>
+                                <span class="checkbox-label" id="method-income-label">Income-Based Valuation</span>
                                 <p class="checkbox-description">Determines value based on your company's profitability and cash flow.</p>
                             </div>
                         </label>
                         
                         <label class="checkbox-container">
-                            <input type="checkbox" id="method-earnings" value="earnings" class="hidden">
-                            <span class="checkmark"></span>
+                            <input type="checkbox" id="method-earnings" value="earnings" class="hidden" aria-checked="false">
+                            <span class="checkmark" role="checkbox" aria-labelledby="method-earnings-label"></span>
                             <div>
-                                <span class="checkbox-label">Earnings-Based Valuation</span>
+                                <span class="checkbox-label" id="method-earnings-label">Earnings-Based Valuation</span>
                                 <p class="checkbox-description">Focuses on EBITDA (Earnings Before Interest, Taxes, Depreciation, and Amortization).</p>
                             </div>
                         </label>
                         
                         <label class="checkbox-container">
-                            <input type="checkbox" id="method-dcf" value="dcf" class="hidden">
-                            <span class="checkmark"></span>
+                            <input type="checkbox" id="method-dcf" value="dcf" class="hidden" aria-checked="false">
+                            <span class="checkmark" role="checkbox" aria-labelledby="method-dcf-label"></span>
                             <div>
-                                <span class="checkbox-label">Discounted Cash Flow (DCF)</span>
+                                <span class="checkbox-label" id="method-dcf-label">Discounted Cash Flow (DCF)</span>
                                 <p class="checkbox-description">Projects future cash flows and discounts them to present value.</p>
                             </div>
                         </label>
@@ -1002,5 +1002,201 @@
                                         <span>Actionable insights to increase your valuation</span>
                                     </li>
                                     <li class="flex items-start">
-                                        <i class="fas fa-check-circle text-blue-500 mt-1 mr-2
+                                        <i class="fas fa-check-circle text-blue-500 mt-1 mr-2"></i>
+                                        <span>PDF report with detailed analysis</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="text-center">
+                        <p class="text-gray-600 mb-4">Unlock your report for a one-time payment.</p>
+                        <div id="paypal-container-XVJEGLCSTEQTL"></div>
+                        <p id="payment-error" class="text-red-500 text-sm mt-3 hidden">
+                            <i class="fas fa-exclamation-circle mr-1"></i> An error occurred during payment. Please try again.
+                        </p>
+                    </div>
+                    
+                    <div class="mt-8 flex justify-between">
+                        <button id="prev-btn-11" class="btn-secondary font-medium py-3 px-6 rounded-lg">
+                            <i class="fas fa-arrow-left mr-2"></i> Back
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-8">
+        <div class="container mx-auto px-4 text-center">
+            <p>© 2025 ProValuation. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Step Navigation
+            const steps = document.querySelectorAll('.step');
+            const nextButtons = document.querySelectorAll('[id^=next-btn-]');
+            const prevButtons = document.querySelectorAll('[id^=prev-btn-]');
+            const currentStepDisplay = document.getElementById('current-step');
+            const progressPercentage = document.getElementById('progress-percentage');
+            const progressFill = document.getElementById('progress-fill');
+            let currentStep = 1;
+
+            const updateProgress = () => {
+                const percentage = ((currentStep - 1) / (steps.length - 1)) * 100;
+                progressPercentage.textContent = `${Math.round(percentage)}`;
+                progressFill.style.width = `${percentage}%`;
+                currentStepDisplay.textContent = currentStep;
+            };
+
+            const showStep = (stepNumber) => {
+                steps.forEach(step => {
+                    step.classList.toggle('step-visible', step.dataset.step == stepNumber);
+                    step.classList.toggle('step-hidden', step.dataset.step != stepNumber);
+                });
+                currentStep = stepNumber;
+                updateProgress();
+            };
+
+            nextButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    if (validateStep(currentStep)) {
+                        showStep(currentStep + 1);
+                    }
+                });
+            });
+
+            prevButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    showStep(currentStep - 1);
+                });
+            });
+
+            // Validation for Steps
+            const validateStep = (step) => {
+                let isValid = true;
+                const showError = (id, show) => {
+                    const errorElement = document.getElementById(`${id}-error`);
+                    if (errorElement) errorElement.classList.toggle('hidden', !show);
+                };
+
+                if (step === 1) {
+                    const checkboxes = document.querySelectorAll('.checkbox-container input:checked');
+                    showError('method', checkboxes.length < 1 || checkboxes.length > 3);
+                    isValid = checkboxes.length >= 1 && checkboxes.length <= 3;
+                } else if (step === 2) {
+                    const arr = parseCurrencyInput(document.getElementById('arr').value);
+                    const revenueGrowthRate = parseFloat(document.getElementById('revenueGrowthRate').value);
+                    const grossMargin = parseFloat(document.getElementById('grossMargin').value);
+                    const operatingExpenses = parseCurrencyInput(document.getElementById('operatingExpenses').value);
+                    showError('arr', !arr || arr < 0);
+                    showError('revenueGrowthRate', !revenueGrowthRate || revenueGrowthRate < 0 || revenueGrowthRate > 100);
+                    showError('grossMargin', !grossMargin || grossMargin < 0 || grossMargin > 100);
+                    showError('operatingExpenses', !operatingExpenses || operatingExpenses < 0);
+                    isValid = arr > 0 && revenueGrowthRate >= 0 && revenueGrowthRate <= 100 && 
+                              grossMargin >= 0 && grossMargin <= 100 && operatingExpenses >= 0;
+                } else if (step === 3) {
+                    const nrr = parseFloat(document.getElementById('nrr').value);
+                    const customerGrowthRate = parseFloat(document.getElementById('customerGrowthRate').value);
+                    const yearsOperating = parseFloat(document.getElementById('yearsOperating').value);
+                    showError('nrr', !nrr || nrr < 0 || nrr > 200);
+                    showError('customerGrowthRate', !customerGrowthRate || customerGrowthRate < 0 || customerGrowthRate > 100);
+                    showError('yearsOperating', !yearsOperating || yearsOperating < 0);
+                    isValid = nrr >= 0 && nrr <= 200 && customerGrowthRate >= 0 && customerGrowthRate <= 100 && yearsOperating >= 0;
+                } else if (step === 4) {
+                    const ltv = parseCurrencyInput(document.getElementById('ltv').value);
+                    const cac = parseCurrencyInput(document.getElementById('cac').value);
+                    const churnRate = parseFloat(document.getElementById('churnRate').value);
+                    showError('ltv', !ltv || ltv < 0);
+                    showError('cac', !cac || cac < 0);
+                    showError('churnRate', !churnRate || churnRate < 0 || churnRate > 100);
+                    isValid = ltv >= 0 && cac >= 0 && churnRate >= 0 && churnRate <= 100;
+                } else if (step === 5) {
+                    const industry = document.getElementById('industry').value;
+                    showError('industry', !industry);
+                    isValid = !!industry;
+                } else if (step === 6) {
+                    const teamSize = parseFloat(document.getElementById('teamSize').value);
+                    const leadershipExperience = parseFloat(document.getElementById('leadershipExperience').value);
+                    const teamRetentionRate = parseFloat(document.getElementById('teamRetentionRate').value);
+                    showError('teamSize', !teamSize || teamSize < 0);
+                    showError('leadershipExperience', !leadershipExperience || leadershipExperience < 0);
+                    showError('teamRetentionRate', !teamRetentionRate || teamRetentionRate < 0 || teamRetentionRate > 100);
+                    isValid = teamSize >= 0 && leadershipExperience >= 0 && teamRetentionRate >= 0 && teamRetentionRate <= 100;
+                } else if (step === 7) {
+                    const patents = parseFloat(document.getElementById('patents').value);
+                    const ipValue = parseCurrencyInput(document.getElementById('ipValue').value);
+                    showError('patents', !patents || patents < 0);
+                    showError('ipValue', !ipValue || ipValue < 0);
+                    isValid = patents >= 0 && ipValue >= 0;
+                } else if (step === 8) {
+                    const marketShare = parseFloat(document.getElementById('marketShare').value);
+                    const uniqueSellingPoint = document.getElementById('uniqueSellingPoint').value.trim();
+                    showError('marketShare', !marketShare || marketShare < 0 || marketShare > 100);
+                    showError('uniqueSellingPoint', !uniqueSellingPoint);
+                    isValid = marketShare >= 0 && marketShare <= 100 && !!uniqueSellingPoint;
+                } else if (step === 9) {
+                    const riskDescription = document.getElementById('riskDescription').value.trim();
+                    showError('riskDescription', !riskDescription);
+                    isValid = !!riskDescription;
+                } else if (step === 10) {
+                    const projectedRevenue = parseCurrencyInput(document.getElementById('projectedRevenue').value);
+                    const projectedCustomers = parseFloat(document.getElementById('projectedCustomers').value);
+                    const growthStrategy = document.getElementById('growthStrategy').value.trim();
+                    showError('projectedRevenue', !projectedRevenue || projectedRevenue < 0);
+                    showError('projectedCustomers', !projectedCustomers || projectedCustomers < 0);
+                    showError('growthStrategy', !growthStrategy);
+                    isValid = projectedRevenue >= 0 && projectedCustomers >= 0 && !!growthStrategy;
+                }
+
+                return isValid;
+            };
+
+            // Parse Currency Inputs
+            const parseCurrencyInput = (value) => {
+                const cleaned = value.replace(/[^0-9.]/g, '');
+                return isNaN(cleaned) ? null : parseFloat(cleaned);
+            };
+
+            // Range Slider Updates
+            const rangeInputs = document.querySelectorAll('input[type="range"]');
+            rangeInputs.forEach(input => {
+                const valueDisplay = document.getElementById(`${input.id}Value`);
+                if (valueDisplay) {
+                    valueDisplay.textContent = input.value;
+                    input.addEventListener('input', () => {
+                        valueDisplay.textContent = input.value;
+                    });
+                }
+            });
+
+            // Checkbox Accessibility
+            const checkboxes = document.querySelectorAll('.checkbox-container input');
+            checkboxes.forEach(checkbox => {
+                checkbox.addEventListener('change', () => {
+                    checkbox.setAttribute('aria-checked', checkbox.checked);
+                });
+            });
+
+            // Mobile Menu Toggle
+            const menuToggle = document.getElementById('menu-toggle');
+            const mobileMenu = document.getElementById('mobile-menu');
+            menuToggle.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+
+            // PayPal Button Rendering
+            paypal.HostedButtons({
+                hostedButtonId: "XVJEGLCSTEQTL"
+            }).render("#paypal-container-XVJEGLCSTEQTL").catch(err => {
+                console.error('PayPal button rendering failed:', err);
+                document.getElementById('payment-error').classList.remove('hidden');
+            });
+        });
+    </script>
+</body>
 </html>
