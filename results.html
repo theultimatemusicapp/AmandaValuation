@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Valuation Report</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/4a5d5a8f8f.js" crossorigin="anonymous"></script>
+</head>
+<body class="bg-gray-100 min-h-screen flex flex-col">
+    <header class="bg-gray-800 text-white py-4">
+        <div class="container mx-auto px-6 flex justify-between items-center">
+            <h1 class="text-xl font-bold">SaaS Valuation App</h1>
+            <nav class="hidden md:flex space-x-4">
+                <a href="index.html#valuation" class="hover:text-teal-400">Self Valuation</a>
+                <a href="index.html#data-room" class="hover:text-teal-400">AI Data Room</a>
+                <a href="index.html#pricing" class="hover:text-teal-400">Pricing</a>
+                <a href="blog.html" class="hover:text-teal-400">Resources</a>
+            </nav>
+            <button id="menu-toggle" class="md:hidden focus:outline-none">
+                <i class="fas fa-bars text-xl"></i>
+            </button>
+        </div>
+        <div id="mobile-menu" class="md:hidden hidden">
+            <nav class="flex flex-col space-y-2 bg-gray-700 py-4 px-6">
+                <a href="index.html#valuation" class="hover:text-teal-400">Self Valuation</a>
+                <a href="index.html#data-room" class="hover:text-teal-400">AI Data Room</a>
+                <a href="index.html#pricing" class="hover:text-teal-400">Pricing</a>
+                <a href="blog.html" class="hover:text-teal-400">Resources</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="flex-grow container mx-auto px-6 py-8">
+        <section class="bg-white rounded-lg shadow-lg p-6 max-w-2xl mx-auto">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Your SaaS Valuation Report</h2>
+            <div id="valuation-result" class="text-gray-600">
+                <p class="mb-2"><strong>Estimated Valuation:</strong> <span id="valuation-amount">$0</span></p>
+                <p class="mb-2"><strong>Valuation Multiple:</strong> <span id="valuation-multiple">0x</span></p>
+                <p class="mb-4"><strong>Key Metrics:</strong></p>
+                <ul id="key-metrics" class="list-disc list-inside">
+                    <li>ARR: <span id="result-arr">$0</span></li>
+                    <li>Growth Rate: <span id="result-growth-rate">0%</span></li>
+                    <li>Gross Margin: <span id="result-gross-margin">0%</span></li>
+                </ul>
+            </div>
+            <p class="text-gray-600 mt-4">This is a basic estimate based on your inputs. For a detailed report, download the PDF below (coming soon).</p>
+            <a href="index.html" class="btn-primary text-white font-bold py-2 px-4 rounded-lg mt-4 inline-block">Back to Home</a>
+        </section>
+    </main>
+
+    <footer class="bg-gray-800 text-white py-8">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">SaaS Valuation App</h3>
+                    <p class="text-gray-400">Helping SaaS founders understand their business worth with AI-driven insights.</p>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Links</h3>
+                    <ul class="space-y-2">
+                        <li><a href="index.html#valuation" class="text-gray-400 hover:text-teal-400">Self Valuation</a></li>
+                        <li><a href="index.html#data-room" class="text-gray-400 hover:text-teal-400">AI Data Room</a></li>
+                        <li><a href="index.html#pricing" class="text-gray-400 hover:text-teal-400">Pricing</a></li>
+                        <li><a href="blog.html" class="text-gray-400 hover:text-teal-400">Resources</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Support</h3>
+                    <ul class="space-y-2">
+                        <li><a href="mailto:support@saasvaluationapp.com" class="text-gray-400 hover:text-teal-400">Contact Us</a></li>
+                        <li><a href="faq.html" class="text-gray-400 hover:text-teal-400">FAQ</a></li>
+                        <li><a href="terms.html" class="text-gray-400 hover:text-teal-400">Terms of Service</a></li>
+                        <li><a href="privacy.html" class="text-gray-400 hover:text-teal-400">Privacy Policy</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Follow Us</h3>
+                    <div class="flex space-x-4">
+                        <a href="https://twitter.com/SaaSValuation" class="text-gray-400 hover:text-teal-400">
+                            <i class="fab fa-twitter text-xl"></i>
+                        </a>
+                        <a href="https://linkedin.com/company/saasvaluationapp" class="text-gray-400 hover:text-teal-400">
+                            <i class="fab fa-linkedin text-xl"></i>
+                        </a>
+                        <a href="https://facebook.com/SaaSValuationApp" class="text-gray-400 hover:text-teal-400">
+                            <i class="fab fa-facebook text-xl"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-8 text-center text-gray-400">
+                <p>© 2025 SaaS Valuation App. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        document.getElementById('menu-toggle').addEventListener('click', () => {
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Calculate valuation based on form data from localStorage
+        function calculateValuation() {
+            // Get key metrics from localStorage
+            const arr = parseFloat(localStorage.getItem('arr')) || 0;
+            const arrGrowthRate = parseFloat(localStorage.getItem('arr-growth-rate')) || 0;
+            const grossMargin = parseFloat(localStorage.getItem('gross-margin')) || 0;
+
+            // Display metrics
+            document.getElementById('result-arr').textContent = `$${arr.toLocaleString()}`;
+            document.getElementById('result-growth-rate').textContent = `${arrGrowthRate}%`;
+            document.getElementById('result-gross-margin').textContent = `${grossMargin}%`;
+
+            // Simple valuation formula: Valuation = ARR * (Base Multiple + Growth Factor + Margin Factor)
+            const baseMultiple = 3; // Base ARR multiple for SaaS
+            const growthFactor = arrGrowthRate / 100; // Higher growth increases multiple (e.g., 20% growth = +0.2)
+            const marginFactor = grossMargin / 100; // Higher margins increase multiple (e.g., 80% margin = +0.8)
+            const totalMultiple = baseMultiple + growthFactor + marginFactor;
+            const valuation = arr * totalMultiple;
+
+            // Display valuation
+            document.getElementById('valuation-amount').textContent = `$${Math.round(valuation).toLocaleString()}`;
+            document.getElementById('valuation-multiple').textContent = `${totalMultiple.toFixed(1)}x`;
+        }
+
+        // Run calculation on page load
+        calculateValuation();
+    </script>
+</body>
+</html>
