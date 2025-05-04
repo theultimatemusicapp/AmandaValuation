@@ -4,230 +4,607 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pro Valuation - SaaS Valuation App</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://www.paypal.com/sdk/js?client-id=BAAmPIUOhFD8WnPzN-tp-rQwqJ-5hrys3ik4nE0y2X41APCpAHOeX3swr5esUvo6CBAZzZH5iY8lcuBQB4&components=hosted-buttons&disable-funding=venmo&currency=AUD"></script>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+        }
+        
         .gradient-bg {
-            background: linear-gradient(135deg, #38B2AC 0%, #2D3748 100%);
+            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
         }
+        
         .btn-primary {
-            background-color: #38B2AC;
-            transition: background-color 0.3s ease;
+            background-color: #3b82f6;
+            transition: all 0.3s ease;
         }
+        
         .btn-primary:hover {
-            background-color: #2C7A7B;
+            background-color: #2563eb;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
+        
         .btn-secondary {
-            background-color: #ED8936;
+            background-color: #f59e0b;
             color: white;
-            transition: background-color 0.3s ease;
+            transition: all 0.3s ease;
         }
+        
         .btn-secondary:hover {
-            background-color: #C05621;
+            background-color: #d97706;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
+        
         .explainer-box {
-            background-color: #f9fafb;
-            border: 1px solid #e2e8f0;
-            border-radius: 0.5rem;
+            background-color: #f8fafc;
+            border-left: 4px solid #3b82f6;
+            border-radius: 0.375rem;
             padding: 1rem;
             margin-top: 1rem;
             font-size: 0.875rem;
-            color: #4a5568;
+            color: #4b5563;
         }
+        
         .input-error {
-            border-color: #E53E3E !important;
-            box-shadow: 0 0 0 2px rgba(229, 62, 62, 0.2) !important;
+            border-color: #ef4444 !important;
+            box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.2) !important;
         }
+        
         .step-hidden {
             display: none;
         }
+        
         .step-visible {
             display: block;
+            animation: fadeIn 0.3s ease-in-out;
         }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
         .shadow-glow {
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        
+        .progress-bar {
+            height: 8px;
+            border-radius: 4px;
+            background-color: #e5e7eb;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            border-radius: 4px;
+            background: linear-gradient(90deg, #3b82f6, #60a5fa);
+            transition: width 0.3s ease;
+        }
+        
+        input[type="range"] {
+            -webkit-appearance: none;
+            height: 8px;
+            border-radius: 4px;
+            background: #e5e7eb;
+        }
+        
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #3b82f6;
+            cursor: pointer;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .tooltip {
+            position: relative;
+        }
+        
+        .tooltip:hover .tooltip-text {
+            visibility: visible;
+            opacity: 1;
+        }
+        
+        .tooltip-text {
+            visibility: hidden;
+            width: 200px;
+            background-color: #374151;
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 5px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            margin-left: -100px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-size: 0.875rem;
+        }
+        
+        .tooltip-text::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            margin-left: -5px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: #374151 transparent transparent transparent;
+        }
+        
+        .checkbox-container {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem;
+            border-radius: 0.5rem;
+            border: 1px solid #e5e7eb;
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+        
+        .checkbox-container:hover {
+            border-color: #3b82f6;
+            background-color: #f8fafc;
+        }
+        
+        .checkbox-container input:checked ~ .checkmark {
+            background-color: #3b82f6;
+            border-color: #3b82f6;
+        }
+        
+        .checkmark {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #d1d5db;
+            border-radius: 4px;
+            margin-right: 0.75rem;
+            position: relative;
+            transition: all 0.2s ease;
+        }
+        
+        .checkmark:after {
+            content: "";
+            position: absolute;
+            display: none;
+            left: 6px;
+            top: 2px;
+            width: 5px;
+            height: 10px;
+            border: solid white;
+            border-width: 0 2px 2px 0;
+            transform: rotate(45deg);
+        }
+        
+        .checkbox-container input:checked ~ .checkmark:after {
+            display: block;
+        }
+        
+        .checkbox-label {
+            font-weight: 500;
+            color: #374151;
+        }
+        
+        .checkbox-description {
+            font-size: 0.875rem;
+            color: #6b7280;
+            margin-top: 0.25rem;
         }
     </style>
 </head>
-<body class="font-sans bg-gray-100">
+<body class="bg-gray-50">
     <!-- Header -->
-    <header class="bg-gray-800 text-white py-4 sticky top-0 z-50">
-        <div class="container mx-auto px-6 flex justify-between items-center">
-            <div class="text-2xl font-bold">
-                <a href="/">SaaS Valuation App</a>
+    <header class="bg-white shadow-sm sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-4">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center">
+                    <div class="w-10 h-10 rounded-lg bg-blue-600 flex items-center justify-center mr-3">
+                        <i class="fas fa-chart-line text-white text-xl"></i>
+                    </div>
+                    <a href="/" class="text-2xl font-bold text-gray-800">ProValuation</a>
+                </div>
+                <nav class="hidden md:flex space-x-8">
+                    <a href="#valuation" class="text-gray-600 hover:text-blue-600 transition-colors font-medium">Valuation</a>
+                    <a href="blog.html" class="text-gray-600 hover:text-blue-600 transition-colors font-medium">Resources</a>
+                    <a href="#" class="text-gray-600 hover:text-blue-600 transition-colors font-medium">Pricing</a>
+                </nav>
+                <button id="menu-toggle" class="md:hidden focus:outline-none text-gray-600">
+                    <i class="fas fa-bars text-2xl"></i>
+                </button>
             </div>
-            <nav class="hidden md:flex space-x-6">
-                <a href="#valuation" class="hover:text-teal-400">Self Valuation</a>
-                <a href="blog.html" class="hover:text-teal-400">Resources</a>
-            </nav>
-            <button id="menu-toggle" class="md:hidden focus:outline-none">
-                <i class="fas fa-bars text-2xl"></i>
-            </button>
         </div>
-        <div id="mobile-menu" class="md:hidden hidden">
-            <nav class="flex flex-col space-y-4 mt-4 px-6">
-                <a href="#valuation" class="hover:text-teal-400">Self Valuation</a>
-                <a href="blog.html" class="hover:text-teal-400">Resources</a>
+        <div id="mobile-menu" class="md:hidden hidden bg-white border-t border-gray-200">
+            <nav class="flex flex-col space-y-3 px-4 py-3">
+                <a href="#valuation" class="text-gray-600 hover:text-blue-600 transition-colors font-medium py-2">Valuation</a>
+                <a href="blog.html" class="text-gray-600 hover:text-blue-600 transition-colors font-medium py-2">Resources</a>
+                <a href="#" class="text-gray-600 hover:text-blue-600 transition-colors font-medium py-2">Pricing</a>
             </nav>
         </div>
     </header>
 
     <!-- Main Section with Valuation Form -->
-    <main class="py-16">
-        <div class="container mx-auto px-6">
+    <main class="py-12">
+        <div class="container mx-auto px-4">
             <div class="text-center mb-12">
-                <h2 class="text-4xl font-bold text-gray-800">Pro Valuation Tool</h2>
-                <p class="text-lg text-gray-600 max-w-2xl mx-auto mt-4">Complete the form below for a detailed SaaS valuation with advanced metrics and insights.</p>
+                <h1 class="text-4xl font-bold text-gray-900 mb-4">SaaS Business Valuation Tool</h1>
+                <p class="text-lg text-gray-600 max-w-3xl mx-auto">Get an accurate valuation of your SaaS business with our comprehensive 11-step assessment. Perfect for founders, investors, and acquirers.</p>
             </div>
+            
             <div id="valuation-form" class="bg-white rounded-xl shadow-glow p-8 max-w-4xl mx-auto">
                 <!-- Progress Bar -->
                 <div class="mb-8">
-                    <div class="relative pt-1">
-                        <div class="overflow-hidden h-2 mb-4 text-xs flex rounded bg-gray-200">
-                            <div id="progress-fill" class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-teal-500" style="width: 9.09%"></div>
-                        </div>
-                        <p class="text-center text-gray-600">Step <span id="current-step">1</span> of 11</p>
+                    <div class="flex justify-between items-center mb-2">
+                        <span class="text-sm font-medium text-gray-600">Step <span id="current-step">1</span> of 11</span>
+                        <span class="text-sm font-medium text-blue-600"><span id="progress-percentage">9%</span> Complete</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div id="progress-fill" class="progress-fill" style="width: 9.09%"></div>
                     </div>
                 </div>
-
+                
                 <!-- Step 1: Valuation Method -->
                 <div class="step step-visible" data-step="1">
-                    <h3 class="text-xl font-semibold text-gray-800 mb-4">Step 1: Select Valuation Method</h3>
-                    <p class="text-gray-600 mb-4">Choose up to 3 methods for a comprehensive valuation.</p>
-                    <div class="space-y-2">
-                        <label class="flex items-center">
-                            <input type="checkbox" id="method-multiplier" value="multiplier" class="form-checkbox h-5 w-5 text-teal-500">
-                            <span class="ml-2 text-gray-600">Revenue Multiplier</span>
+                    <div class="flex items-center mb-6">
+                        <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center mr-4">
+                            <span class="text-blue-600 font-semibold">1</span>
+                        </div>
+                        <h3 class="text-2xl font-semibold text-gray-800">Valuation Methodology</h3>
+                    </div>
+                    
+                    <p class="text-gray-600 mb-6">Select the valuation methods you'd like to apply to your business (choose 1-3). Different methods provide different perspectives on your company's worth.</p>
+                    
+                    <div class="space-y-3">
+                        <label class="checkbox-container">
+                            <input type="checkbox" id="method-multiplier" value="multiplier" class="hidden">
+                            <span class="checkmark"></span>
+                            <div>
+                                <span class="checkbox-label">Revenue Multiplier</span>
+                                <p class="checkbox-description">Calculates value based on a multiple of your annual recurring revenue (ARR).</p>
+                            </div>
                         </label>
-                        <label class="flex items-center">
-                            <input type="checkbox" id="method-income" value="income" class="form-checkbox h-5 w-5 text-teal-500">
-                            <span class="ml-2 text-gray-600">Income-Based Valuation</span>
+                        
+                        <label class="checkbox-container">
+                            <input type="checkbox" id="method-income" value="income" class="hidden">
+                            <span class="checkmark"></span>
+                            <div>
+                                <span class="checkbox-label">Income-Based Valuation</span>
+                                <p class="checkbox-description">Determines value based on your company's profitability and cash flow.</p>
+                            </div>
                         </label>
-                        <label class="flex items-center">
-                            <input type="checkbox" id="method-earnings" value="earnings" class="form-checkbox h-5 w-5 text-teal-500">
-                            <span class="ml-2 text-gray-600">Earnings-Based Valuation</span>
+                        
+                        <label class="checkbox-container">
+                            <input type="checkbox" id="method-earnings" value="earnings" class="hidden">
+                            <span class="checkmark"></span>
+                            <div>
+                                <span class="checkbox-label">Earnings-Based Valuation</span>
+                                <p class="checkbox-description">Focuses on EBITDA (Earnings Before Interest, Taxes, Depreciation, and Amortization).</p>
+                            </div>
                         </label>
-                        <label class="flex items-center">
-                            <input type="checkbox" id="method-dcf" value="dcf" class="form-checkbox h-5 w-5 text-teal-500">
-                            <span class="ml-2 text-gray-600">Discounted Cash Flow (DCF)</span>
+                        
+                        <label class="checkbox-container">
+                            <input type="checkbox" id="method-dcf" value="dcf" class="hidden">
+                            <span class="checkmark"></span>
+                            <div>
+                                <span class="checkbox-label">Discounted Cash Flow (DCF)</span>
+                                <p class="checkbox-description">Projects future cash flows and discounts them to present value.</p>
+                            </div>
                         </label>
                     </div>
-                    <div class="explainer-box">
-                        <p><strong>What this means:</strong> Select the methods to calculate your company's value. For example, "Revenue Multiplier" uses yearly sales, while "DCF" projects future cash flows.</p>
+                    
+                    <div class="explainer-box mt-6">
+                        <div class="flex items-start">
+                            <i class="fas fa-info-circle text-blue-500 mt-1 mr-2"></i>
+                            <div>
+                                <p class="font-medium text-gray-800">Understanding Valuation Methods</p>
+                                <p class="mt-1">Each method provides unique insights. Revenue Multiplier is common for early-stage SaaS, while DCF is preferred for mature businesses with predictable cash flows. We recommend selecting 2-3 methods for a comprehensive valuation.</p>
+                            </div>
+                        </div>
                     </div>
-                    <p id="method-error" class="text-red-500 text-sm mt-2 hidden">Please select 1 to 3 methods.</p>
-                   
-
-                    <div class="mt-6 flex justify-end">
-                        <button id="next-btn-1" class="btn-primary text-white font-bold py-2 px-4 rounded-lg">Next</button>
+                    
+                    <p id="method-error" class="text-red-500 text-sm mt-3 hidden">
+                        <i class="fas fa-exclamation-circle mr-1"></i> Please select 1 to 3 valuation methods to proceed.
+                    </p>
+                    
+                    <div class="mt-8 flex justify-end">
+                        <button id="next-btn-1" class="btn-primary text-white font-medium py-3 px-6 rounded-lg">
+                            Continue <i class="fas fa-arrow-right ml-2"></i>
+                        </button>
                     </div>
                 </div>
-
+                
                 <!-- Step 2: Financial Metrics -->
                 <div class="step step-hidden" data-step="2">
-                    <h3 class="text-xl font-semibold text-gray-800 mb-4">Step 2: Financial Metrics</h3>
-                    <p class="text-gray-600 mb-4">Provide your key financial details.</p>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
-                            <label for="arr" class="block text-gray-600 mb-1">Annual Recurring Revenue (ARR) ($/year)</label>
-                            <input type="text" id="arr" class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-500" placeholder="e.g., 500,000">
-                            <p id="arr-error" class="text-red-500 text-sm mt-1 hidden">Please enter a valid number.</p>
+                    <div class="flex items-center mb-6">
+                        <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center mr-4">
+                            <span class="text-blue-600 font-semibold">2</span>
                         </div>
+                        <h3 class="text-2xl font-semibold text-gray-800">Financial Metrics</h3>
+                    </div>
+                    
+                    <p class="text-gray-600 mb-6">Provide your key financial details. These metrics form the foundation of your valuation.</p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
-                            <label for="revenueGrowthRate" class="block text-gray-600 mb-1">Revenue Growth Rate (%)</label>
-                            <input type="number" id="revenueGrowthRate" class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-500" placeholder="e.g., 20">
-                            <p id="revenueGrowthRate-error" class="text-red-500 text-sm mt-1 hidden">Please enter a valid percentage (0-100).</p>
+                            <label for="arr" class="block text-gray-700 font-medium mb-2">
+                                Annual Recurring Revenue (ARR)
+                                <span class="tooltip">
+                                    <i class="fas fa-info-circle text-blue-400 ml-1"></i>
+                                    <span class="tooltip-text">Your predictable yearly revenue from subscriptions</span>
+                                </span>
+                            </label>
+                            <div class="relative">
+                                <span class="absolute left-3 top-3 text-gray-500">$</span>
+                                <input type="text" id="arr" class="w-full pl-8 border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" placeholder="e.g., 500,000">
+                            </div>
+                            <p id="arr-error" class="text-red-500 text-sm mt-1 hidden">
+                                <i class="fas fa-exclamation-circle mr-1"></i> Please enter a valid ARR amount.
+                            </p>
                         </div>
+                        
                         <div>
-                            <label for="grossMargin" class="block text-gray-600 mb-1">Gross Margin (%)</label>
-                            <input type="number" id="grossMargin" class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-500" placeholder="e.g., 70">
-                            <p id="grossMargin-error" class="text-red-500 text-sm mt-1 hidden">Please enter a valid percentage (0-100).</p>
+                            <label for="revenueGrowthRate" class="block text-gray-700 font-medium mb-2">
+                                Revenue Growth Rate
+                                <span class="tooltip">
+                                    <i class="fas fa-info-circle text-blue-400 ml-1"></i>
+                                    <span class="tooltip-text">Year-over-year revenue growth percentage</span>
+                                </span>
+                            </label>
+                            <div class="relative">
+                                <input type="number" id="revenueGrowthRate" class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" placeholder="e.g., 20">
+                                <span class="absolute right-3 top-3 text-gray-500">%</span>
+                            </div>
+                            <p id="revenueGrowthRate-error" class="text-red-500 text-sm mt-1 hidden">
+                                <i class="fas fa-exclamation-circle mr-1"></i> Please enter a valid percentage (0-100).
+                            </p>
                         </div>
+                        
                         <div>
-                            <label for="operatingExpenses" class="block text-gray-600 mb-1">Operating Expenses ($/year)</label>
-                            <input type="text" id="operatingExpenses" class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-500" placeholder="e.g., 200,000">
-                            <p id="operatingExpenses-error" class="text-red-500 text-sm mt-1 hidden">Please enter a valid number.</p>
+                            <label for="grossMargin" class="block text-gray-700 font-medium mb-2">
+                                Gross Margin
+                                <span class="tooltip">
+                                    <i class="fas fa-info-circle text-blue-400 ml-1"></i>
+                                    <span class="tooltip-text">(Revenue - Cost of Goods Sold) / Revenue</span>
+                                </span>
+                            </label>
+                            <div class="relative">
+                                <input type="number" id="grossMargin" class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" placeholder="e.g., 70">
+                                <span class="absolute right-3 top-3 text-gray-500">%</span>
+                            </div>
+                            <p id="grossMargin-error" class="text-red-500 text-sm mt-1 hidden">
+                                <i class="fas fa-exclamation-circle mr-1"></i> Please enter a valid percentage (0-100).
+                            </p>
+                        </div>
+                        
+                        <div>
+                            <label for="operatingExpenses" class="block text-gray-700 font-medium mb-2">
+                                Operating Expenses
+                                <span class="tooltip">
+                                    <i class="fas fa-info-circle text-blue-400 ml-1"></i>
+                                    <span class="tooltip-text">Total annual costs to operate your business</span>
+                                </span>
+                            </label>
+                            <div class="relative">
+                                <span class="absolute left-3 top-3 text-gray-500">$</span>
+                                <input type="text" id="operatingExpenses" class="w-full pl-8 border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" placeholder="e.g., 200,000">
+                            </div>
+                            <p id="operatingExpenses-error" class="text-red-500 text-sm mt-1 hidden">
+                                <i class="fas fa-exclamation-circle mr-1"></i> Please enter a valid amount.
+                            </p>
                         </div>
                     </div>
-                    <div class="explainer-box">
-                        <p><strong>What this means:</strong> Provide financial details. ARR is yearly subscription revenue. Revenue Growth Rate is annual sales growth. Gross Margin is profit after product costs. Operating Expenses are yearly business costs.</p>
+                    
+                    <div class="explainer-box mt-6">
+                        <div class="flex items-start">
+                            <i class="fas fa-info-circle text-blue-500 mt-1 mr-2"></i>
+                            <div>
+                                <p class="font-medium text-gray-800">Financial Health Indicators</p>
+                                <p class="mt-1">Strong SaaS businesses typically have gross margins above 70% and revenue growth rates exceeding 20% annually. Operating expenses should be sustainable relative to revenue.</p>
+                            </div>
+                        </div>
                     </div>
-                    <div class="mt-6 flex justify-between">
-                        <button id="prev-btn-2" class="btn-secondary font-bold py-2 px-4 rounded-lg">Previous</button>
-                        <button id="next-btn-2" class="btn-primary text-white font-bold py-2 px-4 rounded-lg">Next</button>
+                    
+                    <div class="mt-8 flex justify-between">
+                        <button id="prev-btn-2" class="btn-secondary font-medium py-3 px-6 rounded-lg">
+                            <i class="fas fa-arrow-left mr-2"></i> Back
+                        </button>
+                        <button id="next-btn-2" class="btn-primary text-white font-medium py-3 px-6 rounded-lg">
+                            Continue <i class="fas fa-arrow-right ml-2"></i>
+                        </button>
                     </div>
                 </div>
-
+                
                 <!-- Step 3: Growth Trends -->
                 <div class="step step-hidden" data-step="3">
-                    <h3 class="text-xl font-semibold text-gray-800 mb-4">Step 3: Growth Trends</h3>
-                    <p class="text-gray-600 mb-4">Share your growth metrics and trends.</p>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
-                            <label for="nrr" class="block text-gray-600 mb-1">Net Revenue Retention (NRR) (%)</label>
-                            <input type="number" id="nrr" class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-500" placeholder="e.g., 110">
-                            <p id="nrr-error" class="text-red-500 text-sm mt-1 hidden">Please enter a valid percentage (0-200).</p>
+                    <div class="flex items-center mb-6">
+                        <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center mr-4">
+                            <span class="text-blue-600 font-semibold">3</span>
                         </div>
+                        <h3 class="text-2xl font-semibold text-gray-800">Growth Trends</h3>
+                    </div>
+                    
+                    <p class="text-gray-600 mb-6">Share your growth metrics and trends. These indicators help assess your business's momentum.</p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
-                            <label for="customerGrowthRate" class="block text-gray-600 mb-1">Customer Growth Rate (%)</label>
-                            <input type="number" id="customerGrowthRate" class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-500" placeholder="e.g., 15">
-                            <p id="customerGrowthRate-error" class="text-red-500 text-sm mt-1 hidden">Please enter a valid percentage (0-100).</p>
+                            <label for="nrr" class="block text-gray-700 font-medium mb-2">
+                                Net Revenue Retention (NRR)
+                                <span class="tooltip">
+                                    <i class="fas fa-info-circle text-blue-400 ml-1"></i>
+                                    <span class="tooltip-text">Measures revenue retained from existing customers</span>
+                                </span>
+                            </label>
+                            <div class="relative">
+                                <input type="number" id="nrr" class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" placeholder="e.g., 110">
+                                <span class="absolute right-3 top-3 text-gray-500">%</span>
+                            </div>
+                            <p id="nrr-error" class="text-red-500 text-sm mt-1 hidden">
+                                <i class="fas fa-exclamation-circle mr-1"></i> Please enter a valid percentage (0-200).
+                            </p>
                         </div>
+                        
                         <div>
-                            <label for="yearsOperating" class="block text-gray-600 mb-1">Years in Operation</label>
-                            <input type="number" id="yearsOperating" class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-500" placeholder="e.g., 3">
-                            <p id="yearsOperating-error" class="text-red-500 text-sm mt-1 hidden">Please enter a valid number.</p>
+                            <label for="customerGrowthRate" class="block text-gray-700 font-medium mb-2">
+                                Customer Growth Rate
+                                <span class="tooltip">
+                                    <i class="fas fa-info-circle text-blue-400 ml-1"></i>
+                                    <span class="tooltip-text">Year-over-year growth in customer count</span>
+                                </span>
+                            </label>
+                            <div class="relative">
+                                <input type="number" id="customerGrowthRate" class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" placeholder="e.g., 15">
+                                <span class="absolute right-3 top-3 text-gray-500">%</span>
+                            </div>
+                            <p id="customerGrowthRate-error" class="text-red-500 text-sm mt-1 hidden">
+                                <i class="fas fa-exclamation-circle mr-1"></i> Please enter a valid percentage (0-100).
+                            </p>
+                        </div>
+                        
+                        <div>
+                            <label for="yearsOperating" class="block text-gray-700 font-medium mb-2">
+                                Years in Operation
+                                <span class="tooltip">
+                                    <i class="fas fa-info-circle text-blue-400 ml-1"></i>
+                                    <span class="tooltip-text">How long your business has been operating</span>
+                                </span>
+                            </label>
+                            <input type="number" id="yearsOperating" class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" placeholder="e.g., 3">
+                            <p id="yearsOperating-error" class="text-red-500 text-sm mt-1 hidden">
+                                <i class="fas fa-exclamation-circle mr-1"></i> Please enter a valid number.
+                            </p>
                         </div>
                     </div>
-                    <div class="explainer-box">
-                        <p><strong>What this means:</strong> NRR shows customer spending trends (100% means stable). Customer Growth Rate is new customer acquisition speed. Years in Operation is business longevity.</p>
+                    
+                    <div class="explainer-box mt-6">
+                        <div class="flex items-start">
+                            <i class="fas fa-info-circle text-blue-500 mt-1 mr-2"></i>
+                            <div>
+                                <p class="font-medium text-gray-800">Growth Benchmarking</p>
+                                <p class="mt-1">Top-performing SaaS companies achieve NRR above 100%, indicating they grow revenue from existing customers through upsells and expansions. Customer growth rates vary by market but should align with your business model.</p>
+                            </div>
+                        </div>
                     </div>
-                    <div class="mt-6 flex justify-between">
-                        <button id="prev-btn-3" class="btn-secondary font-bold py-2 px-4 rounded-lg">Previous</button>
-                        <button id="next-btn-3" class="btn-primary text-white font-bold py-2 px-4 rounded-lg">Next</button>
+                    
+                    <div class="mt-8 flex justify-between">
+                        <button id="prev-btn-3" class="btn-secondary font-medium py-3 px-6 rounded-lg">
+                            <i class="fas fa-arrow-left mr-2"></i> Back
+                        </button>
+                        <button id="next-btn-3" class="btn-primary text-white font-medium py-3 px-6 rounded-lg">
+                            Continue <i class="fas fa-arrow-right ml-2"></i>
+                        </button>
                     </div>
                 </div>
-
+                
                 <!-- Step 4: Customer Metrics -->
                 <div class="step step-hidden" data-step="4">
-                    <h3 class="text-xl font-semibold text-gray-800 mb-4">Step 4: Customer Metrics</h3>
-                    <p class="text-gray-600 mb-4">Tell us about your customer acquisition and retention.</p>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
-                            <label for="ltv" class="block text-gray-600 mb-1">Customer Lifetime Value (LTV) ($)</label>
-                            <input type="text" id="ltv" class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-500" placeholder="e.g., 5,000">
-                            <p id="ltv-error" class="text-red-500 text-sm mt-1 hidden">Please enter a valid number.</p>
+                    <div class="flex items-center mb-6">
+                        <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center mr-4">
+                            <span class="text-blue-600 font-semibold">4</span>
                         </div>
+                        <h3 class="text-2xl font-semibold text-gray-800">Customer Metrics</h3>
+                    </div>
+                    
+                    <p class="text-gray-600 mb-6">Tell us about your customer acquisition and retention. These metrics reveal your business's efficiency.</p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
-                            <label for="cac" class="block text-gray-600 mb-1">Customer Acquisition Cost (CAC) ($)</label>
-                            <input type="text" id="cac" class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-500" placeholder="e.g., 1,000">
-                            <p id="cac-error" class="text-red-500 text-sm mt-1 hidden">Please enter a valid number.</p>
+                            <label for="ltv" class="block text-gray-700 font-medium mb-2">
+                                Customer Lifetime Value (LTV)
+                                <span class="tooltip">
+                                    <i class="fas fa-info-circle text-blue-400 ml-1"></i>
+                                    <span class="tooltip-text">Average revenue from a customer over their lifetime</span>
+                                </span>
+                            </label>
+                            <div class="relative">
+                                <span class="absolute left-3 top-3 text-gray-500">$</span>
+                                <input type="text" id="ltv" class="w-full pl-8 border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" placeholder="e.g., 5,000">
+                            </div>
+                            <p id="ltv-error" class="text-red-500 text-sm mt-1 hidden">
+                                <i class="fas fa-exclamation-circle mr-1"></i> Please enter a valid LTV amount.
+                            </p>
                         </div>
+                        
                         <div>
-                            <label for="churnRate" class="block text-gray-600 mb-1">Churn Rate (%)</label>
-                            <input type="number" id="churnRate" class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-500" placeholder="e.g., 5">
-                            <p id="churnRate-error" class="text-red-500 text-sm mt-1 hidden">Please enter a valid percentage (0-100).</p>
+                            <label for="cac" class="block text-gray-700 font-medium mb-2">
+                                Customer Acquisition Cost (CAC)
+                                <span class="tooltip">
+                                    <i class="fas fa-info-circle text-blue-400 ml-1"></i>
+                                    <span class="tooltip-text">Cost to acquire a new customer</span>
+                                </span>
+                            </label>
+                            <div class="relative">
+                                <span class="absolute left-3 top-3 text-gray-500">$</span>
+                                <input type="text" id="cac" class="w-full pl-8 border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" placeholder="e.g., 1,000">
+                            </div>
+                            <p id="cac-error" class="text-red-500 text-sm mt-1 hidden">
+                                <i class="fas fa-exclamation-circle mr-1"></i> Please enter a valid CAC amount.
+                            </p>
+                        </div>
+                        
+                        <div>
+                            <label for="churnRate" class="block text-gray-700 font-medium mb-2">
+                                Churn Rate
+                                <span class="tooltip">
+                                    <i class="fas fa-info-circle text-blue-400 ml-1"></i>
+                                    <span class="tooltip-text">Percentage of customers lost annually</span>
+                                </span>
+                            </label>
+                            <div class="relative">
+                                <input type="number" id="churnRate" class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" placeholder="e.g., 5">
+                                <span class="absolute right-3 top-3 text-gray-500">%</span>
+                            </div>
+                            <p id="churnRate-error" class="text-red-500 text-sm mt-1 hidden">
+                                <i class="fas fa-exclamation-circle mr-1"></i> Please enter a valid percentage (0-100).
+                            </p>
                         </div>
                     </div>
-                    <div class="explainer-box">
-                        <p><strong>What this means:</strong> LTV is total revenue per customer. CAC is cost to acquire a customer. Churn Rate is percentage of customers leaving annually.</p>
+                    
+                    <div class="explainer-box mt-6">
+                        <div class="flex items-start">
+                            <i class="fas fa-info-circle text-blue-500 mt-1 mr-2"></i>
+                            <div>
+                                <p class="font-medium text-gray-800">Customer Efficiency</p>
+                                <p class="mt-1">Healthy SaaS businesses maintain an LTV:CAC ratio of 3:1 or higher. Churn rates below 5% annually are considered strong, with best-in-class companies achieving less than 2%.</p>
+                            </div>
+                        </div>
                     </div>
-                    <div class="mt-6 flex justify-between">
-                        <button id="prev-btn-4" class="btn-secondary font-bold py-2 px-4 rounded-lg">Previous</button>
-                        <button id="next-btn-4" class="btn-primary text-white font-bold py-2 px-4 rounded-lg">Next</button>
+                    
+                    <div class="mt-8 flex justify-between">
+                        <button id="prev-btn-4" class="btn-secondary font-medium py-3 px-6 rounded-lg">
+                            <i class="fas fa-arrow-left mr-2"></i> Back
+                        </button>
+                        <button id="next-btn-4" class="btn-primary text-white font-medium py-3 px-6 rounded-lg">
+                            Continue <i class="fas fa-arrow-right ml-2"></i>
+                        </button>
                     </div>
                 </div>
-
+                
                 <!-- Step 5: Industry Trends -->
                 <div class="step step-hidden" data-step="5">
-                    <h3 class="text-xl font-semibold text-gray-800 mb-4">Step 5: Industry Trends</h3>
-                    <p class="text-gray-600 mb-4">Provide details about your industry and market position.</p>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="flex items-center mb-6">
+                        <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center mr-4">
+                            <span class="text-blue-600 font-semibold">5</span>
+                        </div>
+                        <h3 class="text-2xl font-semibold text-gray-800">Industry Trends</h3>
+                    </div>
+                    
+                    <p class="text-gray-600 mb-6">Provide details about your industry and market position. This helps contextualize your valuation.</p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div class="md:col-span-2">
-                            <label for="industry" class="block text-gray-600 mb-1">Industry</label>
-                            <select id="industry" class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-500">
-                                <option value="">Select an industry</option>
+                            <label for="industry" class="block text-gray-700 font-medium mb-2">Industry</label>
+                            <select id="industry" class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                                <option value="">Select your industry</option>
                                 <option value="Technology">Technology</option>
                                 <option value="Retail">Retail</option>
                                 <option value="Hospitality">Hospitality</option>
@@ -246,409 +623,384 @@
                                 <option value="Arts & Entertainment">Arts & Entertainment</option>
                                 <option value="Other">Other</option>
                             </select>
-                            <p id="industry-error" class="text-red-500 text-sm mt-1 hidden">Please select an industry.</p>
+                            <p id="industry-error" class="text-red-500 text-sm mt-1 hidden">
+                                <i class="fas fa-exclamation-circle mr-1"></i> Please select your industry.
+                            </p>
                         </div>
+                        
                         <div class="md:col-span-2">
-                            <label for="marketTrendImpact" class="block text-gray-600 mb-1">Market Trend Impact (1-10)</label>
+                            <label for="marketTrendImpact" class="block text-gray-700 font-medium mb-2">
+                                Market Trend Impact
+                                <span class="text-gray-500 font-normal ml-1">(1 = Negative, 10 = Positive)</span>
+                            </label>
                             <input type="range" id="marketTrendImpact" min="1" max="10" value="5" class="w-full">
-                            <p class="text-gray-600">Score: <span id="marketTrendImpactValue">5</span></p>
+                            <div class="flex justify-between text-sm text-gray-600 mt-1">
+                                <span>1</span>
+                                <span id="marketTrendImpactValue">5</span>
+                                <span>10</span>
+                            </div>
                         </div>
+                        
                         <div class="md:col-span-2">
-                            <label for="competitivePositioning" class="block text-gray-600 mb-1">Competitive Positioning (1-10)</label>
+                            <label for="competitivePositioning" class="block text-gray-700 font-medium mb-2">
+                                Competitive Positioning
+                                <span class="text-gray-500 font-normal ml-1">(1 = Weak, 10 = Strong)</span>
+                            </label>
                             <input type="range" id="competitivePositioning" min="1" max="10" value="5" class="w-full">
-                            <p class="text-gray-600">Score: <span id="competitivePositioningValue">5</span></p>
+                            <div class="flex justify-between text-sm text-gray-600 mt-1">
+                                <span>1</span>
+                                <span id="competitivePositioningValue">5</span>
+                                <span>10</span>
+                            </div>
                         </div>
                     </div>
-                    <div class="explainer-box">
-                        <p><strong>What this means:</strong> Industry is your business sector. Market Trend Impact scores how trends affect you (1=negative, 10=positive). Competitive Positioning rates your strength vs. competitors (1=weak, 10=strong).</p>
+                    
+                    <div class="explainer-box mt-6">
+                        <div class="flex items-start">
+                            <i class="fas fa-info-circle text-blue-500 mt-1 mr-2"></i>
+                            <div>
+                                <p class="font-medium text-gray-800">Industry Context</p>
+                                <p class="mt-1">Technology and healthcare SaaS businesses often command higher valuations due to growth potential. Your competitive positioning directly impacts valuation multiples, with market leaders receiving premium valuations.</p>
+                            </div>
+                        </div>
                     </div>
-                    <div class="mt-6 flex justify-between">
-                        <button id="prev-btn-5" class="btn-secondary font-bold py-2 px-4 rounded-lg">Previous</button>
-                        <button id="next-btn-5" class="btn-primary text-white font-bold py-2 px-4 rounded-lg">Next</button>
+                    
+                    <div class="mt-8 flex justify-between">
+                        <button id="prev-btn-5" class="btn-secondary font-medium py-3 px-6 rounded-lg">
+                            <i class="fas fa-arrow-left mr-2"></i> Back
+                        </button>
+                        <button id="next-btn-5" class="btn-primary text-white font-medium py-3 px-6 rounded-lg">
+                            Continue <i class="fas fa-arrow-right ml-2"></i>
+                        </button>
                     </div>
                 </div>
-
+                
                 <!-- Step 6: Team Dynamics -->
                 <div class="step step-hidden" data-step="6">
-                    <h3 class="text-xl font-semibold text-gray-800 mb-4">Step 6: Team Dynamics</h3>
-                    <p class="text-gray-600 mb-4">Provide details about your team and leadership.</p>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
-                            <label for="teamSize" class="block text-gray-600 mb-1">Team Size (Number of Employees)</label>
-                            <input type="number" id="teamSize" class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-500" placeholder="e.g., 10">
-                            <p id="teamSize-error" class="text-red-500 text-sm mt-1 hidden">Please enter a valid number.</p>
+                    <div class="flex items-center mb-6">
+                        <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center mr-4">
+                            <span class="text-blue-600 font-semibold">6</span>
                         </div>
+                        <h3 class="text-2xl font-semibold text-gray-800">Team Dynamics</h3>
+                    </div>
+                    
+                    <p class="text-gray-600 mb-6">Provide details about your team and leadership. Strong teams can significantly enhance valuation.</p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
-                            <label for="leadershipExperience" class="block text-gray-600 mb-1">Leadership Experience (Years)</label>
-                            <input type="number" id="leadershipExperience" class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-500" placeholder="e.g., 5">
-                            <p id="leadershipExperience-error" class="text-red-500 text-sm mt-1 hidden">Please enter a valid number.</p>
+                            <label for="teamSize" class="block text-gray-700 font-medium mb-2">Team Size</label>
+                            <input type="number" id="teamSize" class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" placeholder="e.g., 10">
+                            <p id="teamSize-error" class="text-red-500 text-sm mt-1 hidden">
+                                <i class="fas fa-exclamation-circle mr-1"></i> Please enter a valid number.
+                            </p>
                         </div>
+                        
+                        <div>
+                            <label for="leadershipExperience" class="block text-gray-700 font-medium mb-2">Leadership Experience (Years)</label>
+                            <input type="number" id="leadershipExperience" class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" placeholder="e.g., 5">
+                            <p id="leadershipExperience-error" class="text-red-500 text-sm mt-1 hidden">
+                                <i class="fas fa-exclamation-circle mr-1"></i> Please enter a valid number.
+                            </p>
+                        </div>
+                        
                         <div class="md:col-span-2">
-                            <label for="teamRetentionRate" class="block text-gray-600 mb-1">Team Retention Rate (%)</label>
-                            <input type="number" id="teamRetentionRate" class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-500" placeholder="e.g., 90">
-                            <p id="teamRetentionRate-error" class="text-red-500 text-sm mt-1 hidden">Please enter a valid percentage (0-100).</p>
+                            <label for="teamRetentionRate" class="block text-gray-700 font-medium mb-2">Team Retention Rate</label>
+                            <div class="relative">
+                                <input type="number" id="teamRetentionRate" class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" placeholder="e.g., 90">
+                                <span class="absolute right-3 top-3 text-gray-500">%</span>
+                            </div>
+                            <p id="teamRetentionRate-error" class="text-red-500 text-sm mt-1 hidden">
+                                <i class="fas fa-exclamation-circle mr-1"></i> Please enter a valid percentage (0-100).
+                            </p>
                         </div>
                     </div>
-                    <div class="explainer-box">
-                        <p><strong>What this means:</strong> Team Size is employee count. Leadership Experience is years of leadership. Team Retention Rate is percentage of staff retained annually.</p>
+                    
+                    <div class="explainer-box mt-6">
+                        <div class="flex items-start">
+                            <i class="fas fa-info-circle text-blue-500 mt-1 mr-2"></i>
+                            <div>
+                                <p class="font-medium text-gray-800">Team Value</p>
+                                <p class="mt-1">Investors value experienced leadership teams with domain expertise. High team retention indicates strong culture and operational stability, both of which positively impact valuation.</p>
+                            </div>
+                        </div>
                     </div>
-                    <div class="mt-6 flex justify-between">
-                        <button id="prev-btn-6" class="btn-secondary font-bold py-2 px-4 rounded-lg">Previous</button>
-                        <button id="next-btn-6" class="btn-primary text-white font-bold py-2 px-4 rounded-lg">Next</button>
+                    
+                    <div class="mt-8 flex justify-between">
+                        <button id="prev-btn-6" class="btn-secondary font-medium py-3 px-6 rounded-lg">
+                            <i class="fas fa-arrow-left mr-2"></i> Back
+                        </button>
+                        <button id="next-btn-6" class="btn-primary text-white font-medium py-3 px-6 rounded-lg">
+                            Continue <i class="fas fa-arrow-right ml-2"></i>
+                        </button>
                     </div>
                 </div>
-
+                
                 <!-- Step 7: Technology and IP -->
                 <div class="step step-hidden" data-step="7">
-                    <h3 class="text-xl font-semibold text-gray-800 mb-4">Step 7: Technology and IP</h3>
-                    <p class="text-gray-600 mb-4">Detail your technology and intellectual property.</p>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="flex items-center mb-6">
+                        <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center mr-4">
+                            <span class="text-blue-600 font-semibold">7</span>
+                        </div>
+                        <h3 class="text-2xl font-semibold text-gray-800">Technology & IP</h3>
+                    </div>
+                    
+                    <p class="text-gray-600 mb-6">Detail your technology and intellectual property. Proprietary technology can significantly increase valuation.</p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div class="md:col-span-2">
-                            <label for="techStack" class="block text-gray-600 mb-1">Technology Stack (e.g., Python, AWS)</label>
-                            <input type="text" id="techStack" class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-500" placeholder="e.g., Python, AWS, React">
+                            <label for="techStack" class="block text-gray-700 font-medium mb-2">Technology Stack</label>
+                            <input type="text" id="techStack" class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" placeholder="e.g., Python, AWS, React">
                         </div>
+                        
                         <div>
-                            <label for="patents" class="block text-gray-600 mb-1">Number of Patents</label>
-                            <input type="number" id="patents" class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-500" placeholder="e.g., 2">
-                            <p id="patents-error" class="text-red-500 text-sm mt-1 hidden">Please enter a valid number.</p>
+                            <label for="patents" class="block text-gray-700 font-medium mb-2">Number of Patents</label>
+                            <input type="number" id="patents" class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" placeholder="e.g., 2">
+                            <p id="patents-error" class="text-red-500 text-sm mt-1 hidden">
+                                <i class="fas fa-exclamation-circle mr-1"></i> Please enter a valid number.
+                            </p>
                         </div>
+                        
                         <div>
-                            <label for="ipValue" class="block text-gray-600 mb-1">Estimated IP Value ($)</label>
-                            <input type="text" id="ipValue" class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-500" placeholder="e.g., 100,000">
-                            <p id="ipValue-error" class="text-red-500 text-sm mt-1 hidden">Please enter a valid number.</p>
+                            <label for="ipValue" class="block text-gray-700 font-medium mb-2">Estimated IP Value</label>
+                            <div class="relative">
+                                <span class="absolute left-3 top-3 text-gray-500">$</span>
+                                <input type="text" id="ipValue" class="w-full pl-8 border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" placeholder="e.g., 100,000">
+                            </div>
+                            <p id="ipValue-error" class="text-red-500 text-sm mt-1 hidden">
+                                <i class="fas fa-exclamation-circle mr-1"></i> Please enter a valid amount.
+                            </p>
                         </div>
                     </div>
-                    <div class="explainer-box">
-                        <p><strong>What this means:</strong> Technology Stack lists tools used. Patents count official inventions. IP Value estimates worth of intellectual property.</p>
+                    
+                    <div class="explainer-box mt-6">
+                        <div class="flex items-start">
+                            <i class="fas fa-info-circle text-blue-500 mt-1 mr-2"></i>
+                            <div>
+                                <p class="font-medium text-gray-800">Technology Value</p>
+                                <p class="mt-1">Proprietary technology, patents, and unique algorithms can command premium valuations. Modern, scalable tech stacks are preferred by investors as they reduce technical debt and future development costs.</p>
+                            </div>
+                        </div>
                     </div>
-                    <div class="mt-6 flex justify-between">
-                        <button id="prev-btn-7" class="btn-secondary font-bold py-2 px-4 rounded-lg">Previous</button>
-                        <button id="next-btn-7" class="btn-primary text-white font-bold py-2 px-4 rounded-lg">Next</button>
+                    
+                    <div class="mt-8 flex justify-between">
+                        <button id="prev-btn-7" class="btn-secondary font-medium py-3 px-6 rounded-lg">
+                            <i class="fas fa-arrow-left mr-2"></i> Back
+                        </button>
+                        <button id="next-btn-7" class="btn-primary text-white font-medium py-3 px-6 rounded-lg">
+                            Continue <i class="fas fa-arrow-right ml-2"></i>
+                        </button>
                     </div>
                 </div>
-
+                
                 <!-- Step 8: Market Position -->
                 <div class="step step-hidden" data-step="8">
-                    <h3 class="text-xl font-semibold text-gray-800 mb-4">Step 8: Market Position</h3>
-                    <p class="text-gray-600 mb-4">Describe your standing in the market.</p>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
-                            <label for="marketShare" class="block text-gray-600 mb-1">Market Share (%)</label>
-                            <input type="number" id="marketShare" class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-500" placeholder="e.g., 5">
-                            <p id="marketShare-error" class="text-red-500 text-sm mt-1 hidden">Please enter a valid percentage (0-100).</p>
+                    <div class="flex items-center mb-6">
+                        <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center mr-4">
+                            <span class="text-blue-600 font-semibold">8</span>
                         </div>
+                        <h3 class="text-2xl font-semibold text-gray-800">Market Position</h3>
+                    </div>
+                    
+                    <p class="text-gray-600 mb-6">Describe your standing in the market. Market leadership commands premium valuations.</p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
-                            <label for="brandStrength" class="block text-gray-600 mb-1">Brand Strength (1-10)</label>
+                            <label for="marketShare" class="block text-gray-700 font-medium mb-2">Market Share</label>
+                            <div class="relative">
+                                <input type="number" id="marketShare" class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" placeholder="e.g., 5">
+                                <span class="absolute right-3 top-3 text-gray-500">%</span>
+                            </div>
+                            <p id="marketShare-error" class="text-red-500 text-sm mt-1 hidden">
+                                <i class="fas fa-exclamation-circle mr-1"></i> Please enter a valid percentage (0-100).
+                            </p>
+                        </div>
+                        
+                        <div>
+                            <label for="brandStrength" class="block text-gray-700 font-medium mb-2">
+                                Brand Strength
+                                <span class="text-gray-500 font-normal ml-1">(1 = Weak, 10 = Strong)</span>
+                            </label>
                             <input type="range" id="brandStrength" min="1" max="10" value="5" class="w-full">
-                            <p class="text-gray-600">Score: <span id="brandStrengthValue">5</span></p>
+                            <div class="flex justify-between text-sm text-gray-600 mt-1">
+                                <span>1</span>
+                                <span id="brandStrengthValue">5</span>
+                                <span>10</span>
+                            </div>
                         </div>
+                        
                         <div class="md:col-span-2">
-                            <label for="uniqueSellingPoint" class="block text-gray-600 mb-1">Unique Selling Point (USP)</label>
-                            <textarea id="uniqueSellingPoint" class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-500" rows="3" placeholder="e.g., Fastest delivery in the industry"></textarea>
-                            <p id="uniqueSellingPoint-error" class="text-red-500 text-sm mt-1 hidden">Please enter a valid USP.</p>
+                            <label for="uniqueSellingPoint" class="block text-gray-700 font-medium mb-2">Unique Selling Proposition (USP)</label>
+                            <textarea id="uniqueSellingPoint" class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" rows="3" placeholder="What makes your product/service unique?"></textarea>
+                            <p id="uniqueSellingPoint-error" class="text-red-500 text-sm mt-1 hidden">
+                                <i class="fas fa-exclamation-circle mr-1"></i> Please describe your USP.
+                            </p>
                         </div>
                     </div>
-                    <div class="explainer-box">
-                        <p><strong>What this means:</strong> Market Share is your market percentage. Brand Strength rates brand recognition (1=weak, 10=strong). USP is what sets you apart.</p>
+                    
+                    <div class="explainer-box mt-6">
+                        <div class="flex items-start">
+                            <i class="fas fa-info-circle text-blue-500 mt-1 mr-2"></i>
+                            <div>
+                                <p class="font-medium text-gray-800">Market Leadership</p>
+                                <p class="mt-1">Market leaders with strong brands and clear differentiation can command 2-3x higher valuations than competitors. Your USP should clearly articulate why customers choose you over alternatives.</p>
+                            </div>
+                        </div>
                     </div>
-                    <div class="mt-6 flex justify-between">
-                        <button id="prev-btn-8" class="btn-secondary font-bold py-2 px-4 rounded-lg">Previous</button>
-                        <button id="next-btn-8" class="btn-primary text-white font-bold py-2 px-4 rounded-lg">Next</button>
+                    
+                    <div class="mt-8 flex justify-between">
+                        <button id="prev-btn-8" class="btn-secondary font-medium py-3 px-6 rounded-lg">
+                            <i class="fas fa-arrow-left mr-2"></i> Back
+                        </button>
+                        <button id="next-btn-8" class="btn-primary text-white font-medium py-3 px-6 rounded-lg">
+                            Continue <i class="fas fa-arrow-right ml-2"></i>
+                        </button>
                     </div>
                 </div>
-
+                
                 <!-- Step 9: Risk Factors -->
                 <div class="step step-hidden" data-step="9">
-                    <h3 class="text-xl font-semibold text-gray-800 mb-4">Step 9: Risk Factors</h3>
-                    <p class="text-gray-600 mb-4">Identify potential risks to your business.</p>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="flex items-center mb-6">
+                        <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center mr-4">
+                            <span class="text-blue-600 font-semibold">9</span>
+                        </div>
+                        <h3 class="text-2xl font-semibold text-gray-800">Risk Factors</h3>
+                    </div>
+                    
+                    <p class="text-gray-600 mb-6">Identify potential risks to your business. Transparency about risks builds credibility with investors.</p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div class="md:col-span-2">
-                            <label for="riskDescription" class="block text-gray-600 mb-1">Main Risks (e.g., competition, regulation)</label>
-                            <textarea id="riskDescription" class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-500" rows="3" placeholder="e.g., New competitors entering the market"></textarea>
-                            <p id="riskDescription-error" class="text-red-500 text-sm mt-1 hidden">Please describe at least one risk.</p>
+                            <label for="riskDescription" class="block text-gray-700 font-medium mb-2">Main Business Risks</label>
+                            <textarea id="riskDescription" class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" rows="3" placeholder="e.g., New competitors, regulatory changes, technology disruption"></textarea>
+                            <p id="riskDescription-error" class="text-red-500 text-sm mt-1 hidden">
+                                <i class="fas fa-exclamation-circle mr-1"></i> Please describe at least one risk.
+                            </p>
                         </div>
-                        <div>
-                            <label for="riskMitigation" class="block text-gray-600 mb-1">Risk Mitigation Score (1-10)</label>
+                        
+                        <div class="md:col-span-2">
+                            <label for="riskMitigation" class="block text-gray-700 font-medium mb-2">
+                                Risk Mitigation Score
+                                <span class="text-gray-500 font-normal ml-1">(1 = Weak, 10 = Strong)</span>
+                            </label>
                             <input type="range" id="riskMitigation" min="1" max="10" value="5" class="w-full">
-                            <p class="text-gray-600">Score: <span id="riskMitigationValue">5</span></p>
+                            <div class="flex justify-between text-sm text-gray-600 mt-1">
+                                <span>1</span>
+                                <span id="riskMitigationValue">5</span>
+                                <span>10</span>
+                            </div>
                         </div>
                     </div>
-                    <div class="explainer-box">
-                        <p><strong>What this means:</strong> Main Risks are potential business threats. Risk Mitigation Score rates your ability to handle risks (1=weak, 10=strong).</p>
+                    
+                    <div class="explainer-box mt-6">
+                        <div class="flex items-start">
+                            <i class="fas fa-info-circle text-blue-500 mt-1 mr-2"></i>
+                            <div>
+                                <p class="font-medium text-gray-800">Risk Management</p>
+                                <p class="mt-1">All businesses have risks. What matters is your awareness of them and plans to mitigate. Companies with strong risk management systems receive higher valuations as they're seen as more resilient.</p>
+                            </div>
+                        </div>
                     </div>
-                    <div class="mt-6 flex justify-between">
-                        <button id="prev-btn-9" class="btn-secondary font-bold py-2 px-4 rounded-lg">Previous</button>
-                        <button id="next-btn-9" class="btn-primary text-white font-bold py-2 px-4 rounded-lg">Next</button>
+                    
+                    <div class="mt-8 flex justify-between">
+                        <button id="prev-btn-9" class="btn-secondary font-medium py-3 px-6 rounded-lg">
+                            <i class="fas fa-arrow-left mr-2"></i> Back
+                        </button>
+                        <button id="next-btn-9" class="btn-primary text-white font-medium py-3 px-6 rounded-lg">
+                            Continue <i class="fas fa-arrow-right ml-2"></i>
+                        </button>
                     </div>
                 </div>
-
+                
                 <!-- Step 10: Future Projections -->
                 <div class="step step-hidden" data-step="10">
-                    <h3 class="text-xl font-semibold text-gray-800 mb-4">Step 10: Future Projections</h3>
-                    <p class="text-gray-600 mb-4">Provide your forecasts for the next 3-5 years.</p>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
-                            <label for="projectedRevenue" class="block text-gray-600 mb-1">Projected Revenue in 3 Years ($)</label>
-                            <input type="text" id="projectedRevenue" class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-500" placeholder="e.g., 1,000,000">
-                            <p id="projectedRevenue-error" class="text-red-500 text-sm mt-1 hidden">Please enter a valid number.</p>
+                    <div class="flex items-center mb-6">
+                        <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center mr-4">
+                            <span class="text-blue-600 font-semibold">10</span>
                         </div>
+                        <h3 class="text-2xl font-semibold text-gray-800">Future Projections</h3>
+                    </div>
+                    
+                    <p class="text-gray-600 mb-6">Provide your forecasts for the next 3-5 years. Realistic, data-backed projections enhance credibility.</p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
-                            <label for="projectedCustomers" class="block text-gray-600 mb-1">Projected Number of Customers</label>
-                            <input type="number" id="projectedCustomers" class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-500" placeholder="e.g., 500">
-                            <p id="projectedCustomers-error" class="text-red-500 text-sm mt-1 hidden">Please enter a valid number.</p>
+                            <label for="projectedRevenue" class="block text-gray-700 font-medium mb-2">Projected Revenue in 3 Years</label>
+                            <div class="relative">
+                                <span class="absolute left-3 top-3 text-gray-500">$</span>
+                                <input type="text" id="projectedRevenue" class="w-full pl-8 border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" placeholder="e.g., 1,000,000">
+                            </div>
+                            <p id="projectedRevenue-error" class="text-red-500 text-sm mt-1 hidden">
+                                <i class="fas fa-exclamation-circle mr-1"></i> Please enter a valid amount.
+                            </p>
                         </div>
+                        
+                        <div>
+                            <label for="projectedCustomers" class="block text-gray-700 font-medium mb-2">Projected Number of Customers</label>
+                            <input type="number" id="projectedCustomers" class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" placeholder="e.g., 500">
+                            <p id="projectedCustomers-error" class="text-red-500 text-sm mt-1 hidden">
+                                <i class="fas fa-exclamation-circle mr-1"></i> Please enter a valid number.
+                            </p>
+                        </div>
+                        
                         <div class="md:col-span-2">
-                            <label for="growthStrategy" class="block text-gray-600 mb-1">Growth Strategy (e.g., new markets)</label>
-                            <textarea id="growthStrategy" class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-500" rows="3" placeholder="e.g., Expanding into Europe"></textarea>
-                            <p id="growthStrategy-error" class="text-red-500 text-sm mt-1 hidden">Please enter a valid strategy.</p>
+                            <label for="growthStrategy" class="block text-gray-700 font-medium mb-2">Growth Strategy</label>
+                            <textarea id="growthStrategy" class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" rows="3" placeholder="Describe your plans for growth (e.g., new markets, product expansion)"></textarea>
+                            <p id="growthStrategy-error" class="text-red-500 text-sm mt-1 hidden">
+                                <i class="fas fa-exclamation-circle mr-1"></i> Please describe your growth strategy.
+                            </p>
                         </div>
                     </div>
-                    <div class="explainer-box">
-                        <p><strong>What this means:</strong> Projected Revenue is expected income in 3 years. Projected Customers is anticipated user base. Growth Strategy outlines expansion plans.</p>
+                    
+                    <div class="explainer-box mt-6">
+                        <div class="flex items-start">
+                            <i class="fas fa-info-circle text-blue-500 mt-1 mr-2"></i>
+                            <div>
+                                <p class="font-medium text-gray-800">Growth Potential</p>
+                                <p class="mt-1">Investors pay for future potential, not just current performance. Your projections should be ambitious yet achievable, supported by historical data and clear execution plans.</p>
+                            </div>
+                        </div>
                     </div>
-                    <div class="mt-6 flex justify-between">
-                        <button id="prev-btn-10" class="btn-secondary font-bold py-2 px-4 rounded-lg">Previous</button>
-                        <button id="next-btn-10" class="btn-primary text-white font-bold py-2 px-4 rounded-lg">Pay Now</button>
+                    
+                    <div class="mt-8 flex justify-between">
+                        <button id="prev-btn-10" class="btn-secondary font-medium py-3 px-6 rounded-lg">
+                            <i class="fas fa-arrow-left mr-2"></i> Back
+                        </button>
+                        <button id="next-btn-10" class="btn-primary text-white font-medium py-3 px-6 rounded-lg">
+                            Continue to Payment <i class="fas fa-arrow-right ml-2"></i>
+                        </button>
                     </div>
                 </div>
-
+                
                 <!-- Step 11: PayPal Paywall -->
                 <div class="step step-hidden" data-step="11">
-                    <h3 class="text-xl font-semibold text-gray-800 mb-4">Step 11: Complete Your Valuation</h3>
-                    <p class="text-gray-600 mb-4">To unlock your detailed valuation report, please complete the payment or bypass with your access code.</p>
-                    <div id="paypal-container-X7PQ9LXN57WUC" class="mb-4"></div>
-                    <p class="text-gray-600 mb-2">Or enter your access code to bypass payment:</p>
-                    <div class="flex items-center space-x-2">
-                        <input type="text" id="accessCode" class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-500" placeholder="Enter access code">
-                        <button id="bypass-btn" class="btn-secondary font-bold py-2 px-4 rounded-lg">Bypass</button>
+                    <div class="flex items-center mb-6">
+                        <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center mr-4">
+                            <span class="text-blue-600 font-semibold">11</span>
+                        </div>
+                        <h3 class="text-2xl font-semibold text-gray-800">Unlock Your Valuation Report</h3>
                     </div>
-                    <p id="accessCode-error" class="text-red-500 text-sm mt-1 hidden">Invalid access code. Please try again.</p>
-                    <div class="explainer-box">
-                        <p><strong>What this means:</strong> Pay via PayPal or use an access code to unlock your valuation report.</p>
-                    </div>
-                    <div class="mt-6 flex justify-between">
-                        <button id="prev-btn-11" class="btn-secondary font-bold py-2 px-4 rounded-lg">Previous</button>
-                        <button id="submit-btn" class="btn-primary text-white font-bold py-2 px-4 rounded-lg hidden">Submit</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </main>
-
-    <!-- Footer -->
-    <footer class="bg-gray-800 text-white py-8 mt-16">
-        <div class="container mx-auto px-6">
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
-                <div>
-                    <h4 class="text-lg font-semibold mb-4">SaaS Valuation App</h4>
-                    <p class="text-gray-400">Empower your business with accurate and actionable valuation insights using our advanced SaaS tools.</p>
-                </div>
-                <div>
-                    <h4 class="text-lg font-semibold mb-4">Product</h4>
-                    <ul class="space-y-2">
-                        <li><a href="#valuation" class="text-gray-400 hover:text-teal-400">Self Valuation</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-teal-400">AI Data Room</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-teal-400">Pricing</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h4 class="text-lg font-semibold mb-4">Resources</h4>
-                    <ul class="space-y-2">
-                        <li><a href="blog.html" class="text-gray-400 hover:text-teal-400">Blog</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-teal-400">Valuation Guide</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-teal-400">Due Diligence Checklist</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h4 class="text-lg font-semibold mb-4">Legal</h4>
-                    <ul class="space-y-2">
-                        <li><a href="privacy-policy.html" class="text-gray-400 hover:text-teal-400">Privacy Policy</a></li>
-                        <li><a href="terms-and-conditions.html" class="text-gray-400 hover:text-teal-400">Terms and Conditions</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="text-center mt-8 text-gray-400">
-                <p>© 2025 SaaS Valuation App. All rights reserved.</p>
-            </div>
-        </div>
-    </footer>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const steps = document.querySelectorAll('.step');
-            const progressFill = document.getElementById('progress-fill');
-            const currentStepSpan = document.getElementById('current-step');
-            let currentStep = 1;
-
-            // Toggle mobile menu
-            document.getElementById('menu-toggle').addEventListener('click', () => {
-                document.getElementById('mobile-menu').classList.toggle('hidden');
-            });
-
-            // Show step and update progress
-            function showStep(stepNumber) {
-                steps.forEach(step => {
-                    step.classList.remove('step-visible');
-                    step.classList.add('step-hidden');
-                });
-                const currentStepElement = document.querySelector(`.step[data-step="${stepNumber}"]`);
-                if (currentStepElement) {
-                    currentStepElement.classList.remove('step-hidden');
-                    currentStepElement.classList.add('step-visible');
-                }
-                progressFill.style.width = `${(stepNumber / 11) * 100}%`;
-                currentStepSpan.textContent = stepNumber;
-                currentStep = stepNumber;
-                saveProgress();
-            }
-
-            // Validate inputs for each step
-            function validateStep(stepNumber) {
-                let isValid = true;
-                const stepElement = document.querySelector(`.step[data-step="${stepNumber}"]`);
-                const inputs = stepElement.querySelectorAll('input, select, textarea');
-
-                inputs.forEach(input => {
-                    const errorElement = document.getElementById(`${input.id}-error`);
-                    input.classList.remove('input-error');
-                    if (errorElement) errorElement.classList.add('hidden');
-
-                    if (input.type === 'checkbox') {
-                        const checkedCount = stepElement.querySelectorAll('input[type="checkbox"]:checked').length;
-                        if (checkedCount < 1 || checkedCount > 3) {
-                            isValid = false;
-                            if (errorElement) errorElement.classList.remove('hidden');
-                        }
-                    } else if (input.type === 'number' || input.type === 'text') {
-                        const value = input.value.trim();
-                        if (!value && !['accessCode', 'techStack', 'uniqueSellingPoint', 'riskDescription', 'growthStrategy'].includes(input.id)) {
-                            isValid = false;
-                            if (errorElement) errorElement.classList.remove('hidden');
-                            input.classList.add('input-error');
-                        } else if (['revenueGrowthRate', 'grossMargin', 'customerGrowthRate', 'churnRate', 'teamRetentionRate', 'marketShare'].includes(input.id) && (value < 0 || value > 100)) {
-                            isValid = false;
-                            if (errorElement) errorElement.textContent = 'Please enter a valid percentage (0-100).';
-                            errorElement.classList.remove('hidden');
-                            input.classList.add('input-error');
-                        } else if (input.id === 'nrr' && (value < 0 || value > 200)) {
-                            isValid = false;
-                            if (errorElement) errorElement.textContent = 'Please enter a valid percentage (0-200).';
-                            errorElement.classList.remove('hidden');
-                            input.classList.add('input-error');
-                        } else if (['arr', 'operatingExpenses', 'ltv', 'cac', 'ipValue', 'projectedRevenue'].includes(input.id) && (isNaN(value.replace(/,/g, '')) || parseFloat(value.replace(/,/g, '')) <= 0)) {
-                            isValid = false;
-                            if (errorElement) errorElement.textContent = 'Please enter a valid number.';
-                            errorElement.classList.remove('hidden');
-                            input.classList.add('input-error');
-                        } else if (input.id === 'industry' && value === '') {
-                            isValid = false;
-                            if (errorElement) errorElement.classList.remove('hidden');
-                            input.classList.add('input-error');
-                        } else if (['uniqueSellingPoint', 'riskDescription', 'growthStrategy'].includes(input.id) && !value) {
-                            isValid = false;
-                            if (errorElement) errorElement.classList.remove('hidden');
-                            input.classList.add('input-error');
-                        }
-                    }
-                });
-
-                return isValid;
-            }
-
-            // Save progress to localStorage
-            function saveProgress() {
-                const formData = {};
-                document.querySelectorAll('input, select, textarea').forEach(element => {
-                    if (element.type === 'checkbox') {
-                        formData[element.id] = element.checked;
-                    } else if (element.type === 'range') {
-                        formData[element.id] = element.value;
-                        const valueSpan = document.getElementById(`${element.id}Value`);
-                        if (valueSpan) valueSpan.textContent = element.value;
-                    } else {
-                        formData[element.id] = element.value;
-                    }
-                });
-                formData.currentStep = currentStep;
-                localStorage.setItem('valuationFormData', JSON.stringify(formData));
-            }
-
-            // Load progress from localStorage
-            function loadProgress() {
-                const savedData = localStorage.getItem('valuationFormData');
-                if (savedData) {
-                    const formData = JSON.parse(savedData);
-                    document.querySelectorAll('input, select, textarea').forEach(element => {
-                        if (element.type === 'checkbox') {
-                            element.checked = formData[element.id] || false;
-                        } else if (element.type === 'range') {
-                            element.value = formData[element.id] || 5;
-                            const valueSpan = document.getElementById(`${element.id}Value`);
-                            if (valueSpan) valueSpan.textContent = element.value;
-                        } else {
-                            element.value = formData[element.id] || '';
-                        }
-                    });
-                    if (formData.currentStep) {
-                        showStep(parseInt(formData.currentStep));
-                    }
-                }
-            }
-
-            // Update range input values
-            document.querySelectorAll('input[type="range"]').forEach(input => {
-                input.addEventListener('input', () => {
-                    const valueSpan = document.getElementById(`${input.id}Value`);
-                    if (valueSpan) valueSpan.textContent = input.value;
-                    saveProgress();
-                });
-            });
-
-            // Event listeners for navigation
-            document.querySelectorAll('[id^="next-btn-"]').forEach(button => {
-                button.addEventListener('click', () => {
-                    const stepNumber = parseInt(button.id.split('-')[2]);
-                    if (validateStep(stepNumber)) {
-                        showStep(stepNumber + 1);
-                    }
-                });
-            });
-
-            document.querySelectorAll('[id^="prev-btn-"]').forEach(button => {
-                button.addEventListener('click', () => {
-                    const stepNumber = parseInt(button.id.split('-')[2]);
-                    showStep(stepNumber - 1);
-                });
-            });
-
-            // Bypass with access code
-            document.getElementById('bypass-btn').addEventListener('click', () => {
-                const accessCode = document.getElementById('accessCode').value.trim();
-                const errorElement = document.getElementById('accessCode-error');
-                if (accessCode === 'PRO2025') {
-                    document.getElementById('submit-btn').classList.remove('hidden');
-                    errorElement.classList.add('hidden');
-                } else {
-                    errorElement.classList.remove('hidden');
-                }
-            });
-
-            // Submit button (placeholder for actual submission logic)
-            document.getElementById('submit-btn').addEventListener('click', () => {
-                alert('Valuation report generated! (Placeholder for actual submission)');
-                localStorage.removeItem('valuationFormData');
-                showStep(1);
-            });
-
-            // Initialize PayPal button
-            paypal.HostedButtons({
-                hostedButtonId: "X7PQ9LX  id="paypal-container-X7PQ9LXN57WUC">
-                }).render("#paypal-container-X7PQ9LXN57WUC");
-
-            // Initialize
-            loadProgress();
-            showStep(currentStep);
-        });
-    </script>
-</body>
+                    
+                    <div class="bg-blue-50 border border-blue-100 rounded-lg p-6 mb-8">
+                        <div class="flex items-start">
+                            <div class="bg-blue-100 p-3 rounded-full mr-4">
+                                <i class="fas fa-lock-open text-blue-600 text-xl"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-lg font-semibold text-gray-800 mb-2">Your Comprehensive Valuation Awaits</h4>
+                                <p class="text-gray-600">Complete your payment to receive your detailed valuation report, including:</p>
+                                <ul class="mt-3 space-y-2">
+                                    <li class="flex items-start">
+                                        <i class="fas fa-check-circle text-blue-500 mt-1 mr-2"></i>
+                                        <span>Multiple valuation methods with explanations</span>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <i class="fas fa-check-circle text-blue-500 mt-1 mr-2"></i>
+                                        <span>Industry benchmarking and comparisons</span>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <i class="fas fa-check-circle text-blue-500 mt-1 mr-2"></i>
+                                        <span>Actionable insights to increase your valuation</span>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <i class="fas fa-check-circle text-blue-500 mt-1 mr-2
 </html>
