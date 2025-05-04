@@ -6,7 +6,7 @@
     <title>Pro Valuation - SaaS Valuation App</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <script src="https://www.paypal.com/sdk/js?client-id=BAAmPIUOhFD8WnPzN-tp-rQwqJ-5hrys3ik4nE0y2X41APCpAHOeX3swr5esUvo6CBAZzZH5iY8lcuBQB4&components=hosted-buttons&disable-funding=venmo¤cy=AUD"></script>
+    <script src="https://www.paypal.com/sdk/js?client-id=BAAmPIUOhFD8WnPzN-tp-rQwqJ-5hrys3ik4nE0y2X41APCpAHOeX3swr5esUvo6CBAZzZH5iY8lcuBQB4&components=hosted-buttons&disable-funding=venmo&currency=AUD"></script>
     <style>
         .gradient-bg {
             background: linear-gradient(135deg, #38B2AC 0%, #2D3748 100%);
@@ -35,17 +35,22 @@
             font-size: 0.875rem;
             color: #4a5568;
         }
-        .video-container {
-            margin-top: 1rem;
-            text-align: center;
-        }
         .input-error {
             border-color: #E53E3E !important;
             box-shadow: 0 0 0 2px rgba(229, 62, 62, 0.2) !important;
         }
+        .step-hidden {
+            display: none;
+        }
+        .step-visible {
+            display: block;
+        }
+        .shadow-glow {
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
     </style>
 </head>
-<body class="font-sans">
+<body class="font-sans bg-gray-100">
     <!-- Header -->
     <header class="bg-gray-800 text-white py-4 sticky top-0 z-50">
         <div class="container mx-auto px-6 flex justify-between items-center">
@@ -53,7 +58,7 @@
                 <a href="/">SaaS Valuation App</a>
             </div>
             <nav class="hidden md:flex space-x-6">
-                <a href="index.html#valuation" class="hover:text-teal-400">Self Valuation</a>
+                <a href="#valuation" class="hover:text-teal-400">Self Valuation</a>
                 <a href="blog.html" class="hover:text-teal-400">Resources</a>
             </nav>
             <button id="menu-toggle" class="md:hidden focus:outline-none">
@@ -62,7 +67,7 @@
         </div>
         <div id="mobile-menu" class="md:hidden hidden">
             <nav class="flex flex-col space-y-4 mt-4 px-6">
-                <a href="index.html#valuation" class="hover:text-teal-400">Self Valuation</a>
+                <a href="#valuation" class="hover:text-teal-400">Self Valuation</a>
                 <a href="blog.html" class="hover:text-teal-400">Resources</a>
             </nav>
         </div>
@@ -72,23 +77,21 @@
     <main class="py-16">
         <div class="container mx-auto px-6">
             <div class="text-center mb-12">
-                <h2 class="text-3xl font-bold text-gray-800">Pro Valuation Tool</h2>
-                <p class="text-lg text-gray-600 max-w-2xl mx-auto">Complete the form below for a detailed SaaS valuation with advanced metrics and insights.</p>
+                <h2 class="text-4xl font-bold text-gray-800">Pro Valuation Tool</h2>
+                <p class="text-lg text-gray-600 max-w-2xl mx-auto mt-4">Complete the form below for a detailed SaaS valuation with advanced metrics and insights.</p>
             </div>
-            <div id="valuation-form" class="bg-white rounded-xl shadow-lg p-6 max-w-3xl mx-auto">
+            <div id="valuation-form" class="bg-white rounded-xl shadow-glow p-8 max-w-4xl mx-auto">
                 <!-- Progress Bar -->
                 <div class="mb-8">
                     <div class="relative pt-1">
                         <div class="overflow-hidden h-2 mb-4 text-xs flex rounded bg-gray-200">
-                            <div id="progress-fill" class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-teal-500" style="width: 10%"></div>
+                            <div id="progress-fill" class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-teal-500" style="width: 9.09%"></div>
                         </div>
-                        <p class="text-center text-gray-600">Step <span id="current-step">1</span> of 10</p>
+                        <p class="text-center text-gray-600">Step <span id="current-step">1</span> of 11</p>
                     </div>
                 </div>
-            </div>
-        </div>
-    </main>
-    <!-- Step 1: Valuation Method -->
+
+                <!-- Step 1: Valuation Method -->
                 <div class="step step-visible" data-step="1">
                     <h3 class="text-xl font-semibold text-gray-800 mb-4">Step 1: Select Valuation Method</h3>
                     <p class="text-gray-600 mb-4">Choose up to 3 methods for a comprehensive valuation.</p>
@@ -111,12 +114,11 @@
                         </label>
                     </div>
                     <div class="explainer-box">
-                        <p><strong>What this means:</strong> Pick the ways you want us to calculate your company's value. For example, "Revenue Multiplier" uses your yearly sales, while "DCF" looks at your future money flow.</p>
-                    </div>
-                    <div id="video-step-1" class="video-container">
-                        <iframe class="mx-auto" width="560" height="315" src="https://www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0" allowfullscreen></iframe>
+                        <p><strong>What this means:</strong> Select the methods to calculate your company's value. For example, "Revenue Multiplier" uses yearly sales, while "DCF" projects future cash flows.</p>
                     </div>
                     <p id="method-error" class="text-red-500 text-sm mt-2 hidden">Please select 1 to 3 methods.</p>
+                   
+
                     <div class="mt-6 flex justify-end">
                         <button id="next-btn-1" class="btn-primary text-white font-bold py-2 px-4 rounded-lg">Next</button>
                     </div>
@@ -149,10 +151,7 @@
                         </div>
                     </div>
                     <div class="explainer-box">
-                        <p><strong>What this means:</strong> Tell us about your money. ARR is the yearly money from subscriptions. Revenue Growth Rate is how much your sales are growing each year. Gross Margin is the percentage of money left after paying for your product. Operating Expenses are your yearly costs to run the business.</p>
-                    </div>
-                    <div id="video-step-2" class="video-container hidden">
-                        <iframe class="mx-auto" width="560" height="315" src="https://www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0" allowfullscreen></iframe>
+                        <p><strong>What this means:</strong> Provide financial details. ARR is yearly subscription revenue. Revenue Growth Rate is annual sales growth. Gross Margin is profit after product costs. Operating Expenses are yearly business costs.</p>
                     </div>
                     <div class="mt-6 flex justify-between">
                         <button id="prev-btn-2" class="btn-secondary font-bold py-2 px-4 rounded-lg">Previous</button>
@@ -182,10 +181,7 @@
                         </div>
                     </div>
                     <div class="explainer-box">
-                        <p><strong>What this means:</strong> This is about how your business is growing. NRR shows if your current customers are spending more or less over time (100% means no change). Customer Growth Rate is how fast you're getting new customers. Years in Operation is how long your business has been running.</p>
-                    </div>
-                    <div id="video-step-3" class="video-container hidden">
-                        <iframe class="mx-auto" width="560" height="315" src="https://www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0" allowfullscreen></iframe>
+                        <p><strong>What this means:</strong> NRR shows customer spending trends (100% means stable). Customer Growth Rate is new customer acquisition speed. Years in Operation is business longevity.</p>
                     </div>
                     <div class="mt-6 flex justify-between">
                         <button id="prev-btn-3" class="btn-secondary font-bold py-2 px-4 rounded-lg">Previous</button>
@@ -215,10 +211,7 @@
                         </div>
                     </div>
                     <div class="explainer-box">
-                        <p><strong>What this means:</strong> This is about your customers. LTV is the total money you expect to make from a customer over time. CAC is how much you spend to get a new customer. Churn Rate is the percentage of customers who stop using your service each year.</p>
-                    </div>
-                    <div id="video-step-4" class="video-container hidden">
-                        <iframe class="mx-auto" width="560" height="315" src="https://www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0" allowfullscreen></iframe>
+                        <p><strong>What this means:</strong> LTV is total revenue per customer. CAC is cost to acquire a customer. Churn Rate is percentage of customers leaving annually.</p>
                     </div>
                     <div class="mt-6 flex justify-between">
                         <button id="prev-btn-4" class="btn-secondary font-bold py-2 px-4 rounded-lg">Previous</button>
@@ -267,16 +260,14 @@
                         </div>
                     </div>
                     <div class="explainer-box">
-                        <p><strong>What this means:</strong> Tell us about the market you're in. Industry is the type of business you're in (like Technology or Healthcare). Market Trend Impact is how much trends in your industry help or hurt you (1 is bad, 10 is great). Competitive Positioning is how strong you are compared to competitors (1 is weak, 10 is very strong).</p>
-                    </div>
-                    <div id="video-step-5" class="video-container hidden">
-                        <iframe class="mx-auto" width="560" height="315" src="https://www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0" allowfullscreen></iframe>
+                        <p><strong>What this means:</strong> Industry is your business sector. Market Trend Impact scores how trends affect you (1=negative, 10=positive). Competitive Positioning rates your strength vs. competitors (1=weak, 10=strong).</p>
                     </div>
                     <div class="mt-6 flex justify-between">
                         <button id="prev-btn-5" class="btn-secondary font-bold py-2 px-4 rounded-lg">Previous</button>
                         <button id="next-btn-5" class="btn-primary text-white font-bold py-2 px-4 rounded-lg">Next</button>
                     </div>
                 </div>
+
                 <!-- Step 6: Team Dynamics -->
                 <div class="step step-hidden" data-step="6">
                     <h3 class="text-xl font-semibold text-gray-800 mb-4">Step 6: Team Dynamics</h3>
@@ -299,10 +290,7 @@
                         </div>
                     </div>
                     <div class="explainer-box">
-                        <p><strong>What this means:</strong> Tell us about your team. Team Size is how many people work for you. Leadership Experience is how many years your leaders have been in charge. Team Retention Rate is the percentage of your team that sticks around each year.</p>
-                    </div>
-                    <div id="video-step-6" class="video-container hidden">
-                        <iframe class="mx-auto" width="560" height="315" src="https://www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0" allowfullscreen></iframe>
+                        <p><strong>What this means:</strong> Team Size is employee count. Leadership Experience is years of leadership. Team Retention Rate is percentage of staff retained annually.</p>
                     </div>
                     <div class="mt-6 flex justify-between">
                         <button id="prev-btn-6" class="btn-secondary font-bold py-2 px-4 rounded-lg">Previous</button>
@@ -331,10 +319,7 @@
                         </div>
                     </div>
                     <div class="explainer-box">
-                        <p><strong>What this means:</strong> This is about your tech and inventions. Technology Stack is the tools you use to build your product (like Python or AWS). Patents are the number of official inventions you own. IP Value is how much your inventions might be worth.</p>
-                    </div>
-                    <div id="video-step-7" class="video-container hidden">
-                        <iframe class="mx-auto" width="560" height="315" src="https://www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0" allowfullscreen></iframe>
+                        <p><strong>What this means:</strong> Technology Stack lists tools used. Patents count official inventions. IP Value estimates worth of intellectual property.</p>
                     </div>
                     <div class="mt-6 flex justify-between">
                         <button id="prev-btn-7" class="btn-secondary font-bold py-2 px-4 rounded-lg">Previous</button>
@@ -364,10 +349,7 @@
                         </div>
                     </div>
                     <div class="explainer-box">
-                        <p><strong>What this means:</strong> This is how you fit in your market. Market Share is the percentage of the market you control. Brand Strength is how well-known or trusted your brand is (1 is weak, 10 is strong). USP is what makes you special compared to others.</p>
-                    </div>
-                    <div id="video-step-8" class="video-container hidden">
-                        <iframe class="mx-auto" width="560" height="315" src="https://www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0" allowfullscreen></iframe>
+                        <p><strong>What this means:</strong> Market Share is your market percentage. Brand Strength rates brand recognition (1=weak, 10=strong). USP is what sets you apart.</p>
                     </div>
                     <div class="mt-6 flex justify-between">
                         <button id="prev-btn-8" class="btn-secondary font-bold py-2 px-4 rounded-lg">Previous</button>
@@ -392,10 +374,7 @@
                         </div>
                     </div>
                     <div class="explainer-box">
-                        <p><strong>What this means:</strong> This is about problems you might face. Main Risks are things that could hurt your business (like competition). Risk Mitigation Score is how well you can handle those problems (1 is weak, 10 is strong).</p>
-                    </div>
-                    <div id="video-step-9" class="video-container hidden">
-                        <iframe class="mx-auto" width="560" height="315" src="https://www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0" allowfullscreen></iframe>
+                        <p><strong>What this means:</strong> Main Risks are potential business threats. Risk Mitigation Score rates your ability to handle risks (1=weak, 10=strong).</p>
                     </div>
                     <div class="mt-6 flex justify-between">
                         <button id="prev-btn-9" class="btn-secondary font-bold py-2 px-4 rounded-lg">Previous</button>
@@ -425,10 +404,7 @@
                         </div>
                     </div>
                     <div class="explainer-box">
-                        <p><strong>What this means:</strong> This is your plan for the future. Projected Revenue is how much money you expect in 3 years. Projected Customers is how many users you think you'll have. Growth Strategy is how you plan to grow (like new areas or products).</p>
-                    </div>
-                    <div id="video-step-10" class="video-container hidden">
-                        <iframe class="mx-auto" width="560" height="315" src="https://www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0" allowfullscreen></iframe>
+                        <p><strong>What this means:</strong> Projected Revenue is expected income in 3 years. Projected Customers is anticipated user base. Growth Strategy outlines expansion plans.</p>
                     </div>
                     <div class="mt-6 flex justify-between">
                         <button id="prev-btn-10" class="btn-secondary font-bold py-2 px-4 rounded-lg">Previous</button>
@@ -448,74 +424,118 @@
                     </div>
                     <p id="accessCode-error" class="text-red-500 text-sm mt-1 hidden">Invalid access code. Please try again.</p>
                     <div class="explainer-box">
-                        <p><strong>What this means:</strong> This is where you pay to get your full valuation report. Use PayPal or an access code if you already paid or got one from us.</p>
-                    </div>
-                    <div id="video-step-11" class="video-container hidden">
-                        <iframe class="mx-auto" width="560" height="315" src="https://www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0" allowfullscreen></iframe>
+                        <p><strong>What this means:</strong> Pay via PayPal or use an access code to unlock your valuation report.</p>
                     </div>
                     <div class="mt-6 flex justify-between">
                         <button id="prev-btn-11" class="btn-secondary font-bold py-2 px-4 rounded-lg">Previous</button>
                         <button id="submit-btn" class="btn-primary text-white font-bold py-2 px-4 rounded-lg hidden">Submit</button>
                     </div>
-                    <script>
-                        paypal.HostedButtons({
-                            hostedButtonId: "X7PQ9LXN57WUC",
-                        }).render("#paypal-container-X7PQ9LXN57WUC");
-                    </script>
                 </div>
-                <script>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-8 mt-16">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">SaaS Valuation App</h4>
+                    <p class="text-gray-400">Empower your business with accurate and actionable valuation insights using our advanced SaaS tools.</p>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Product</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#valuation" class="text-gray-400 hover:text-teal-400">Self Valuation</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-teal-400">AI Data Room</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-teal-400">Pricing</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Resources</h4>
+                    <ul class="space-y-2">
+                        <li><a href="blog.html" class="text-gray-400 hover:text-teal-400">Blog</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-teal-400">Valuation Guide</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-teal-400">Due Diligence Checklist</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Legal</h4>
+                    <ul class="space-y-2">
+                        <li><a href="privacy-policy.html" class="text-gray-400 hover:text-teal-400">Privacy Policy</a></li>
+                        <li><a href="terms-and-conditions.html" class="text-gray-400 hover:text-teal-400">Terms and Conditions</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="text-center mt-8 text-gray-400">
+                <p>© 2025 SaaS Valuation App. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
         document.addEventListener('DOMContentLoaded', () => {
             const steps = document.querySelectorAll('.step');
             const progressFill = document.getElementById('progress-fill');
             const currentStepSpan = document.getElementById('current-step');
             let currentStep = 1;
 
+            // Toggle mobile menu
+            document.getElementById('menu-toggle').addEventListener('click', () => {
+                document.getElementById('mobile-menu').classList.toggle('hidden');
+            });
+
             // Show step and update progress
             function showStep(stepNumber) {
-                steps.forEach(step => step.classList.add('step-hidden'));
                 steps.forEach(step => {
-                    if (step.getAttribute('data-step') === stepNumber.toString()) {
-                        step.classList.remove('step-hidden');
-                        step.classList.add('step-visible');
-                    }
+                    step.classList.remove('step-visible');
+                    step.classList.add('step-hidden');
                 });
+                const currentStepElement = document.querySelector(`.step[data-step="${stepNumber}"]`);
+                if (currentStepElement) {
+                    currentStepElement.classList.remove('step-hidden');
+                    currentStepElement.classList.add('step-visible');
+                }
                 progressFill.style.width = `${(stepNumber / 11) * 100}%`;
                 currentStepSpan.textContent = stepNumber;
-                updateVideo(stepNumber);
+                currentStep = stepNumber;
                 saveProgress();
-            }
-
-            // Update video based on step
-            function updateVideo(stepNumber) {
-                document.querySelectorAll('.video-container').forEach(video => video.classList.add('hidden'));
-                document.getElementById(`video-step-${stepNumber}`).classList.remove('hidden');
             }
 
             // Validate inputs for each step
             function validateStep(stepNumber) {
                 let isValid = true;
-                const inputs = steps[stepNumber - 1].querySelectorAll('input, select, textarea');
+                const stepElement = document.querySelector(`.step[data-step="${stepNumber}"]`);
+                const inputs = stepElement.querySelectorAll('input, select, textarea');
 
                 inputs.forEach(input => {
                     const errorElement = document.getElementById(`${input.id}-error`);
+                    input.classList.remove('input-error');
+                    if (errorElement) errorElement.classList.add('hidden');
+
                     if (input.type === 'checkbox') {
-                        const checkedCount = steps[stepNumber - 1].querySelectorAll('input[type="checkbox"]:checked').length;
-                        if (checkedCount === 0 || checkedCount > 3) {
+                        const checkedCount = stepElement.querySelectorAll('input[type="checkbox"]:checked').length;
+                        if (checkedCount < 1 || checkedCount > 3) {
                             isValid = false;
                             if (errorElement) errorElement.classList.remove('hidden');
                         }
                     } else if (input.type === 'number' || input.type === 'text') {
                         const value = input.value.trim();
-                        if (!value && input.id !== 'accessCode' && input.id !== 'techStack' && input.id !== 'uniqueSellingPoint' && input.id !== 'riskDescription' && input.id !== 'growthStrategy') {
+                        if (!value && !['accessCode', 'techStack', 'uniqueSellingPoint', 'riskDescription', 'growthStrategy'].includes(input.id)) {
                             isValid = false;
                             if (errorElement) errorElement.classList.remove('hidden');
                             input.classList.add('input-error');
-                        } else if ((input.id === 'revenueGrowthRate' || input.id === 'grossMargin' || input.id === 'nrr' || input.id === 'customerGrowthRate' || input.id === 'churnRate' || input.id === 'teamRetentionRate' || input.id === 'marketShare') && (value < 0 || value > 100)) {
+                        } else if (['revenueGrowthRate', 'grossMargin', 'customerGrowthRate', 'churnRate', 'teamRetentionRate', 'marketShare'].includes(input.id) && (value < 0 || value > 100)) {
                             isValid = false;
                             if (errorElement) errorElement.textContent = 'Please enter a valid percentage (0-100).';
                             errorElement.classList.remove('hidden');
                             input.classList.add('input-error');
-                        } else if ((input.id === 'arr' || input.id === 'operatingExpenses' || input.id === 'ltv' || input.id === 'cac' || input.id === 'ipValue' || input.id === 'projectedRevenue') && (isNaN(value.replace(/,/g, '')) || value <= 0)) {
+                        } else if (input.id === 'nrr' && (value < 0 || value > 200)) {
+                            isValid = false;
+                            if (errorElement) errorElement.textContent = 'Please enter a valid percentage (0-200).';
+                            errorElement.classList.remove('hidden');
+                            input.classList.add('input-error');
+                        } else if (['arr', 'operatingExpenses', 'ltv', 'cac', 'ipValue', 'projectedRevenue'].includes(input.id) && (isNaN(value.replace(/,/g, '')) || parseFloat(value.replace(/,/g, '')) <= 0)) {
                             isValid = false;
                             if (errorElement) errorElement.textContent = 'Please enter a valid number.';
                             errorElement.classList.remove('hidden');
@@ -524,13 +544,10 @@
                             isValid = false;
                             if (errorElement) errorElement.classList.remove('hidden');
                             input.classList.add('input-error');
-                        } else if ((input.id === 'uniqueSellingPoint' || input.id === 'riskDescription' || input.id === 'growthStrategy') && !value) {
+                        } else if (['uniqueSellingPoint', 'riskDescription', 'growthStrategy'].includes(input.id) && !value) {
                             isValid = false;
                             if (errorElement) errorElement.classList.remove('hidden');
                             input.classList.add('input-error');
-                        } else {
-                            if (errorElement) errorElement.classList.add('hidden');
-                            input.classList.remove('input-error');
                         }
                     }
                 });
@@ -552,6 +569,7 @@
                         formData[element.id] = element.value;
                     }
                 });
+                formData.currentStep = currentStep;
                 localStorage.setItem('valuationFormData', JSON.stringify(formData));
             }
 
@@ -571,19 +589,27 @@
                             element.value = formData[element.id] || '';
                         }
                     });
+                    if (formData.currentStep) {
+                        showStep(parseInt(formData.currentStep));
+                    }
                 }
             }
+
+            // Update range input values
+            document.querySelectorAll('input[type="range"]').forEach(input => {
+                input.addEventListener('input', () => {
+                    const valueSpan = document.getElementById(`${input.id}Value`);
+                    if (valueSpan) valueSpan.textContent = input.value;
+                    saveProgress();
+                });
+            });
 
             // Event listeners for navigation
             document.querySelectorAll('[id^="next-btn-"]').forEach(button => {
                 button.addEventListener('click', () => {
                     const stepNumber = parseInt(button.id.split('-')[2]);
                     if (validateStep(stepNumber)) {
-                        if (stepNumber === 10) {
-                            showStep(11); // Go to PayPal step
-                        } else {
-                            showStep(stepNumber + 1);
-                        }
+                        showStep(stepNumber + 1);
                     }
                 });
             });
@@ -599,7 +625,7 @@
             document.getElementById('bypass-btn').addEventListener('click', () => {
                 const accessCode = document.getElementById('accessCode').value.trim();
                 const errorElement = document.getElementById('accessCode-error');
-                if (accessCode === 'PRO2025') { // Example access code; replace with your logic
+                if (accessCode === 'PRO2025') {
                     document.getElementById('submit-btn').classList.remove('hidden');
                     errorElement.classList.add('hidden');
                 } else {
@@ -607,51 +633,22 @@
                 }
             });
 
+            // Submit button (placeholder for actual submission logic)
+            document.getElementById('submit-btn').addEventListener('click', () => {
+                alert('Valuation report generated! (Placeholder for actual submission)');
+                localStorage.removeItem('valuationFormData');
+                showStep(1);
+            });
+
+            // Initialize PayPal button
+            paypal.HostedButtons({
+                hostedButtonId: "X7PQ9LX  id="paypal-container-X7PQ9LXN57WUC">
+                }).render("#paypal-container-X7PQ9LXN57WUC");
+
             // Initialize
-            showStep(1);
             loadProgress();
+            showStep(currentStep);
         });
     </script>
-    <!-- Footer -->
-    <footer class="bg-gray-800 text-white py-8 mt-16">
-        <div class="container mx-auto px-6">
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
-                <!-- App Info -->
-                <div>
-                    <h4 class="text-lg font-semibold mb-4">SaaS Valuation App</h4>
-                    <p class="text-gray-400">Empower your business with accurate and actionable valuation insights using our advanced SaaS tools.</p>
-                </div>
-                <!-- Product -->
-                <div>
-                    <h4 class="text-lg font-semibold mb-4">Product</h4>
-                    <ul class="space-y-2">
-                        <li><a href="index.html#valuation" class="text-gray-400 hover:text-teal-400">Self Valuation</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-teal-400">AI Data Room</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-teal-400">Pricing</a></li>
-                    </ul>
-                </div>
-                <!-- Resources -->
-                <div>
-                    <h4 class="text-lg font-semibold mb-4">Resources</h4>
-                    <ul class="space-y-2">
-                        <li><a href="blog.html" class="text-gray-400 hover:text-teal-400">Blog</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-teal-400">Valuation Guide</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-teal-400">Due Diligence Checklist</a></li>
-                    </ul>
-                </div>
-                <!-- Legal -->
-                <div>
-                    <h4 class="text-lg font-semibold mb-4">Legal</h4>
-                    <ul class="space-y-2">
-                        <li><a href="privacy-policy.html" class="text-gray-400 hover:text-teal-400">Privacy Policy</a></li>
-                        <li><a href="terms-and-conditions.html" class="text-gray-400 hover:text-teal-400">Terms and Conditions</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="text-center mt-8 text-gray-400">
-                <p>&copy; 2025 SaaS Valuation App. All rights reserved.</p>
-            </div>
-        </div>
-    </footer>
 </body>
 </html>
