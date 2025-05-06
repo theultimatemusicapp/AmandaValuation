@@ -680,7 +680,6 @@
     <canvas id="revenueGrowthChart" class="w-full max-w-full h-64"></canvas>
   </div>
 </div>
-
 <!-- Footer -->
 <footer class="bg-gray-800 text-white py-6 mt-12">
   <div class="container mx-auto px-4">
@@ -718,129 +717,402 @@
     </div>
   </div>
 </footer>
-// Chart rendering variables
-let valuationChart;
-let revenueGrowthChart;
+<!-- PayPal SDK & Hosted Button -->
+<script src="https://www.paypal.com/sdk/js?client-id=BAAmPIUOhFD8WnPzN-tp-rQwqJ-5hrys3ik4nE0y2X41APCpAHOeX3swr5esUvo6CBAZzZH5iY8lcuBQB4&components=hosted-buttons&disable-funding=venmo&currency=AUD"></script>
+<script>
+  const VOUCHER_CODE = 'Password86$';
 
-// Utility to get numeric input or zero
-const val = id => {
-  const el = document.getElementById(id);
-  if (!el) return 0;
-  const v = el.value.replace(/,/g, '').trim();
-  const n = parseFloat(v);
-  return isNaN(n) ? 0 : n;
-};
+  paypal.HostedButtons({
+    hostedButtonId: "NVJVZYW6GRKY4",
+    onApprove: function(data, actions) {
+      document.getElementById('payment-status').classList.remove('hidden');
+      document.getElementById('paypal-container-NVJVZYW6GRKY4').style.display = 'none';
 
-// Render valuation comparison bar chart
-function renderCharts() {
-  const ctxVal = document.getElementById('valuationChart').getContext('2d');
-  const ctxRev = document.getElementById('revenueGrowthChart').getContext('2d');
+      calculateValuation();
 
-  // Destroy old charts if any
-  if (valuationChart) valuationChart.destroy();
-  if (revenueGrowthChart) revenueGrowthChart.destroy();
+      const results = document.getElementById('results-container');
+      results.classList.remove('step-hidden');
+      results.scrollIntoView({ behavior: 'smooth' });
+    }
+  }).render("#paypal-container-NVJVZYW6GRKY4");
 
-  // Fetch valuation data prepared during calculation
-  const valuationData = window.valuationChartData || { labels: [], data: [] };
+  // Voucher code submission handler
+  document.getElementById('submit-voucher-btn').addEventListener('click', () => {
+    const codeInput = document.getElementById('voucher-code-input').value.trim();
+    const errorMsg = document.getElementById('voucher-error');
+    const paypalContainer = document.getElementById('paypal-container-NVJVZYW6GRKY4');
+    const paymentStatus = document.getElementById('payment-status');
+    const resultsContainer = document.getElementById('results-container');
 
-  valuationChart = new Chart(ctxVal, {
-    type: 'bar',
-    data: {
-      labels: valuationData.labels,
-      datasets: [{
-        label: 'Valuation ($)',
-        data: valuationData.data,
-        backgroundColor: 'rgba(56, 178, 172, 0.7)',
-        borderColor: 'rgba(56, 178, 172, 1)',
-        borderWidth: 1
-      }]
-    },
-    options: {
-      scales: {
-        y: {
-          beginAtZero: true,
-          title: { display: true, text: 'Valuation ($)' }
-        }
-      },
-      plugins: {
-        legend: { display: false },
-        title: { display: true, text: 'Valuation Comparison' }
-      }
+    if (codeInput === VOUCHER_CODE) {
+      errorMsg.classList.add('hidden');
+      paypalContainer.style.display = 'none';
+      paymentStatus.style.display = 'none';
+
+      calculateValuation();
+      resultsContainer.classList.remove('step-hidden');
+      resultsContainer.scrollIntoView({ behavior: 'smooth' });
+    } else {
+      errorMsg.classList.remove('hidden');
+      paypalContainer.style.display = 'block';
+      paymentStatus.style.display = 'none';
+      resultsContainer.classList.add('step-hidden');
     }
   });
 
-  // Revenue growth chart setup continues in Part 8B-2
-}
-          // Continue revenue growth chart setup
-function renderCharts() {
-  // ...valuationChart setup in 8B-1...
+  // Voucher code clear button
+  document.getElementById('clear-voucher-btn').addEventListener('click', () => {
+    document.getElementById('voucher-code-input').value = '';
+    document.getElementById('voucher-error').classList.add('hidden');
+  });
+</script>
+<script>
+  // Utility functions for reading inputs safely
+  const val = id => {
+    const el = document.getElementById(id);
+    if (!el) return 0;
+    const v = el.value.replace(/,/g, '').trim();
+    const n = parseFloat(v);
+    return isNaN(n) ? 0 : n;
+  };
 
-  // Example: project revenue over 5 years using ARR and growth rate
-  const arr = val('arr');
-  const growthRate = val('revenue-growth-yoy') / 100 || 0;
-  const revenueLabels = ['Current Year', 'Year 1', 'Year 2', 'Year 3', 'Year 4', 'Year 5'];
-  const revenues = [arr];
-  for (let i = 1; i <= 5; i++) {
-    revenues.push(revenues[i -1] * (1 + growthRate));
+  const sval = id => {
+    const el = document.getElementById(id);
+    return el ? el.value : '';
+  };
+
+  // Track current step
+  let currentStep = 0;
+  const steps = document.querySelectorAll('.step');
+
+  // Show the specified step and update progress bar
+  function showStep(index) {
+    steps.forEach((step, i) => {
+      step.style.display = i === index ? 'block' : 'none';
+    });
+    document.getElementById('current-step').textContent = index + 1;
+    const progressFill = document.getElementById('progress-fill');
+    if (progressFill) {
+      progressFill.style.width = ((index + 1) / steps.length) * 100 + '%';
+    }
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
-  revenueGrowthChart = new Chart(document.getElementById('revenueGrowthChart').getContext('2d'), {
-    type: 'line',
-    data: {
-      labels: revenueLabels,
-      datasets: [{
-        label: 'Projected Revenue ($)',
-        data: revenues.map(v => Math.round(v)),
-        fill: false,
-        borderColor: 'rgba(56, 178, 172, 1)',
-        tension: 0.1
-      }]
-    },
-    options: {
-      scales: {
-        y: {
-          beginAtZero: true,
-          title: { display: true, text: 'Revenue ($)' }
-        }
-      },
-      plugins: {
-        legend: { display: false },
-        title: { display: true, text: 'Projected 5-Year Revenue Growth' }
+  // Explanation toggle buttons handler
+  document.querySelectorAll('.explanation-toggle').forEach(button => {
+    button.addEventListener('click', () => {
+      const target = document.getElementById(button.dataset.target);
+      if (target) target.classList.toggle('expanded');
+    });
+  });
+
+  // Next buttons handling with basic validation placeholder
+  document.querySelectorAll('[id^="next-btn-"]').forEach(button => {
+    button.addEventListener('click', () => {
+      if (validateStep(currentStep)) {
+        currentStep++;
+        if (currentStep >= steps.length) currentStep = steps.length - 1;
+        showStep(currentStep);
+      }
+    });
+  });
+
+  // Previous buttons handling
+  document.querySelectorAll('[id^="prev-btn-"]').forEach(button => {
+    button.addEventListener('click', () => {
+      if (currentStep > 0) {
+        currentStep--;
+        showStep(currentStep);
+      }
+    });
+  });
+
+  // Basic validation, expand per step as needed
+  function validateStep(stepIndex) {
+    // Example: step 1 requires at least one valuation method selected
+    if (stepIndex === 0) {
+      const checkedCount = document.querySelectorAll('#step-1 input[type="checkbox"]:checked').length;
+      const error = document.getElementById('method-error');
+      if (checkedCount < 1 || checkedCount > 3) {
+        error.style.display = 'block';
+        return false;
+      } else {
+        error.style.display = 'none';
+        return true;
       }
     }
+    // For other steps, return true by default or add validations
+    return true;
+  }
+
+  // Initialize interface to first step on page load
+  document.addEventListener('DOMContentLoaded', () => {
+    showStep(currentStep);
   });
-}
-
-// PDF export handler
-document.getElementById('download-pdf').addEventListener('click', () => {
-  const { jsPDF } = window.jspdf;
-  const doc = new jsPDF();
-
-  doc.setFontSize(18);
-  doc.text('SaaS Pro Valuation Report', 10, 10);
-  doc.setFontSize(12);
-  doc.text(`Date: ${new Date().toLocaleDateString()}`, 10, 20);
-  doc.text(document.getElementById('valuation-result').innerText, 10, 30);
-  doc.text('Valuation Breakdown:', 10, 40);
-  doc.text(document.getElementById('method-breakdown').innerText, 10, 50);
-  doc.text('Advice:', 10, 90);
-  doc.text(document.getElementById('advice').innerText, 10, 100);
-
-  doc.save('saas-pro-valuation-report.pdf');
-});
-    // Mobile menu toggle for small screens
-document.getElementById('menu-toggle').addEventListener('click', () => {
-  const mobileMenu = document.getElementById('mobile-menu');
-  mobileMenu.classList.toggle('hidden');
-});
-
-// Initialize page — display the first step initially
-function initialize() {
-  currentStep = 0;
-  showStep(currentStep);
-}
-
-// Run initialization on DOMContentLoaded to ensure all elements loaded
-document.addEventListener('DOMContentLoaded', initialize);
 </script>
-  </html>
+<script>
+  function calculateValuation() {
+    // Helper functions for safe input extraction
+    const val = id => {
+      const el = document.getElementById(id);
+      if (!el) return 0;
+      const v = el.value.replace(/,/g, '').trim();
+      const num = parseFloat(v);
+      return isNaN(num) ? 0 : num;
+    };
+    const sval = id => {
+      const el = document.getElementById(id);
+      return el ? el.value : '';
+    };
+
+    // Get valuation methods selected
+    const methods = Array.from(document.querySelectorAll('#step-1 input[type=checkbox]:checked')).map(cb => cb.value);
+    if (methods.length === 0) {
+      alert('Please select at least one valuation method.');
+      return;
+    }
+
+    // Gather financial data
+    const arr = val('arr');
+    const mrr = val('mrr');
+    const ltv = val('ltv');
+    const cac = val('cac');
+    const grossMargin = val('gross-margin');
+    const netProfit = val('net-profit');
+    const burnRate = val('burn-rate');
+    const runway = val('runway');
+
+    // Growth and churn
+    const revenueGrowth = val('revenue-growth-yoy') / 100;
+    const churnRate = val('customer-churn') / 100;
+
+    // Collect other inputs as needed...
+    const pmFit = sval('product-market-fit');
+    const retentionRate = val('retention-rate') / 100;
+    const legalRisks = sval('legal-liabilities');
+
+    // Base multipliers (example values, tweak as needed)
+    const baseRevenueMultiplier = 6;
+    const baseIncomeMultiplier = 5;
+
+    let valuations = {};
+    let totalValuation = 0;
+
+    // Revenue Multiplier Calculation
+    if (methods.includes('multiplier')) {
+      let multiplier = baseRevenueMultiplier + revenueGrowth * 3 - churnRate * 2 + grossMargin / 50;
+      multiplier = Math.min(Math.max(multiplier, 3), 10);
+      const valRevenue = arr * multiplier;
+      valuations['Revenue Multiplier'] = valRevenue;
+      totalValuation += valRevenue;
+    }
+
+    // Income-Based Calculation
+    if (methods.includes('income')) {
+      let multiplier = baseIncomeMultiplier + revenueGrowth * 3 - churnRate * 2;
+      multiplier = Math.min(Math.max(multiplier, 3), 8);
+      const valIncome = netProfit * multiplier;
+      valuations['Income-Based'] = valIncome;
+      totalValuation += valIncome;
+    }
+
+    // Earnings-Based Calculation
+    if (methods.includes('earnings')) {
+      let pmFitFactor = pmFit === 'none' ? 0.8 : pmFit === 'early' ? 1.0 : pmFit === 'strong' ? 1.2 : 1.4;
+      let retentionFactor = retentionRate || 1;
+      let teamFactor = 1 + (val('fte') / 50);
+      const valEarnings = (arr + netProfit) * pmFitFactor * retentionFactor * teamFactor;
+      valuations['Earnings-Based'] = valEarnings;
+      totalValuation += valEarnings;
+    }
+
+    // DCF Calculation
+    if (methods.includes('dcf')) {
+      const discountRate = 0.12 + churnRate / 200 + (legalRisks === 'high' ? 0.05 : 0);
+      let cashFlow = arr || mrr * 12;
+      let dcfValue = 0;
+      let growthAdjustment = revenueGrowth + (pmFit === 'fully-confirmed' ? 0.05 : 0);
+
+      for (let year = 1; year <= 5; year++) {
+        cashFlow *= 1 + growthAdjustment;
+        dcfValue += cashFlow / Math.pow(1 + discountRate, year);
+      }
+
+      valuations['Discounted Cash Flow'] = dcfValue;
+      totalValuation += dcfValue;
+    }
+
+    // Final average valuation
+    const avgValuation = totalValuation / methods.length;
+
+    // Build valuation breakdown HTML
+    let breakdownHTML = '<ul class="list-disc pl-5">';
+    for (const [key, val] of Object.entries(valuations)) {
+      breakdownHTML += `<li><strong>${key}:</strong> $${Math.round(val).toLocaleString()}</li>`;
+    }
+    breakdownHTML += '</ul>';
+
+    // Advice generation
+    let advice = '';
+    if (churnRate > 0.1) advice += 'High customer churn detected; focus on retention.<br>';
+    if (netProfit / arr < 0.1) advice += 'Low profit margins; consider cost optimization.<br>';
+    if (legalRisks === 'high') advice += 'Address legal liabilities to improve valuation.<br>';
+    if (!advice) advice = 'Your inputs look strong. Well done!';
+
+    // Update results DOM
+    document.getElementById('valuation-result').innerHTML = `<strong>Estimated Valuation: $${Math.round(avgValuation).toLocaleString()}</strong>`;
+    document.getElementById('method-breakdown').innerHTML = breakdownHTML;
+    document.getElementById('advice').innerHTML = advice;
+
+    // Store for charts
+    window.valuationChartData = {
+      labels: Object.keys(valuations),
+      data: Object.values(valuations).map(v => Math.round(v))
+    };
+
+    // Render charts (next step)
+    renderCharts();
+  }
+</script>
+<script>
+  // Chart.js chart instances
+  let valuationChart;
+  let revenueGrowthChart;
+
+  function renderCharts() {
+    const ctxVal = document.getElementById('valuationChart').getContext('2d');
+    const ctxRev = document.getElementById('revenueGrowthChart').getContext('2d');
+
+    // Destroy previous charts if existent
+    if (valuationChart) valuationChart.destroy();
+    if (revenueGrowthChart) revenueGrowthChart.destroy();
+
+    const valuationData = window.valuationChartData || { labels: [], data: [] };
+
+    // Valuation methods bar chart
+    valuationChart = new Chart(ctxVal, {
+      type: 'bar',
+      data: {
+        labels: valuationData.labels,
+        datasets: [{
+          label: 'Valuation ($)',
+          data: valuationData.data,
+          backgroundColor: 'rgba(56, 178, 172, 0.7)',
+          borderColor: 'rgba(56, 178, 172, 1)',
+          borderWidth: 1
+        }]
+      },
+      options: {
+        scales: {
+          y: { beginAtZero: true, title: { display: true, text: 'Valuation ($)' } }
+        },
+        plugins: {
+          legend: { display: false },
+          title: { display: true, text: 'Valuation Comparison' }
+        }
+      }
+    });
+
+    // Revenue projection line chart
+    const arr = val('arr');
+    const growthRate = val('revenue-growth-yoy') / 100 || 0;
+    const labels = ['Current Year', 'Year 1', 'Year 2', 'Year 3', 'Year 4', 'Year 5'];
+    const revenueData = [arr];
+    
+    for (let i = 1; i <= 5; i++) {
+      revenueData.push(revenueData[i - 1] * (1 + growthRate));
+    }
+
+    revenueGrowthChart = new Chart(ctxRev, {
+      type: 'line',
+      data: {
+        labels: labels,
+        datasets: [{
+          label: 'Projected Revenue ($)',
+          data: revenueData.map(v => Math.round(v)),
+          fill: false,
+          borderColor: 'rgba(56, 178, 172, 1)',
+          tension: 0.1
+        }]
+      },
+      options: {
+        scales: {
+          y: { beginAtZero: true, title: { display: true, text: 'Revenue ($)' } }
+        },
+        plugins: {
+          legend: { display: false },
+          title: { display: true, text: 'Projected 5-Year Revenue Growth' }
+        }
+      }
+    });
+  }
+
+  // PDF export
+  document.getElementById('download-pdf').addEventListener('click', () => {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+
+    doc.setFontSize(18);
+    doc.text('SaaS Pro Valuation Report', 10, 10);
+    doc.setFontSize(12);
+    doc.text(`Date: ${new Date().toLocaleDateString()}`, 10, 20);
+    doc.text(document.getElementById('valuation-result').innerText, 10, 30);
+    doc.text('Valuation Breakdown:', 10, 40);
+    doc.text(document.getElementById('method-breakdown').innerText, 10, 50);
+    doc.text('Advice:', 10, 90);
+    doc.text(document.getElementById('advice').innerText, 10, 100);
+
+    doc.save('saas-pro-valuation-report.pdf');
+  });
+
+  // Utility: mobile menu toggle
+  document.getElementById('menu-toggle').addEventListener('click', () => {
+    document.getElementById('mobile-menu').classList.toggle('hidden');
+  });
+
+  // Initialize page with first step shown
+  document.addEventListener('DOMContentLoaded', () => {
+    showStep(0);
+  });
+</script>
+<script>
+  // Optional: Additional validations per step for better UX
+  function validateStep(stepIndex) {
+    if (stepIndex === 0) { // Valuation methods
+      const checked = document.querySelectorAll('#step-1 input[type="checkbox"]:checked');
+      const error = document.getElementById('method-error');
+      if (checked.length < 1 || checked.length > 3) {
+        error.style.display = 'block';
+        return false;
+      }
+      error.style.display = 'none';
+      return true;
+    }
+    // Add other steps validations here as needed, or return true if no specific validation
+    return true;
+  }
+
+  // Smooth scroll helper if needed elsewhere
+  function scrollToElement(id) {
+    const el = document.getElementById(id);
+    if (el) el.scrollIntoView({ behavior: 'smooth' });
+  }
+
+  // Optional: Save progress locally (example for future expansions)
+  /*
+  function saveProgress() {
+    const data = {}; // collect all inputs
+    localStorage.setItem('proValuationProgress', JSON.stringify(data));
+  }
+
+  function loadProgress() {
+    const data = JSON.parse(localStorage.getItem('proValuationProgress') || '{}');
+    // Restore form values...
+  }
+  */
+
+  // Call loadProgress() on page load if implemented
+  // document.addEventListener('DOMContentLoaded', loadProgress);
+</script>
+</body>
+</html>
