@@ -491,18 +491,28 @@
   </main>
 
   <!-- PayPal SDK and Hosted Button -->
-  <script src="https://www.paypal.com/sdk/js?client-id=BAAmPIUOhFD8WnPzN-tp-rQwqJ-5hrys3ik4nE0y2X41APCpAHOeX3swr5esUvo6CBAZzZH5iY8lcuBQB4&components=hosted-buttons&disable-funding=venmo&currency=AUD"></script>
-  <script>
-    paypal.HostedButtons({
-      hostedButtonId: "NVJVZYW6GRKY4",
-      onApprove: function(data, actions) {
-        document.getElementById('payment-status').classList.remove('hidden');
-        document.getElementById('paypal-container-NVJVZYW6GRKY4').style.display = 'none';
-        calculateValuation();  // Calculate & show valuation after payment
-        document.getElementById('results-container').classList.remove('hidden');
-      }
-    }).render("#paypal-container-NVJVZYW6GRKY4");
-  </script>
+<script src="https://www.paypal.com/sdk/js?client-id=BAAmPIUOhFD8WnPzN-tp-rQwqJ-5hrys3ik4nE0y2X41APCpAHOeX3swr5esUvo6CBAZzZH5iY8lcuBQB4&components=hosted-buttons&disable-funding=venmo&currency=AUD"></script>
+<script>
+  paypal.HostedButtons({
+    hostedButtonId: "NVJVZYW6GRKY4",
+    onApprove: function(data, actions) {
+      // Show payment success message
+      document.getElementById('payment-status').classList.remove('hidden');
+      // Hide PayPal button to prevent multiple payments
+      document.getElementById('paypal-container-NVJVZYW6GRKY4').style.display = 'none';
+
+      // Calculate & display valuation results
+      calculateValuation();
+
+      // Show the results container
+      const resultsContainer = document.getElementById('results-container');
+      resultsContainer.classList.remove('hidden');
+
+      // Scroll smoothly to results for user visibility
+      resultsContainer.scrollIntoView({ behavior: 'smooth' });
+    }
+  }).render("#paypal-container-NVJVZYW6GRKY4");
+</script>
 
   <script>
     // Elements & state
