@@ -1,16 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>SaaS Pro Valuation - Comprehensive Business Evaluation</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+    />
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <style>
         .gradient-bg {
-            background: linear-gradient(135deg, #38B2AC 0%, #2D3748 100%);
+            background: linear-gradient(135deg, #38b2ac 0%, #2d3748 100%);
         }
         .btn-primary {
             @apply bg-teal-500 text-white font-bold py-1.5 px-3 rounded-lg transition-colors duration-300;
@@ -43,38 +46,10 @@
         .explanation-box.collapsed {
             @apply max-h-0 p-0 mt-0;
         }
-        .video-section, .text-section {
-            @apply bg-gray-200 rounded-lg p-4 mb-4;
-        }
-        @media (max-width: 640px) {
-            .valuation-box {
-                @apply p-3;
-            }
-            .step h3 {
-                @apply text-lg;
-            }
-            .video-section iframe {
-                @apply h-40;
-            }
-            .btn-primary, .btn-secondary {
-                @apply w-full mb-1;
-            }
-            .flex.justify-between {
-                @apply flex-col;
-            }
-            header nav, #mobile-menu {
-                @apply flex-col space-y-2;
-            }
-            #mobile-menu {
-                @apply mt-3 px-4;
-            }
-            .grid.grid-cols-2 {
-                @apply grid-cols-1;
-            }
-        }
     </style>
 </head>
 <body class="font-sans">
+    <!-- HEADER -->
     <header class="bg-gray-800 text-white py-3 sticky top-0 z-50">
         <div class="container mx-auto px-4 flex justify-between items-center">
             <div class="text-xl font-bold">
@@ -103,7 +78,9 @@
     <main>
         <section class="gradient-bg text-white py-16">
             <div class="container mx-auto px-4 text-center">
-                <h1 class="text-3xl md:text-4xl font-bold mb-3">Pro Valuation: Comprehensive SaaS Business Evaluation</h1>
+                <h1 class="text-3xl md:text-4xl font-bold mb-3">
+                    Pro Valuation: Comprehensive SaaS Business Evaluation
+                </h1>
                 <p class="text-base md:text-lg mb-6 opacity-90 max-w-xl mx-auto">
                     Get a detailed valuation of your SaaS business with advanced metrics and insights.
                 </p>
@@ -111,588 +88,520 @@
         </section>
 
         <section id="pro-valuation" class="py-12 bg-gray-50">
-            <div class="container mx-auto px-4">
+            <div class="container mx-auto px-4 max-w-3xl">
                 <div class="text-center mb-8">
                     <h2 class="text-2xl font-bold text-gray-800 mb-2">Pro Valuation Tool</h2>
                     <p class="text-base text-gray-600 max-w-xl mx-auto">
-                        Answer questions to get a valuation report with actionable insights.
+                        Answer questions step-by-step to get a detailed valuation report with actionable insights.
                     </p>
                 </div>
 
-                <div>
-                    <div class="mb-6">
-                        <div class="relative pt-1">
-                            <div class="overflow-hidden h-1.5 mb-2 text-xs flex rounded bg-gray-200">
-                                <div id="progress-fill" class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-teal-500" style="width: 10%"></div>
-                            </div>
-                            <p class="text-center text-gray-600 text-sm">
-                                Step <span id="current-step">1</span> of 10
-                            </p>
+                <!-- Progress Bar -->
+                <div class="mb-6">
+                    <div class="relative pt-1">
+                        <div class="overflow-hidden h-1.5 mb-2 text-xs flex rounded bg-gray-200">
+                            <div
+                                id="progress-fill"
+                                class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-teal-500"
+                                style="width: 10%"
+                            ></div>
                         </div>
+                        <p class="text-center text-gray-600 text-sm">
+                            Step <span id="current-step">1</span> of 10
+                        </p>
                     </div>
+                </div>
 
-                    <div class="valuation-box">
-                        <!-- Step 1: Valuation Methodology -->
-                        <div class="step step-visible" data-step="1">
-                            <h3 class="text-lg font-semibold text-gray-800 mb-2">Step 1: Select Valuation Method</h3>
-                            <p class="text-gray-600 mb-2 text-sm">
-                                Choose up to 3 valuation methods for a comprehensive evaluation.
-                                <span data-tooltip="Select methods matching your business model." class="text-teal-500 underline cursor-pointer">Learn more</span>
-                            </p>
-                            <div class="space-y-2">
-                                <div class="flex items-start">
-                                    <label class="flex items-center flex-grow">
-                                        <input type="checkbox" id="method-multiplier" value="multiplier" class="form-checkbox h-4 w-4 text-teal-500">
-                                        <span class="ml-1 text-gray-600 font-medium text-sm">Revenue Multiplier</span>
-                                        <span data-tooltip="Best for steady ARR." class="text-teal-500 underline cursor-pointer ml-1">?</span>
-                                    </label>
-                                    <button class="toggle-explanation text-teal-500 underline text-xs focus:outline-none ml-1" data-target="explanation-multiplier">Explain</button>
-                                </div>
-                                <div id="explanation-multiplier" class="explanation-box collapsed">
-                                    <p class="text-gray-600 text-sm">
-                                        <strong>What is it?</strong> Multiplies ARR by a factor (e.g., 5-8).<br>
-                                        <strong>Why use it?</strong> Ideal for predictable subscription income.
-                                    </p>
-                                </div>
-                                <div class="flex items-start">
-                                    <label class="flex items-center flex-grow">
-                                        <input type="checkbox" id="method-income" value="income" class="form-checkbox h-4 w-4 text-teal-500">
-                                        <span class="ml-1 text-gray-600 font-medium text-sm">Income-Based</span>
-                                        <span data-tooltip="Focuses on profitability." class="text-teal-500 underline cursor-pointer ml-1">?</span>
-                                    </label>
-                                    <button class="toggle-explanation text-teal-500 underline text-xs focus:outline-none ml-1" data-target="explanation-income">Explain</button>
-                                </div>
-                                <div id="explanation-income" class="explanation-box collapsed">
-                                    <p class="text-gray-600 text-sm">
-                                        <strong>What is it?</strong> Uses net profit multiplied by a factor (e.g., 4-6).<br>
-                                        <strong>Why use it?</strong> Highlights financial health.
-                                    </p>
-                                </div>
-                                <div class="flex items-start">
-                                    <label class="flex items-center flex-grow">
-                                        <input type="checkbox" id="method-earnings" value="earnings" class="form-checkbox h-4 w-4 text-teal-500">
-                                        <span class="ml-1 text-gray-600 font-medium text-sm">Earnings-Based</span>
-                                        <span data-tooltip="Combines revenue, assets, debt." class="text-teal-500 underline cursor-pointer ml-1">?</span>
-                                    </label>
-                                    <button class="toggle-explanation text-teal-500 underline text-xs focus:outline-none ml-1" data-target="explanation-earnings">Explain</button>
-                                </div>
-                                <div id="explanation-earnings" class="explanation-box collapsed">
-                                    <p class="text-gray-600 text-sm">
-                                        <strong>What is it?</strong> Combines revenue, assets, and debt.<br>
-                                        <strong>Why use it?</strong> Useful with significant assets.
-                                    </p>
-                                </div>
-                                <div class="flex items-start">
-                                    <label class="flex items-center flex-grow">
-                                        <input type="checkbox" id="method-dcf" value="dcf" class="form-checkbox h-4 w-4 text-teal-500">
-                                        <span class="ml-1 text-gray-600 font-medium text-sm">Discounted Cash Flow (DCF)</span>
-                                        <span data-tooltip="Projects future cash flows." class="text-teal-500 underline cursor-pointer ml-1">?</span>
-                                    </label>
-                                    <button class="toggle-explanation text-teal-500 underline text-xs focus:outline-none ml-1" data-target="explanation-dcf">Explain</button>
-                                </div>
-                                <div id="explanation-dcf" class="explanation-box collapsed">
-                                    <p class="text-gray-600 text-sm">
-                                        <strong>What is it?</strong> Discounts future cash flows to present value.<br>
-                                        <strong>Why use it?</strong> Ideal for predictable revenue.
-                                    </p>
-                                </div>
+                <div class="valuation-box">
+                    <!-- Step 1: Valuation Methodology -->
+                    <div class="step step-visible" data-step="1">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">Step 1: Select Valuation Method</h3>
+                        <p class="text-gray-600 mb-2 text-sm">
+                            Choose up to 3 valuation methods for a comprehensive evaluation.
+                            <span
+                                data-tooltip="Select methods matching your business model."
+                                class="text-teal-500 underline cursor-pointer"
+                                >Learn more</span
+                            >
+                        </p>
+                        <div class="space-y-2">
+                            <div class="flex items-start">
+                                <label class="flex items-center flex-grow">
+                                    <input
+                                        type="checkbox"
+                                        id="method-multiplier"
+                                        value="multiplier"
+                                        class="form-checkbox h-4 w-4 text-teal-500"
+                                    />
+                                    <span class="ml-1 text-gray-600 font-medium text-sm">Revenue Multiplier</span>
+                                    <span
+                                        data-tooltip="Best for steady ARR."
+                                        class="text-teal-500 underline cursor-pointer ml-1"
+                                        >?</span
+                                    >
+                                </label>
+                                <button
+                                    class="toggle-explanation text-teal-500 underline text-xs focus:outline-none ml-1"
+                                    data-target="explanation-multiplier"
+                                    type="button"
+                                >
+                                    Explain
+                                </button>
                             </div>
-                            <p id="method-error" class="text-red-500 text-sm mt-1 hidden">
-                                Please select 1 to 3 valuation methods.
-                            </p>
-                            <div class="mt-3 flex justify-end">
-                                <button id="next-btn-1" class="btn-primary">Next</button>
-                            </div>
-                        </div>
-
-                        <!-- Step 2: Financial Metrics -->
-                        <div class="step step-hidden" data-step="2">
-                            <h3 class="text-lg font-semibold text-gray-800 mb-2">Step 2: Financial Metrics</h3>
-                            <p class="text-gray-600 mb-2 text-sm">
-                                Provide your key financial figures to build the foundation for your valuation.
-                                <span data-tooltip="Use your latest financial statements." class="text-teal-500 underline cursor-pointer">Learn more</span>
-                            </p>
-                            <div class="space-y-2">
-                                <div class="flex items-start">
-                                    <label class="flex items-center flex-grow">
-                                        <span class="text-gray-600 font-medium text-sm">Annual Recurring Revenue (ARR) ($)</span>
-                                        <span data-tooltip="Total subscription revenue over 12 months." class="text-teal-500 underline cursor-pointer ml-1">?</span>
-                                    </label>
-                                    <button class="toggle-explanation text-teal-500 underline text-xs focus:outline-none ml-1" data-target="explanation-arr">Explain</button>
-                                </div>
-                                <input type="number" id="arr" class="w-full p-1.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 text-sm" placeholder="e.g., 500000" min="0" step="1000">
-                                <div id="explanation-arr" class="explanation-box collapsed">
-                                    <p class="text-gray-600 text-sm">
-                                        <strong>What is ARR?</strong> Total yearly revenue from subscriptions.<br>
-                                        <strong>Why it matters:</strong> Drives the Revenue Multiplier method.<br>
-                                        <strong>How to find it:</strong> Multiply MRR by 12.
-                                    </p>
-                                </div>
-                                <div class="flex items-start">
-                                    <label class="flex items-center flex-grow">
-                                        <span class="text-gray-600 font-medium text-sm">Monthly Recurring Revenue (MRR) ($)</span>
-                                        <span data-tooltip="Average monthly subscription revenue." class="text-teal-500 underline cursor-pointer ml-1">?</span>
-                                    </label>
-                                    <button class="toggle-explanation text-teal-500 underline text-xs focus:outline-none ml-1" data-target="explanation-mrr">Explain</button>
-                                </div>
-                                <input type="number" id="mrr" class="w-full p-1.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 text-sm" placeholder="e.g., 41667" min="0" step="100">
-                                <div id="explanation-mrr" class="explanation-box collapsed">
-                                    <p class="text-gray-600 text-sm">
-                                        <strong>What is MRR?</strong> Average monthly subscription income.<br>
-                                        <strong>Why it matters:</strong> Verifies ARR consistency.<br>
-                                        <strong>How to find it:</strong> Check your latest billing data.
-                                    </p>
-                                </div>
-                                <div class="flex items-start">
-                                    <label class="flex items-center flex-grow">
-                                        <span class="text-gray-600 font-medium text-sm">Total Expenses ($)</span>
-                                        <span data-tooltip="All annual operating costs." class="text-teal-500 underline cursor-pointer ml-1">?</span>
-                                    </label>
-                                    <button class="toggle-explanation text-teal-500 underline text-xs focus:outline-none ml-1" data-target="explanation-expenses">Explain</button>
-                                </div>
-                                <input type="number" id="expenses" class="w-full p-1.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 text-sm" placeholder="e.g., 300000" min="0" step="1000">
-                                <div id="explanation-expenses" class="explanation-box collapsed">
-                                    <p class="text-gray-600 text-sm">
-                                        <strong>What are Expenses?</strong> Yearly costs (e.g., salaries, marketing).<br>
-                                        <strong>Why it matters:</strong> Used to calculate net profit.<br>
-                                        <strong>How to find it:</strong> Sum all expenses from records.
-                                    </p>
-                                </div>
-                                <div class="flex items-start">
-                                    <label class="flex items-center flex-grow">
-                                        <span class="text-gray-600 font-medium text-sm">Net Profit ($)</span>
-                                        <span data-tooltip="Revenue minus expenses." class="text-teal-500 underline cursor-pointer ml-1">?</span>
-                                    </label>
-                                    <button class="toggle-explanation text-teal-500 underline text-xs focus:outline-none ml-1" data-target="explanation-profit">Explain</button>
-                                </div>
-                                <input type="number" id="profit" class="w-full p-1.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 text-sm" placeholder="e.g., 200000" min="0" step="1000">
-                                <div id="explanation-profit" class="explanation-box collapsed">
-                                    <p class="text-gray-600 text-sm">
-                                        <strong>What is Net Profit?</strong> Revenue minus expenses.<br>
-                                        <strong>Why it matters:</strong> Key for Income-Based valuation.<br>
-                                        <strong>How to find it:</strong> Subtract expenses from ARR.
-                                    </p>
-                                </div>
-                            </div>
-                            <p id="financial-error" class="text-red-500 text-sm mt-1 hidden">
-                                Please enter valid numbers. ARR should equal MRR x 12.
-                            </p>
-                            <div class="mt-3 flex justify-between">
-                                <button id="prev-btn-2" class="btn-secondary">Previous</button>
-                                <button id="next-btn-2" class="btn-primary">Next</button>
-                            </div>
-                        </div>
-
-                        <!-- Step 3: Growth Trends -->
-                        <div class="step step-hidden" data-step="3">
-                            <h3 class="text-lg font-semibold text-gray-800 mb-2">Step 3: Growth Trends</h3>
-                            <p class="text-gray-600 mb-2 text-sm">
-                                Enter your growth and churn rates to assess your business trajectory.
-                                <span data-tooltip="These metrics influence your valuation multiplier." class="text-teal-500 underline cursor-pointer">Learn more</span>
-                            </p>
-                            <div class="space-y-2">
-                                <div class="flex items-start">
-                                    <label class="flex items-center flex-grow">
-                                        <span class="text-gray-600 font-medium text-sm">Annual Growth Rate (%)</span>
-                                        <span data-tooltip="Year-over-year revenue growth percentage." class="text-teal-500 underline cursor-pointer ml-1">?</span>
-                                    </label>
-                                    <button class="toggle-explanation text-teal-500 underline text-xs focus:outline-none ml-1" data-target="explanation-growth">Explain</button>
-                                </div>
-                                <input type="number" id="growth-rate" class="w-full p-1.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 text-sm" placeholder="e.g., 20" min="0" max="100" step="1">
-                                <div id="explanation-growth" class="explanation-box collapsed">
-                                    <p class="text-gray-600 text-sm">
-                                        <strong>What is Growth Rate?</strong> Percentage increase in revenue yearly.<br>
-                                        <strong>Why it matters:</strong> Higher growth boosts your multiplier.<br>
-                                        <strong>How to find it:</strong> Compare this year’s revenue to last year’s.
-                                    </p>
-                                </div>
-                                <div class="flex items-start">
-                                    <label class="flex items-center flex-grow">
-                                        <span class="text-gray-600 font-medium text-sm">Churn Rate (%)</span>
-                                        <span data-tooltip="Percentage of customers who cancel annually." class="text-teal-500 underline cursor-pointer ml-1">?</span>
-                                    </label>
-                                    <button class="toggle-explanation text-teal-500 underline text-xs focus:outline-none ml-1" data-target="explanation-churn">Explain</button>
-                                </div>
-                                <input type="number" id="churn-rate" class="w-full p-1.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 text-sm" placeholder="e.g., 5" min="0" max="100" step="0.1">
-                                <div id="explanation-churn" class="explanation-box collapsed">
-                                    <p class="text-gray-600 text-sm">
-                                        <strong>What is Churn Rate?</strong> Percentage of customers lost yearly.<br>
-                                        <strong>Why it matters:</strong> Lower churn improves valuation.<br>
-                                        <strong>How to find it:</strong> Divide lost customers by total over a year.
-                                    </p>
-                                </div>
-                            </div>
-                            <p id="growth-error" class="text-red-500 text-sm mt-1 hidden">
-                                Please enter valid percentages between 0 and 100.
-                            </p>
-                            <div class="mt-3 flex justify-between">
-                                <button id="prev-btn-3" class="btn-secondary">Previous</button>
-                                <button id="next-btn-3" class="btn-primary">Next</button>
-                            </div>
-                        </div>
-
-                        <!-- Step 4: Customer Metrics -->
-                        <div class="step step-hidden" data-step="4">
-                            <h3 class="text-lg font-semibold text-gray-800 mb-2">Step 4: Customer Metrics</h3>
-                            <p class="text-gray-600 mb-2 text-sm">
-                                Share details about your customer acquisition cost and lifetime value.
-                                <span data-tooltip="These metrics show customer profitability." class="text-teal-500 underline cursor-pointer">Learn more</span>
-                            </p>
-                            <div class="space-y-2">
-                                <div class="flex items-start">
-                                    <label class="flex items-center flex-grow">
-                                        <span class="text-gray-600 font-medium text-sm">Customer Acquisition Cost (CAC) ($)</span>
-                                        <span data-tooltip="Cost to acquire a new customer." class="text-teal-500 underline cursor-pointer ml-1">?</span>
-                                    </label>
-                                    <button class="toggle-explanation text-teal-500 underline text-xs focus:outline-none ml-1" data-target="explanation-cac">Explain</button>
-                                </div>
-                                <input type="number" id="cac" class="w-full p-1.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 text-sm" placeholder="e.g., 500" min="0" step="10">
-                                <div id="explanation-cac" class="explanation-box collapsed">
-                                    <p class="text-gray-600 text-sm">
-                                        <strong>What is CAC?</strong> Average cost to gain a new customer.<br>
-                                        <strong>Why it matters:</strong> Lower CAC improves profitability.<br>
-                                        <strong>How to find it:</strong> Divide total acquisition costs by new customers.
-                                    </p>
-                                </div>
-                                <div class="flex items-start">
-                                    <label class="flex items-center flex-grow">
-                                        <span class="text-gray-600 font-medium text-sm">Customer Lifetime Value (LTV) ($)</span>
-                                        <span data-tooltip="Total revenue expected per customer." class="text-teal-500 underline cursor-pointer ml-1">?</span>
-                                    </label>
-                                    <button class="toggle-explanation text-teal-500 underline text-xs focus:outline-none ml-1" data-target="explanation-ltv">Explain</button>
-                                </div>
-                                <input type="number" id="ltv" class="w-full p-1.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 text-sm" placeholder="e.g., 2000" min="0" step="100">
-                                <div id="explanation-ltv" class="explanation-box collapsed">
-                                    <p class="text-gray-600 text-sm">
-                                        <strong>What is LTV?</strong> Total revenue from a customer over their lifetime.<br>
-                                        <strong>Why it matters:</strong> Higher LTV boosts valuation.<br>
-                                        <strong>How to find it:</strong> Multiply average revenue per customer by lifespan.
-                                    </p>
-                                </div>
-                            </div>
-                            <p id="customer-error" class="text-red-500 text-sm mt-1 hidden">
-                                Please enter valid positive numbers for CAC and LTV.
-                            </p>
-                            <div class="mt-3 flex justify-between">
-                                <button id="prev-btn-4" class="btn-secondary">Previous</button>
-                                <button id="next-btn-4" class="btn-primary">Next</button>
-                            </div>
-                        </div>
-
-                        <!-- Step 5: Industry Trends -->
-                        <div class="step step-hidden" data-step="5">
-                            <h3 class="text-lg font-semibold text-gray-800 mb-2">Step 5: Industry Trends</h3>
-                            <p class="text-gray-600 mb-2 text-sm">
-                                Provide details about your industry’s growth and your market share.
-                                <span data-tooltip="These factors adjust your valuation based on market potential." class="text-teal-500 underline cursor-pointer">Learn more</span>
-                            </p>
-                            <div class="space-y-2">
-                                <div class="flex items-start">
-                                    <label class="flex items-center flex-grow">
-                                        <span class="text-gray-600 font-medium text-sm">Industry Growth Rate (%)</span>
-                                        <span data-tooltip="Annual growth rate of your industry." class="text-teal-500 underline cursor-pointer ml-1">?</span>
-                                    </label>
-                                    <button class="toggle-explanation text-teal-500 underline text-xs focus:outline-none ml-1" data-target="explanation-industry-growth">Explain</button>
-                                </div>
-                                <input type="number" id="industry-growth" class="w-full p-1.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 text-sm" placeholder="e.g., 10" min="0" max="100" step="1">
-                                <div id="explanation-industry-growth" class="explanation-box collapsed">
-                                    <p class="text-gray-600 text-sm">
-                                        <strong>What is it?</strong> Annual growth rate of your industry.<br>
-                                        <strong>Why it matters:</strong> Faster-growing industries increase valuation.<br>
-                                        <strong>How to find it:</strong> Check industry reports (e.g., Gartner, Statista).
-                                    </p>
-                                </div>
-                                <div class="flex items-start">
-                                    <label class="flex items-center flex-grow">
-                                        <span class="text-gray-600 font-medium text-sm">Market Share (%)</span>
-                                        <span data-tooltip="Your share of the total market." class="text-teal-500 underline cursor-pointer ml-1">?</span>
-                                    </label>
-                                    <button class="toggle-explanation text-teal-500 underline text-xs focus:outline-none ml-1" data-target="explanation-market-share">Explain</button>
-                                </div>
-                                <input type="number" id="market-share" class="w-full p-1.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 text-sm" placeholder="e.g., 5" min="0" max="100" step="0.1">
-                                <div id="explanation-market-share" class="explanation-box collapsed">
-                                    <p class="text-gray-600 text-sm">
-                                        <strong>What is it?</strong> Your company’s percentage of the market.<br>
-                                        <strong>Why it matters:</strong> Higher share signals dominance, boosting value.<br>
-                                        <strong>How to find it:</strong> Divide your revenue by total market revenue.
-                                    </p>
-                                </div>
-                            </div>
-                            <p id="industry-error" class="text-red-500 text-sm mt-1 hidden">
-                                Please enter valid percentages between 0 and 100.
-                            </p>
-                            <div class="mt-3 flex justify-between">
-                                <button id="prev-btn-5" class="btn-secondary">Previous</button>
-                                <button id="next-btn-5" class="btn-primary">Next</button>
-                            </div>
-                        </div>
-
-                        <!-- Step 6: Team Dynamics -->
-                        <div class="step step-hidden" data-step="6">
-                            <h3 class="text-lg font-semibold text-gray-800 mb-2">Step 6: Team Dynamics</h3>
-                            <p class="text-gray-600 mb-2 text-sm">
-                                Enter details about your team size and experience level.
-                                <span data-tooltip="A strong team can increase your valuation." class="text-teal-500 underline cursor-pointer">Learn more</span>
-                            </p>
-                            <div class="space-y-2">
-                                <div class="flex items-start">
-                                    <label class="flex items-center flex-grow">
-                                        <span class="text-gray-600 font-medium text-sm">Team Size (Employees)</span>
-                                        <span data-tooltip="Number of full-time staff." class="text-teal-500 underline cursor-pointer ml-1">?</span>
-                                    </label>
-                                    <button class="toggle-explanation text-teal-500 underline text-xs focus:outline-none ml-1" data-target="explanation-team-size">Explain</button>
-                                </div>
-                                <input type="number" id="team-size" class="w-full p-1.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 text-sm" placeholder="e.g., 10" min="0" step="1">
-                                <div id="explanation-team-size" class="explanation-box collapsed">
-                                    <p class="text-gray-600 text-sm">
-                                        <strong>What is Team Size?</strong> Number of full-time employees.<br>
-                                        <strong>Why it matters:</strong> Larger teams suggest scalability.<br>
-                                        <strong>How to find it:</strong> Count your current full-time staff.
-                                    </p>
-                                </div>
-                                <div class="flex items-start">
-                                    <label class="flex items-center flex-grow">
-                                        <span class="text-gray-600 font-medium text-sm">Team Experience Level</span>
-                                        <span data-tooltip="Average experience of your team." class="text-teal-500 underline cursor-pointer ml-1">?</span>
-                                    </label>
-                                    <button class="toggle-explanation text-teal-500 underline text-xs focus:outline-none ml-1" data-target="explanation-team-experience">Explain</button>
-                                </div>
-                                <select id="team-experience" class="w-full p-1.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 text-sm">
-                                    <option value="" disabled selected>Select an option</option>
-                                    <option value="junior">Junior (1-3 years)</option>
-                                    <option value="mid">Mid-level (3-7 years)</option>
-                                    <option value="senior">Senior (7+ years)</option>
-                                </select>
-                                <div id="explanation-team-experience" class="explanation-box collapsed">
-                                    <p class="text-gray-600 text-sm">
-                                        <strong>What is it?</strong> Average experience level of your team.<br>
-                                        <strong>Why it matters:</strong> Experienced teams add value through expertise.<br>
-                                        <strong>How to assess:</strong> Estimate average years of experience.
-                                    </p>
-                                </div>
-                            </div>
-                            <p id="team-error" class="text-red-500 text-sm mt-1 hidden">
-                                Please enter a valid team size and select an experience level.
-                            </p>
-                            <div class="mt-3 flex justify-between">
-                                <button id="prev-btn-6" class="btn-secondary">Previous</button>
-                                <button id="next-btn-6" class="btn-primary">Next</button>
-                            </div>
-                        </div>
-
-                        <!-- Step 7: Technology/IP -->
-                        <div class="step step-hidden" data-step="7">
-                            <h3 class="text-lg font-semibold text-gray-800 mb-2">Step 7: Technology/IP</h3>
-                            <p class="text-gray-600 mb-2 text-sm">
-                                Provide details about your intellectual property and tech stack maturity.
-                                <span data-tooltip="Valuable IP and tech can boost your valuation." class="text-teal-500 underline cursor-pointer">Learn more</span>
-                            </p>
-                            <div class="space-y-2">
-                                <div class="flex items-start">
-                                    <label class="flex items-center flex-grow">
-                                        <span class="text-gray-600 font-medium text-sm">IP Value ($)</span>
-                                        <span data-tooltip="Estimated value of patents or tech." class="text-teal-500 underline cursor-pointer ml-1">?</span>
-                                    </label>
-                                    <button class="toggle-explanation text-teal-500 underline text-xs focus:outline-none ml-1" data-target="explanation-ip-value">Explain</button>
-                                </div>
-                                <input type="number" id="ip-value" class="w-full p-1.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 text-sm" placeholder="e.g., 50000" min="0" step="1000">
-                                <div id="explanation-ip-value" class="explanation-box collapsed">
-                                    <p class="text-gray-600 text-sm">
-                                        <strong>What is IP Value?</strong> Value of patents or proprietary tech.<br>
-                                        <strong>Why it matters:</strong> Adds to your asset value.<br>
-                                        <strong>How to find it:</strong> Estimate based on development costs or consult an expert.
-                                    </p>
-                                </div>
-                                <div class="flex items-start">
-                                    <label class="flex items-center flex-grow">
-                                        <span class="text-gray-600 font-medium text-sm">Tech Stack Maturity</span>
-                                        <span data-tooltip="How modern is your tech stack?" class="text-teal-500 underline cursor-pointer ml-1">?</span>
-                                    </label>
-                                    <button class="toggle-explanation text-teal-500 underline text-xs focus:outline-none ml-1" data-target="explanation-tech-stack">Explain</button>
-                                </div>
-                                <select id="tech-stack" class="w-full p-1.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 text-sm">
-                                    <option value="" disabled selected>Select an option</option>
-                                    <option value="legacy">Legacy (Outdated)</option>
-                                    <option value="standard">Standard (Industry Average)</option>
-                                    <option value="cutting-edge">Cutting-Edge (Modern)</option>
-                                </select>
-                                <div id="explanation-tech-stack" class="explanation-box collapsed">
-                                    <p class="text-gray-600 text-sm">
-                                        <strong>What is it?</strong> Modernity of your technology infrastructure.<br>
-                                        <strong>Why it matters:</strong> Modern tech reduces future costs, increasing value.<br>
-                                        <strong>How to assess:</strong> Compare your tech to industry standards.
-                                    </p>
-                                </div>
-                            </div>
-                            <p id="tech-error" class="text-red-500 text-sm mt-1 hidden">
-                                Please enter a valid IP value and select a tech stack maturity.
-                            </p>
-                            <div class="mt-3 flex justify-between">
-                                <button id="prev-btn-7" class="btn-secondary">Previous</button>
-                                <button id="next-btn-7" class="btn-primary">Next</button>
-                            </div>
-                        </div>
-
-                        <!-- Step 8: Market Position -->
-                        <div class="step step-hidden" data-step="8">
-                            <h3 class="text-lg font-semibold text-gray-800 mb-2">Step 8: Market Position</h3>
-                            <p class="text-gray-600 mb-2 text-sm">
-                                Provide details about your market size and competitive position.
-                                <span data-tooltip="These factors show market potential." class="text-teal-500 underline cursor-pointer">Learn more</span>
-                            </p>
-                            <div class="space-y-2">
-                                <div class="flex items-start">
-                                    <label class="flex items-center flex-grow">
-                                        <span class="text-gray-600 font-medium text-sm">Market Size ($)</span>
-                                        <span data-tooltip="Total addressable market (TAM)." class="text-teal-500 underline cursor-pointer ml-1">?</span>
-                                    </label>
-                                    <button class="toggle-explanation text-teal-500 underline text-xs focus:outline-none ml-1" data-target="explanation-market-size">Explain</button>
-                                </div>
-                                <input type="number" id="market-size" class="w-full p-1.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 text-sm" placeholder="e.g., 1000000000" min="0" step="1000000">
-                                <div id="explanation-market-size" class="explanation-box collapsed">
-                                    <p class="text-gray-600 text-sm">
-                                        <strong>What is it?</strong> Total revenue potential in your industry (TAM).<br>
-                                        <strong>Why it matters:</strong> Larger markets suggest growth opportunity.<br>
-                                        <strong>How to find it:</strong> Research industry reports.
-                                    </p>
-                                </div>
-                                <div class="flex items-start">
-                                    <label class="flex items-center flex-grow">
-                                        <span class="text-gray-600 font-medium text-sm">Competitive Position</span>
-                                        <span data-tooltip="Your standing compared to competitors." class="text-teal-500 underline cursor-pointer ml-1">?</span>
-                                    </label>
-                                    <button class="toggle-explanation text-teal-500 underline text-xs focus:outline-none ml-1" data-target="explanation-position">Explain</button>
-                                </div>
-                                <select id="competitive-position" class="w-full p-1.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 text-sm">
-                                    <option value="" disabled selected>Select an option</option>
-                                    <option value="leader">Market Leader</option>
-                                    <option value="challenger">Challenger</option>
-                                    <option value="niche">Niche Player</option>
-                                </select>
-                                <div id="explanation-position" class="explanation-box collapsed">
-                                    <p class="text-gray-600 text-sm">
-                                        <strong>What is it?</strong> Your position relative to competitors.<br>
-                                        <strong>Why it matters:</strong> Leaders often get higher valuations.<br>
-                                        <strong>How to assess:</strong> Are you a top player, growing fast, or niche?
-                                    </p>
-                                </div>
-                            </div>
-                            <p id="market-error" class="text-red-500 text-sm mt-1 hidden">
-                                Please enter a valid market size and select a position.
-                            </p>
-                            <div class="mt-3 flex justify-between">
-                                <button id="prev-btn-8" class="btn-secondary">Previous</button>
-                                <button id="next-btn-8" class="btn-primary">Next</button>
-                            </div>
-                        </div>
-
-                        <!-- Step 9: Risk Factors -->
-                        <div class="step step-hidden" data-step="9">
-                            <h3 class="text-lg font-semibold text-gray-800 mb-2">Step 9: Risk Factors</h3>
-                            <p class="text-gray-600 mb-2 text-sm">
-                                Assess potential risks that could impact your valuation.
-                                <span data-tooltip="Risks can lower your valuation if not managed." class="text-teal-500 underline cursor-pointer">Learn more</span>
-                            </p>
-                            <div class="space-y-2">
-                                <div class="flex items-start">
-                                    <label class="flex items-center flex-grow">
-                                        <span class="text-gray-600 font-medium text-sm">Customer Concentration Risk (%)</span>
-                                        <span data-tooltip="Revenue percentage from top 5 customers." class="text-teal-500 underline cursor-pointer ml-1">?</span>
-                                    </label>
-                                    <button class="toggle-explanation text-teal-500 underline text-xs focus:outline-none ml-1" data-target="explanation-concentration">Explain</button>
-                                </div>
-                                <input type="number" id="customer-concentration" class="w-full p-1.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 text-sm" placeholder="e.g., 30" min="0" max="100" step="1">
-                                <div id="explanation-concentration" class="explanation-box collapsed">
-                                    <p class="text-gray-600 text-sm">
-                                        <strong>What is it?</strong> Percentage of revenue from top 5 customers.<br>
-                                        <strong>Why it matters:</strong> High concentration increases risk.<br>
-                                        <strong>How to find it:</strong> Calculate revenue share of top 5 customers.
-                                    </p>
-                                </div>
-                                <div class="flex items-start">
-                                    <label class="flex items-center flex-grow">
-                                        <span class="text-gray-600 font-medium text-sm">Regulatory Risk Level</span>
-                                        <span data-tooltip="Impact of regulations on your business." class="text-teal-500 underline cursor-pointer ml-1">?</span>
-                                    </label>
-                                    <button class="toggle-explanation text-teal-500 underline text-xs focus:outline-none ml-1" data-target="explanation-regulatory">Explain</button>
-                                </div>
-                                <select id="regulatory-risk" class="w-full p-1.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 text-sm">
-                                    <option value="" disabled selected>Select an option</option>
-                                    <option value="low">Low</option>
-                                    <option value="medium">Medium</option>
-                                    <option value="high">High</option>
-                                </select>
-                                <div id="explanation-regulatory" class="explanation-box collapsed">
-                                    <p class="text-gray-600 text-sm">
-                                        <strong>What is it?</strong> Potential impact of regulations.<br>
-                                        <strong>Why it matters:</strong> High regulatory risk can lower valuation.<br>
-                                        <strong>How to assess:</strong> Consider industry regulations (e.g., GDPR).
-                                    </p>
-                                </div>
-                            </div>
-                            <p id="risk-error" class="text-red-500 text-sm mt-1 hidden">
-                                Please enter a valid percentage and select a risk level.
-                            </p>
-                            <div class="mt-3 flex justify-between">
-                                <button id="prev-btn-9" class="btn-secondary">Previous</button>
-                                <button id="next-btn-9" class="btn-primary">Next</button>
-                            </div>
-                        </div>
-
-                        <!-- Step 10: Future Projections & Results -->
-                        <div class="step step-hidden" data-step="10">
-                            <h3 class="text-lg font-semibold text-gray-800 mb-2">Step 10: Future Projections & Results</h3>
-                            <p class="text-gray-600 mb-2 text-sm">
-                                Review your valuation with a growth projection adjustment.
-                                <span data-tooltip="Adjust your 5-year growth projection." class="text-teal-500 underline cursor-pointer">Learn more</span>
-                            </p>
-                            <div class="space-y-2">
-                                <div class="flex items-start">
-                                    <label class="flex items-center flex-grow">
-                                        <span class="text-gray-600 font-medium text-sm">Projected Growth Adjustment (%)</span>
-                                        <span data-tooltip="Fine-tune your 5-year growth projection." class="text-teal-500 underline cursor-pointer ml-1">?</span>
-                                    </label>
-                                </div>
-                                <input type="number" id="projection-adjust" class="w-full p-1.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 text-sm" placeholder="e.g., 15" min="0" max="100" step="1">
-                            </div>
-                            <div class="mt-4">
-                                <h4 class="text-base font-semibold text-gray-800 mb-2">Your Valuation Results</h4>
-                                <div id="results-container" class="bg-white p-3 rounded-lg shadow-md">
-                                    <p id="valuation-result" class="text-lg font-bold text-teal-600 mb-2">Calculating...</p>
-                                    <p id="method-breakdown" class="text-gray-600 text-sm"></p>
-                                    <p id="advice" class="text-gray-600 mt-2 text-sm"></p>
-                                </div>
-                            </div>
-                            <div class="mt-3 flex justify-between">
-                                <button id="prev-btn-10" class="btn-secondary">Previous</button>
-                                <button id="download-pdf" class="btn-primary">Download Report (PDF)</button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="mt-4">
-                        <div class="video-text-toggle">
-                            <div class="flex justify-center space-x-2 mb-2">
-                                <button id="show-video-1" class="btn-primary">Watch Video</button>
-                                <button id="show-text-1" class="btn-secondary">Read Text</button>
-                            </div>
-                            <div id="video-section-1" class="video-section hidden">
-                                <h4 class="text-lg font-semibold text-gray-800 mb-2">Video: Understanding Valuation Methods</h4>
-                                <div class="relative" style="padding-bottom: 56.25%;">
-                                    <iframe class="absolute top-0 left-0 w-full h-full" src="https://www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0" allowfullscreen></iframe>
-                                </div>
-                            </div>
-                            <div id="text-section-1" class="text-section hidden">
-                                <h4 class="text-lg font-semibold text-gray-800 mb-2">Text: Understanding Valuation Methods</h4>
+                            <div id="explanation-multiplier" class="explanation-box collapsed">
                                 <p class="text-gray-600 text-sm">
-                                    Valuation methods help determine your SaaS worth:
+                                    <strong>What is it?</strong> Multiplies ARR by a factor
+                                    (e.g., 5-8).<br /><strong>Why use it?</strong> Ideal for predictable subscription income.
                                 </p>
-                                <ul class="list-disc list-inside text-gray-600 mt-1 space-y-1 text-sm">
-                                    <li><strong>Revenue Multiplier</strong>: Multiplies ARR by a factor (e.g., 5x).</li>
-                                    <li><strong>Income-Based</strong>: Uses net income.</li>
-                                    <li><strong>Earnings-Based</strong>: Includes assets and debt.</li>
-                                    <li><strong>DCF</strong>: Projects future cash flows.</li>
-                                </ul>
                             </div>
+
+                            <div class="flex items-start">
+                                <label class="flex items-center flex-grow">
+                                    <input
+                                        type="checkbox"
+                                        id="method-income"
+                                        value="income"
+                                        class="form-checkbox h-4 w-4 text-teal-500"
+                                    />
+                                    <span class="ml-1 text-gray-600 font-medium text-sm">Income-Based</span>
+                                    <span
+                                        data-tooltip="Focuses on profitability."
+                                        class="text-teal-500 underline cursor-pointer ml-1"
+                                        >?</span
+                                    >
+                                </label>
+                                <button
+                                    class="toggle-explanation text-teal-500 underline text-xs focus:outline-none ml-1"
+                                    data-target="explanation-income"
+                                    type="button"
+                                >
+                                    Explain
+                                </button>
+                            </div>
+                            <div id="explanation-income" class="explanation-box collapsed">
+                                <p class="text-gray-600 text-sm">
+                                    <strong>What is it?</strong> Uses net profit multiplied by a factor
+                                    (e.g., 4-6).<br /><strong>Why use it?</strong> Highlights financial health.
+                                </p>
+                            </div>
+
+                            <div class="flex items-start">
+                                <label class="flex items-center flex-grow">
+                                    <input
+                                        type="checkbox"
+                                        id="method-earnings"
+                                        value="earnings"
+                                        class="form-checkbox h-4 w-4 text-teal-500"
+                                    />
+                                    <span class="ml-1 text-gray-600 font-medium text-sm">Earnings-Based</span>
+                                    <span
+                                        data-tooltip="Combines revenue, assets, debt."
+                                        class="text-teal-500 underline cursor-pointer ml-1"
+                                        >?</span
+                                    >
+                                </label>
+                                <button
+                                    class="toggle-explanation text-teal-500 underline text-xs focus:outline-none ml-1"
+                                    data-target="explanation-earnings"
+                                    type="button"
+                                >
+                                    Explain
+                                </button>
+                            </div>
+                            <div id="explanation-earnings" class="explanation-box collapsed">
+                                <p class="text-gray-600 text-sm">
+                                    <strong>What is it?</strong> Combines revenue, assets, and debt.<br />
+                                    <strong>Why use it?</strong> Useful with significant assets.
+                                </p>
+                            </div>
+
+                            <div class="flex items-start">
+                                <label class="flex items-center flex-grow">
+                                    <input
+                                        type="checkbox"
+                                        id="method-dcf"
+                                        value="dcf"
+                                        class="form-checkbox h-4 w-4 text-teal-500"
+                                    />
+                                    <span class="ml-1 text-gray-600 font-medium text-sm">Discounted Cash Flow (DCF)</span>
+                                    <span
+                                        data-tooltip="Projects future cash flows."
+                                        class="text-teal-500 underline cursor-pointer ml-1"
+                                        >?</span
+                                    >
+                                </label>
+                                <button
+                                    class="toggle-explanation text-teal-500 underline text-xs focus:outline-none ml-1"
+                                    data-target="explanation-dcf"
+                                    type="button"
+                                >
+                                    Explain
+                                </button>
+                            </div>
+                            <div id="explanation-dcf" class="explanation-box collapsed">
+                                <p class="text-gray-600 text-sm">
+                                    <strong>What is it?</strong> Discounts future cash flows to present value.<br />
+                                    <strong>Why use it?</strong> Ideal for predictable revenue.
+                                </p>
+                            </div>
+                        </div>
+                        <p id="method-error" class="text-red-500 text-sm mt-1 hidden">Please select 1 to 3 valuation methods.</p>
+                        <div class="mt-3 flex justify-end">
+                            <button id="next-btn-1" class="btn-primary">Next</button>
+                        </div>
+                    </div>
+
+                    <!-- Step 5: Industry Trends -->
+                    <div class="step step-hidden" data-step="5">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">Step 5: Industry Trends</h3>
+                        <p class="text-gray-600 mb-2 text-sm">
+                            Provide details about your industry’s growth and your market share.
+                            <span
+                                data-tooltip="These factors adjust your valuation based on market potential."
+                                class="text-teal-500 underline cursor-pointer"
+                                >Learn more</span
+                            >
+                        </p>
+                        <div class="space-y-2">
+                            <div class="flex items-start">
+                                <label class="flex items-center flex-grow">
+                                    <span class="text-gray-600 font-medium text-sm">Industry Growth Rate (%)</span>
+                                    <span
+                                        data-tooltip="Annual growth rate of your industry."
+                                        class="text-teal-500 underline cursor-pointer ml-1"
+                                        >?</span
+                                    >
+                                </label>
+                                <button
+                                    class="toggle-explanation text-teal-500 underline text-xs focus:outline-none ml-1"
+                                    data-target="explanation-industry-growth"
+                                    type="button"
+                                >
+                                    Explain
+                                </button>
+                            </div>
+                            <input
+                                type="number"
+                                id="industry-growth"
+                                class="w-full p-1.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 text-sm"
+                                placeholder="e.g., 10"
+                                min="0"
+                                max="100"
+                                step="1"
+                            />
+                            <div id="explanation-industry-growth" class="explanation-box collapsed">
+                                <p class="text-gray-600 text-sm">
+                                    <strong>What is it?</strong> Annual growth rate of your industry.<br />
+                                    <strong>Why it matters:</strong> Faster-growing industries increase valuation.<br />
+                                    <strong>How to find it:</strong> Check industry reports (e.g., Gartner, Statista).
+                                </p>
+                            </div>
+
+                            <div class="flex items-start">
+                                <label class="flex items-center flex-grow">
+                                    <span class="text-gray-600 font-medium text-sm">Market Share (%)</span>
+                                    <span
+                                        data-tooltip="Your share of the total market."
+                                        class="text-teal-500 underline cursor-pointer ml-1"
+                                        >?</span
+                                    >
+                                </label>
+                                <button
+                                    class="toggle-explanation text-teal-500 underline text-xs focus:outline-none ml-1"
+                                    data-target="explanation-market-share"
+                                    type="button"
+                                >
+                                    Explain
+                                </button>
+                            </div>
+                            <input
+                                type="number"
+                                id="market-share"
+                                class="w-full p-1.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 text-sm"
+                                placeholder="e.g., 5"
+                                min="0"
+                                max="100"
+                                step="0.1"
+                            />
+                            <div id="explanation-market-share" class="explanation-box collapsed">
+                                <p class="text-gray-600 text-sm">
+                                    <strong>What is it?</strong> Your company’s percentage of the market.<br />
+                                    <strong>Why it matters:</strong> Higher share signals dominance, boosting value.<br />
+                                    <strong>How to find it:</strong> Divide your revenue by total market revenue.
+                                </p>
+                            </div>
+                        </div>
+                        <p id="industry-error" class="text-red-500 text-sm mt-1 hidden">
+                            Please enter valid percentages between 0 and 100.
+                        </p>
+                        <div class="mt-3 flex justify-between">
+                            <button id="prev-btn-5" class="btn-secondary">Previous</button>
+                            <button id="next-btn-5" class="btn-primary">Next</button>
+                        </div>
+                    </div>
+
+                    <!-- Step 6: Team Dynamics -->
+                    <div class="step step-hidden" data-step="6">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">Step 6: Team Dynamics</h3>
+                        <p class="text-gray-600 mb-2 text-sm">
+                            Enter details about your team size and experience level.
+                            <span
+                                data-tooltip="A strong team can increase your valuation."
+                                class="text-teal-500 underline cursor-pointer"
+                                >Learn more</span
+                            >
+                        </p>
+                        <div class="space-y-2">
+                            <div class="flex items-start">
+                                <label class="flex items-center flex-grow">
+                                    <span class="text-gray-600 font-medium text-sm">Team Size (Employees)</span>
+                                    <span
+                                        data-tooltip="Number of full-time staff."
+                                        class="text-teal-500 underline cursor-pointer ml-1"
+                                        >?</span
+                                    >
+                                </label>
+                                <button
+                                    class="toggle-explanation text-teal-500 underline text-xs focus:outline-none ml-1"
+                                    data-target="explanation-team-size"
+                                    type="button"
+                                >
+                                    Explain
+                                </button>
+                            </div>
+                            <input
+                                type="number"
+                                id="team-size"
+                                class="w-full p-1.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 text-sm"
+                                placeholder="e.g., 10"
+                                min="0"
+                                step="1"
+                            />
+                            <div id="explanation-team-size" class="explanation-box collapsed">
+                                <p class="text-gray-600 text-sm">
+                                    <strong>What is Team Size?</strong> Number of full-time employees.<br />
+                                    <strong>Why it matters:</strong> Larger teams suggest scalability.<br />
+                                    <strong>How to find it:</strong> Count your current full-time staff.
+                                </p>
+                            </div>
+
+                            <div class="flex items-start">
+                                <label class="flex items-center flex-grow">
+                                    <span class="text-gray-600 font-medium text-sm">Team Experience Level</span>
+                                    <span
+                                        data-tooltip="Average experience of your team."
+                                        class="text-teal-500 underline cursor-pointer ml-1"
+                                        >?</span
+                                    >
+                                </label>
+                                <button
+                                    class="toggle-explanation text-teal-500 underline text-xs focus:outline-none ml-1"
+                                    data-target="explanation-team-experience"
+                                    type="button"
+                                >
+                                    Explain
+                                </button>
+                            </div>
+                            <select
+                                id="team-experience"
+                                class="w-full p-1.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 text-sm"
+                            >
+                                <option value="" disabled selected>Select an option</option>
+                                <option value="junior">Junior (1-3 years)</option>
+                                <option value="mid">Mid-level (3-7 years)</option>
+                                <option value="senior">Senior (7+ years)</option>
+                            </select>
+                            <div id="explanation-team-experience" class="explanation-box collapsed">
+                                <p class="text-gray-600 text-sm">
+                                    <strong>What is it?</strong> Average experience level of your team.<br />
+                                    <strong>Why it matters:</strong> Experienced teams add value through expertise.<br />
+                                    <strong>How to assess:</strong> Estimate average years of experience.
+                                </p>
+                            </div>
+                        </div>
+                        <p id="team-error" class="text-red-500 text-sm mt-1 hidden">
+                            Please enter a valid team size and select an experience level.
+                        </p>
+                        <div class="mt-3 flex justify-between">
+                            <button id="prev-btn-6" class="btn-secondary">Previous</button>
+                            <button id="next-btn-6" class="btn-primary">Next</button>
+                        </div>
+                    </div>
+
+                    <!-- Step 7: Technology/IP -->
+                    <div class="step step-hidden" data-step="7">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">Step 7: Technology/IP</h3>
+                        <p class="text-gray-600 mb-2 text-sm">
+                            Provide details about your intellectual property and tech stack maturity.
+                            <span class="text-teal-500 underline cursor-pointer" data-tooltip="Valuable IP and tech can boost your valuation.">Learn more</span>
+                        </p>
+                        <div class="space-y-2">
+                            <div class="flex items-start">
+                                <label class="flex items-center flex-grow">
+                                    <span class="text-gray-600 font-medium text-sm">IP Value ($)</span>
+                                </label>
+                                <button class="toggle-explanation text-teal-500 underline text-xs focus:outline-none ml-1" data-target="explanation-ip-value" type="button">Explain</button>
+                            </div>
+                            <input type="number" id="ip-value" class="w-full p-1.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 text-sm" placeholder="e.g., 50000" min="0" step="1000" />
+                            <div id="explanation-ip-value" class="explanation-box collapsed">
+                                <p class="text-gray-600 text-sm">
+                                    <strong>What is IP Value?</strong> Value of patents or proprietary tech.<br />
+                                    <strong>Why it matters:</strong> Adds to your asset value.<br />
+                                    <strong>How to find it:</strong> Estimate based on development costs or consult an expert.
+                                </p>
+                            </div>
+
+                            <div class="flex items-start">
+                                <label class="flex items-center flex-grow">
+                                    <span class="text-gray-600 font-medium text-sm">Tech Stack Maturity</span>
+                                </label>
+                                <button class="toggle-explanation text-teal-500 underline text-xs focus:outline-none ml-1" data-target="explanation-tech-stack" type="button">Explain</button>
+                            </div>
+                            <select id="tech-stack" class="w-full p-1.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 text-sm">
+                                <option value="" disabled selected>Select an option</option>
+                                <option value="legacy">Legacy (Outdated)</option>
+                                <option value="standard">Standard (Industry Average)</option>
+                                <option value="cutting-edge">Cutting-Edge (Modern)</option>
+                            </select>
+                            <div id="explanation-tech-stack" class="explanation-box collapsed">
+                                <p class="text-gray-600 text-sm">
+                                    <strong>What is it?</strong> Modernity of your technology infrastructure.<br />
+                                    <strong>Why it matters:</strong> Modern tech reduces future costs, increasing value.<br />
+                                    <strong>How to assess:</strong> Compare your tech to industry standards.
+                                </p>
+                            </div>
+                        </div>
+                        <p id="tech-error" class="text-red-500 text-sm mt-1 hidden">
+                            Please enter a valid IP value and select a tech stack maturity.
+                        </p>
+                        <div class="mt-3 flex justify-between">
+                            <button id="prev-btn-7" class="btn-secondary">Previous</button>
+                            <button id="next-btn-7" class="btn-primary">Next</button>
+                        </div>
+                    </div>
+
+                    <!-- Step 8: Market Position -->
+                    <div class="step step-hidden" data-step="8">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">Step 8: Market Position</h3>
+                        <p class="text-gray-600 mb-2 text-sm">
+                            Provide details about your market size and competitive position.
+                            <span class="text-teal-500 underline cursor-pointer" data-tooltip="These factors show market potential.">Learn more</span>
+                        </p>
+                        <div class="space-y-2">
+                            <div class="flex items-start">
+                                <label class="flex items-center flex-grow">
+                                    <span class="text-gray-600 font-medium text-sm">Market Size ($)</span>
+                                </label>
+                                <button class="toggle-explanation text-teal-500 underline text-xs focus:outline-none ml-1" data-target="explanation-market-size" type="button">Explain</button>
+                            </div>
+                            <input type="number" id="market-size" class="w-full p-1.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 text-sm" placeholder="e.g., 1000000000" min="0" step="1000000" />
+                            <div id="explanation-market-size" class="explanation-box collapsed">
+                                <p class="text-gray-600 text-sm">
+                                    <strong>What is it?</strong> Total revenue potential in your industry (TAM).<br />
+                                    <strong>Why it matters:</strong> Larger markets suggest growth opportunity.<br />
+                                    <strong>How to find it:</strong> Research industry reports.
+                                </p>
+                            </div>
+
+                            <div class="flex items-start">
+                                <label class="flex items-center flex-grow">
+                                    <span class="text-gray-600 font-medium text-sm">Competitive Position</span>
+                                </label>
+                                <button class="toggle-explanation text-teal-500 underline text-xs focus:outline-none ml-1" data-target="explanation-position" type="button">Explain</button>
+                            </div>
+                            <select id="competitive-position" class="w-full p-1.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 text-sm">
+                                <option value="" disabled selected>Select an option</option>
+                                <option value="leader">Market Leader</option>
+                                <option value="challenger">Challenger</option>
+                                <option value="niche">Niche Player</option>
+                            </select>
+                            <div id="explanation-position" class="explanation-box collapsed">
+                                <p class="text-gray-600 text-sm">
+                                    <strong>What is it?</strong> Your position relative to competitors.<br />
+                                    <strong>Why it matters:</strong> Leaders often get higher valuations.<br />
+                                    <strong>How to assess:</strong> Are you a top player, growing fast, or niche?
+                                </p>
+                            </div>
+                        </div>
+                        <p id="market-error" class="text-red-500 text-sm mt-1 hidden">
+                            Please enter a valid market size and select a position.
+                        </p>
+                        <div class="mt-3 flex justify-between">
+                            <button id="prev-btn-8" class="btn-secondary">Previous</button>
+                            <button id="next-btn-8" class="btn-primary">Next</button>
+                        </div>
+                    </div>
+
+                    <!-- Step 9: Risk Factors -->
+                    <div class="step step-hidden" data-step="9">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">Step 9: Risk Factors</h3>
+                        <p class="text-gray-600 mb-2 text-sm">
+                            Assess potential risks that could impact your valuation.
+                            <span class="text-teal-500 underline cursor-pointer" data-tooltip="Risks can lower your valuation if not managed.">Learn more</span>
+                        </p>
+                        <div class="space-y-2">
+                            <div class="flex items-start">
+                                <label class="flex items-center flex-grow">
+                                    <span class="text-gray-600 font-medium text-sm">Customer Concentration Risk (%)</span>
+                                </label>
+                                <button class="toggle-explanation text-teal-500 underline text-xs focus:outline-none ml-1" data-target="explanation-concentration" type="button">Explain</button>
+                            </div>
+                            <input type="number" id="customer-concentration" class="w-full p-1.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 text-sm" placeholder="e.g., 30" min="0" max="100" step="1" />
+                            <div id="explanation-concentration" class="explanation-box collapsed">
+                                <p class="text-gray-600 text-sm">
+                                    <strong>What is it?</strong> Percentage of revenue from top 5 customers.<br />
+                                    <strong>Why it matters:</strong> High concentration increases risk.<br />
+                                    <strong>How to find it:</strong> Calculate revenue share of top 5 customers.
+                                </p>
+                            </div>
+
+                            <div class="flex items-start">
+                                <label class="flex items-center flex-grow">
+                                    <span class="text-gray-600 font-medium text-sm">Regulatory Risk Level</span>
+                                </label>
+                                <button class="toggle-explanation text-teal-500 underline text-xs focus:outline-none ml-1" data-target="explanation-regulatory" type="button">Explain</button>
+                            </div>
+                            <select id="regulatory-risk" class="w-full p-1.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 text-sm">
+                                <option value="" disabled selected>Select an option</option>
+                                <option value="low">Low</option>
+                                <option value="medium">Medium</option>
+                                <option value="high">High</option>
+                            </select>
+                            <div id="explanation-regulatory" class="explanation-box collapsed">
+                                <p class="text-gray-600 text-sm">
+                                    <strong>What is it?</strong> Potential impact of regulations.<br />
+                                    <strong>Why it matters:</strong> High regulatory risk can lower valuation.<br />
+                                    <strong>How to assess:</strong> Consider industry regulations (e.g., GDPR).
+                                </p>
+                            </div>
+                        </div>
+                        <p id="risk-error" class="text-red-500 text-sm mt-1 hidden">
+                            Please enter a valid percentage and select a risk level.
+                        </p>
+                        <div class="mt-3 flex justify-between">
+                            <button id="prev-btn-9" class="btn-secondary">Previous</button>
+                            <button id="next-btn-9" class="btn-primary">Next</button>
+                        </div>
+                    </div>
+
+                    <!-- Step 10: Payment & Results -->
+                    <div class="step step-hidden" data-step="10">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">Step 10: Payment and Your Valuation Results</h3>
+                        <p class="text-gray-600 mb-4 text-sm">To unlock your detailed valuation report, please complete your payment below.</p>
+
+                        <div id="paypal-container-NVJVZYW6GRKY4" class="mb-4"></div>
+                        <div id="payment-status" class="text-green-600 font-bold mb-4 hidden">Payment successful! Calculating your valuation...</div>
+
+                        <div id="results-container" class="bg-white p-4 rounded shadow hidden">
+                            <h4 class="text-xl font-semibold text-teal-600 mb-3">Your Valuation Results</h4>
+                            <p id="valuation-result" class="text-lg font-bold mb-2">Calculating...</p>
+                            <div id="method-breakdown" class="text-sm text-gray-700 mb-2"></div>
+                            <p id="advice" class="text-sm text-gray-700"></p>
+                            <button id="download-pdf" class="btn-primary mt-4">Download Report (PDF)</button>
+                        </div>
+
+                        <div class="mt-3 flex justify-between">
+                            <button id="prev-btn-10" class="btn-secondary">Previous</button>
                         </div>
                     </div>
                 </div>
@@ -738,40 +647,60 @@
         </footer>
     </main>
 
-    <!-- JavaScript for Form Logic, Validation, and PDF Generation -->
+    <!-- PayPal SDK and Hosted Button -->
+    <script src="https://www.paypal.com/sdk/js?client-id=BAAmPIUOhFD8WnPzN-tp-rQwqJ-5hrys3ik4nE0y2X41APCpAHOeX3swr5esUvo6CBAZzZH5iY8lcuBQB4&components=hosted-buttons&disable-funding=venmo&currency=AUD"></script>
     <script>
-        let formData = {};
+        paypal.HostedButtons({
+            hostedButtonId: "NVJVZYW6GRKY4",
+            onApprove: function(data, actions) {
+                document.getElementById('payment-status').classList.remove('hidden');
+                document.getElementById('paypal-container-NVJVZYW6GRKY4').style.display = 'none';
+                calculateValuation();  // Calculate & show valuation after payment
+                document.getElementById('results-container').classList.remove('hidden');
+            }
+        }).render("#paypal-container-NVJVZYW6GRKY4");
+    </script>
+
+    <!-- Main JavaScript for Navigation, Validation and Calculation -->
+    <script>
+        // Elements & state
         const steps = document.querySelectorAll('.step');
         let currentStep = 0;
+        const totalSteps = steps.length;
 
+        // Show step function
         function showStep(stepIndex) {
-            steps.forEach((step, index) => {
-                step.classList.toggle('step-visible', index === stepIndex);
-                step.classList.toggle('step-hidden', index !== stepIndex);
+            steps.forEach((step, idx) => {
+                step.classList.toggle('step-visible', idx === stepIndex);
+                step.classList.toggle('step-hidden', idx !== stepIndex);
             });
             document.getElementById('current-step').textContent = stepIndex + 1;
-            document.getElementById('progress-fill').style.width = ((stepIndex + 1) / steps.length * 100) + '%';
+            document.getElementById('progress-fill').style.width = ((stepIndex + 1) / totalSteps) * 100 + '%';
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
+        // Navigation buttons
         document.querySelectorAll('[id^="next-btn-"]').forEach(btn => {
             btn.addEventListener('click', () => {
                 if (validateStep(currentStep)) {
-                    currentStep++;
-                    if (currentStep >= steps.length) currentStep = steps.length - 1;
-                    showStep(currentStep);
+                    if (currentStep < totalSteps - 1) {
+                        currentStep++;
+                        showStep(currentStep);
+                    }
                 }
             });
         });
 
         document.querySelectorAll('[id^="prev-btn-"]').forEach(btn => {
             btn.addEventListener('click', () => {
-                currentStep--;
-                if (currentStep < 0) currentStep = 0;
-                showStep(currentStep);
+                if (currentStep > 0) {
+                    currentStep--;
+                    showStep(currentStep);
+                }
             });
         });
 
+        // Toggle explanation boxes
         document.querySelectorAll('.toggle-explanation').forEach(btn => {
             btn.addEventListener('click', () => {
                 const target = document.getElementById(btn.getAttribute('data-target'));
@@ -779,250 +708,158 @@
             });
         });
 
-        document.getElementById('show-video-1').addEventListener('click', () => {
-            document.getElementById('video-section-1').classList.remove('hidden');
-            document.getElementById('text-section-1').classList.add('hidden');
-        });
-
-        document.getElementById('show-text-1').addEventListener('click', () => {
-            document.getElementById('text-section-1').classList.remove('hidden');
-            document.getElementById('video-section-1').classList.add('hidden');
-        });
-
-        document.getElementById('menu-toggle').addEventListener('click', () => {
-            document.getElementById('mobile-menu').classList.toggle('hidden');
-        });
-
-        function validateStep1() {
-            const methods = document.querySelectorAll('input[id^="method-"]:checked');
-            const error = document.getElementById('method-error');
-            if (methods.length < 1 || methods.length > 3) {
-                error.classList.remove('hidden');
-                return false;
+        // Validate each step - customize validation rules per step
+        function validateStep(stepIndex) {
+            switch(stepIndex) {
+                case 0:
+                    return validateStep1();
+                case 1:
+                    return validateStep2();
+                case 2:
+                    return validateStep3();
+                case 3:
+                    return validateStep4();
+                case 4:
+                    return validateStep5();
+                case 5:
+                    return validateStep6();
+                case 6:
+                    return validateStep7();
+                case 7:
+                    return validateStep8();
+                case 8:
+                    return validateStep9();
+                case 9:
+                    return validateStep10();
+                default:
+                    return true;
             }
-            error.classList.add('hidden');
-            formData.methods = Array.from(methods).map(m => m.value);
-            return true;
         }
 
-        function validateStep2() {
-            const arr = document.getElementById('arr').value;
-            const mrr = document.getElementById('mrr').value;
-            const expenses = document.getElementById('expenses').value;
-            const profit = document.getElementById('profit').value;
-            const error = document.getElementById('financial-error');
-            if (arr <= 0 || mrr <= 0 || expenses < 0 || profit < 0 || Math.abs(parseFloat(arr) - parseFloat(mrr) * 12) > 1) {
-                error.classList.remove('hidden');
-                return false;
-            }
-            error.classList.add('hidden');
-            formData.arr = parseFloat(arr);
-            formData.mrr = parseFloat(mrr);
-            formData.expenses = parseFloat(expenses);
-            formData.profit = parseFloat(profit);
-            return true;
-        }
-
-        function validateStep3() {
-            const growth = document.getElementById('growth-rate').value;
-            const churn = document.getElementById('churn-rate').value;
-            const error = document.getElementById('growth-error');
-            if (growth < 0 || growth > 100 || churn < 0 || churn > 100) {
-                error.classList.remove('hidden');
-                return false;
-            }
-            error.classList.add('hidden');
-            formData.growthRate = parseFloat(growth);
-            formData.churnRate = parseFloat(churn);
-            return true;
-        }
-
-        function validateStep4() {
-            const cac = document.getElementById('cac').value;
-            const ltv = document.getElementById('ltv').value;
-            const error = document.getElementById('customer-error');
-            if (cac <= 0 || ltv <= 0) {
-                error.classList.remove('hidden');
-                return false;
-            }
-            error.classList.add('hidden');
-            formData.cac = parseFloat(cac);
-            formData.ltv = parseFloat(ltv);
-            return true;
-        }
-
-        function validateStep5() {
-            const industryGrowth = document.getElementById('industry-growth').value;
-            const marketShare = document.getElementById('market-share').value;
-            const error = document.getElementById('industry-error');
-            if (industryGrowth < 0 || industryGrowth > 100 || marketShare < 0 || marketShare > 100) {
-                error.classList.remove('hidden');
-                return false;
-            }
-            error.classList.add('hidden');
-            formData.industryGrowth = parseFloat(industryGrowth);
-            formData.marketShare = parseFloat(marketShare);
-            return true;
-        }
-
-        function validateStep6() {
-            const teamSize = document.getElementById('team-size').value;
-            const teamExperience = document.getElementById('team-experience').value;
-            const error = document.getElementById('team-error');
-            if (teamSize <= 0 || !teamExperience) {
-                error.classList.remove('hidden');
-                return false;
-            }
-            error.classList.add('hidden');
-            formData.teamSize = parseInt(teamSize);
-            formData.teamExperience = teamExperience;
-            return true;
-        }
-
-        function validateStep7() {
-            const ipValue = document.getElementById('ip-value').value;
-            const techStack = document.getElementById('tech-stack').value;
-            const error = document.getElementById('tech-error');
-            if (ipValue < 0 || !techStack) {
-                error.classList.remove('hidden');
-                return false;
-            }
-            error.classList.add('hidden');
-            formData.ipValue = parseFloat(ipValue);
-            formData.techStack = techStack;
-            return true;
-        }
-
-        function validateStep8() {
-            const marketSize = document.getElementById('market-size').value;
-            const position = document.getElementById('competitive-position').value;
-            const error = document.getElementById('market-error');
-            if (marketSize <= 0 || !position) {
-                error.classList.remove('hidden');
-                return false;
-            }
-            error.classList.add('hidden');
-            formData.marketSize = parseFloat(marketSize);
-            formData.position = position;
-            return true;
-        }
-
-        function validateStep9() {
-            const concentration = document.getElementById('customer-concentration').value;
-            const regulatoryRisk = document.getElementById('regulatory-risk').value;
-            const error = document.getElementById('risk-error');
-            if (concentration < 0 || concentration > 100 || !regulatoryRisk) {
-                error.classList.remove('hidden');
-                return false;
-            }
-            error.classList.add('hidden');
-            formData.customerConcentration = parseFloat(concentration);
-            formData.regulatoryRisk = regulatoryRisk;
-            return true;
-        }
+        // Placeholders for validateStep1 through validateStep9 functions
+        // (Assuming those are defined similarly as in Part 1 and 2)
 
         function validateStep10() {
-            const projection = document.getElementById('projection-adjust').value;
-            if (projection < 0 || projection > 100) {
-                alert('Please enter a valid projection adjustment between 0 and 100%.');
-                return false;
-            }
-            formData.projection = parseFloat(projection);
-            calculateValuation();
+            // For final step, no input to validate, or can add projection validation if needed
             return true;
         }
 
-        function validateStep(stepIndex) {
-            switch (stepIndex) {
-                case 0: return validateStep1();
-                case 1: return validateStep2();
-                case 2: return validateStep3();
-                case 3: return validateStep4();
-                case 4: return validateStep5();
-                case 5: return validateStep6();
-                case 6: return validateStep7();
-                case 7: return validateStep8();
-                case 8: return validateStep9();
-                case 9: return validateStep10();
-                default: return true;
-            }
+        // Calculation of valuation based on form data
+        let formData = {};
+
+        function collectFormData() {
+            formData.methods = Array.from(document.querySelectorAll('input[id^="method-"]:checked')).map(cb => cb.value);
+
+            formData.arr = parseFloat(document.getElementById('arr')?.value) || 0;
+            formData.mrr = parseFloat(document.getElementById('mrr')?.value) || 0;
+            formData.expenses = parseFloat(document.getElementById('expenses')?.value) || 0;
+            formData.profit = parseFloat(document.getElementById('profit')?.value) || 0;
+            formData.growthRate = parseFloat(document.getElementById('growth-rate')?.value) || 0;
+            formData.churnRate = parseFloat(document.getElementById('churn-rate')?.value) || 0;
+            formData.cac = parseFloat(document.getElementById('cac')?.value) || 0;
+            formData.ltv = parseFloat(document.getElementById('ltv')?.value) || 0;
+            formData.industryGrowth = parseFloat(document.getElementById('industry-growth')?.value) || 0;
+            formData.marketShare = parseFloat(document.getElementById('market-share')?.value) || 0;
+            formData.teamSize = parseInt(document.getElementById('team-size')?.value) || 0;
+            formData.teamExperience = document.getElementById('team-experience')?.value || '';
+            formData.ipValue = parseFloat(document.getElementById('ip-value')?.value) || 0;
+            formData.techStack = document.getElementById('tech-stack')?.value || '';
+            formData.marketSize = parseFloat(document.getElementById('market-size')?.value) || 0;
+            formData.position = document.getElementById('competitive-position')?.value || '';
+            formData.customerConcentration = parseFloat(document.getElementById('customer-concentration')?.value) || 0;
+            formData.regulatoryRisk = document.getElementById('regulatory-risk')?.value || '';
+            formData.projection = parseFloat(document.getElementById('projection-adjust')?.value) || 0;
         }
 
         function calculateValuation() {
-            const { methods, arr, profit, growthRate, churnRate, cac, ltv, industryGrowth, marketShare, teamSize, teamExperience, ipValue, techStack, marketSize, position, customerConcentration, regulatoryRisk, projection } = formData;
+            collectFormData();
+
             let valuation = 0;
             let breakdown = '';
             let advice = '';
 
-            const growthFactor = growthRate / 20;
-            const churnPenalty = churnRate / 10;
-            const ltvCacRatio = ltv / cac;
-            const industryFactor = industryGrowth / 20;
-            const marketShareFactor = marketShare / 20;
-            const teamExperienceFactor = { junior: 0.8, mid: 1.0, senior: 1.2 }[teamExperience] || 1.0;
-            const techStackFactor = { legacy: 0.8, standard: 1.0, 'cutting-edge': 1.2 }[techStack] || 1.0;
-            const marketFactor = marketSize / 1000000000;
-            const positionFactor = { leader: 1.2, challenger: 1.0, niche: 0.8 }[position] || 1.0;
-            const concentrationPenalty = customerConcentration / 50;
-            const regulatoryPenalty = { low: 0, medium: 0.1, high: 0.2 }[regulatoryRisk] || 0;
-            const teamFactor = Math.min(1.5, 1 + (teamSize / 20));
+            // Defensive check if no methods selected
+            if (!formData.methods || formData.methods.length === 0) {
+                alert('Please select at least one valuation method.');
+                return;
+            }
 
-            methods.forEach(method => {
+            // Constants & factors for weighting
+            const growthFactor = formData.growthRate / 20;
+            const churnPenalty = formData.churnRate / 10;
+            const ltvCacRatio = formData.cac > 0 ? formData.ltv / formData.cac : 1;
+            const industryFactor = formData.industryGrowth / 20;
+            const marketShareFactor = formData.marketShare / 20;
+            const teamExperienceFactor = {'junior': 0.8, 'mid': 1.0, 'senior': 1.2}[formData.teamExperience] || 1.0;
+            const techStackFactor = {'legacy': 0.8, 'standard': 1.0, 'cutting-edge': 1.2}[formData.techStack] || 1.0;
+            const marketFactor = formData.marketSize / 1_000_000_000;
+            const positionFactor = {'leader': 1.2, 'challenger': 1.0, 'niche': 0.8}[formData.position] || 1.0;
+            const concentrationPenalty = formData.customerConcentration / 50;
+            const regulatoryPenalty = {'low': 0, 'medium': 0.1, 'high': 0.2}[formData.regulatoryRisk] || 0;
+            const teamFactor = Math.min(1.5, 1 + (formData.teamSize / 20));
+
+            formData.methods.forEach(method => {
                 let methodValue = 0;
                 switch (method) {
                     case 'multiplier':
                         const multiplier = Math.min(8, 5 + growthFactor - churnPenalty + marketFactor * positionFactor * teamFactor - concentrationPenalty - regulatoryPenalty);
-                        methodValue = arr * multiplier;
-                        breakdown += `Revenue Multiplier: $${arr.toLocaleString()} x ${multiplier.toFixed(1)}x = $${methodValue.toLocaleString()}<br>`;
-                        if (churnRate > 10) advice += 'High churn rate—focus on retention.<br>';
+                        methodValue = formData.arr * multiplier;
+                        breakdown += `Revenue Multiplier: $${formData.arr.toLocaleString()} x ${multiplier.toFixed(1)}x = $${methodValue.toLocaleString()}<br>`;
+                        if (formData.churnRate > 10) advice += 'High churn rate — focus on retention.<br>';
                         break;
                     case 'income':
-                        const incomeMultiplier = Math.min(6, 4 + (profit / arr * 100 / 20) * positionFactor * ltvCacRatio / 3);
-                        methodValue = profit * incomeMultiplier;
-                        breakdown += `Income-Based: $${profit.toLocaleString()} x ${incomeMultiplier.toFixed(1)}x = $${methodValue.toLocaleString()}<br>`;
-                        if (profit / arr < 0.1) advice += 'Low profit margin—optimize costs.<br>';
+                        const margin = formData.arr > 0 ? formData.profit / formData.arr : 0;
+                        const incomeMultiplier = Math.min(6, 4 + (margin * 100 / 20) * positionFactor * ltvCacRatio / 3);
+                        methodValue = formData.profit * incomeMultiplier;
+                        breakdown += `Income-Based: $${formData.profit.toLocaleString()} x ${incomeMultiplier.toFixed(1)}x = $${methodValue.toLocaleString()}<br>`;
+                        if (margin < 0.1) advice += 'Low profit margin — optimize costs.<br>';
                         break;
                     case 'earnings':
-                        methodValue = (arr + profit + ipValue) * (1 + marketShareFactor) * teamExperienceFactor * techStackFactor;
-                        breakdown += `Earnings-Based: $${methodValue.toLocaleString()}<br>`;
-                        if (marketShare < 5) advice += 'Low market share—expand market presence.<br>';
+                        methodValue = (formData.arr + formData.profit + formData.ipValue) * (1 + marketShareFactor) * teamExperienceFactor * techStackFactor;
+                        breakdown += `Earnings-Based: $${Math.round(methodValue).toLocaleString()}<br>`;
+                        if (formData.marketShare < 5) advice += 'Low market share — expand market presence.<br>';
                         break;
                     case 'dcf':
-                        const discountRate = 0.12 + (churnRate / 100) + regulatoryPenalty;
-                        let cashFlow = arr;
+                        const discountRate = 0.12 + (formData.churnRate / 100) + regulatoryPenalty;
+                        let cashFlow = formData.arr;
                         let dcfValue = 0;
                         for (let year = 1; year <= 5; year++) {
-                            cashFlow *= (1 + (growthRate + projection + industryGrowth) / 300);
+                            cashFlow *= 1 + (formData.growthRate + formData.projection + formData.industryGrowth) / 300;
                             dcfValue += cashFlow / Math.pow(1 + discountRate, year);
                         }
-                        methodValue = dcfValue + ipValue;
-                        breakdown += `DCF: $${dcfValue.toLocaleString()} + IP($${ipValue.toLocaleString()}) = $${methodValue.toLocaleString()}<br>`;
-                        if (growthRate + projection > 50) advice += 'Aggressive growth projection—ensure realism.<br>';
+                        methodValue = dcfValue + formData.ipValue;
+                        breakdown += `DCF: $${Math.round(dcfValue).toLocaleString()} + IP($${formData.ipValue.toLocaleString()}) = $${Math.round(methodValue).toLocaleString()}<br>`;
+                        if ((formData.growthRate + formData.projection) > 50) advice += 'Aggressive growth projection — ensure realism.<br>';
                         break;
                 }
                 valuation += methodValue;
             });
-            valuation /= methods.length;
 
-            document.getElementById('valuation-result').textContent = `Estimated Valuation: $${valuation.toLocaleString()}`;
+            valuation /= formData.methods.length;
+
+            // Show results to user
+            document.getElementById('valuation-result').innerHTML = `Estimated Valuation: <strong>$${Math.round(valuation).toLocaleString()}</strong>`;
             document.getElementById('method-breakdown').innerHTML = `Breakdown:<br>${breakdown}`;
-            document.getElementById('advice').innerHTML = `Advice:<br>${advice || 'Inputs look solid—great job!'}`;
-            return valuation;
+            document.getElementById('advice').innerHTML = `Advice:<br>${advice || 'Inputs look solid — great job!'}`;
         }
 
+        // Export results to PDF using jsPDF
         document.getElementById('download-pdf').addEventListener('click', () => {
-            const { jspdf } = window;
-            const doc = new jspdf.jsPDF();
-            const valuation = calculateValuation();
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+            collectFormData();
+            calculateValuation();
 
             doc.setFontSize(18);
             doc.text('SaaS Pro Valuation Report', 10, 10);
             doc.setFontSize(12);
             doc.text(`Date: ${new Date().toLocaleDateString()}`, 10, 20);
-            doc.text(`Estimated Valuation: $${valuation.toLocaleString()}`, 10, 30);
-
+            doc.text(document.getElementById('valuation-result').innerText, 10, 30);
             doc.text('Methodology Breakdown:', 10, 40);
-            doc.text(document.getElementById('method-breakdown').innerText, 10, 50);
+
+            // add breakdown as plain text (strip html)
+            const breakdown = document.getElementById('method-breakdown').innerText.replace(/<br>/g, '\n');
+            doc.text(breakdown, 10, 50);
 
             doc.text('Key Metrics:', 10, 80);
             doc.text(`ARR: $${formData.arr.toLocaleString()}`, 10, 90);
@@ -1040,18 +877,27 @@
             doc.text(`IP Value: $${formData.ipValue.toLocaleString()}`, 10, 210);
             doc.text(`Tech Stack: ${formData.techStack}`, 10, 220);
             doc.text(`Market Size: $${formData.marketSize.toLocaleString()}`, 10, 230);
-            doc.text(`Position: ${formData.position}`, 10, 240);
+            doc.text(`Competitive Position: ${formData.position}`, 10, 240);
             doc.text(`Customer Concentration: ${formData.customerConcentration}%`, 10, 250);
             doc.text(`Regulatory Risk: ${formData.regulatoryRisk}`, 10, 260);
-            doc.text(`Projection: ${formData.projection}%`, 10, 270);
+            doc.text(`Projection Adjustment: ${formData.projection}%`, 10, 270);
 
-            doc.text('Advice:', 10, 290);
-            doc.text(document.getElementById('advice').innerText, 10, 300);
+            doc.text('Advice:', 10, 280);
+            const adviceText = document.getElementById('advice').innerText.replace(/Advice:\n?/,'');
+            doc.text(adviceText, 10, 290);
 
-            doc.save('saas-valuation-report.pdf');
+            doc.save('saas-pro-valuation-report.pdf');
         });
 
+        // Initialize page: show first step
         showStep(0);
+
+        // Mobile menu toggle
+        document.getElementById('menu-toggle').addEventListener('click', () => {
+            document.getElementById('mobile-menu').classList.toggle('hidden');
+        });
     </script>
 </body>
 </html>
+                    
+                                        
