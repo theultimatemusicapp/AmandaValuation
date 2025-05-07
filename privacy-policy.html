@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SaaS Valuation App - Privacy Policy</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        .header-dark {
+            background-color: #1a202c;
+            color: #e2e8f0;
+        }
+        .gradient-bg {
+            background: linear-gradient(90deg, #38b2ac 0%, #4c51bf 100%);
+        }
+        .btn-primary {
+            background-color: #38b2ac;
+            transition: background-color 0.3s;
+            border-radius: 9999px;
+        }
+        .btn-primary:hover {
+            background-color: #2d8b87;
+        }
+        .btn-secondary {
+            background-color: #4a5568;
+            transition: background-color 0.3s;
+            border-radius: 9999px;
+        }
+        .btn-secondary:hover {
+            background-color: #2d3748;
+        }
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        .testimonial-card {
+            background-color: #ffffff;
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            padding: 1.5rem;
+            border-left: 4px solid #38b2ac;
+            position: relative;
+            overflow: hidden;
+        }
+        .testimonial-card::before {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: #38b2ac;
+            border-radius: 50%;
+            top: -10px;
+            left: -10px;
+        }
+        .testimonial-card::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: #38b2ac;
+            border-radius: 50%;
+            bottom: -10px;
+            right: -10px;
+        }
+        .input-error {
+            border-color: #e53e3e;
+        }
+        .step-hidden {
+            display: none;
+        }
+        .step-visible {
+            display: block;
+        }
+        .dropdown-content {
+            display: none;
+            padding: 1.5rem;
+            background-color: #f7fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 1rem;
+            margin-top: 0.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #f3f4f6;
+        }
+        main {
+            min-height: calc(100vh - 20rem);
+        }
+        .cta-section {
+            background: linear-gradient(90deg, #2a6f6f 0%, #3b5b9a 100%);
+            color: white;
+            padding: 3rem 2rem;
+            text-align: center;
+            border-radius: 1rem;
+            margin: 2rem auto;
+            max-width: 80%;
+        }
+        .cta-section button {
+            background-color: #48bb78;
+            border-radius: 9999px;
+            padding: 0.75rem 2rem;
+            color: white;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+        .cta-section button:hover {
+            background-color: #38a169;
+        }
+        @media (max-width: 768px) {
+            #mobile-menu {
+                display: none;
+            }
+            #mobile-menu.hidden {
+                display: block;
+            }
+            .md\\:grid-cols-3 {
+                grid-template-columns: 1fr;
+            }
+            .cta-section {
+                max-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body class="font-sans text-gray-800">
+    <!-- Header -->
+    <header class="header-dark shadow-md fixed w-full z-10">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <h1 class="text-xl font-bold">SaaS Valuation App</h1>
+            <nav class="hidden md:flex space-x-6">
+                <a href="index.html#valuation" class="hover:text-teal-300">Valuation</a>
+                <a href="index.html#data-room" class="hover:text-teal-300">Data Room</a>
+                <a href="index.html#pricing" class="hover:text-teal-300">Pricing</a>
+                <a href="blog.html" class="hover:text-teal-300">Blog</a>
+                <a href="#demo" class="hover:text-teal-300">Demo</a>
+            </nav>
+            <div class="md:hidden">
+                <button id="menu-toggle" class="focus:outline-none text-teal-300">
+                    <i class="fas fa-bars text-2xl"></i>
+                </button>
+            </div>
+        </div>
+        <div id="mobile-menu" class="hidden md:hidden bg-gray-800 py-2 px-6 space-y-2">
+            <a href="index.html#valuation" class="block hover:text-teal-300">Valuation</a>
+            <a href="index.html#data-room" class="block hover:text-teal-300">Data Room</a>
+            <a href="index.html#pricing" class="block hover:text-teal-300">Pricing</a>
+            <a href="blog.html" class="block hover:text-teal-300">Blog</a>
+            <a href="#demo" class="block hover:text-teal-300">Demo</a>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="pt-20">
+        <section class="py-16">
+            <div class="container mx-auto px-6">
+                <article class="max-w-3xl mx-auto bg-white p-6 rounded-lg shadow-md">
+                    <h2 class="text-3xl font-bold text-gray-800 mb-4">Privacy Policy</h2>
+                    <p class="text-gray-600 mb-4">Last Updated: May 07, 2025</p>
+                    <p class="text-gray-600 mb-6">SaaS Valuation App ("we", "us", or "our") is committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit our website or use our services. Please read this policy carefully. If you do not agree with the terms of this Privacy Policy, please do not access the site.</p>
+
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">1. Information We Collect</h3>
+                    <p class="text-gray-600 mb-4">We may collect information about you in various ways, including:</p>
+                    <ul class="list-disc pl-6 text-gray-600 mb-4">
+                        <li><strong>Personal Information:</strong> Information you voluntarily provide, such as your name, email address, phone number, and company details when you register, request a valuation, or contact us.</li>
+                        <li><strong>Business Data:</strong> Financial and operational data you provide for valuation purposes, such as revenue, customer metrics, and other business-related information.</li>
+                        <li><strong>Usage Data:</strong> Information about how you interact with our website, including IP addresses, browser types, pages visited, and time spent on the site.</li>
+                        <li><strong>Cookies and Tracking Technologies:</strong> We use cookies and similar technologies to track activity on our site and store certain information. You can manage cookie preferences through your browser settings.</li>
+                    </ul>
+
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">2. How We Use Your Information</h3>
+                    <p class="text-gray-600 mb-4">We use the information we collect to:</p>
+                    <ul class="list-disc pl-6 text-gray-600 mb-4">
+                        <li>Provide and improve our services, including generating valuations and AI-driven insights.</li>
+                        <li>Communicate with you, including responding to inquiries and sending updates about our services.</li>
+                        <li>Analyze usage trends to enhance user experience and site functionality.</li>
+                        <li>Ensure the security of our website and protect against fraud.</li>
+                        <li>Comply with legal obligations and enforce our terms and conditions.</li>
+                    </ul>
+
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">3. How We Share Your Information</h3>
+                    <p class="text-gray-600 mb-4">We do not sell your personal information. We may share your information in the following circumstances:</p>
+                    <ul class="list-disc pl-6 text-gray-600 mb-4">
+                        <li><strong>Service Providers:</strong> With third-party vendors who perform services on our behalf, such as hosting, analytics, or payment processing, under strict confidentiality agreements.</li>
+                        <li><strong>Legal Requirements:</strong> If required by law, such as in response to a subpoena or court order, or to protect our rights, property, or safety.</li>
+                        <li><strong>Business Transfers:</strong> In connection with a merger, acquisition, or sale of assets, where your information may be transferred as part of the transaction.</li>
+                    </ul>
+
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">4. Data Security</h3>
+                    <p class="text-gray-600 mb-4">We implement reasonable security measures to protect your information, including encryption and secure servers. However, no method of transmission over the internet is 100% secure, and we cannot guarantee absolute security.</p>
+
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">5. Your Choices</h3>
+                    <p class="text-gray-600 mb-4">You have the following rights regarding your information:</p>
+                    <ul class="list-disc pl-6 text-gray-600 mb-4">
+                        <li><strong>Access and Update:</strong> You may access and update your personal information by contacting us.</li>
+                        <li><strong>Opt-Out:</strong> You may opt out of marketing communications by clicking the "unsubscribe" link in our emails.</li>
+                        <li><strong>Cookies:</strong> You can disable cookies through your browser settings, though this may affect site functionality.</li>
+                    </ul>
+
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">6. Third-Party Links</h3>
+                    <p class="text-gray-600 mb-4">Our website may contain links to third-party sites. We are not responsible for the privacy practices or content of these sites. We encourage you to review their privacy policies.</p>
+
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">7. Children's Privacy</h3>
+                    <p class="text-gray-600 mb-4">Our services are not intended for individuals under 18. We do not knowingly collect personal information from children. If we learn that we have collected such information, we will take steps to delete it.</p>
+
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">8. International Users</h3>
+                    <p class="text-gray-600 mb-4">Our services are hosted in the United States. If you access our site from outside the U.S., your information may be transferred to and processed in the U.S., where data protection laws may differ.</p>
+
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">9. Changes to This Privacy Policy</h3>
+                    <p class="text-gray-600 mb-4">We may update this Privacy Policy from time to time. Changes will be posted on this page with an updated "Last Updated" date. We encourage you to review this policy periodically.</p>
+
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">10. Contact Us</h3>
+                    <p class="text-gray-600 mb-4">If you have questions about this Privacy Policy, please contact us at:</p>
+                    <p class="text-gray-600 mb-4">SaaS Valuation App<br>Email: support@saasvaluationapp.com<br>Address: 123 Business Lane, Suite 100, Tech City, USA</p>
+                </article>
+            </div>
+        </section>
+
+        <!-- CTA Section -->
+        <section class="cta-section">
+            <h2 class="text-2xl font-bold mb-4">Ready to Discover Your SaaS Value?</h2>
+            <p class="mb-6">Join thousands of founders who trust SaaS Valuation App to understand their business worth and grow smarter.</p>
+            <button class="mt-4">Get Started Now</button>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-8">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <h3 class="text-lg font-bold mb-4">SaaS Valuation App</h3>
+                    <p class="text-gray-400">Empowering SaaS founders to understand their business worth with AI-driven insights.</p>
+                </div>
+                <div>
+                    <h3 class="text-lg font-bold mb-4">Product</h3>
+                    <ul class="space-y-2">
+                        <li><a href="index.html#valuation" class="text-gray-400 hover:text-teal-400">Self Valuation</a></li>
+                        <li><a href="pro-valuation.html" class="text-gray-400 hover:text-teal-400">Pro Valuation</a></li>
+                        <li><a href="index.html#pricing" class="text-gray-400 hover:text-teal-400">Pricing</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-lg font-bold mb-4">Resources</h3>
+                    <ul class="space-y-2">
+                        <li><a href="blog.html" class="text-gray-400 hover:text-teal-400">Blog</a></li>
+                        <li><a href="index.html#guide-valuation" class="text-gray-400 hover:text-teal-400">Valuation Guide</a></li>
+                        <li><a href="index.html#template-due-diligence" class="text-gray-400 hover:text-teal-400">Due Diligence Checklist</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-lg font-bold mb-4">Legal</h3>
+                    <ul class="space-y-2">
+                        <li><a href="terms-and-conditions.html" class="text واکرgray-400 hover:text-teal-400">Terms and Conditions</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-700 mt-8 pt-6 text-center">
+                <p class="text-gray-400">© 2025 SaaS Valuation App. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        document.getElementById('menu-toggle').addEventListener('click', () => {
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Demo modal
+        document.querySelector('a[href="#demo"]').addEventListener('click', (e) => {
+            e.preventDefault();
+            document.getElementById('demo-modal').classList.remove('hidden');
+        });
+
+        document.getElementById('close-modal').addEventListener('click', () => {
+            document.getElementById('demo-modal').classList.add('hidden');
+            document.getElementById('demo-video').src = document.getElementById('demo-video').src;
+        });
+    </script>
+</body>
+</html>
