@@ -10,6 +10,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
   <style>
+    /* Your existing styles here */
     .gradient-bg {
       background: linear-gradient(135deg, #38b2ac 0%, #2d3748 100%);
     }
@@ -174,6 +175,7 @@
               <button id="next-btn-1" class="btn-primary">Next</button>
             </div>
           </div>
+          <!-- Additional steps will be added in next parts -->
         </div>
       </div>
     </section>
@@ -1133,7 +1135,7 @@
 </section>
 
 <script>
-  // Explanation toggle for Step 8 (if needed)
+  // Explanation toggle for Step 8
   document.querySelectorAll('.explanation-trigger').forEach(btn => {
     btn.addEventListener('click', () => {
       const target = document.getElementById(btn.dataset.target);
@@ -1301,6 +1303,5 @@
     }
   }).render("#paypal-container-NVJVZYW6GRKY4");
 </script>
-  </main>
 </body>
 </html>
