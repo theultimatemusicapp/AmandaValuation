@@ -993,20 +993,147 @@
 
     // PDF export
     function downloadPDF() {
-      const { jsPDF } = window.jspdf;
-      const doc = new jsPDF();
-      doc.setFontSize(18);
-      doc.text('SaaS Pro Valuation Report', 10, 10);
-      doc.setFontSize(12);
-      doc.text(`Date: ${new Date().toLocaleDateString()}`, 10, 20);
-      doc.text(document.getElementById('valuation-result').textContent, 10, 30);
-      doc.text('Valuation Breakdown:', 10, 40);
-      const breakdownText = document.getElementById('method-breakdown').textContent.replace(/\n/g, ' ').replace(/\s+/g, ' ');
-      doc.text(breakdownText, 10, 50, { maxWidth: 180 });
-      doc.text('Advice:', 10, 90);
-      doc.text(document.getElementById('advice').textContent, 10, 100, { maxWidth: 180 });
-      doc.save('saas-pro-valuation-report.pdf');
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
+
+    // Colors
+    const teal = '#38B2AC';
+    const darkGray = '#2D3748';
+
+    // Helper function to add text with wrapping
+    const addWrappedText = (text, x, y, maxWidth, fontSize, color, fontStyle = 'normal') => {
+        doc.setFontSize(fontSize);
+        doc.setTextColor(color);
+        doc.setFont('helvetica', fontStyle);
+        doc.text(text, x, y, { maxWidth });
+    };
+
+    // Cover Page
+    doc.setFillColor(teal);
+    doc.rect(0, 0, 210, 40, 'F'); // Header bar
+    addWrappedText('SaaS Valuation App', 10, 20, 190, 24, '#FFFFFF', 'bold');
+    addWrappedText('Pro Valuation Report', 10, 30, 190, 18, '#FFFFFF', 'bold');
+    addWrappedText('Comprehensive Business Evaluation', 10, 60, 190, 14, darkGray);
+    addWrappedText('Prepared on ' + new Date().toLocaleDateString(), 10, 80, 190, 12, darkGray);
+    addWrappedText('Powered by AI-Driven Insights | https://saasvaluation.app', 10, 100, 190, 10, darkGray);
+    addWrappedText('Confidential – For Internal Use Only', 10, 120, 190, 8, darkGray);
+    doc.addPage();
+
+    // Header and Footer on all pages
+    const addHeaderFooter = () => {
+        doc.setFillColor(teal);
+        doc.rect(0, 0, 210, 10, 'F');
+        addWrappedText('SaaS Valuation App', 10, 7, 100, 8, '#FFFFFF');
+        addWrappedText('Page ' + doc.internal.getCurrentPageInfo().pageNumber, 190, 7, 20, 8, '#FFFFFF', 'bold');
+        doc.setFillColor(darkGray);
+        doc.rect(0, 287, 210, 10, 'F');
+        addWrappedText('© 2025 SaaS Valuation App', 10, 294, 190, 8, '#FFFFFF');
+    };
+
+    // Executive Summary
+    addHeaderFooter();
+    addWrappedText('Executive Summary', 10, 20, 190, 16, teal, 'bold');
+    addWrappedText(
+        'This SaaS Pro Valuation Report provides a comprehensive evaluation of your business, leveraging advanced metrics and AI-driven insights. Below are the key findings:',
+        10, 30, 190, 10, darkGray
+    );
+    const valuation = document.getElementById('valuation-result').textContent;
+    const methods = Array.from(document.querySelectorAll('#step-1 input[type=checkbox]:checked'))
+        .map(cb => cb.value.replace('multiplier', 'Revenue Multiplier').replace('income', 'Income-Based').replace('earnings', 'Earnings-Based').replace('dcf', 'Discounted Cash Flow'))
+        .join(', ');
+    const advice = document.getElementById('advice').textContent;
+    addWrappedText(`• Estimated Valuation: ${valuation}`, 10, 40, 190, 10, darkGray);
+    addWrappedText(`• Valuation Methods: ${methods}`, 10, 48, 190, 10, darkGray);
+    addWrappedText(`• Key Strengths: High revenue growth, strong product-market fit, or scalable infrastructure.`, 10, 56, 190, 10, darkGray);
+    addWrappedText(`• Areas for Improvement: ${advice}`, 10, 64, 190, 10, darkGray);
+
+    // Valuation Breakdown
+    addWrappedText('Valuation Breakdown', 10, 80, 190, 16, teal, 'bold');
+    addWrappedText('The valuation is calculated using the following methods:', 10, 90, 190, 10, darkGray);
+    let yPos = 100;
+    document.querySelectorAll('#method-breakdown li').forEach(li => {
+        const [method, amount] = li.textContent.split(': ');
+        const description = method === 'Revenue Multiplier' ? 'Based on ARR multiplied by a factor adjusted for growth and churn.' :
+                          method === 'Income-Based' ? 'Derived from net profit with multipliers reflecting profitability.' :
+                          method === 'Earnings-Based' ? 'Combines ARR and net profit, adjusted for retention.' :
+                          'Projects future cash flows discounted to present value.';
+        addWrappedText(`• ${method}: ${amount}`, 10, yPos, 190, 10, darkGray);
+        addWrappedText(description, 15, yPos + 5, 185, 8, darkGray);
+        yPos += 15;
+    });
+
+    // Add Valuation Chart
+    const valuationCanvas = document.getElementById('valuationChart');
+    if (valuationCanvas) {
+        const valuationImage = valuationCanvas.toDataURL('image/png');
+        doc.addImage(valuationImage, 'PNG', 10, yPos, 190, 60);
+        yPos += 70;
     }
+
+    doc.addPage();
+
+    // Key Financial Metrics
+    addHeaderFooter();
+    addWrappedText('Key Financial Metrics', 10, 20, 190, 16, teal, 'bold');
+    addWrappedText('Critical financial inputs driving the valuation:', 10, 30, 190, 10, darkGray);
+    const metrics = [
+        { label: 'Annual Recurring Revenue (ARR)', value: `$${val('arr').toLocaleString()}` },
+        { label: 'Monthly Recurring Revenue (MRR)', value: `$${val('mrr').toLocaleString()}` },
+        { label: 'Customer Lifetime Value (LTV)', value: `$${val('ltv').toLocaleString()}` },
+        { label: 'Customer Acquisition Cost (CAC)', value: `$${val('cac').toLocaleString()}` },
+        { label: 'Gross Margin', value: `${val('gross-margin')}%` },
+        { label: 'Net Profit / EBITDA', value: `$${val('net-profit').toLocaleString()}` },
+        { label: 'Monthly Burn Rate', value: `$${val('burn-rate').toLocaleString()}` },
+        { label: 'Runway', value: `${val('runway')} months` },
+        { label: 'Revenue Growth (YoY)', value: `${val('revenue-growth-yoy')}%` },
+        { label: 'Customer Churn Rate', value: `${val('customer-churn')}%` }
+    ];
+    yPos = 40;
+    metrics.forEach(metric => {
+        addWrappedText(`${metric.label}: ${metric.value}`, 10, yPos, 190, 10, darkGray);
+        yPos += 8;
+    });
+
+    // Add Revenue Growth Chart
+    const revenueCanvas = document.getElementById('revenueGrowthChart');
+    if (revenueCanvas) {
+        const revenueImage = revenueCanvas.toDataURL('image/png');
+        doc.addImage(revenueImage, 'PNG', 10, yPos, 190, 60);
+        yPos += 70;
+    }
+
+    doc.addPage();
+
+    // Strategic Recommendations
+    addHeaderFooter();
+    addWrappedText('Strategic Recommendations', 10, 20, 190, 16, teal, 'bold');
+    addWrappedText('To enhance your business value:', 10, 30, 190, 10, darkGray);
+    const churnRate = val('customer-churn');
+    const netProfit = val('net-profit');
+    const arr = val('arr');
+    const legalRisks = sval('legal-liabilities');
+    const recommendations = [
+        churnRate > 10 ? `• Reduce Churn: High churn rates (${churnRate}%) suggest focusing on customer retention strategies.` : null,
+        netProfit / arr < 0.1 && arr > 0 ? `• Optimize Profitability: Low profit margins indicate potential for cost optimization.` : null,
+        legalRisks === 'high' ? `• Mitigate Legal Risks: Address legal liabilities to reduce valuation discounts.` : null,
+        `• Leverage Strengths: Capitalize on strong product-market fit or scalable infrastructure.`
+    ].filter(Boolean);
+    yPos = 40;
+    recommendations.forEach(rec => {
+        addWrappedText(rec, 10, yPos, 190, 10, darkGray);
+        yPos += 8;
+    });
+
+    // About Section
+    addWrappedText('About SaaS Valuation App', 10, yPos + 10, 190, 16, teal, 'bold');
+    addWrappedText(
+        'SaaS Valuation App provides AI-driven insights to help business owners understand their company’s worth. Visit https://saasvaluation.app for more information.',
+        10, yPos + 20, 190, 10, darkGray
+    );
+
+    // Save the PDF
+    doc.save('saas-pro-valuation-report.pdf');
+}
 
     // Event listeners
     document.addEventListener('DOMContentLoaded', () => {
