@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SaaS Valuation App - Terms and Conditions</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        .header-dark {
+            background-color: #1a202c;
+            color: #e2e8f0;
+        }
+        .gradient-bg {
+            background: linear-gradient(90deg, #38b2ac 0%, #4c51bf 100%);
+        }
+        .btn-primary {
+            background-color: #38b2ac;
+            transition: background-color 0.3s;
+            border-radius: 9999px;
+        }
+        .btn-primary:hover {
+            background-color: #2d8b87;
+        }
+        .btn-secondary {
+            background-color: #4a5568;
+            transition: background-color 0.3s;
+            border-radius: 9999px;
+        }
+        .btn-secondary:hover {
+            background-color: #2d3748;
+        }
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        .testimonial-card {
+            background-color: #ffffff;
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            padding: 1.5rem;
+            border-left: 4px solid #38b2ac;
+            position: relative;
+            overflow: hidden;
+        }
+        .testimonial-card::before {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: #38b2ac;
+            border-radius: 50%;
+            top: -10px;
+            left: -10px;
+        }
+        .testimonial-card::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: #38b2ac;
+            border-radius: 50%;
+            bottom: -10px;
+            right: -10px;
+        }
+        .input-error {
+            border-color: #e53e3e;
+        }
+        .step-hidden {
+            display: none;
+        }
+        .step-visible {
+            display: block;
+        }
+        .dropdown-content {
+            display: none;
+            padding: 1.5rem;
+            background-color: #f7fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 1rem;
+            margin-top: 0.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #f3f4f6;
+        }
+        main {
+            min-height: calc(100vh - 20rem);
+        }
+        .cta-section {
+            background: linear-gradient(90deg, #2a6f6f 0%, #3b5b9a 100%);
+            color: white;
+            padding: 3rem 2rem;
+            text-align: center;
+            border-radius: 1rem;
+            margin: 2rem auto;
+            max-width: 80%;
+        }
+        .cta-section button {
+            background-color: #48bb78;
+            border-radius: 9999px;
+            padding: 0.75rem 2rem;
+            color: white;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+        .cta-section button:hover {
+            background-color: #38a169;
+        }
+        @media (max-width: 768px) {
+            #mobile-menu {
+                display: none;
+            }
+            #mobile-menu.hidden {
+                display: block;
+            }
+            .md\\:grid-cols-3 {
+                grid-template-columns: 1fr;
+            }
+            .cta-section {
+                max-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body class="font-sans text-gray-800">
+    <!-- Header -->
+    <header class="header-dark shadow-md fixed w-full z-10">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <h1 class="text-xl font-bold">SaaS Valuation App</h1>
+            <nav class="hidden md:flex space-x-6">
+                <a href="index.html#valuation" class="hover:text-teal-300">Valuation</a>
+                <a href="index.html#data-room" class="hover:text-teal-300">Data Room</a>
+                <a href="index.html#pricing" class="hover:text-teal-300">Pricing</a>
+                <a href="blog.html" class="hover:text-teal-300">Blog</a>
+                <a href="#demo" class="hover:text-teal-300">Demo</a>
+            </nav>
+            <div class="md:hidden">
+                <button id="menu-toggle" class="focus:outline-none text-teal-300">
+                    <i class="fas fa-bars text-2xl"></i>
+                </button>
+            </div>
+        </div>
+        <div id="mobile-menu" class="hidden md:hidden bg-gray-800 py-2 px-6 space-y-2">
+            <a href="index.html#valuation" class="block hover:text-teal-300">Valuation</a>
+            <a href="index.html#data-room" class="block hover:text-teal-300">Data Room</a>
+            <a href="index.html#pricing" class="block hover:text-teal-300">Pricing</a>
+            <a href="blog.html" class="block hover:text-teal-300">Blog</a>
+            <a href="#demo" class="block hover:text-teal-300">Demo</a>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="pt-20">
+        <section class="py-16">
+            <div class="container mx-auto px-6">
+                <article class="max-w-3xl mx-auto bg-white p-6 rounded-lg shadow-md">
+                    <h2 class="text-3xl font-bold text-gray-800 mb-4">Terms and Conditions</h2>
+                    <p class="text-gray-600 mb-4">Last Updated: May 07, 2025</p>
+                    <p class="text-gray-600 mb-6">Welcome to SaaS Valuation App ("we", "us", or "our"). These Terms and Conditions ("Terms") govern your use of our website, services, and any related content or features (collectively, the "Services"). By accessing or using our Services, you agree to be bound by these Terms. If you do not agree with these Terms, please do not use our Services.</p>
+
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">1. Use of Services</h3>
+                    <p class="text-gray-600 mb-4">You agree to use the Services only for lawful purposes and in accordance with these Terms. You may not:</p>
+                    <ul class="list-disc pl-6 text-gray-600 mb-4">
+                        <li>Use the Services in any way that violates applicable laws or regulations.</li>
+                        <li>Attempt to gain unauthorized access to any part of the Services or related systems.</li>
+                        <li>Interfere with or disrupt the functionality of the Services, including introducing viruses or other harmful code.</li>
+                        <li>Use the Services to transmit any content that is unlawful, defamatory, or otherwise objectionable.</li>
+                    </ul>
+
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">2. Account Registration</h3>
+                    <p class="text-gray-600 mb-4">To access certain features of the Services, you may need to create an account. You agree to:</p>
+                    <ul class="list-disc pl-6 text-gray-600 mb-4">
+                        <li>Provide accurate, current, and complete information during registration.</li>
+                        <li>Maintain the security of your account credentials and notify us immediately of any unauthorized use.</li>
+                        <li>Be responsible for all activities that occur under your account.</li>
+                    </ul>
+
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">3. Intellectual Property</h3>
+                    <p class="text-gray-600 mb-4">All content, features, and functionality of the Services, including text, graphics, logos, and software, are the exclusive property of SaaS Valuation App or its licensors and are protected by copyright, trademark, and other intellectual property laws. You may not copy, modify, distribute, or create derivative works from any part of the Services without our prior written consent.</p>
+
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">4. User Content</h3>
+                    <p class="text-gray-600 mb-4">You may provide data or other content ("User Content") when using the Services, such as business financials for valuation purposes. By submitting User Content, you grant us a non-exclusive, worldwide, royalty-free license to use, store, and process such content solely to provide and improve the Services. You represent that you have all necessary rights to submit User Content and that it does not violate any third-party rights.</p>
+
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">5. Fees and Payment</h3>
+                    <p class="text-gray-600 mb-4">Certain Services may require payment of fees. All fees are non-refundable unless otherwise stated. You agree to provide accurate payment information and authorize us to charge applicable fees. We may modify fees at any time, with notice provided through the Services or via email.</p>
+
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">6. Termination</h3>
+                    <p class="text-gray-600 mb-4">We may suspend or terminate your access to the Services at our discretion, with or without notice, if you violate these Terms or for any other reason. Upon termination, your right to use the Services will cease, and we may delete your account and User Content.</p>
+
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">7. Disclaimers</h3>
+                    <p class="text-gray-600 mb-4">The Services are provided "as is" without warranties of any kind, whether express or implied, including warranties of merchantability, fitness for a particular purpose, or non-infringement. We do not guarantee the accuracy, completeness, or reliability of any content or results provided through the Services, including valuations or AI-driven insights.</p>
+
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">8. Limitation of Liability</h3>
+                    <p class="text-gray-600 mb-4">To the fullest extent permitted by law, SaaS Valuation App and its affiliates, officers, directors, employees, and agents will not be liable for any indirect, incidental, special, consequential, or punitive damages arising from or related to your use of the Services. Our total liability for any claim will not exceed the amount you paid for the Services in the preceding 12 months.</p>
+
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">9. Indemnification</h3>
+                    <p class="text-gray-600 mb-4">You agree to indemnify and hold harmless SaaS Valuation App and its affiliates, officers, directors, employees, and agents from any claims, liabilities, damages, losses, or expenses (including reasonable attorneys' fees) arising from your use of the Services, violation of these Terms, or infringement of any third-party rights.</p>
+
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">10. Governing Law</h3>
+                    <p class="text-gray-600 mb-4">These Terms are governed by the laws of the State of Delaware, USA, without regard to its conflict of law principles. Any disputes arising from these Terms or the Services will be resolved in the state or federal courts located in Delaware.</p>
+
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">11. Changes to These Terms</h3>
+                    <p class="text-gray-600 mb-4">We may update these Terms from time to time. Changes will be posted on this page with an updated "Last Updated" date. Your continued use of the Services after such changes constitutes your acceptance of the revised Terms.</p>
+
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">12. Contact Us</h3>
+                    <p class="text-gray-600 mb-4">If you have questions about these Terms, please contact us at:</p>
+                    <p class="text-gray-600 mb-4">SaaS Valuation App<br>Email: theangrytravelvlogger@gmail.com<br></p>
+                </article>
+            </div>
+        </section>
+
+        <!-- CTA Section -->
+        <section class="cta-section">
+            <h2 class="text-2xl font-bold mb-4">Ready to Discover Your SaaS Value?</h2>
+            <p class="mb-6">Join thousands of founders who trust SaaS Valuation App to understand their business worth and grow smarter.</p>
+            <button class="mt-4">Get Started Now</button>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-8">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <h3 class="text-lg font-bold mb-4">SaaS Valuation App</h3>
+                    <p class="text-gray-400">Empowering SaaS founders to understand their business worth with AI-driven insights.</p>
+                </div>
+                <div>
+                    <h3 class="text-lg font-bold mb-4">Product</h3>
+                    <ul class="space-y-2">
+                        <li><a href="index.html#valuation" class="text-gray-400 hover:text-teal-400">Self Valuation</a></li>
+                        <li><a href="pro-valuation.html" class="text-gray-400 hover:text-teal-400">Pro Valuation</a></li>
+                        <li><a href="index.html#pricing" class="text-gray-400 hover:text-teal-400">Pricing</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-lg font-bold mb-4">Resources</h3>
+                    <ul class="space-y-2">
+                        <li><a href="blog.html" class="text-gray-400 hover:text-teal-400">Blog</a></li>
+                        <li><a href="index.html#guide-valuation" class="text-gray-400 hover:text-teal-400">Valuation Guide</a></li>
+                        <li><a href="index.html#template-due-diligence" class="text-gray-400 hover:text-teal-400">Due Diligence Checklist</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-lg font-bold mb-4">Legal</h3>
+                    <ul class="space-y-2">
+                        <li><a href="privacy-policy.html" class="text-gray-400 hover:text-teal-400">Privacy Policy</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-700 mt-8 pt-6 text-center">
+                <p class="text-gray-400">© 2025 SaaS Valuation App. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        document.getElementById('menu-toggle').addEventListener('click', () => {
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Demo modal
+        document.querySelector('a[href="#demo"]').addEventListener('click', (e) => {
+            e.preventDefault();
+            document.getElementById('demo-modal').classList.remove('hidden');
+        });
+
+        document.getElementById('close-modal').addEventListener('click', () => {
+            document.getElementById('demo-modal').classList.add('hidden');
+            document.getElementById('demo-video').src = document.getElementById('demo-video').src;
+        });
+    </script>
+</body>
+</html>
