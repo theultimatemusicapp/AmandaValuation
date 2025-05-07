@@ -1497,6 +1497,17 @@ Please consult with your accountant, legal counsel, or financial advisor for a c
         });
       });
 
+      document.addEventListener('DOMContentLoaded', () => {
+  const btn = document.getElementById('download-pdf');
+  if (!btn) {
+    console.error('Download PDF button not found!');
+    return;
+  }
+  btn.addEventListener('click', () => {
+    alert('Download PDF button clicked!');
+  });
+});
+
       // Navigation buttons (assume these exist from earlier parts)
       const TOTAL_STEPS = 8;
       let currentStep = 0;
