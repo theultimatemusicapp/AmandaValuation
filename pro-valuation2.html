@@ -585,8 +585,10 @@
             <hr class="my-6" />
             <p class="text-center text-gray-700 mb-4">Or continue with secure payment:</p>
             <div id="paypal-container-NVJVZYW6GRKY4" class="mx-auto max-w-xs"></div>
-            <div id="payment-status" class="text-green-600 font-bold mt-4 mb-6 hidden">Payment successful! Calculating your valuation...</div>
-            <div class="mt-6 flex justify-between">
+<div id="payment-status" class="text-green-600 font-bold mt-4 mb-6 hidden">
+  Payment successful! Calculating your valuation...
+  <button id="retry-results" class="btn-primary mt-2">Show Results</button>
+</div>            <div class="mt-6 flex justify-between">
               <button id="prev-btn-8" class="btn-secondary">Previous</button>
             </div>
           </div>
@@ -834,107 +836,118 @@
     }
 
     // Calculate valuation
-    function calculateValuation() {
-      const methods = Array.from(document.querySelectorAll('#step-1 input[type=checkbox]:checked')).map(cb => cb.value);
-      if (methods.length === 0) {
-        alert('Please select at least one valuation method.');
-        return;
-      }
-
-      // Gather inputs
-      const arr = val('arr');
-      const mrr = val('mrr');
-      const ltv = val('ltv');
-      const cac = val('cac');
-      const grossMargin = val('gross-margin') / 100;
-      const netProfit = val('net-profit');
-      const burnRate = val('burn-rate');
-      const runway = val('runway');
-      const revenueGrowth = val('revenue-growth-yoy') / 100;
-      const churnRate = val('customer-churn') / 100;
-      const retentionRate = val('retention-rate') / 100;
-      const pmFit = sval('product-market-fit');
-      const legalRisks = sval('legal-liabilities');
-
-      // Base multipliers
-      const baseRevenueMultiplier = 6;
-      const baseIncomeMultiplier = 5;
-
-      let valuations = {};
-      let totalValuation = 0;
-
-      // Revenue Multiplier
-      if (methods.includes('multiplier')) {
-        let multiplier = baseRevenueMultiplier + revenueGrowth * 3 - churnRate * 2 + grossMargin / 50;
-        multiplier = Math.min(Math.max(multiplier, 3), 10);
-        const valRevenue = arr * multiplier;
-        valuations['Revenue Multiplier'] = valRevenue;
-        totalValuation += valRevenue;
-      }
-
-      // Income-Based
-      if (methods.includes('income')) {
-        let multiplier = baseIncomeMultiplier + revenueGrowth * 3 - churnRate * 2;
-        multiplier = Math.min(Math.max(multiplier, 3), 8);
-        const valIncome = netProfit * multiplier;
-        valuations['Income-Based'] = valIncome;
-        totalValuation += valIncome;
-      }
-
-      // Earnings-Based
-      if (methods.includes('earnings')) {
-        let pmFitFactor = pmFit === 'none' ? 0.8 : pmFit === 'early' ? 1.0 : pmFit === 'strong' ? 1.2 : 1.4;
-        let retentionFactor = retentionRate || 1;
-        let teamFactor = 1 + (val('fte') / 50);
-        const valEarnings = (arr + netProfit) * pmFitFactor * retentionFactor * teamFactor;
-        valuations['Earnings-Based'] = valEarnings;
-        totalValuation += valEarnings;
-      }
-
-      // DCF
-      if (methods.includes('dcf')) {
-        const discountRate = 0.12 + churnRate / 200 + (legalRisks === 'high' ? 0.05 : 0);
-        let cashFlow = arr || mrr * 12;
-        let dcfValue = 0;
-        let growthAdjustment = revenueGrowth + (pmFit === 'fully-confirmed' ? 0.05 : 0);
-        for (let year = 1; year <= 5; year++) {
-          cashFlow *= 1 + growthAdjustment;
-          dcfValue += cashFlow / Math.pow(1 + discountRate, year);
-        }
-        valuations['Discounted Cash Flow'] = dcfValue;
-        totalValuation += dcfValue;
-      }
-
-      // Average valuation
-      const avgValuation = totalValuation / methods.length;
-
-      // Build breakdown
-      let breakdownHTML = '<ul class="list-disc pl-5">';
-      for (const [key, val] of Object.entries(valuations)) {
-        breakdownHTML += `<li><strong>${key}:</strong> $${Math.round(val).toLocaleString()}</li>`;
-      }
-      breakdownHTML += '</ul>';
-
-      // Advice
-      let advice = '';
-      if (churnRate > 0.1) advice += 'High customer churn detected; focus on retention.<br>';
-      if (netProfit / arr < 0.1 && arr > 0) advice += 'Low profit margins; consider cost optimization.<br>';
-      if (legalRisks === 'high') advice += 'Address legal liabilities to improve valuation.<br>';
-      if (!advice) advice = 'Your inputs look strong. Well done!';
-
-      // Update DOM
-      document.getElementById('valuation-result').innerHTML = `<strong>Estimated Valuation: $${Math.round(avgValuation).toLocaleString()}</strong>`;
-      document.getElementById('method-breakdown').innerHTML = breakdownHTML;
-      document.getElementById('advice').innerHTML = advice;
-
-      // Store chart data
-      window.valuationChartData = {
-        labels: Object.keys(valuations),
-        data: Object.values(valuations).map(v => Math.round(v))
-      };
-
-      renderCharts();
+function calculateValuation() {
+  console.log('Starting valuation calculation...');
+  try {
+    const methods = Array.from(document.querySelectorAll('#step-1 input[type=checkbox]:checked')).map(cb => cb.value);
+    console.log('Selected valuation methods:', methods);
+    if (methods.length === 0) {
+      console.warn('No valuation methods selected.');
+      alert('Please select at least one valuation method.');
+      return;
     }
+
+    // Gather inputs
+    const arr = val('arr');
+    console.log('ARR:', arr);
+    const mrr = val('mrr');
+    const ltv = val('ltv');
+    const cac = val('cac');
+    const grossMargin = val('gross-margin') / 100;
+    const netProfit = val('net-profit');
+    const burnRate = val('burn-rate');
+    const runway = val('runway');
+    const revenueGrowth = val('revenue-growth-yoy') / 100;
+    const churnRate = val('customer-churn') / 100;
+    const retentionRate = val('retention-rate') / 100;
+    const pmFit = sval('product-market-fit');
+    const legalRisks = sval('legal-liabilities');
+
+    // Base multipliers
+    const baseRevenueMultiplier = 6;
+    const baseIncomeMultiplier = 5;
+
+    let valuations = {};
+    let totalValuation = 0;
+
+    // Revenue Multiplier
+    if (methods.includes('multiplier')) {
+      let multiplier = baseRevenueMultiplier + revenueGrowth * 3 - churnRate * 2 + grossMargin / 50;
+      multiplier = Math.min(Math.max(multiplier, 3), 10);
+      const valRevenue = arr * multiplier;
+      valuations['Revenue Multiplier'] = valRevenue;
+      totalValuation += valRevenue;
+    }
+
+    // Income-Based
+    if (methods.includes('income')) {
+      let multiplier = baseIncomeMultiplier + revenueGrowth * 3 - churnRate * 2;
+      multiplier = Math.min(Math.max(multiplier, 3), 8);
+      const valIncome = netProfit * multiplier;
+      valuations['Income-Based'] = valIncome;
+      totalValuation += valIncome;
+    }
+
+    // Earnings-Based
+    if (methods.includes('earnings')) {
+      let pmFitFactor = pmFit === 'none' ? 0.8 : pmFit === 'early' ? 1.0 : pmFit === 'strong' ? 1.2 : 1.4;
+      let retentionFactor = retentionRate || 1;
+      let teamFactor = 1 + (val('fte') / 50);
+      const valEarnings = (arr + netProfit) * pmFitFactor * retentionFactor * teamFactor;
+      valuations['Earnings-Based'] = valEarnings;
+      totalValuation += valEarnings;
+    }
+
+    // DCF
+    if (methods.includes('dcf')) {
+      const discountRate = 0.12 + churnRate / 200 + (legalRisks === 'high' ? 0.05 : 0);
+      let cashFlow = arr || mrr * 12;
+      let dcfValue = 0;
+      let growthAdjustment = revenueGrowth + (pmFit === 'fully-confirmed' ? 0.05 : 0);
+      for (let year = 1; year <= 5; year++) {
+        cashFlow *= 1 + growthAdjustment;
+        dcfValue += cashFlow / Math.pow(1 + discountRate, year);
+      }
+      valuations['Discounted Cash Flow'] = dcfValue;
+      totalValuation += dcfValue;
+    }
+
+    // Average valuation
+    const avgValuation = totalValuation / methods.length;
+
+    // Build breakdown
+    let breakdownHTML = '<ul class="list-disc pl-5">';
+    for (const [key, val] of Object.entries(valuations)) {
+      breakdownHTML += `<li><strong>${key}:</strong> $${Math.round(val).toLocaleString()}</li>`;
+    }
+    breakdownHTML += '</ul>';
+
+    // Advice
+    let advice = '';
+    if (churnRate > 0.1) advice += 'High customer churn detected; focus on retention.<br>';
+    if (netProfit / arr < 0.1 && arr > 0) advice += 'Low profit margins; consider cost optimization.<br>';
+    if (legalRisks === 'high') advice += 'Address legal liabilities to improve valuation.<br>';
+    if (!advice) advice = 'Your inputs look strong. Well done!';
+
+    // Update DOM
+    document.getElementById('valuation-result').innerHTML = `<strong>Estimated Valuation: $${Math.round(avgValuation).toLocaleString()}</strong>`;
+    document.getElementById('method-breakdown').innerHTML = breakdownHTML;
+    document.getElementById('advice').innerHTML = advice;
+
+    // Store chart data
+    window.valuationChartData = {
+      labels: Object.keys(valuations),
+      data: Object.values(valuations).map(v => Math.round(v))
+    };
+
+    renderCharts();
+    console.log('Valuation calculated successfully.');
+  } catch (error) {
+    console.error('Error in calculateValuation:', error);
+    document.getElementById('payment-status').textContent = 'Error calculating valuation. Please contact support.';
+    document.getElementById('payment-status').classList.remove('hidden');
+  }
+}
 
     // Render charts
     function renderCharts() {
@@ -1139,6 +1152,19 @@
     document.addEventListener('DOMContentLoaded', () => {
       showStep(0);
 
+	    document.getElementById('retry-results')?.addEventListener('click', () => {
+  console.log('Retrying results display...');
+  try {
+    calculateValuation();
+    const results = document.getElementById('results-container');
+    results.classList.remove('step-hidden');
+    results.scrollIntoView({ behavior: 'smooth' });
+  } catch (error) {
+    console.error('Error in retry:', error);
+    document.getElementById('payment-status').textContent = 'Error displaying results. Please contact support.';
+  }
+});
+
       // Mobile menu toggle
       document.getElementById('menu-toggle').addEventListener('click', () => {
         document.getElementById('mobile-menu').classList.toggle('hidden');
@@ -1204,17 +1230,48 @@
     });
 
     // PayPal button
-    paypal.HostedButtons({
-      hostedButtonId: "NVJVZYW6GRKY4",
-      onApprove: function(data, actions) {
-        document.getElementById('payment-status').classList.remove('hidden');
-        document.getElementById('paypal-container-NVJVZYW6GRKY4').style.display = 'none';
-        calculateValuation();
-        const results = document.getElementById('results-container');
-        results.classList.remove('step-hidden');
-        results.scrollIntoView({ behavior: 'smooth' });
-      }
-    }).render("#paypal-container-NVJVZYW6GRKY4");
+  paypal.HostedButtons({
+  hostedButtonId: "NVJVZYW6GRKY4",
+  onApprove: function(data, actions) {
+    console.log('PayPal payment approved:', data); // Log payment data
+    const paymentStatus = document.getElementById('payment-status');
+    const paypalContainer = document.getElementById('paypal-container-NVJVZYW6GRKY4');
+    const results = document.getElementById('results-container');
+    
+    console.log('Payment status element:', paymentStatus); // Verify element
+    console.log('PayPal container:', paypalContainer); // Verify element
+    console.log('Results container:', results); // Verify element
+
+    if (!paymentStatus || !paypalContainer || !results) {
+      console.error('Missing DOM elements:', { paymentStatus, paypalContainer, results });
+      document.getElementById('voucher-error').textContent = 'Error loading results. Please contact support.';
+      document.getElementById('voucher-error').classList.remove('hidden');
+      return;
+    }
+
+    try {
+      paymentStatus.textContent = 'Processing payment...';
+      paymentStatus.classList.remove('hidden');
+      paypalContainer.style.display = 'none';
+      console.log('Calling calculateValuation...');
+      calculateValuation();
+      console.log('Removing step-hidden class from results...');
+      results.classList.remove('step-hidden');
+      console.log('Scrolling to results...');
+      results.scrollIntoView({ behavior: 'smooth' });
+      paymentStatus.textContent = 'Payment successful! Valuation calculated.';
+    } catch (error) {
+      console.error('Error in onApprove:', error);
+      paymentStatus.textContent = 'Error displaying results. Please contact support.';
+      paymentStatus.classList.remove('hidden');
+    }
+  },
+  onError: function(error) {
+    console.error('PayPal error:', error);
+    document.getElementById('voucher-error').textContent = 'Payment failed. Please try again or contact support.';
+    document.getElementById('voucher-error').classList.remove('hidden');
+  }
+}).render("#paypal-container-NVJVZYW6GRKY4");
   </script>
 </body>
 </html>
