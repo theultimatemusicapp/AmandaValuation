@@ -10,7 +10,6 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
   <style>
-    /* Tailwind utilities plus custom styles */
     .gradient-bg {
       background: linear-gradient(135deg, #38b2ac 0%, #2d3748 100%);
     }
@@ -188,9 +187,29 @@
         });
       });
 
-      // Navigation buttons and other logic will come in next steps...
+      // Navigation helper
+      const TOTAL_STEPS = 8;
+      let currentStep = 0;
+      const steps = document.querySelectorAll('.step');
+
+      function showStep(index) {
+        steps.forEach((step, i) => {
+          step.classList.toggle('step-visible', i === index);
+          step.classList.toggle('step-hidden', i !== index);
+        });
+        document.getElementById('current-step').textContent = index + 1;
+        document.getElementById('progress-fill').style.width = ((index + 1) / TOTAL_STEPS) * 100 + '%';
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+
+      // Navigation button example for Step 1
+      document.getElementById('next-btn-1').addEventListener('click', () => {
+        // TODO: Add validation here
+        currentStep = 1;
+        showStep(currentStep);
+      });
     </script>
-<section id="pro-valuation" class="py-12 bg-gray-50">
+    <section id="pro-valuation" class="py-12 bg-gray-50">
   <div class="container mx-auto px-4 max-w-3xl">
     <div class="valuation-box">
       <!-- Step 2: Financial Metrics -->
@@ -1093,7 +1112,7 @@
       <div id="step-8" class="step step-hidden" data-step="8">
         <h3 class="text-lg font-semibold text-gray-800 mb-4">Step 8: Voucher Code or Payment</h3>
         <p class="text-gray-600 mb-4 text-sm">
-          Enter a voucher code for free valuation or continue with payment.
+          Enter a voucher code for a free valuation or continue with secure payment.
         </p>
         <input type="text" id="voucher-code-input" class="w-full p-2 border rounded-lg focus:ring focus:ring-teal-400 mb-2" placeholder="Enter voucher code" />
         <p id="voucher-error" class="text-red-500 text-sm mb-4 hidden">Invalid voucher code. Please try again or continue with payment.</p>
@@ -1155,7 +1174,7 @@
     voucherError.classList.add('hidden');
   });
 
-  // PayPal button integration (make sure PayPal SDK is loaded)
+  // PayPal button integration (ensure PayPal SDK is loaded)
   paypal.HostedButtons({
     hostedButtonId: "NVJVZYW6GRKY4",
     onApprove: function(data, actions) {
@@ -1184,13 +1203,10 @@
 </section>
 
 <script>
-  // Event listener for PDF download button
+  // Attach PDF download button event
   document.getElementById('download-pdf').addEventListener('click', downloadPDF);
 
-  // You should already have calculateValuation() and renderCharts() functions
-  // Make sure calculateValuation() populates window.valuationChartData and window.valuationExplanations
-
-  // Example: Update valuation results after calculation
+  // Example function to update valuation results display (call after calculation)
   function updateResultsDisplay(valuation, breakdownHTML, adviceHTML) {
     document.getElementById('valuation-result').innerHTML = `<strong>Estimated Valuation: $${Math.round(valuation).toLocaleString()}</strong>`;
     document.getElementById('method-breakdown').innerHTML = breakdownHTML;
@@ -1285,3 +1301,6 @@
     }
   }).render("#paypal-container-NVJVZYW6GRKY4");
 </script>
+  </main>
+</body>
+</html>
