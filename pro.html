@@ -8,6 +8,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
   <style>
     .gradient-bg {
       background: linear-gradient(135deg, #38b2ac 0%, #2d3748 100%);
@@ -1197,7 +1198,7 @@
     }
 
     // PDF export with detailed report
- async function downloadPDF() {
+async function downloadPDF() {
   const { jsPDF } = window.jspdf;
   const doc = new jsPDF({ unit: 'pt', format: 'a4' });
   const margin = 40;
@@ -1205,7 +1206,7 @@
   const pageHeight = doc.internal.pageSize.getHeight();
   let y = margin;
 
-  // Helper: Add header on each page
+  // Add header on each page
   function addHeader(pageNum, totalPages) {
     doc.setFontSize(14);
     doc.setTextColor(22, 160, 133);
@@ -1220,7 +1221,7 @@
     doc.line(margin, 55, pageWidth - margin, 55);
   }
 
-  // Helper: Add footer on each page
+  // Add footer on each page
   function addFooter(pageNum, totalPages) {
     doc.setFontSize(8);
     doc.setTextColor(100);
@@ -1233,7 +1234,7 @@
     doc.line(margin, pageHeight - 40, pageWidth - margin, pageHeight - 40);
   }
 
-  // Helper: Add multiline text with word wrap and page breaks
+  // Add multiline text with word wrap and page breaks
   function addMultilineText(text, x, y, maxWidth, lineHeight) {
     const lines = doc.splitTextToSize(text, maxWidth);
     for (const line of lines) {
@@ -1249,10 +1250,21 @@
     return y;
   }
 
-  // Start first page
-  addHeader(1, ''); // totalPages unknown yet
+  // 0. Cover Page
+  doc.setFontSize(28);
+  doc.setTextColor(22, 160, 133);
+  doc.setFont('helvetica', 'bold');
+  doc.text('SaaS Pro Valuation Report', pageWidth / 2, pageHeight / 2 - 40, { align: 'center' });
+  doc.setFontSize(14);
+  doc.setFont('helvetica', 'normal');
+  doc.text(`Generated on: ${new Date().toLocaleDateString()}`, pageWidth / 2, pageHeight / 2, { align: 'center' });
+  doc.text('Powered by SaaS Valuation Pro™', pageWidth / 2, pageHeight / 2 + 20, { align: 'center' });
+  doc.text('www.saasvaluation.app', pageWidth / 2, pageHeight / 2 + 40, { align: 'center' });
+  doc.addPage();
+  y = margin;
 
   // 1. Executive Summary
+  addHeader(1, '');
   doc.setFontSize(18);
   doc.setTextColor(22, 160, 133);
   doc.setFont('helvetica', 'bold');
@@ -1287,17 +1299,20 @@
   }
   y += 10;
 
-  // 3. Key Metrics Table using simple text (can be replaced with jsPDF-AutoTable if desired)
+  // 3. Key Metrics Table using jsPDF-AutoTable
+  if (y > pageHeight - 200) {
+    doc.addPage();
+    y = margin;
+    addHeader(doc.getCurrentPageInfo().pageNumber, '');
+    addFooter(doc.getCurrentPageInfo().pageNumber, '');
+  }
   doc.setFontSize(18);
   doc.setTextColor(22, 160, 133);
   doc.setFont('helvetica', 'bold');
   doc.text('Key Metrics', margin, y);
-  y += 25;
+  y += 15;
 
-  doc.setFontSize(11);
-  doc.setFont('helvetica', 'normal');
-
-  const metrics = [
+  const metricsData = [
     ['Metric', 'Value'],
     ['Annual Recurring Revenue (ARR)', `$${val('arr').toLocaleString()}`],
     ['Monthly Recurring Revenue (MRR)', `$${val('mrr').toLocaleString()}`],
@@ -1314,25 +1329,19 @@
     ['Legal Liabilities', sval('legal-liabilities')]
   ];
 
-  // Draw table header
-  const col1X = margin;
-  const col2X = margin + 300;
-  for (let i = 0; i < metrics.length; i++) {
-    if (y > pageHeight - margin - 60) {
-      doc.addPage();
-      y = margin;
-      addHeader(doc.getCurrentPageInfo().pageNumber, totalPages);
-      addFooter(doc.getCurrentPageInfo().pageNumber, totalPages);
-    }
-    doc.setFont(undefined, i === 0 ? 'bold' : 'normal');
-    doc.text(metrics[i][0], col1X, y);
-    doc.text(metrics[i][1], col2X, y);
-    y += 16;
-  }
-  y += 10;
+  doc.autoTable({
+    startY: y,
+    head: [metricsData[0]],
+    body: metricsData.slice(1),
+    theme: 'striped',
+    headStyles: { fillColor: [22, 160, 133] },
+    margin: { left: margin, right: margin },
+    styles: { fontSize: 10 }
+  });
+
+  y = doc.lastAutoTable.finalY + 20;
 
   // 4. Charts with captions
-  // Helper to convert canvas to image URL
   async function canvasToImage(canvasId) {
     const canvas = document.getElementById(canvasId);
     return new Promise(resolve => {
@@ -1343,12 +1352,11 @@
     });
   }
 
-  // Valuation Chart
-  if (y + 230 > pageHeight - margin) {
+  if (y > pageHeight - 250) {
     doc.addPage();
     y = margin;
-    addHeader(doc.getCurrentPageInfo().pageNumber, totalPages);
-    addFooter(doc.getCurrentPageInfo().pageNumber, totalPages);
+    addHeader(doc.getCurrentPageInfo().pageNumber, '');
+    addFooter(doc.getCurrentPageInfo().pageNumber, '');
   }
   doc.setFontSize(18);
   doc.setTextColor(22, 160, 133);
@@ -1363,12 +1371,11 @@
   y = addMultilineText('This bar chart compares the valuation results calculated by each selected method, providing a visual overview of your business worth from different perspectives.', margin, y, pageWidth - 2 * margin, 14);
   y += 10;
 
-  // Revenue Growth Chart
-  if (y + 230 > pageHeight - margin) {
+  if (y > pageHeight - 250) {
     doc.addPage();
     y = margin;
-    addHeader(doc.getCurrentPageInfo().pageNumber, totalPages);
-    addFooter(doc.getCurrentPageInfo().pageNumber, totalPages);
+    addHeader(doc.getCurrentPageInfo().pageNumber, '');
+    addFooter(doc.getCurrentPageInfo().pageNumber, '');
   }
   doc.setFontSize(18);
   doc.setTextColor(22, 160, 133);
@@ -1384,11 +1391,11 @@
   y += 10;
 
   // 5. Advice & Next Steps
-  if (y + 100 > pageHeight - margin) {
+  if (y > pageHeight - 150) {
     doc.addPage();
     y = margin;
-    addHeader(doc.getCurrentPageInfo().pageNumber, totalPages);
-    addFooter(doc.getCurrentPageInfo().pageNumber, totalPages);
+    addHeader(doc.getCurrentPageInfo().pageNumber, '');
+    addFooter(doc.getCurrentPageInfo().pageNumber, '');
   }
   doc.setFontSize(18);
   doc.setTextColor(22, 160, 133);
@@ -1402,11 +1409,11 @@
   y += 10;
 
   // 6. Glossary
-  if (y + 150 > pageHeight - margin) {
+  if (y > pageHeight - 150) {
     doc.addPage();
     y = margin;
-    addHeader(doc.getCurrentPageInfo().pageNumber, totalPages);
-    addFooter(doc.getCurrentPageInfo().pageNumber, totalPages);
+    addHeader(doc.getCurrentPageInfo().pageNumber, '');
+    addFooter(doc.getCurrentPageInfo().pageNumber, '');
   }
   doc.setFontSize(18);
   doc.setTextColor(22, 160, 133);
@@ -1426,11 +1433,11 @@
     { term: 'DCF', def: 'Discounted Cash Flow: Valuation method projecting future cash flows.' },
   ];
   for (const { term, def } of glossary) {
-    if (y + 40 > pageHeight - margin) {
+    if (y > pageHeight - 40) {
       doc.addPage();
       y = margin;
-      addHeader(doc.getCurrentPageInfo().pageNumber, totalPages);
-      addFooter(doc.getCurrentPageInfo().pageNumber, totalPages);
+      addHeader(doc.getCurrentPageInfo().pageNumber, '');
+      addFooter(doc.getCurrentPageInfo().pageNumber, '');
     }
     doc.setFont('helvetica', 'bold');
     doc.text(term, margin, y);
@@ -1443,8 +1450,8 @@
   // 7. Final Disclaimer page
   doc.addPage();
   y = margin;
-  addHeader(doc.getCurrentPageInfo().pageNumber, totalPages);
-  addFooter(doc.getCurrentPageInfo().pageNumber, totalPages);
+  addHeader(doc.getCurrentPageInfo().pageNumber, '');
+  addFooter(doc.getCurrentPageInfo().pageNumber, '');
 
   doc.setFontSize(18);
   doc.setTextColor(22, 160, 133);
@@ -1470,7 +1477,7 @@ Please consult with your accountant, legal counsel, or financial advisor for a c
 
   addMultilineText(disclaimerText, margin, y, pageWidth - 2 * margin, 14);
 
-  // Total pages count and add headers/footers on all pages
+  // Add headers and footers to all pages with correct page count
   const totalPages = doc.getNumberOfPages();
   for (let i = 1; i <= totalPages; i++) {
     doc.setPage(i);
@@ -1480,7 +1487,6 @@ Please consult with your accountant, legal counsel, or financial advisor for a c
 
   doc.save('saas-pro-valuation-report.pdf');
 }
-
     // Event listeners for explanation toggles
     document.addEventListener('DOMContentLoaded', () => {
       document.querySelectorAll('.explanation-trigger').forEach(trigger => {
