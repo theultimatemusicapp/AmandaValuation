@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://saasvaluation.app/sitemap.xml
