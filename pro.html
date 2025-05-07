@@ -1197,157 +1197,289 @@
     }
 
     // PDF export with detailed report
-    async function downloadPDF() {
-      const { jsPDF } = window.jspdf;
-      const doc = new jsPDF({ unit: 'pt', format: 'a4' });
+ async function downloadPDF() {
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF({ unit: 'pt', format: 'a4' });
+  const margin = 40;
+  const pageWidth = doc.internal.pageSize.getWidth();
+  const pageHeight = doc.internal.pageSize.getHeight();
+  let y = margin;
 
-      const margin = 40;
-      let y = margin;
+  // Helper: Add header on each page
+  function addHeader(pageNum, totalPages) {
+    doc.setFontSize(14);
+    doc.setTextColor(22, 160, 133);
+    doc.setFont('helvetica', 'bold');
+    doc.text('SaaS Valuation Pro™', margin, 30);
+    doc.setFontSize(10);
+    doc.setFont('helvetica', 'normal');
+    doc.setTextColor(0);
+    doc.text(`SaaS Pro Valuation Report - ${new Date().toLocaleDateString()}`, margin, 45);
+    doc.setDrawColor(56, 178, 172);
+    doc.setLineWidth(0.7);
+    doc.line(margin, 55, pageWidth - margin, 55);
+  }
 
-      doc.setFontSize(22);
-      doc.setTextColor(22, 160, 133);
-      doc.text('SaaS Pro Valuation Report', margin, y);
-      y += 30;
+  // Helper: Add footer on each page
+  function addFooter(pageNum, totalPages) {
+    doc.setFontSize(8);
+    doc.setTextColor(100);
+    const footerText = `Page ${pageNum} of ${totalPages} | © 2025 SaaS Valuation Pro™ | www.saasvaluation.app`;
+    const disclaimerText = `This valuation is an estimate based on user inputs. Verify with official documents.`;
+    doc.text(footerText, pageWidth / 2, pageHeight - 30, { align: 'center' });
+    doc.text(disclaimerText, pageWidth / 2, pageHeight - 18, { align: 'center' });
+    doc.setDrawColor(56, 178, 172);
+    doc.setLineWidth(0.7);
+    doc.line(margin, pageHeight - 40, pageWidth - margin, pageHeight - 40);
+  }
 
-      doc.setFontSize(12);
-      doc.setTextColor(0, 0, 0);
-      doc.text(`Date: ${new Date().toLocaleDateString()}`, margin, y);
-      y += 20;
-
-      // Executive summary
-      doc.setFontSize(14);
-      doc.setTextColor(0);
-      doc.text('Executive Summary', margin, y);
-      y += 18;
-      doc.setFontSize(11);
-      const summary = `Your estimated valuation is ${document.getElementById('valuation-result').textContent}. This is based on your inputs and multiple valuation methods.`;
-      y = doc.splitTextToSize(summary, 510).reduce((acc, line) => {
-        doc.text(line, margin, acc);
-        return acc + 14;
-      }, y + 4);
-
-      y += 10;
-
-      // Valuation Breakdown with explanations
-      doc.setFontSize(14);
-      doc.setTextColor(0);
-      doc.text('Valuation Breakdown and Explanation', margin, y);
-      y += 18;
-      doc.setFontSize(11);
-
-      window.valuationExplanations.forEach(exp => {
-        const lines = doc.splitTextToSize(exp, 510);
-        if (y + lines.length * 14 > 780) {
-          doc.addPage();
-          y = margin;
-        }
-        lines.forEach(line => {
-          doc.text(line, margin, y);
-          y += 14;
-        });
-        y += 6;
-      });
-
-      y += 10;
-
-      // Key Metrics Table
-      doc.setFontSize(14);
-      doc.setTextColor(0);
-      doc.text('Key Metrics', margin, y);
-      y += 18;
-      doc.setFontSize(11);
-
-      const metrics = [
-        ['Metric', 'Value'],
-        ['Annual Recurring Revenue (ARR)', `$${val('arr').toLocaleString()}`],
-        ['Monthly Recurring Revenue (MRR)', `$${val('mrr').toLocaleString()}`],
-        ['Customer Lifetime Value (LTV)', `$${val('ltv').toLocaleString()}`],
-        ['Customer Acquisition Cost (CAC)', `$${val('cac').toLocaleString()}`],
-        ['Gross Margin', `${val('gross-margin')}%`],
-        ['Net Profit / EBITDA', `$${val('net-profit').toLocaleString()}`],
-        ['Monthly Burn Rate', `$${val('burn-rate').toLocaleString()}`],
-        ['Runway (Months)', `${val('runway')}`],
-        ['Revenue Growth Rate (YoY)', `${val('revenue-growth-yoy')}%`],
-        ['Customer Churn Rate', `${val('customer-churn')}%`],
-        ['Retention Rate', `${val('retention-rate')}%`],
-        ['Product-Market Fit', sval('product-market-fit')],
-        ['Legal Liabilities', sval('legal-liabilities')]
-      ];
-
-      // Table drawing
-      const col1X = margin;
-      const col2X = margin + 300;
-      metrics.forEach((row, i) => {
-        if (y > 780) {
-          doc.addPage();
-          y = margin;
-        }
-        doc.setFont(undefined, i === 0 ? 'bold' : 'normal');
-        doc.text(row[0], col1X, y);
-        doc.text(row[1], col2X, y);
-        y += 16;
-      });
-
-      y += 10;
-
-      // Add charts as images
-      // Helper to convert canvas to image
-      async function canvasToImage(canvasId) {
-        const canvas = document.getElementById(canvasId);
-        return new Promise(resolve => {
-          canvas.toBlob(blob => {
-            const url = URL.createObjectURL(blob);
-            resolve(url);
-          });
-        });
-      }
-
-      // Valuation Chart
-      if (y + 250 > 780) {
+  // Helper: Add multiline text with word wrap and page breaks
+  function addMultilineText(text, x, y, maxWidth, lineHeight) {
+    const lines = doc.splitTextToSize(text, maxWidth);
+    for (const line of lines) {
+      if (y > pageHeight - margin - 60) { // leave space for footer
         doc.addPage();
         y = margin;
+        addHeader(doc.getCurrentPageInfo().pageNumber, totalPages);
+        addFooter(doc.getCurrentPageInfo().pageNumber, totalPages);
       }
-      doc.setFontSize(14);
-      doc.text('Valuation by Method', margin, y);
-      y += 10;
-      const valChartUrl = await canvasToImage('valuationChart');
-      doc.addImage(valChartUrl, 'PNG', margin, y, 500, 200);
-      y += 210;
-
-      // Revenue Growth Chart
-      if (y + 250 > 780) {
-        doc.addPage();
-        y = margin;
-      }
-      doc.setFontSize(14);
-      doc.text('Projected 5-Year Revenue Growth', margin, y);
-      y += 10;
-      const revChartUrl = await canvasToImage('revenueGrowthChart');
-      doc.addImage(revChartUrl, 'PNG', margin, y, 500, 200);
-      y += 210;
-
-      // Advice Section
-      if (y + 100 > 780) {
-        doc.addPage();
-        y = margin;
-      }
-      doc.setFontSize(14);
-      doc.text('Advice & Next Steps', margin, y);
-      y += 18;
-      doc.setFontSize(11);
-      const adviceText = document.getElementById('advice').textContent || 'No specific advice.';
-      const adviceLines = doc.splitTextToSize(adviceText, 510);
-      adviceLines.forEach(line => {
-        if (y > 780) {
-          doc.addPage();
-          y = margin;
-        }
-        doc.text(line, margin, y);
-        y += 14;
-      });
-
-      doc.save('saas-pro-valuation-report.pdf');
+      doc.text(line, x, y);
+      y += lineHeight;
     }
+    return y;
+  }
+
+  // Start first page
+  addHeader(1, ''); // totalPages unknown yet
+
+  // 1. Executive Summary
+  doc.setFontSize(18);
+  doc.setTextColor(22, 160, 133);
+  doc.setFont('helvetica', 'bold');
+  doc.text('Executive Summary', margin, y);
+  y += 25;
+
+  doc.setFontSize(11);
+  doc.setFont('helvetica', 'normal');
+  const avgValuation = window.valuationChartData && window.valuationChartData.data.length > 0
+    ? window.valuationChartData.data.reduce((a,b) => a+b, 0) / window.valuationChartData.data.length
+    : 0;
+  const execSummary = `Based on the data you provided, your SaaS business valuation is estimated at $${Math.round(avgValuation).toLocaleString()}. This report explains the valuation methods used, key financial and operational metrics, and provides actionable advice to help you understand and improve your business’s worth.`;
+  y = addMultilineText(execSummary, margin, y, pageWidth - 2 * margin, 16);
+  y += 10;
+
+  // 2. Valuation Methodology
+  doc.setFontSize(18);
+  doc.setTextColor(22, 160, 133);
+  doc.setFont('helvetica', 'bold');
+  doc.text('Valuation Methodology', margin, y);
+  y += 25;
+
+  doc.setFontSize(11);
+  doc.setFont('helvetica', 'normal');
+  if (window.valuationExplanations && window.valuationExplanations.length) {
+    for (const explanation of window.valuationExplanations) {
+      y = addMultilineText(`• ${explanation}`, margin + 10, y, pageWidth - 2 * margin - 10, 14);
+      y += 6;
+    }
+  } else {
+    y = addMultilineText('No valuation method explanations available.', margin, y, pageWidth - 2 * margin, 14);
+  }
+  y += 10;
+
+  // 3. Key Metrics Table using simple text (can be replaced with jsPDF-AutoTable if desired)
+  doc.setFontSize(18);
+  doc.setTextColor(22, 160, 133);
+  doc.setFont('helvetica', 'bold');
+  doc.text('Key Metrics', margin, y);
+  y += 25;
+
+  doc.setFontSize(11);
+  doc.setFont('helvetica', 'normal');
+
+  const metrics = [
+    ['Metric', 'Value'],
+    ['Annual Recurring Revenue (ARR)', `$${val('arr').toLocaleString()}`],
+    ['Monthly Recurring Revenue (MRR)', `$${val('mrr').toLocaleString()}`],
+    ['Customer Lifetime Value (LTV)', `$${val('ltv').toLocaleString()}`],
+    ['Customer Acquisition Cost (CAC)', `$${val('cac').toLocaleString()}`],
+    ['Gross Margin', `${val('gross-margin')}%`],
+    ['Net Profit / EBITDA', `$${val('net-profit').toLocaleString()}`],
+    ['Monthly Burn Rate', `$${val('burn-rate').toLocaleString()}`],
+    ['Runway (Months)', `${val('runway')}`],
+    ['Revenue Growth Rate (YoY)', `${val('revenue-growth-yoy')}%`],
+    ['Customer Churn Rate', `${val('customer-churn')}%`],
+    ['Retention Rate', `${val('retention-rate')}%`],
+    ['Product-Market Fit', sval('product-market-fit')],
+    ['Legal Liabilities', sval('legal-liabilities')]
+  ];
+
+  // Draw table header
+  const col1X = margin;
+  const col2X = margin + 300;
+  for (let i = 0; i < metrics.length; i++) {
+    if (y > pageHeight - margin - 60) {
+      doc.addPage();
+      y = margin;
+      addHeader(doc.getCurrentPageInfo().pageNumber, totalPages);
+      addFooter(doc.getCurrentPageInfo().pageNumber, totalPages);
+    }
+    doc.setFont(undefined, i === 0 ? 'bold' : 'normal');
+    doc.text(metrics[i][0], col1X, y);
+    doc.text(metrics[i][1], col2X, y);
+    y += 16;
+  }
+  y += 10;
+
+  // 4. Charts with captions
+  // Helper to convert canvas to image URL
+  async function canvasToImage(canvasId) {
+    const canvas = document.getElementById(canvasId);
+    return new Promise(resolve => {
+      canvas.toBlob(blob => {
+        const url = URL.createObjectURL(blob);
+        resolve(url);
+      });
+    });
+  }
+
+  // Valuation Chart
+  if (y + 230 > pageHeight - margin) {
+    doc.addPage();
+    y = margin;
+    addHeader(doc.getCurrentPageInfo().pageNumber, totalPages);
+    addFooter(doc.getCurrentPageInfo().pageNumber, totalPages);
+  }
+  doc.setFontSize(18);
+  doc.setTextColor(22, 160, 133);
+  doc.setFont('helvetica', 'bold');
+  doc.text('Valuation by Method', margin, y);
+  y += 20;
+  const valChartUrl = await canvasToImage('valuationChart');
+  doc.addImage(valChartUrl, 'PNG', margin, y, pageWidth - 2 * margin, 200);
+  y += 210;
+  doc.setFontSize(11);
+  doc.setFont('helvetica', 'normal');
+  y = addMultilineText('This bar chart compares the valuation results calculated by each selected method, providing a visual overview of your business worth from different perspectives.', margin, y, pageWidth - 2 * margin, 14);
+  y += 10;
+
+  // Revenue Growth Chart
+  if (y + 230 > pageHeight - margin) {
+    doc.addPage();
+    y = margin;
+    addHeader(doc.getCurrentPageInfo().pageNumber, totalPages);
+    addFooter(doc.getCurrentPageInfo().pageNumber, totalPages);
+  }
+  doc.setFontSize(18);
+  doc.setTextColor(22, 160, 133);
+  doc.setFont('helvetica', 'bold');
+  doc.text('Projected 5-Year Revenue Growth', margin, y);
+  y += 20;
+  const revChartUrl = await canvasToImage('revenueGrowthChart');
+  doc.addImage(revChartUrl, 'PNG', margin, y, pageWidth - 2 * margin, 200);
+  y += 210;
+  doc.setFontSize(11);
+  doc.setFont('helvetica', 'normal');
+  y = addMultilineText('This line chart shows your projected revenue growth over the next five years based on your current growth rate input.', margin, y, pageWidth - 2 * margin, 14);
+  y += 10;
+
+  // 5. Advice & Next Steps
+  if (y + 100 > pageHeight - margin) {
+    doc.addPage();
+    y = margin;
+    addHeader(doc.getCurrentPageInfo().pageNumber, totalPages);
+    addFooter(doc.getCurrentPageInfo().pageNumber, totalPages);
+  }
+  doc.setFontSize(18);
+  doc.setTextColor(22, 160, 133);
+  doc.setFont('helvetica', 'bold');
+  doc.text('Advice & Next Steps', margin, y);
+  y += 25;
+  doc.setFontSize(11);
+  doc.setFont('helvetica', 'normal');
+  const adviceText = document.getElementById('advice').textContent || 'No specific advice.';
+  y = addMultilineText(adviceText, margin, y, pageWidth - 2 * margin, 14);
+  y += 10;
+
+  // 6. Glossary
+  if (y + 150 > pageHeight - margin) {
+    doc.addPage();
+    y = margin;
+    addHeader(doc.getCurrentPageInfo().pageNumber, totalPages);
+    addFooter(doc.getCurrentPageInfo().pageNumber, totalPages);
+  }
+  doc.setFontSize(18);
+  doc.setTextColor(22, 160, 133);
+  doc.setFont('helvetica', 'bold');
+  doc.text('Glossary', margin, y);
+  y += 25;
+  doc.setFontSize(11);
+  doc.setFont('helvetica', 'normal');
+  const glossary = [
+    { term: 'ARR', def: 'Annual Recurring Revenue: Total subscription revenue over 12 months.' },
+    { term: 'MRR', def: 'Monthly Recurring Revenue: Average subscription revenue per month.' },
+    { term: 'LTV', def: 'Customer Lifetime Value: Revenue from one customer before they leave.' },
+    { term: 'CAC', def: 'Customer Acquisition Cost: Cost to acquire a new customer.' },
+    { term: 'Churn Rate', def: 'Percentage of customers lost in a period.' },
+    { term: 'Gross Margin', def: 'Revenue left after direct costs.' },
+    { term: 'Net Profit', def: 'Earnings after all expenses.' },
+    { term: 'DCF', def: 'Discounted Cash Flow: Valuation method projecting future cash flows.' },
+  ];
+  for (const { term, def } of glossary) {
+    if (y + 40 > pageHeight - margin) {
+      doc.addPage();
+      y = margin;
+      addHeader(doc.getCurrentPageInfo().pageNumber, totalPages);
+      addFooter(doc.getCurrentPageInfo().pageNumber, totalPages);
+    }
+    doc.setFont('helvetica', 'bold');
+    doc.text(term, margin, y);
+    y += 14;
+    doc.setFont('helvetica', 'normal');
+    y = addMultilineText(def, margin + 15, y, pageWidth - 2 * margin - 15, 14);
+    y += 10;
+  }
+
+  // 7. Final Disclaimer page
+  doc.addPage();
+  y = margin;
+  addHeader(doc.getCurrentPageInfo().pageNumber, totalPages);
+  addFooter(doc.getCurrentPageInfo().pageNumber, totalPages);
+
+  doc.setFontSize(18);
+  doc.setTextColor(22, 160, 133);
+  doc.setFont('helvetica', 'bold');
+  doc.text('Disclaimer & Legal Notice', margin, y);
+  y += 30;
+  doc.setFontSize(11);
+  doc.setFont('helvetica', 'normal');
+  const disclaimerText = `This valuation report is generated based on the information you provided. While every effort has been made to ensure accuracy, this valuation is an estimate and should be independently verified with your official financial, legal, and accounting documents.
+
+Users are responsible for providing accurate data and for seeking professional advice before making any financial or business decisions. SaaS Valuation Pro™ disclaims any liability for decisions made based on this report.
+
+Recommended documentation for verification includes:
+- Last 2 years of tax returns
+- Annual and monthly financial statements (profit & loss, balance sheets)
+- Customer contracts and subscription agreements
+- Legal entity registration documents
+- Intellectual property ownership certificates
+- Customer acquisition and retention reports
+- Legal and compliance documents
+
+Please consult with your accountant, legal counsel, or financial advisor for a comprehensive valuation.`;
+
+  addMultilineText(disclaimerText, margin, y, pageWidth - 2 * margin, 14);
+
+  // Total pages count and add headers/footers on all pages
+  const totalPages = doc.getNumberOfPages();
+  for (let i = 1; i <= totalPages; i++) {
+    doc.setPage(i);
+    addHeader(i, totalPages);
+    addFooter(i, totalPages);
+  }
+
+  doc.save('saas-pro-valuation-report.pdf');
+}
 
     // Event listeners for explanation toggles
     document.addEventListener('DOMContentLoaded', () => {
