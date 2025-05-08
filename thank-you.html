@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SaaS Valuation - Results</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <style>
+    body { font-family: 'Helvetica', sans-serif; }
+    .container { max-width: 1200px; margin: 0 auto; padding: 2rem; }
+    .hidden { display: none; }
+  </style>
+</head>
+<body class="bg-gray-100">
+  <div class="container">
+    <h1 class="text-3xl font-bold text-teal-600 mb-6">SaaS Valuation Results</h1>
+    <div id="no-results" class="hidden bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-6">
+      No valuation results found. Please complete the valuation process in the main app.
+      <a href="index.html" class="text-teal-600 underline">Return to App</a>
+    </div>
+    <div id="results-container" class="bg-white p-6 rounded-lg shadow-md">
+      <p class="text-lg font-semibold mb-4">Your Voucher Code: <span id="voucher-code" class="text-teal-600">Password86$</span></p>
+      <p class="mb-4">Use this code to access your results again or share with your team. It’s also included in your PayPal transaction email.</p>
+      <h2 class="text-2xl font-bold mb-4">Valuation Summary</h2>
+      <div id="valuation-result" class="text-xl mb-4"></div>
+      <h3 class="text-lg font-semibold mb-2">Method Breakdown</h3>
+      <div id="method-breakdown" class="mb-4"></div>
+      <h3 class="text-lg font-semibold mb-2">Strategic Advice</h3>
+      <div id="advice" class="mb-4"></div>
+      <canvas id="valuationChart" class="mb-6"></canvas>
+      <canvas id="revenueGrowthChart" class="mb-6"></canvas>
+      <button id="download-pdf" class="bg-teal-600 text-white px-4 py-2 rounded hover:bg-teal-700">Download PDF Report</button>
+    </div>
+  </div>
+
+  <script>
+    // Chart instances
+    let valuationChart;
+    let revenueGrowthChart;
+
+    // Utility function for input values
+    const val = (input, id) => input[id] || 0;
+
+    // Load results from localStorage
+    document.addEventListener('DOMContentLoaded', () => {
+      const resultsData = JSON.parse(localStorage.getItem('saasValuationResults'));
+      const resultsContainer = document.getElementById('results-container');
+      const noResults = document.getElementById('no-results');
+
+      if (!resultsData || (Date.now() - resultsData.timestamp > 24 * 60 * 60 * 1000)) {
+        noResults.classList.remove('hidden');
+        resultsContainer.classList.add('hidden');
+        localStorage.removeItem('saasValuationResults');
+        return;
+      }
+
+      // Display results
+      document.getElementById('valuation-result').innerHTML = resultsData.valuation;
+      document.getElementById('method-breakdown').innerHTML = resultsData.breakdown;
+      document.getElementById('advice').innerHTML = resultsData.advice;
+
+      // Render charts
+      try {
+        const ctxVal = document.getElementById('valuationChart').getContext('2d');
+        const ctxRev = document.getElementById('revenueGrowthChart').getContext('2d');
+
+        valuationChart = new Chart(ctxVal, {
+          type: 'bar',
+          data: {
+            labels: resultsData.chartData.labels,
+            datasets: [{
+              label: 'Valuation ($)',
+              data: resultsData.chartData.data,
+              backgroundColor: 'rgba(56, 178, 172, 0.7)',
+              borderColor: 'rgba(56, 178, 172, 1)',
+              borderWidth: 1
+            }]
+          },
+          options: {
+            scales: { y: { beginAtZero: true, title: { display: true, text: 'Valuation ($)' } } },
+            plugins: { legend: { display: false }, title: { display: true, text: 'Valuation Comparison' } }
+          }
+        });
+
+        const arr = val(resultsData.inputs, 'arr') || 1000;
+        const growthRate = (val(resultsData.inputs, 'revenueGrowth') / 100) || 0;
+        const labels = ['Current Year', 'Year 1', 'Year 2', 'Year 3', 'Year 4', 'Year 5'];
+        const revenueData = [arr];
+        for (let i = 1; i <= 5; i++) {
+          revenueData.push(revenueData[i - 1] * (1 + growthRate));
+        }
+
+        revenueGrowthChart = new Chart(ctxRev, {
+          type: 'line',
+          data: {
+            labels: labels,
+            datasets: [{
+              label: 'Projected Revenue ($)',
+              data: revenueData.map(v => Math.round(v)),
+              fill: false,
+              borderColor: 'rgba(56, 178, 172, 1)',
+              tension: 0.1
+            }]
+          },
+          options: {
+            scales: { y: { beginAtZero: true, title: { display: true, text: 'Revenue ($)' } } },
+            plugins: { legend: { display: false }, title: { display: true, text: 'Projected 5-Year Revenue Growth' } }
+          }
+        });
+      } catch (error) {
+        console.error('Error rendering charts:', error);
+        document.getElementById('valuation-result').innerHTML += '<br><small>Charts could not be rendered, but valuation results are still valid.</small>';
+      }
+
+      // PDF export
+      document.getElementById('download-pdf').addEventListener('click', () => {
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
+
+        // Colors
+        const teal = '#38B2AC';
+        const darkGray = '#2D3748';
+
+        // Helper function to add text with wrapping
+        const addWrappedText = (text, x, y, maxWidth, fontSize, color, fontStyle = 'normal') => {
+          doc.setFontSize(fontSize);
+          doc.setTextColor(color);
+          doc.setFont('helvetica', fontStyle);
+          doc.text(text, x, y, { maxWidth });
+        };
+
+        // Cover Page
+        doc.setFillColor(teal);
+        doc.rect(0, 0, 210, 40, 'F');
+        addWrappedText('SaaS Valuation App', 10, 20, 190, 24, '#FFFFFF', 'bold');
+        addWrappedText('Pro Valuation Report', 10, 30, 190, 18, '#FFFFFF', 'bold');
+        addWrappedText('Comprehensive Business Evaluation', 10, 60, 190, 14, darkGray);
+        addWrappedText('Prepared on ' + new Date().toLocaleDateString(), 10, 80, 190, 12, darkGray);
+        addWrappedText('Powered by AI-Driven Insights | https://saasvaluation.app', 10, 100, 190, 10, darkGray);
+        addWrappedText('Confidential – For Internal Use Only', 10, 120, 190, 8, darkGray);
+        doc.addPage();
+
+        // Header and Footer on all pages
+        const addHeaderFooter = () => {
+          doc.setFillColor(teal);
+          doc.rect(0, 0, 210, 10, 'F');
+          addWrappedText('SaaS Valuation App', 10, 7, 100, 8, '#FFFFFF');
+          addWrappedText('Page ' + doc.internal.getCurrentPageInfo().pageNumber, 190, 7, 20, 8, '#FFFFFF', 'bold');
+          doc.setFillColor(darkGray);
+          doc.rect(0, 287, 210, 10, 'F');
+          addWrappedText('© 2025 SaaS Valuation App', 10, 294, 190, 8, '#FFFFFF');
+        };
+
+        // Executive Summary
+        addHeaderFooter();
+        addWrappedText('Executive Summary', 10, 20, 190, 16, teal, 'bold');
+        addWrappedText(
+          'This SaaS Pro Valuation Report provides a comprehensive evaluation of your business, leveraging advanced metrics and AI-driven insights. Below are the key findings:',
+          10, 30, 190, 10, darkGray
+        );
+        addWrappedText(`• Estimated Valuation: ${resultsData.valuation.replace(/<[^>]+>/g, '')}`, 10, 40, 190, 10, darkGray);
+        addWrappedText(`• Valuation Methods: ${resultsData.chartData.labels.join(', ')}`, 10, 48, 190, 10, darkGray);
+        addWrappedText(`• Key Strengths: High revenue growth, strong product-market fit, or scalable infrastructure.`, 10, 56, 190, 10, darkGray);
+        addWrappedText(`• Areas for Improvement: ${resultsData.advice.replace(/<br>/g, ' ')}`, 10, 64, 190, 10, darkGray);
+
+        // Valuation Breakdown
+        addWrappedText('Valuation Breakdown', 10, 80, 190, 16, teal, 'bold');
+        addWrappedText('The valuation is calculated using the following methods:', 10, 90, 190, 10, darkGray);
+        let yPos = 100;
+        document.querySelectorAll('#method-breakdown li').forEach(li => {
+          const [method, amount] = li.textContent.split(': ');
+          const description = method === 'Revenue Multiplier' ? 'Based on ARR multiplied by a factor adjusted for growth and churn.' :
+                            method === 'Income-Based' ? 'Derived from net profit with multipliers reflecting profitability.' :
+                            method === 'Earnings-Based' ? 'Combines ARR and net profit, adjusted for retention.' :
+                            'Projects future cash flows discounted to present value.';
+          addWrappedText(`• ${method}: ${amount}`, 10, yPos, 190, 10, darkGray);
+          addWrappedText(description, 15, yPos + 5, 185, 8, darkGray);
+          yPos += 15;
+        });
+
+        // Add Valuation Chart
+        const valuationCanvas = document.getElementById('valuationChart');
+        if (valuationCanvas) {
+          const valuationImage = valuationCanvas.toDataURL('image/png');
+          doc.addImage(valuationImage, 'PNG', 10, yPos, 190, 60);
+          yPos += 70;
+        }
+
+        doc.addPage();
+
+        // Key Financial Metrics
+        addHeaderFooter();
+        addWrappedText('Key Financial Metrics', 10, 20, 190, 16, teal, 'bold');
+        addWrappedText('Critical financial inputs driving the valuation:', 10, 30, 190, 10, darkGray);
+        const metrics = [
+          { label: 'Annual Recurring Revenue (ARR)', value: `$${val(resultsData.inputs, 'arr').toLocaleString()}` },
+          { label: 'Monthly Recurring Revenue (MRR)', value: `$${val(resultsData.inputs, 'mrr').toLocaleString()}` },
+          { label: 'Customer Lifetime Value (LTV)', value: `$${val(resultsData.inputs, 'ltv').toLocaleString()}` },
+          { label: 'Customer Acquisition Cost (CAC)', value: `$${val(resultsData.inputs, 'cac').toLocaleString()}` },
+          { label: 'Gross Margin', value: `${val(resultsData.inputs, 'grossMargin')}%` },
+          { label: 'Net Profit / EBITDA', value: `$${val(resultsData.inputs, 'netProfit').toLocaleString()}` },
+          { label: 'Monthly Burn Rate', value: `$${val(resultsData.inputs, 'burnRate').toLocaleString()}` },
+          { label: 'Runway', value: `${val(resultsData.inputs, 'runway')} months` },
+          { label: 'Revenue Growth (YoY)', value: `${val(resultsData.inputs, 'revenueGrowth')}%` },
+          { label: 'Customer Churn Rate', value: `${val(resultsData.inputs, 'churnRate')}%` }
+        ];
+        yPos = 40;
+        metrics.forEach(metric => {
+          addWrappedText(`${metric.label}: ${metric.value}`, 10, yPos, 190, 10, darkGray);
+          yPos += 8;
+        });
+
+        // Add Revenue Growth Chart
+        const revenueCanvas = document.getElementById('revenueGrowthChart');
+        if (revenueCanvas) {
+          const revenueImage = revenueCanvas.toDataURL('image/png');
+          doc.addImage(revenueImage, 'PNG', 10, yPos, 190, 60);
+          yPos += 70;
+        }
+
+        doc.addPage();
+
+        // Strategic Recommendations
+        addHeaderFooter();
+        addWrappedText('Strategic Recommendations', 10, 20, 190, 16, teal, 'bold');
+        addWrappedText('To enhance your business value:', 10, 30, 190, 10, darkGray);
+        const recommendations = [
+          resultsData.inputs.churnRate > 10 ? `• Reduce Churn: High churn rates (${resultsData.inputs.churnRate}%) suggest focusing on customer retention strategies.` : null,
+          resultsData.inputs.netProfit / resultsData.inputs.arr < 0.1 && resultsData.inputs.arr > 0 ? `• Optimize Profitability: Low profit margins indicate potential for cost optimization.` : null,
+          resultsData.inputs.legalRisks === 'high' ? `• Mitigate Legal Risks: Address legal liabilities to reduce valuation discounts.` : null,
+          `• Leverage Strengths: Capitalize on strong product-market fit or scalable infrastructure.`
+        ].filter(Boolean);
+        yPos = 40;
+        recommendations.forEach(rec => {
+          addWrappedText(rec, 10, yPos, 190, 10, darkGray);
+          yPos += 8;
+        });
+
+        // About Section
+        addWrappedText('About SaaS Valuation App', 10, yPos + 10, 190, 16, teal, 'bold');
+        addWrappedText(
+          'SaaS Valuation App provides AI-driven insights to help business owners understand their company’s worth. Visit https://saasvaluation.app for more information.',
+          10, yPos + 20, 190, 10, darkGray
+        );
+
+        // Save the PDF
+        doc.save('saas-pro-valuation-report.pdf');
+      });
+    });
+  </script>
+</body>
+</html>
