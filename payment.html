@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>SaaS Pro Valuation - Payment</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+  <style>
+    .btn-primary {
+      @apply bg-teal-500 text-white font-bold py-2 px-4 rounded-lg transition-colors duration-300;
+    }
+    .btn-primary:hover {
+      @apply bg-teal-600;
+    }
+    .feature-box {
+      @apply bg-white p-4 rounded-lg shadow-md;
+    }
+  </style>
+</head>
+<body class="font-sans bg-gray-50 min-h-screen flex flex-col">
+  <!-- HEADER -->
+  <header class="bg-gray-800 text-white py-3 sticky top-0 z-50 shadow">
+    <div class="container mx-auto px-4 flex justify-between items-center">
+      <div class="text-xl font-bold">
+        <a href="index.html">SaaS Valuation App</a>
+      </div>
+      <nav class="hidden md:flex space-x-4">
+        <a href="index.html#valuation">Free Self Valuation</a>
+        <a href="index.html#resources">About</a>
+        <a href="index.html#pricing">Pricing</a>
+        <a href="blog.html">Resources</a>
+      </nav>
+      <button id="menu-toggle" class="md:hidden focus:outline-none" aria-label="Toggle Menu">
+        <i class="fas fa-bars text-xl"></i>
+      </button>
+    </div>
+    <div id="mobile-menu" class="md:hidden hidden px-4 pb-4">
+      <nav class="flex flex-col space-y-2 mt-3">
+        <a href="#valuation" class="hover:text-teal-400 text-sm">Self Valuation</a>
+        <a href="#data-room" class="hover:text-teal-400 text-sm">AI Data Room</a>
+        <a href="#pricing" class="hover:text-teal-400 text-sm">Pricing</a>
+        <a href="#resources" class="hover:text-teal-400 text-sm">Resources</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- MAIN CONTENT -->
+  <main class="flex-grow">
+    <section class="py-16 bg-gray-50">
+      <div class="container mx-auto px-4 max-w-4xl">
+        <h1 class="text-3xl font-bold text-gray-800 mb-4 text-center">Unlock Pro Valuation</h1>
+        <p class="text-gray-600 mb-8 text-center">
+          Complete your secure payment to access the Pro Valuation Tool, delivering advanced insights for your SaaS business.
+        </p>
+
+        <!-- What You Get -->
+        <div class="mb-12">
+          <h2 class="text-2xl font-semibold text-gray-800 mb-6 text-center">What You Get with Pro Valuation</h2>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="feature-box">
+              <h3 class="text-lg font-medium text-teal-600 mb-2">Multiple Valuation Methods</h3>
+              <p class="text-gray-600 text-sm">
+                Evaluate your business using up to three methods (Revenue Multiplier, Income-Based, DCF, Earnings-Based) for a comprehensive valuation.
+              </p>
+            </div>
+            <div class="feature-box">
+              <h3 class="text-lg font-medium text-teal-600 mb-2">Detailed Insights & Charts</h3>
+              <p class="text-gray-600 text-sm">
+                Receive a breakdown of your valuation with interactive charts showing method comparisons and 5-year revenue projections.
+              </p>
+            </div>
+            <div class="feature-box">
+              <h3 class="text-lg font-medium text-teal-600 mb-2">Actionable Advice</h3>
+              <p class="text-gray-600 text-sm">
+                Get tailored recommendations to improve your valuation, such as reducing churn or optimizing costs.
+              </p>
+            </div>
+            <div class="feature-box">
+              <h3 class="text-lg font-medium text-teal-600 mb-2">Professional PDF Report</h3>
+              <p class="text-gray-600 text-sm">
+                Download a polished PDF report to share with investors, buyers, or your team, summarizing your valuation and insights.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Payment Section -->
+        <div class="text-center">
+          <h2 class="text-xl font-semibold text-gray-800 mb-4">Complete Payment</h2>
+          <div id="paypal-container-NVJVZYW6GRKY4" class="mx-auto max-w-xs"></div>
+          <div id="payment-error" class="text-red-500 text-sm mt-4 hidden">
+            Payment failed. Please try again or contact support.
+          </div>
+          <div id="payment-status" class="text-green-600 font-bold mt-4 hidden">
+            Payment successful! Redirecting to Pro Valuation...
+          </div>
+          <div id="loading-spinner" class="hidden text-center mt-4">
+            <i class="fas fa-spinner fa-spin text-teal-500"></i> Processing...
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="bg-gray-800 text-white py-6 mt-12">
+    <div class="container mx-auto px-4">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+        <div>
+          <h4 class="text-lg font-semibold mb-3">Company</h4>
+          <p class="text-gray-400 text-sm">SaaS Valuation App provides AI-driven insights to evaluate your business worth.</p>
+        </div>
+        <div>
+          <h4 class="text-lg font-semibold mb-3">Product</h4>
+          <ul class="space-y-2">
+            <li><a href="index.html#valuation">Self Valuation</a></li>
+            <li><a href="index.html#data-room">AI Data Room</a></li>
+            <li><a href="index.html#pricing">Pricing</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="text-lg font-semibold mb-3">Resources</h4>
+          <ul class="space-y-2">
+            <li><a href="blog.html">Blog</a></li>
+            <li><a href="index.html#faq">FAQ</a></li>
+            <li><a href="Support.html">Support</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="text-lg font-semibold mb-3">Legal</h4>
+          <ul class="space-y-2">
+            <li><a href="terms-and-conditions.html" class="text-gray-400 hover:text-teal-400 text-sm">Terms</a></li>
+            <li><a href="privacy-policy.html" class="text-gray-400 hover:text-teal-400 text-sm">Privacy</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="text-center mt-4 text-gray-400 text-sm">
+        <p>© 2025 SaaS Valuation App. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- PayPal SDK -->
+  <script src="https://www.paypal.com/sdk/js?client-id=BAAmPIUOhFD8WnPzN-tp-rQwqJ-5hrys3ik4nE0y2X41APCpAHOeX3swr5esUvo6CBAZzZH5iY8lcuBQB4&components=hosted-buttons&disable-funding=venmo&currency=AUD"></script>
+  <script>
+    // Show loading spinner
+    function showLoading() {
+      document.getElementById('loading-spinner').classList.remove('hidden');
+    }
+
+    // Hide loading spinner
+    function hideLoading() {
+      document.getElementById('loading-spinner').classList.add('hidden');
+    }
+
+    // PayPal integration
+    try {
+      paypal.HostedButtons({
+        hostedButtonId: "NVJVZYW6GRKY4",
+        onApprove: function(data, actions) {
+          console.log('PayPal payment approved:', data);
+          showLoading();
+          const paymentStatus = document.getElementById('payment-status');
+          const paymentError = document.getElementById('payment-error');
+          const paypalContainer = document.getElementById('paypal-container-NVJVZYW6GRKY4');
+
+          if (!paymentStatus || !paymentError || !paypalContainer) {
+            console.error('Missing DOM elements');
+            paymentError.textContent = 'Error: Page setup issue. Please contact support.';
+            paymentError.classList.remove('hidden');
+            hideLoading();
+            return;
+          }
+
+          paymentStatus.textContent = 'Payment successful! Redirecting to Pro Valuation...';
+          paymentStatus.classList.remove('hidden');
+          paypalContainer.style.display = 'none';
+          paymentError.classList.add('hidden');
+
+          // Store payment confirmation
+          localStorage.setItem('paymentConfirmed', 'true');
+
+          // Redirect to pro-valuation.html
+          setTimeout(() => {
+            window.location.href = 'pro-valuation.html';
+          }, 2000);
+        },
+        onError: function(error) {
+          console.error('PayPal error:', error);
+          document.getElementById('payment-error').textContent = 'Payment failed. Please try again or contact support.';
+          document.getElementById('payment-error').classList.remove('hidden');
+          hideLoading();
+        }
+      }).render("#paypal-container-NVJVZYW6GRKY4");
+    } catch (error) {
+      console.error('PayPal SDK initialization failed:', error);
+      document.getElementById('payment-error').textContent = 'Payment system unavailable. Please try again later or contact support.';
+      document.getElementById('payment-error').classList.remove('hidden');
+    }
+
+    // Mobile menu toggle
+    document.getElementById('menu-toggle').addEventListener('click', () => {
+      document.getElementById('mobile-menu').classList.toggle('hidden');
+    });
+  </script>
+</body>
+</html>
