@@ -693,6 +693,7 @@
     <!-- PayPal SDK -->
     <script src="https://www.paypal.com/sdk/js?client-id=BAAmPIUOhFD8WnPzN-tp-rQwqJ-5hrys3ik4nE0y2X41APCpAHOeX3swr5esUvo6CBAZzZH5iY8lcuBQB4&components=hosted-buttons&disable-funding=venmo&currency=AUD"></script>
   <script>
+  <script>
   // Constants
   const VOUCHER_CODE = 'Password86$';
   const TOTAL_STEPS = 8;
@@ -976,19 +977,35 @@
       if (legalRisks === 'high') advice += 'Address legal liabilities to improve valuation.<br>';
       if (!advice) advice = 'Your inputs look strong. Well done!';
 
+      // Store results in localStorage
+      const resultsData = {
+        valuation: `<strong>Estimated Valuation: $${Math.round(avgValuation).toLocaleString()}</strong>`,
+        breakdown: breakdownHTML,
+        advice: advice,
+        chartData: {
+          labels: Object.keys(valuations),
+          data: Object.values(valuations).map(v => Math.round(v))
+        },
+        inputs: {
+          arr, mrr, ltv, cac, grossMargin: grossMargin * 100, netProfit, burnRate, runway,
+          revenueGrowth: revenueGrowth * 100, churnRate: churnRate * 100, retentionRate: retentionRate * 100,
+          pmFit, legalRisks, fte: val('fte'), nps: val('nps'), supportRating: val('support-rating'),
+          contractRenewal: val('contract-renewal')
+        },
+        timestamp: Date.now()
+      };
+      localStorage.setItem('saasValuationResults', JSON.stringify(resultsData));
+
       // Update DOM
-      document.getElementById('valuation-result').innerHTML = `<strong>Estimated Valuation: $${Math.round(avgValuation).toLocaleString()}</strong>`;
-      document.getElementById('method-breakdown').innerHTML = breakdownHTML;
-      document.getElementById('advice').innerHTML = advice;
+      document.getElementById('valuation-result').innerHTML = resultsData.valuation;
+      document.getElementById('method-breakdown').innerHTML = resultsData.breakdown;
+      document.getElementById('advice').innerHTML = resultsData.advice;
 
       // Stored chart data
-      window.valuationChartData = {
-        labels: Object.keys(valuations),
-        data: Object.values(valuations).map(v => Math.round(v))
-      };
+      window.valuationChartData = resultsData.chartData;
 
       renderCharts();
-      console.log('Valuation calculated successfully.');
+      console.log('Valuation calculated and stored successfully.');
     } catch (error) {
       console.error('Error in calculateValuation:', error.message, error.stack);
       throw error;
@@ -1210,8 +1227,9 @@
     doc.save('saas-pro-valuation-report.pdf');
   }
 
-  // Event listeners
+  // Clear localStorage on new valuation start
   document.addEventListener('DOMContentLoaded', () => {
+    localStorage.removeItem('saasValuationResults');
     showStep(0);
 
     // Retry results
@@ -1291,12 +1309,13 @@
           results.classList.remove('step-hidden');
           results.classList.add('step-visible');
           results.scrollIntoView({ behavior: 'smooth' });
+          document.getElementById('payment-status').textContent = 'Voucher accepted! Valuation calculated.';
         } else {
           voucherError.textContent = 'Invalid or missing input data. Please complete all steps.';
           voucherError.classList.remove('hidden');
         }
       } else {
-        voucherError.textContent = 'Invalid voucher code. Please try again or continue with payment.';
+        voucherError.textContent = 'Invalid voucher code. Please check your email for the correct code or continue with payment.';
         voucherError.classList.remove('hidden');
       }
     });
@@ -1346,18 +1365,20 @@
           throw new Error('Invalid or missing input data. Please go back and complete all steps.');
         }
 
-        // Calculate valuation
+        // Calculate valuation and store in localStorage
         console.log('Calling calculateValuation...');
         calculateValuation();
 
-        // Show results
+        // Show results temporarily (before redirect)
         console.log('Showing results container...');
         results.classList.remove('step-hidden');
         results.classList.add('step-visible');
         results.scrollIntoView({ behavior: 'smooth' });
 
         // Update status
-        paymentStatus.textContent = 'Payment successful! Valuation calculated.';
+        paymentStatus.innerHTML = `Payment successful! Redirecting to results page...<br>Your voucher code is: ${VOUCHER_CODE}<br>Use this code to access results again or share with your team. Check your email for the transaction confirmation.`;
+
+        // Allow PayPal to handle redirect via Auto Return
       } catch (error) {
         console.error('Error in onApprove:', error.message, error.stack);
         paymentStatus.textContent = `Error: ${error.message}. Please try again or contact support.`;
