@@ -81,7 +81,7 @@
       <div class="text-xl font-bold">
        <a href="index.html">SaaS Valuation App</a></div>
       <nav class="hidden md:flex space-x-4">
-      <a href="index.html#valuation">Free Self Valuation</a> <a href="index.html#resources">About</a> <a href="ndex.html#pricing">Pricing</a> <a href="blog.html">Resources</a> </nav>
+      <a href="index.html#valuation">Free Self Valuation</a> <a href="index.html#resources">About</a> <a href="blog.html">Resources</a> </nav>
       <button id="menu-toggle" class="md:hidden focus:outline-none" aria-label="Toggle Menu">
         <i class="fas fa-bars text-xl"></i>
       </button>
@@ -90,7 +90,6 @@
       <nav class="flex flex-col space-y-2 mt-3">
         <a href="#valuation" class="hover:text-teal-400 text-sm">Self Valuation</a>
         <a href="#data-room" class="hover:text-teal-400 text-sm">AI Data Room</a>
-        <a href="#pricing" class="hover:text-teal-400 text-sm">Pricing</a>
         <a href="#resources" class="hover:text-teal-400 text-sm">Resources</a>
       </nav>
     </div>
@@ -128,7 +127,7 @@
               ></div>
             </div>
             <p class="text-center text-gray-600 text-sm">
-              Step <span id="current-step">1</span> of 8
+              Step <span id="current-step">1</span> of 7
             </p>
           </div>
         </div>
@@ -243,7 +242,7 @@
             </div>
             <p id="financial-error" class="text-red-500 text-sm mt-4 hidden">Please fill out all required financial fields.</p>
             <div class="mt-6 flex justify-between">
-              <button id="prev-btn-2" class="btn-secondary">Previous</button>
+              <button idcompsite id="prev-btn-2" class="btn-secondary">Previous</button>
               <button id="next-btn-2" class="btn-primary">Next</button>
             </div>
           </div>
@@ -566,30 +565,7 @@
             <p id="legal-error" class="text-red-500 text-sm mt-2 hidden">Please complete all required legal fields.</p>
             <div class="mt-6 flex justify-between">
               <button id="prev-btn-7" class="btn-secondary">Previous</button>
-              <button id="next-btn-7" class="btn-primary">Next</button>
-            </div>
-          </div>
-
-          <!-- Step 8: Voucher Code & Payment -->
-          <div id="step-8" class="step step-hidden" data-step="8">
-            <h3 class="text-lg font-semibold text-gray-800 mb-4">Step 8: Voucher Code or Payment</h3>
-            <p class="text-gray-600 mb-4 text-sm">
-              Enter a voucher code for free valuation or continue with payment.
-            </p>
-            <input type="text" id="voucher-code-input" class="w-full p-2 border rounded-lg focus:ring focus:ring-teal-400 mb-2" placeholder="Enter voucher code" />
-            <p id="voucher-error" class="text-red-500 text-sm mb-4 hidden">Invalid voucher code. Please try again or continue with payment.</p>
-            <div class="flex space-x-4 mb-6">
-              <button id="submit-voucher-btn" class="btn-primary flex-grow">Use Voucher Code</button>
-              <button id="clear-voucher-btn" class="btn-secondary flex-grow">Clear</button>
-            </div>
-            <hr class="my-6" />
-            <p class="text-center text-gray-700 mb-4">Or continue with secure payment:</p>
-            <div id="paypal-container-NVJVZYW6GRKY4" class="mx-auto max-w-xs"></div>
-<div id="payment-status" class="text-green-600 font-bold mt-4 mb-6 hidden">
-  Payment successful! Calculating your valuation...
-  <button id="retry-results" class="btn-primary mt-2">Show Results</button>
-</div>            <div class="mt-6 flex justify-between">
-              <button id="prev-btn-8" class="btn-secondary">Previous</button>
+              <button id="next-btn-7" class="btn-primary">Calculate Valuation</button>
             </div>
           </div>
 
@@ -609,10 +585,9 @@
               <canvas id="revenueGrowthChart" class="w-full max-w-full h-64"></canvas>
             </div>
   </section>
-    <section>&nbsp;</section>
+    <section> </section>
   <center>
-	  </div>
-	<!-- Why Valuation Matters Info Box -->
+    <!-- Why Valuation Matters Info Box -->
     <section class="py-16 bg-gray-50 [data-theme='dark']:bg-gray-800 transition-colors duration-300">
         <div class="container mx-auto px-6">
             <div class="relative bg-white rounded-2xl shadow-xl max-w-4xl mx-auto p-8 [data-theme='dark']:bg-gray-700 animate-[fadeInUp_1s_ease-out] parallax-card">
@@ -644,7 +619,7 @@
             }
         </style>
     </section>
-	</div>
+    </div>
   <img src="https://theultimatemusicapp.github.io/AmandaValuation/web.jpg" alt="SaaSappinfo"/>  </main></center>
 
   <!-- Footer -->
@@ -660,7 +635,6 @@
           <ul class="space-y-2">
             <li><a href="index.html#valuation">Self </a><a href="index.html#valuation">Valuation</a></li>
             <li><a href="ndex.html#data-room">AI Data Room</a></li>
-            <li><a href="ndex.html#pricing">Pricing</a></li>
           </ul>
         </div>
         <div>
@@ -685,12 +659,9 @@
     </div>
 </footer>
 
-  <!-- PayPal SDK -->
-  <script src="https://www.paypal.com/sdk/js?client-id=BAAmPIUOhFD8WnPzN-tp-rQwqJ-5hrys3ik4nE0y2X41APCpAHOeX3swr5esUvo6CBAZzZH5iY8lcuBQB4&components=hosted-buttons&disable-funding=venmo&currency=AUD"></script>
   <script>
     // Constants
-    const VOUCHER_CODE = 'Password86$';
-    const TOTAL_STEPS = 8;
+    const TOTAL_STEPS = 7;
 
     // Chart instances
     let valuationChart;
@@ -944,8 +915,7 @@ function calculateValuation() {
     console.log('Valuation calculated successfully.');
   } catch (error) {
     console.error('Error in calculateValuation:', error);
-    document.getElementById('payment-status').textContent = 'Error calculating valuation. Please contact support.';
-    document.getElementById('payment-status').classList.remove('hidden');
+    document.getElementById('results-container').textContent = 'Error calculating valuation. Please contact support.';
   }
 }
 
@@ -1152,19 +1122,6 @@ function calculateValuation() {
     document.addEventListener('DOMContentLoaded', () => {
       showStep(0);
 
-	    document.getElementById('retry-results')?.addEventListener('click', () => {
-  console.log('Retrying results display...');
-  try {
-    calculateValuation();
-    const results = document.getElementById('results-container');
-    results.classList.remove('step-hidden');
-    results.scrollIntoView({ behavior: 'smooth' });
-  } catch (error) {
-    console.error('Error in retry:', error);
-    document.getElementById('payment-status').textContent = 'Error displaying results. Please contact support.';
-  }
-});
-
       // Mobile menu toggle
       document.getElementById('menu-toggle').addEventListener('click', () => {
         document.getElementById('mobile-menu').classList.toggle('hidden');
@@ -1183,8 +1140,13 @@ function calculateValuation() {
         button.addEventListener('click', () => {
           if (validateStep(currentStep)) {
             currentStep++;
-            if (currentStep >= TOTAL_STEPS) currentStep = TOTAL_STEPS - 1;
-            showStep(currentStep);
+            if (currentStep >= TOTAL_STEPS) {
+              calculateValuation();
+              document.getElementById('results-container').classList.remove('step-hidden');
+              document.getElementById('results-container').scrollIntoView({ behavior: 'smooth' });
+            } else {
+              showStep(currentStep);
+            }
           }
         });
       });
@@ -1198,80 +1160,9 @@ function calculateValuation() {
         });
       });
 
-      // Voucher code handling
-      document.getElementById('submit-voucher-btn').addEventListener('click', () => {
-        const codeInput = document.getElementById('voucher-code-input').value.trim();
-        const errorMsg = document.getElementById('voucher-error');
-        const paypalContainer = document.getElementById('paypal-container-NVJVZYW6GRKY4');
-        const paymentStatus = document.getElementById('payment-status');
-        const resultsContainer = document.getElementById('results-container');
-
-        if (codeInput === VOUCHER_CODE) {
-          errorMsg.classList.add('hidden');
-          paypalContainer.style.display = 'none';
-          paymentStatus.classList.add('hidden');
-          calculateValuation();
-          resultsContainer.classList.remove('step-hidden');
-          resultsContainer.scrollIntoView({ behavior: 'smooth' });
-        } else {
-          errorMsg.classList.remove('hidden');
-          paypalContainer.style.display = 'block';
-          paymentStatus.classList.add('hidden');
-        }
-      });
-
-      document.getElementById('clear-voucher-btn').addEventListener('click', () => {
-        document.getElementById('voucher-code-input').value = '';
-        document.getElementById('voucher-error').classList.add('hidden');
-      });
-
       // PDF download
       document.getElementById('download-pdf').addEventListener('click', downloadPDF);
     });
-
-    // PayPal button
-  paypal.HostedButtons({
-  hostedButtonId: "NVJVZYW6GRKY4",
-  onApprove: function(data, actions) {
-    console.log('PayPal payment approved:', data); // Log payment data
-    const paymentStatus = document.getElementById('payment-status');
-    const paypalContainer = document.getElementById('paypal-container-NVJVZYW6GRKY4');
-    const results = document.getElementById('results-container');
-    
-    console.log('Payment status element:', paymentStatus); // Verify element
-    console.log('PayPal container:', paypalContainer); // Verify element
-    console.log('Results container:', results); // Verify element
-
-    if (!paymentStatus || !paypalContainer || !results) {
-      console.error('Missing DOM elements:', { paymentStatus, paypalContainer, results });
-      document.getElementById('voucher-error').textContent = 'Error loading results. Please contact support.';
-      document.getElementById('voucher-error').classList.remove('hidden');
-      return;
-    }
-
-    try {
-      paymentStatus.textContent = 'Processing payment...';
-      paymentStatus.classList.remove('hidden');
-      paypalContainer.style.display = 'none';
-      console.log('Calling calculateValuation...');
-      calculateValuation();
-      console.log('Removing step-hidden class from results...');
-      results.classList.remove('step-hidden');
-      console.log('Scrolling to results...');
-      results.scrollIntoView({ behavior: 'smooth' });
-      paymentStatus.textContent = 'Payment successful! Valuation calculated.';
-    } catch (error) {
-      console.error('Error in onApprove:', error);
-      paymentStatus.textContent = 'Error displaying results. Please contact support.';
-      paymentStatus.classList.remove('hidden');
-    }
-  },
-  onError: function(error) {
-    console.error('PayPal error:', error);
-    document.getElementById('voucher-error').textContent = 'Payment failed. Please try again or contact support.';
-    document.getElementById('voucher-error').classList.remove('hidden');
-  }
-}).render("#paypal-container-NVJVZYW6GRKY4");
   </script>
 </body>
 </html>
