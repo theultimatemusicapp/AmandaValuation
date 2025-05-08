@@ -1177,26 +1177,53 @@
       }
       breakdownHTML += '</ul>';
 
-      // Advice
-      let advice = risks.length > 0 ? `Risks identified: ${risks.join(' ')}` : 'Your business shows strong metrics. Continue optimizing growth and retention.';
+           // Advice
+      let advice = '';
+      if (churnRate > 0.1) advice += 'High customer churn detected; focus on retention.<br>';
+      if (arr > 0 && netProfit / arr < 0.1) advice += 'Low profit margins; consider cost optimization.<br>';
+      if (legalRisks === 'high') advice += 'Address legal liabilities to improve valuation.<br>';
+      if (!advice) advice = 'Your inputs look strong. Well done!';
+
+      // Store results in localStorage
+      const resultsData = {
+        valuation: `<strong>Estimated Valuation: $${Math.round(avgValuation).toLocaleString()}</strong>`,
+        breakdown: breakdownHTML,
+        advice: advice,
+        chartData: {
+          labels: Object.keys(valuations),
+          data: Object.values(valuations).map(v => Math.round(v))
+        },
+        inputs: {
+          arr, mrr, ltv, cac, grossMargin: grossMargin * 100, netProfit, burnRate, runway,
+          revenueGrowth: revenueGrowth * 100, churnRate: churnRate * 100, retentionRate: retentionRate * 100,
+          pmFit, legalRisks, fte: val('fte'), nps: val('nps'), supportRating: val('support-rating'),
+          contractRenewal: val('contract-renewal')
+        },
+        timestamp: Date.now()
+      };
+      localStorage.setItem('saasValuationResults', JSON.stringify(resultsData));
 
       // Update DOM
-      document.getElementById('valuation-result').innerHTML = `<strong>Estimated Valuation: $${Math.round(avgValuation).toLocaleString()}</strong>`;
-      document.getElementById('method-breakdown').innerHTML = breakdownHTML;
-      document.getElementById('advice').innerHTML = advice;
+      document.getElementById('valuation-result').innerHTML = resultsData.valuation;
+      document.getElementById('method-breakdown').innerHTML = resultsData.breakdown;
+      document.getElementById('advice').innerHTML = resultsData.advice;
 
-      // Store chart data
-      window.valuationChartData = {
-        labels: [...Object.keys(valuations), 'Sustainable SaaS Benchmark'],
-        data: [...Object.values(valuations).map(v => Math.round(v)), arr * 6]
-      };
-      window.valuationRisks = risks;
+      // Stored chart data
+      window.valuationChartData = resultsData.chartData;
 
       renderCharts();
+      console.log('Valuation calculated and stored successfully.');
+    } catch (error) {
+      console.error('Error in calculateValuation:', error.message, error.stack);
+      throw error;
+    } finally {
+      hideLoading();
     }
+  }
 
-    // Render charts
-    function renderCharts() {
+  // Render charts
+  function renderCharts() {
+    try {
       const ctxVal = document.getElementById('valuationChart').getContext('2d');
       const ctxRev = document.getElementById('revenueGrowthChart').getContext('2d');
 
@@ -1212,20 +1239,19 @@
           datasets: [{
             label: 'Valuation ($)',
             data: valuationData.data,
-            backgroundColor: ['rgba(56, 178, 172, 0.7)', 'rgba(45, 55, 72, 0.7)', 'rgba(246, 173, 85, 0.7)', 'rgba(237, 137, 54, 0.7)', 'rgba(74, 85, 104, 0.7)'],
-            borderColor: ['rgba(56, 178, 172, 1)', 'rgba(45, 55, 72, 1)', 'rgba(246, 173, 85, 1)', 'rgba(237, 137, 54, 1)', 'rgba(74, 85, 104, 1)'],
+            backgroundColor: 'rgba(56, 178, 172, 0.7)',
+            borderColor: 'rgba(56, 178, 172, 1)',
             borderWidth: 1
           }]
         },
         options: {
-          responsive: true,
           scales: { y: { beginAtZero: true, title: { display: true, text: 'Valuation ($)' } } },
           plugins: { legend: { display: false }, title: { display: true, text: 'Valuation Comparison' } }
         }
       });
 
-      const arr = val('arr');
-      const growthRate = val('revenue-growth-yoy') / 100 || 0;
+      const arr = val('arr') || 1000;
+      const growthRate = (val('revenue-growth-yoy') / 100) || 0;
       const labels = ['Current Year', 'Year 1', 'Year 2', 'Year 3', 'Year 4', 'Year 5'];
       const revenueData = [arr];
       for (let i = 1; i <= 5; i++) {
@@ -1245,259 +1271,334 @@
           }]
         },
         options: {
-          responsive: true,
           scales: { y: { beginAtZero: true, title: { display: true, text: 'Revenue ($)' } } },
           plugins: { legend: { display: false }, title: { display: true, text: 'Projected 5-Year Revenue Growth' } }
         }
       });
+    } catch (error) {
+      console.error('Error rendering charts:', error);
+      document.getElementById('valuation-result').innerHTML += '<br><small>Charts could not be rendered, but valuation results are still valid.</small>';
     }
+  }
 
-    // PDF export
-    function downloadPDF() {
-      const { jsPDF } = window.jspdf;
-      const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
+  // Loading spinner
+  function showLoading() {
+    document.getElementById('loading-spinner').classList.remove('hidden');
+  }
 
-      // Colors
-      const teal = '#38B2AC';
-      const darkGray = '#2D3748';
+  function hideLoading() {
+    document.getElementById('loading-spinner').classList.add('hidden');
+  }
 
-      // Helper function to add text with wrapping
-      const addWrappedText = (text, x, y, maxWidth, fontSize, color, fontStyle = 'normal') => {
-        doc.setFontSize(fontSize);
-        doc.setTextColor(color);
-        doc.setFont('helvetica', fontStyle);
-        doc.text(text, x, y, { maxWidth });
-      };
+  // PDF export
+  function downloadPDF() {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
 
-      // Cover Page
+    // Colors
+    const teal = '#38B2AC';
+    const darkGray = '#2D3748';
+
+    // Helper function to add text with wrapping
+    const addWrappedText = (text, x, y, maxWidth, fontSize, color, fontStyle = 'normal') => {
+      doc.setFontSize(fontSize);
+      doc.setTextColor(color);
+      doc.setFont('helvetica', fontStyle);
+      doc.text(text, x, y, { maxWidth });
+    };
+
+    // Cover Page
+    doc.setFillColor(teal);
+    doc.rect(0, 0, 210, 40, 'F');
+    addWrappedText('SaaS Valuation App', 10, 20, 190, 24, '#FFFFFF', 'bold');
+    addWrappedText('Pro Valuation Report', 10, 30, 190, 18, '#FFFFFF', 'bold');
+    addWrappedText('Comprehensive Business Evaluation', 10, 60, 190, 14, darkGray);
+    addWrappedText('Prepared on ' + new Date().toLocaleDateString(), 10, 80, 190, 12, darkGray);
+    addWrappedText('Powered by AI-Driven Insights | https://saasvaluation.app', 10, 100, 190, 10, darkGray);
+    addWrappedText('Confidential – For Internal Use Only', 10, 120, 190, 8, darkGray);
+    doc.addPage();
+
+    // Header and Footer on all pages
+    const addHeaderFooter = () => {
       doc.setFillColor(teal);
-      doc.rect(0, 0, 210, 40, 'F');
-      addWrappedText('SaaS Valuation App', 10, 20, 190, 24, '#FFFFFF', 'bold');
-      addWrappedText('Pro Valuation Report', 10, 30, 190, 18, '#FFFFFF', 'bold');
-      addWrappedText('Comprehensive Business Evaluation', 10, 60, 190, 14, darkGray);
-      addWrappedText('Prepared on ' + new Date().toLocaleDateString(), 10, 80, 190, 12, darkGray);
-      addWrappedText('Powered by AI-Driven Insights | https://saasvaluation.app', 10, 100, 190, 10, darkGray);
-      addWrappedText('Confidential – For Internal Use Only', 10, 120, 190, 8, darkGray);
-      doc.addPage();
+      doc.rect(0, 0, 210, 10, 'F');
+      addWrappedText('SaaS Valuation App', 10, 7, 100, 8, '#FFFFFF');
+      addWrappedText('Page ' + doc.internal.getCurrentPageInfo().pageNumber, 190, 7, 20, 8, '#FFFFFF', 'bold');
+      doc.setFillColor(darkGray);
+      doc.rect(0, 287, 210, 10, 'F');
+      addWrappedText('© 2025 SaaS Valuation App', 10, 294, 190, 8, '#FFFFFF');
+    };
 
-      // Header and Footer
-      const addHeaderFooter = () => {
-        doc.setFillColor(teal);
-        doc.rect(0, 0, 210, 10, 'F');
-        addWrappedText('SaaS Valuation App', 10, 7, 100, 8, '#FFFFFF');
-        addWrappedText('Page ' + doc.internal.getCurrentPageInfo().pageNumber, 190, 7, 20, 8, '#FFFFFF', 'bold');
-        doc.setFillColor(darkGray);
-        doc.rect(0, 287, 210, 10, 'F');
-        addWrappedText('© 2025 SaaS Valuation App', 10, 294, 190, 8, '#FFFFFF');
-      };
+    // Executive Summary
+    addHeaderFooter();
+    addWrappedText('Executive Summary', 10, 20, 190, 16, teal, 'bold');
+    addWrappedText(
+      'This SaaS Pro Valuation Report provides a comprehensive evaluation of your business, leveraging advanced metrics and AI-driven insights. Below are the key findings:',
+      10, 30, 190, 10, darkGray
+    );
+    const valuation = document.getElementById('valuation-result').textContent;
+    const methods = Array.from(document.querySelectorAll('#step-1 input[type=checkbox]:checked'))
+      .map(cb => cb.value.replace('multiplier', 'Revenue Multiplier').replace('income', 'Income-Based').replace('earnings', 'Earnings-Based').replace('dcf', 'Discounted Cash Flow'))
+      .join(', ');
+    const advice = document.getElementById('advice').textContent;
+    addWrappedText(`• Estimated Valuation: ${valuation}`, 10, 40, 190, 10, darkGray);
+    addWrappedText(`• Valuation Methods: ${methods}`, 10, 48, 190, 10, darkGray);
+    addWrappedText(`• Key Strengths: High revenue growth, strong product-market fit, or scalable infrastructure.`, 10, 56, 190, 10, darkGray);
+    addWrappedText(`• Areas for Improvement: ${advice}`, 10, 64, 190, 10, darkGray);
 
-      // Executive Summary
-      addHeaderFooter();
-      addWrappedText('Executive Summary', 10, 20, 190, 16, teal, 'bold');
-      addWrappedText(
-        'This SaaS Pro Valuation Report provides a comprehensive evaluation of your business, leveraging advanced metrics and AI-driven insights. Below are the key findings:',
-        10, 30, 190, 10, darkGray
-      );
-      const valuation = document.getElementById('valuation-result').textContent;
-      const methods = Array.from(document.querySelectorAll('#step-1 input[type=checkbox]:checked'))
-        .map(cb => cb.value.replace('multiplier', 'Revenue Multiplier').replace('income', 'Income-Based').replace('earnings', 'Earnings-Based').replace('dcf', 'Discounted Cash Flow'))
-        .join(', ');
-      const advice = document.getElementById('advice').textContent;
-      addWrappedText(`• Estimated Valuation: ${valuation}`, 10, 40, 190, 10, darkGray);
-      addWrappedText(`• Valuation Methods: ${methods}`, 10, 48, 190, 10, darkGray);
-      addWrappedText(`• Key Strengths: High revenue growth, strong product-market fit, or scalable infrastructure.`, 10, 56, 190, 10, darkGray);
-      addWrappedText(`• Areas for Improvement: ${advice}`, 10, 64, 190, 10, darkGray);
-
-      // Valuation Breakdown
-      addWrappedText('Valuation Breakdown', 10, 80, 190, 16, teal, 'bold');
-      addWrappedText('The valuation is calculated using the following methods:', 10, 90, 190, 10, darkGray);
-      let yPos = 100;
-      document.querySelectorAll('#method-breakdown li').forEach(li => {
-        const [method, amount] = li.textContent.split(': ');
-        const description = method === 'Revenue Multiplier' ? 'Based on ARR multiplied by a factor adjusted for growth, churn, and market type.' :
-                          method === 'Income-Based' ? 'Derived from net profit with multipliers reflecting profitability and risk.' :
-                          method === 'Earnings-Based' ? 'Combines ARR and net profit, adjusted for retention and team strength.' :
-                          'Projects future cash flows discounted to present value, adjusted for risk.';
-        addWrappedText(`• ${method}: ${amount}`, 10, yPos, 190, 10, darkGray);
-        addWrappedText(description, 15, yPos + 5, 185, 8, darkGray);
-        yPos += 15;
-      });
-
-      // Buyer and Investor Risks
-      addWrappedText('Buyer and Investor Risks', 10, yPos, 190, 16, teal, 'bold');
-      const risks = window.valuationRisks || [];
-      const riskText = risks.length > 0 ? risks.join(' ') : 'No significant risks identified.';
-      addWrappedText(riskText, 10, yPos + 10, 190, 10, darkGray);
-      addWrappedText('Note: High churn, negative profits, or legal issues may deter buyers and investors.', 10, yPos + 20, 190, 8, darkGray);
-      yPos += 30;
-
-      // Valuation Chart
-      const valuationCanvas = document.getElementById('valuationChart');
-      if (valuationCanvas) {
-        const valuationImage = valuationCanvas.toDataURL('image/png', 0.5);
-        doc.addImage(valuationImage, 'PNG', 10, yPos, 190, 60);
-        yPos += 70;
-      }
-
-      doc.addPage();
-
-      // Key Financial Metrics
-      addHeaderFooter();
-      addWrappedText('Key Financial Metrics', 10, 20, 190, 16, teal, 'bold');
-      addWrappedText('Critical financial inputs driving the valuation:', 10, 30, 190, 10, darkGray);
-      const metrics = [
-        { label: 'Annual Recurring Revenue (ARR)', value: `$${val('arr').toLocaleString()}` },
-        { label: 'Monthly Recurring Revenue (MRR)', value: `$${val('mrr').toLocaleString()}` },
-        { label: 'Customer Lifetime Value (LTV)', value: `$${val('ltv').toLocaleString()}` },
-        { label: 'Customer Acquisition Cost (CAC)', value: `$${val('cac').toLocaleString()}` },
-        { label: 'Gross Margin', value: `${val('gross-margin')}%` },
-        { label: 'Net Profit / EBITDA', value: `$${val('net-profit').toLocaleString()}` },
-        { label: 'Monthly Burn Rate', value: `$${val('burn-rate').toLocaleString()}` },
-        { label: 'Runway', value: `${val('runway')} months` },
-        { label: 'Revenue Growth (YoY)', value: `${val('revenue-growth-yoy')}%` },
-        { label: 'Customer Churn Rate', value: `${val('customer-churn')}%` }
-      ];
-      yPos = 40;
-      metrics.forEach(metric => {
-        addWrappedText(`${metric.label}: ${metric.value}`, 10, yPos, 190, 10, darkGray);
-        yPos += 8;
-      });
-
-      // Revenue Growth Chart
-      const revenueCanvas = document.getElementById('revenueGrowthChart');
-      if (revenueCanvas) {
-        const revenueImage = revenueCanvas.toDataURL('image/png', 0.5);
-        doc.addImage(revenueImage, 'PNG', 10, 100, 190, 60);
-        yPos = 170;
-      }
-
-      // Market Insights
-      addWrappedText('Market Insights', 10, yPos, 190, 16, teal, 'bold');
-      const marketType = sval('market-type');
-      const marketInsight = multipliers[marketType]
-        ? `Your ${marketType.replace(/-/g, ' ')} market typically commands a ${multipliers[marketType]}x ARR multiplier due to its growth potential and stability.`
-        : 'Your market shows standard growth potential with a 6x ARR multiplier.';
-      addWrappedText(marketInsight, 10, yPos + 10, 190, 10, darkGray);
-
-      doc.addPage();
-
-      // Strategic Recommendations
-      addHeaderFooter();
-      addWrappedText('Strategic Recommendations', 10, 20, 190, 16, teal, 'bold');
-      addWrappedText('To enhance your business value:', 10, 30, 190, 10, darkGray);
-      const churnRate = val('customer-churn');
-      const netProfit = val('net-profit');
-      const arr = val('arr');
-      const legalRisks = sval('legal-liabilities');
-      const recommendations = [
-        churnRate > 10 ? `• Reduce Churn: High churn rates (${churnRate}%) suggest focusing on customer retention strategies.` : null,
-        netProfit / arr < 0.1 && arr > 0 ? `• Optimize Profitability: Low profit margins indicate potential for cost optimization.` : null,
-        legalRisks === 'high' ? `• Mitigate Legal Risks: Address legal liabilities to reduce valuation discounts.` : null,
-        `• Leverage Strengths: Capitalize on strong product-market fit or scalable infrastructure.`
-      ].filter(Boolean);
-      yPos = 40;
-      recommendations.forEach(rec => {
-        addWrappedText(rec, 10, yPos, 190, 10, darkGray);
-        yPos += 8;
-      });
-
-      // About Section
-      addWrappedText('About SaaS Valuation App', 10, yPos + 10, 190, 16, teal, 'bold');
-      addWrappedText(
-        'SaaS Valuation App provides AI-driven insights to help business owners understand their company’s worth. Visit https://saasvaluation.app for more information.',
-        10, yPos + 20, 190, 10, darkGray
-      );
-
-      // Save PDF
-      doc.save('saas-pro-valuation-report.pdf');
-    }
-
-    // Event listeners
-    document.addEventListener('DOMContentLoaded', () => {
-      showStep(0);
-
-      // Mobile menu toggle
-      document.getElementById('menu-toggle').addEventListener('click', () => {
-        document.getElementById('mobile-menu').classList.toggle('hidden');
-      });
-
-      // Explanation toggles
-      document.querySelectorAll('.explanation-toggle').forEach(button => {
-        button.addEventListener('click', () => {
-          const target = document.getElementById(button.dataset.target);
-          if (target) target.classList.toggle('expanded');
-        });
-      });
-
-      // Navigation buttons
-      document.querySelectorAll('[id^="next-btn-"]').forEach(button => {
-        button.addEventListener('click', () => {
-          if (validateStep(currentStep)) {
-            currentStep++;
-            if (currentStep >= TOTAL_STEPS) currentStep = TOTAL_STEPS - 1;
-            showStep(currentStep);
-          }
-        });
-      });
-
-      document.querySelectorAll('[id^="prev-btn-"]').forEach(button => {
-        button.addEventListener('click', () => {
-          if (currentStep > 0) {
-            currentStep--;
-            showStep(currentStep);
-          }
-        });
-      });
-
-      // Voucher code handling
-      document.getElementById('submit-voucher-btn').addEventListener('click', () => {
-        const codeInput = document.getElementById('voucher-code-input').value.trim();
-        const errorMsg = document.getElementById('voucher-error');
-        const paypalContainer = document.getElementById('paypal-container-NVJVZYW6GRKY4');
-        const paymentStatus = document.getElementById('payment-status');
-        const resultsContainer = document.getElementById('results-container');
-
-        if (codeInput === VOUCHER_CODE) {
-          errorMsg.classList.add('hidden');
-          paypalContainer.style.display = 'none';
-          paymentStatus.classList.add('hidden');
-          calculateValuation();
-          resultsContainer.classList.remove('step-hidden');
-          resultsContainer.scrollIntoView({ behavior: 'smooth' });
-        } else {
-          errorMsg.classList.remove('hidden');
-          paypalContainer.style.display = 'block';
-          paymentStatus.classList.add('hidden');
-        }
-      });
-
-      document.getElementById('clear-voucher-btn').addEventListener('click', () => {
-        document.getElementById('voucher-code-input').value = '';
-        document.getElementById('voucher-error').classList.add('hidden');
-      });
-
-      // PDF download
-      document.getElementById('download-pdf').addEventListener('click', downloadPDF);
+    // Valuation Breakdown
+    addWrappedText('Valuation Breakdown', 10, 80, 190, 16, teal, 'bold');
+    addWrappedText('The valuation is calculated using the following methods:', 10, 90, 190, 10, darkGray);
+    let yPos = 100;
+    document.querySelectorAll('#method-breakdown li').forEach(li => {
+      const [method, amount] = li.textContent.split(': ');
+      const description = method === 'Revenue Multiplier' ? 'Based on ARR multiplied by a factor adjusted for growth and churn.' :
+                        method === 'Income-Based' ? 'Derived from net profit with multipliers reflecting profitability.' :
+                        method === 'Earnings-Based' ? 'Combines ARR and net profit, adjusted for retention.' :
+                        'Projects future cash flows discounted to present value.';
+      addWrappedText(`• ${method}: ${amount}`, 10, yPos, 190, 10, darkGray);
+      addWrappedText(description, 15, yPos + 5, 185, 8, darkGray);
+      yPos += 15;
     });
 
-    // PayPal button
-    paypal.HostedButtons({
-      hostedButtonId: 'NVJVZYW6GRKY4',
-      onApprove: function(data, actions) {
-        document.getElementById('payment-status').classList.remove('hidden');
-        document.getElementById('paypal-container-NVJVZYW6GRKY4').style.display = 'none';
-        calculateValuation();
-        const results = document.getElementById('results-container');
-        results.classList.remove('step-hidden');
-        results.scrollIntoView({ behavior: 'smooth' });
-      },
-      onError: () => {
-        alert('Payment failed. Please try again.');
+    // Add Valuation Chart
+    const valuationCanvas = document.getElementById('valuationChart');
+    if (valuationCanvas) {
+      const valuationImage = valuationCanvas.toDataURL('image/png');
+      doc.addImage(valuationImage, 'PNG', 10, yPos, 190, 60);
+      yPos += 70;
+    }
+
+    doc.addPage();
+
+    // Key Financial Metrics
+    addHeaderFooter();
+    addWrappedText('Key Financial Metrics', 10, 20, 190, 16, teal, 'bold');
+    addWrappedText('Critical financial inputs driving the valuation:', 10, 30, 190, 10, darkGray);
+    const metrics = [
+      { label: 'Annual Recurring Revenue (ARR)', value: `$${val('arr').toLocaleString()}` },
+      { label: 'Monthly Recurring Revenue (MRR)', value: `$${val('mrr').toLocaleString()}` },
+      { label: 'Customer Lifetime Value (LTV)', value: `$${val('ltv').toLocaleString()}` },
+      { label: 'Customer Acquisition Cost (CAC)', value: `$${val('cac').toLocaleString()}` },
+      { label: 'Gross Margin', value: `${val('gross-margin')}%` },
+      { label: 'Net Profit / EBITDA', value: `$${val('net-profit').toLocaleString()}` },
+      { label: 'Monthly Burn Rate', value: `$${val('burn-rate').toLocaleString()}` },
+      { label: 'Runway', value: `${val('runway')} months` },
+      { label: 'Revenue Growth (YoY)', value: `${val('revenue-growth-yoy')}%` },
+      { label: 'Customer Churn Rate', value: `${val('customer-churn')}%` }
+    ];
+    yPos = 40;
+    metrics.forEach(metric => {
+      addWrappedText(`${metric.label}: ${metric.value}`, 10, yPos, 190, 10, darkGray);
+      yPos += 8;
+    });
+
+    // Add Revenue Growth Chart
+    const revenueCanvas = document.getElementById('revenueGrowthChart');
+    if (revenueCanvas) {
+      const revenueImage = revenueCanvas.toDataURL('image/png');
+      doc.addImage(revenueImage, 'PNG', 10, yPos, 190, 60);
+      yPos += 70;
+    }
+
+    doc.addPage();
+
+    // Strategic Recommendations
+    addHeaderFooter();
+    addWrappedText('Strategic Recommendations', 10, 20, 190, 16, teal, 'bold');
+    addWrappedText('To enhance your business value:', 10, 30, 190, 10, darkGray);
+    const churnRate = val('customer-churn');
+    const netProfit = val('net-profit');
+    const arr = val('arr');
+    const legalRisks = sval('legal-liabilities');
+    const recommendations = [
+      churnRate > 10 ? `• Reduce Churn: High churn rates (${churnRate}%) suggest focusing on customer retention strategies.` : null,
+      netProfit / arr < 0.1 && arr > 0 ? `• Optimize Profitability: Low profit margins indicate potential for cost optimization.` : null,
+      legalRisks === 'high' ? `• Mitigate Legal Risks: Address legal liabilities to reduce valuation discounts.` : null,
+      `• Leverage Strengths: Capitalize on strong product-market fit or scalable infrastructure.`
+    ].filter(Boolean);
+    yPos = 40;
+    recommendations.forEach(rec => {
+      addWrappedText(rec, 10, yPos, 190, 10, darkGray);
+      yPos += 8;
+    });
+
+    // About Section
+    addWrappedText('About SaaS Valuation App', 10, yPos + 10, 190, 16, teal, 'bold');
+    addWrappedText(
+      'SaaS Valuation App provides AI-driven insights to help business owners understand their company’s worth. Visit https://saasvaluation.app for more information.',
+      10, yPos + 20, 190, 10, darkGray
+    );
+
+    // Save the PDF
+    doc.save('saas-pro-valuation-report.pdf');
+  }
+
+  // Clear localStorage on new valuation start
+  document.addEventListener('DOMContentLoaded', () => {
+    localStorage.removeItem('saasValuationResults');
+    showStep(0);
+
+    // Retry results
+    document.getElementById('retry-results').addEventListener('click', () => {
+      console.log('Retrying results display...');
+      try {
+        if (validateAllSteps()) {
+          calculateValuation();
+          const results = document.getElementById('results-container');
+          if (results) {
+            results.classList.remove('step-hidden');
+            results.classList.add('step-visible');
+            results.scrollIntoView({ behavior: 'smooth' });
+            document.getElementById('payment-status').textContent = 'Valuation recalculated successfully.';
+          } else {
+            console.error('Results container not found.');
+            document.getElementById('payment-status').textContent = 'Error: Results container not found. Please contact support.';
+          }
+        } else {
+          document.getElementById('payment-status').textContent = 'Error: Invalid inputs. Please go back and complete all steps.';
+        }
+      } catch (error) {
+        console.error('Error retrying results:', error);
+        document.getElementById('payment-status').textContent = `Error: ${error.message}. Please try again or contact support.`;
       }
-    }).render('#paypal-container-NVJVZYW6GRKY4');
-  </script>
-</main>
+    });
+
+    // Download PDF
+    document.getElementById('download-pdf').addEventListener('click', downloadPDF);
+
+    // Step navigation
+    for (let i = 1; i <= TOTAL_STEPS; i++) {
+      const nextBtn = document.getElementById(`next-btn-${i}`);
+      const prevBtn = document.getElementById(`prev-btn-${i}`);
+      if (nextBtn) {
+        nextBtn.addEventListener('click', () => {
+          console.log(`Next button clicked for step ${i}`);
+          if (validateStep(i - 1)) {
+            currentStep = Math.min(currentStep + 1, TOTAL_STEPS - 1);
+            showStep(currentStep);
+          } else {
+            console.log(`Validation failed for step ${i}`);
+          }
+        });
+      } else {
+        console.warn(`Next button not found for step ${i}`);
+      }
+      if (prevBtn) {
+        prevBtn.addEventListener('click', () => {
+          console.log(`Previous button clicked for step ${i}`);
+          currentStep = Math.max(currentStep - 1, 0);
+          showStep(currentStep);
+        });
+      }
+    }
+
+    // Explanation toggles
+    document.querySelectorAll('.explanation-toggle').forEach(button => {
+      button.addEventListener('click', () => {
+        console.log('Explanation toggle clicked:', button.getAttribute('data-target'));
+        const targetId = button.getAttribute('data-target');
+        const explanation = document.getElementById(targetId);
+        explanation.classList.toggle('expanded');
+      });
+    });
+
+    // Voucher code handling
+    document.getElementById('submit-voucher-btn').addEventListener('click', () => {
+      console.log('Voucher submit clicked');
+      const voucherInput = document.getElementById('voucher-code-input');
+      const voucherError = document.getElementById('voucher-error');
+      if (voucherInput.value === VOUCHER_CODE) {
+        voucherError.classList.add('hidden');
+        if (validateAllSteps()) {
+          calculateValuation();
+          const results = document.getElementById('results-container');
+          results.classList.remove('step-hidden');
+          results.classList.add('step-visible');
+          results.scrollIntoView({ behavior: 'smooth' });
+          document.getElementById('payment-status').textContent = 'Voucher accepted! Valuation calculated.';
+        } else {
+          voucherError.textContent = 'Invalid or missing input data. Please complete all steps.';
+          voucherError.classList.remove('hidden');
+        }
+      } else {
+        voucherError.textContent = 'Invalid voucher code. Please check your email for the correct code or continue with payment.';
+        voucherError.classList.remove('hidden');
+      }
+    });
+
+    document.getElementById('clear-voucher-btn').addEventListener('click', () => {
+      console.log('Voucher clear clicked');
+      document.getElementById('voucher-code-input').value = '';
+      document.getElementById('voucher-error').classList.add('hidden');
+    });
+
+    // Mobile menu toggle
+    document.getElementById('menu-toggle').addEventListener('click', () => {
+      console.log('Mobile menu toggled');
+      const mobileMenu = document.getElementById('mobile-menu');
+      mobileMenu.classList.toggle('hidden');
+      const icon = document.getElementById('menu-toggle').querySelector('i');
+      icon.classList.toggle('fa-bars');
+      icon.classList.toggle('fa-times');
+    });
+  });
+
+  // PayPal integration
+  paypal.HostedButtons({
+    hostedButtonId: "NVJVZYW6GRKY4",
+    onApprove: function(data, actions) {
+      console.log('PayPal payment approved:', data);
+      const paymentStatus = document.getElementById('payment-status');
+      const paypalContainer = document.getElementById('paypal-container-NVJVZYW6GRKY4');
+      const results = document.getElementById('results-container');
+
+      // Check for missing DOM elements
+      if (!paymentStatus || !paypalContainer || !results) {
+        console.error('Missing DOM elements:', { paymentStatus, paypalContainer, results });
+        document.getElementById('voucher-error').textContent = 'Error: Missing required page elements. Please contact support.';
+        document.getElementById('voucher-error').classList.remove('hidden');
+        return;
+      }
+
+      try {
+        // Update UI to indicate processing
+        paymentStatus.textContent = 'Processing payment...';
+        paymentStatus.classList.remove('hidden');
+        paypalContainer.style.display = 'none';
+
+        // Validate inputs before calculating
+        if (!validateAllSteps()) {
+          throw new Error('Invalid or missing input data. Please go back and complete all steps.');
+        }
+
+        // Calculate valuation and store in localStorage
+        console.log('Calling calculateValuation...');
+        calculateValuation();
+
+        // Show results temporarily (before redirect)
+        console.log('Showing results container...');
+        results.classList.remove('step-hidden');
+        results.classList.add('step-visible');
+        results.scrollIntoView({ behavior: 'smooth' });
+
+        // Update status
+        paymentStatus.innerHTML = `Payment successful! Redirecting to results page...<br>Your voucher code is: ${VOUCHER_CODE}<br>Use this code to access results again or share with your team. Check your email for the transaction confirmation.`;
+
+        // Allow PayPal to handle redirect via Auto Return
+      } catch (error) {
+        console.error('Error in onApprove:', error.message, error.stack);
+        paymentStatus.textContent = `Error: ${error.message}. Please try again or contact support.`;
+        paymentStatus.classList.remove('hidden');
+        document.getElementById('retry-results').classList.remove('hidden');
+      }
+    },
+    onError: function(error) {
+      console.error('PayPal error:', error);
+      document.getElementById('voucher-error').textContent = 'Payment failed. Please try again or contact support.';
+      document.getElementById('voucher-error').classList.remove('hidden');
+    }
+  }).render("#paypal-container-NVJVZYW6GRKY4");
+</script>
 </body>
 </html>
-
-  <!--
