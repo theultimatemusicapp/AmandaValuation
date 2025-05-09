@@ -874,7 +874,7 @@
               </div>
             </div>
           </div>
-<!-- PART 4: Results, Footer, JavaScript, and Closing Tags (~450 lines) -->
+<!-- PART 4: Results, Footer, JavaScript with Enhanced PDF (~450 lines) -->
           <!-- Results Section -->
           <div id="results" class="step step-hidden" data-step="8">
             <h3 class="text-lg font-semibold text-gray-800 mb-4">Valuation Results</h3>
@@ -938,7 +938,7 @@
   <!-- FOOTER -->
   <footer class="bg-gray-800 text-white py-6">
     <div class="container mx-auto px-4 text-center">
-      <p>&copy; 2025 SaaS Valuation App. All rights reserved.</p>
+      <p>© 2025 SaaS Valuation App. All rights reserved.</p>
       <div class="mt-2">
         <a href="#privacy" class="text-teal-400 hover:underline mx-2">Privacy Policy</a>
         <a href="#terms" class="text-teal-400 hover:underline mx-2">Terms of Service</a>
@@ -1236,25 +1236,99 @@
         options: { scales: { r: { min: 0, max: 10 } } }
       });
 
-      // PDF Report
+      // Enhanced PDF Report
       document.getElementById('download-report').addEventListener('click', () => {
         const { jsPDF } = window.jspdf;
         const doc = new jsPDF();
-        doc.setFontSize(16);
-        doc.text('SaaS Valuation Report', 20, 20);
+        const pageWidth = doc.internal.pageSize.getWidth();
+        const margin = 20;
+        let yPos = margin;
+
+        // Title
+        doc.setFontSize(18);
+        doc.text('SaaS Valuation Report', margin, yPos);
+        yPos += 10;
+
+        // Valuation Summary
         doc.setFontSize(12);
-        doc.text(`Valuation: $${Math.round(avgValuation).toLocaleString()}`, 20, 30);
-        doc.text(`Range: $${Math.round(rangeLow).toLocaleString()} - $${Math.round(rangeHigh).toLocaleString()}`, 20, 40);
-        doc.text(`Confidence: ${Math.round(confidence)}%`, 20, 50);
-        doc.text('Methods Used:', 20, 60);
+        doc.text(`Valuation: $${Math.round(avgValuation).toLocaleString()}`, margin, yPos);
+        yPos += 10;
+        doc.text(`Range: $${Math.round(rangeLow).toLocaleString()} - $${Math.round(rangeHigh).toLocaleString()}`, margin, yPos);
+        yPos += 10;
+        doc.text(`Confidence: ${Math.round(confidence)}%`, margin, yPos);
+        yPos += 15;
+
+        // Methods Used
+        doc.setFontSize(14);
+        doc.text('Valuation Methods', margin, yPos);
+        yPos += 10;
+        doc.setFontSize(12);
         valuations.forEach((v, i) => {
-          doc.text(`${v.method}: $${Math.round(v.value).toLocaleString()}`, 30, 70 + i * 10);
+          doc.text(`${v.method}: $${Math.round(v.value).toLocaleString()}`, margin + 10, yPos);
+          yPos += 10;
         });
-        doc.text('Key Metrics:', 20, 100);
-        doc.text(`ARR: $${arr.toLocaleString()}`, 30, 110);
-        doc.text(`Net Profit: $${netProfit.toLocaleString()}`, 30, 120);
-        doc.text(`YoY Growth: ${growthYoy}%`, 30, 130);
-        doc.text(`Customer Churn: ${customerChurn}%`, 30, 140);
+        yPos += 10;
+
+        // Key Metrics
+        doc.setFontSize(14);
+        doc.text('Key Metrics', margin, yPos);
+        yPos += 10;
+        doc.setFontSize(12);
+        doc.text(`ARR: $${arr.toLocaleString()}`, margin + 10, yPos);
+        yPos += 10;
+        doc.text(`Net Profit: $${netProfit.toLocaleString()}`, margin + 10, yPos);
+        yPos += 10;
+        doc.text(`YoY Growth: ${growthYoy}%`, margin + 10, yPos);
+        yPos += 10;
+        doc.text(`Customer Churn: ${customerChurn}%`, margin + 10, yPos);
+        yPos += 15;
+
+        // Graphs
+        const graphWidth = 80;
+        const graphHeight = 50;
+        const graphs = [
+          { id: 'valuation-chart', title: 'Valuation by Method' },
+          { id: 'financial-chart', title: 'Financial Metrics Impact' },
+          { id: 'growth-churn-chart', title: 'Growth vs. Churn' },
+          { id: 'risk-chart', title: 'Risk Factors' }
+        ];
+
+        graphs.forEach((graph, index) => {
+          const canvas = document.getElementById(graph.id);
+          const imgData = canvas.toDataURL('image/png');
+          if (index % 2 === 0) {
+            doc.addPage();
+            yPos = margin;
+          }
+          doc.setFontSize(14);
+          doc.text(graph.title, margin, yPos);
+          yPos += 10;
+          doc.addImage(imgData, 'PNG', margin, yPos, graphWidth, graphHeight);
+          yPos += graphHeight + 10;
+        });
+
+        // Disclaimer
+        doc.addPage();
+        yPos = margin;
+        doc.setFontSize(14);
+        doc.text('Disclaimer', margin, yPos);
+        yPos += 10;
+        doc.setFontSize(10);
+        const disclaimerText = 'This valuation is an estimate based on provided data and industry-standard methods. It is not financial advice. Consult a professional financial advisor or valuation expert before making business decisions. SaaS Valuation App is not liable for any actions taken based on this report.';
+        const splitDisclaimer = doc.splitTextToSize(disclaimerText, pageWidth - 2 * margin);
+        doc.text(splitDisclaimer, margin, yPos);
+        yPos += splitDisclaimer.length * 5 + 10;
+
+        // Company Info
+        doc.setFontSize(14);
+        doc.text('About SaaS Valuation App', margin, yPos);
+        yPos += 10;
+        doc.setFontSize(10);
+        const companyText = 'SaaS Valuation App empowers businesses with AI-driven insights to evaluate their SaaS companies accurately. Our mission is to provide transparent, data-driven tools for entrepreneurs and investors. Contact us at: support@saasvaluation.app | Visit: www.saasvaluation.app';
+        const splitCompany = doc.splitTextToSize(companyText, pageWidth - 2 * margin);
+        doc.text(splitCompany, margin, yPos);
+
+        // Save PDF
         doc.save('saas_valuation_report.pdf');
       });
     }
@@ -1264,4 +1338,3 @@
   </script>
 </body>
 </html>
-          
