@@ -1,1168 +1,1224 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>SaaS Pro Valuation - Comprehensive Business Evaluation</title>
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- Meta tags for SEO and accessibility -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Pro Valuation Tool for SaaS businesses, offering advanced valuation insights and professional PDF reports.">
+  <meta name="keywords" content="SaaS valuation, business valuation, pro valuation, SaaS metrics">
+  <meta name="author" content="SaaS Valuation App">
+  <meta name="robots" content="index, follow">
+  <title>Pro Valuation - SaaS Valuation App</title>
+
+  <!-- External dependencies -->
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.min.js"></script>
+
+  <!-- Inline styles for centered layout and header -->
   <style>
-    .gradient-bg {
-      background: linear-gradient(135deg, #38b2ac 0%, #2d3748 100%);
+    /* Center body content with a constrained width */
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      line-height: 1.6;
+      margin: 0;
+      padding: 0;
+      background-color: #f9fafb; /* bg-gray-50 */
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
     }
-    .btn-primary {
-      @apply bg-teal-500 text-white font-bold py-2 px-4 rounded-lg transition-colors duration-300;
+    /* Ensure main content is centered */
+    main {
+      flex: 1;
+      max-width: 896px; /* Equivalent to max-w-4xl (64rem) */
+      margin-left: auto;
+      margin-right: auto;
+      width: 100%;
+      padding: 2rem 1rem; /* py-8 px-4 */
     }
-    .btn-primary:hover {
-      @apply bg-teal-600;
+    /* Hide elements by default */
+    .hidden {
+      display: none;
     }
-    .btn-secondary {
-      @apply bg-yellow-500 text-white font-bold py-2 px-4 rounded-lg transition-colors duration-300;
+    /* Header link styling */
+    .header-link {
+      transition: color 0.2s ease;
     }
-    .btn-secondary:hover {
-      @apply bg-yellow-600;
+    .header-link:hover {
+      color: #5eead4; /* Teal-300 for hover */
     }
-    .step-hidden {
+    /* Mobile menu styling */
+    .mobile-menu-link {
+      transition: color 0.2s ease;
+    }
+    .mobile-menu-link:hover {
+      color: #5eead4; /* Teal-300 for hover */
+    }
+    /* Responsive header navigation */
+    @media (max-width: 768px) {
+      .desktop-nav {
+        display: none;
+      }
+      .mobile-menu {
+        display: flex;
+        flex-direction: column;
+      }
+      main {
+        padding: 1rem; /* Reduce padding on mobile */
+      }
+    }
+    @media (min-width: 769px) {
+      .mobile-menu {
+        display: none !important;
+      }
+    }
+  </style>
+  <!-- Additional CSS styles for form, steps, and results -->
+  <style>
+    /* Form container styling */
+    #valuation-form {
+      max-width: 896px; /* Matches max-w-4xl */
+      margin: 0 auto;
+      background-color: #ffffff; /* bg-white */
+      padding: 1.5rem; /* p-6 */
+      border-radius: 0.5rem; /* rounded-lg */
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); /* shadow-md */
+    }
+
+    /* Progress bar styling */
+    .progress-bar-container {
+      margin-bottom: 2rem; /* mb-8 */
+    }
+    .progress-bar-container .flex {
+      justify-content: space-between;
+      margin-bottom: 0.5rem; /* mb-2 */
+    }
+    .progress-bar-container .text-sm {
+      font-size: 0.875rem;
+      color: #4b5563; /* text-gray-600 */
+    }
+    .progress-bar-container .bg-gray-200 {
+      background-color: #e5e7eb; /* bg-gray-200 */
+      border-radius: 9999px; /* rounded-full */
+      height: 0.625rem; /* h-2.5 */
+    }
+    #progress-bar {
+      background-color: #14b8a6; /* bg-teal-500 */
+      height: 0.625rem;
+      border-radius: 9999px;
+      transition: width 0.3s ease;
+    }
+
+    /* Form step styling */
+    .step {
       display: none;
     }
     .step-visible {
       display: block;
     }
-    [data-tooltip]:hover:after {
-      content: attr(data-tooltip);
-      position: absolute;
-      bottom: 100%;
-      left: 50%;
-      transform: translateX(-50%);
-      background-color: #2D3748;
-      color: white;
-      padding: 4px 8px;
-      border-radius: 4px;
-      font-size: 12px;
-      white-space: nowrap;
-      z-index: 10;
+    .step h3 {
+      font-size: 1.125rem; /* text-lg */
+      font-weight: 500; /* font-medium */
+      color: #1f2937; /* text-gray-800 */
+      margin-bottom: 1rem; /* mb-4 */
     }
-    .valuation-box {
-      max-width: 700px;
-      margin: 0 auto;
-      background-color: #f9fafb;
-      border: 2px solid #d1d5db;
-      border-radius: 1rem;
-      padding: 1.5rem;
-      box-shadow: 0 4px 10px rgb(0 0 0 / 0.05);
+
+    /* Input and label styling */
+    label {
+      display: block;
+      font-size: 0.875rem; /* text-sm */
+      font-weight: 500; /* font-medium */
+      color: #374151; /* text-gray-700 */
+      margin-bottom: 0.25rem; /* mb-1 */
+    }
+    input[type="text"],
+    input[type="email"],
+    input[type="number"],
+    select {
+      width: 100%; /* w-full */
+      border: 1px solid #d1d5db; /* border-gray-300 */
+      border-radius: 0.375rem; /* rounded-md */
+      box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05); /* shadow-sm */
+      padding: 0.5rem 0.75rem;
+      font-size: 0.875rem; /* sm:text-sm */
+      line-height: 1.25;
+    }
+    input:focus,
+    select:focus {
+      outline: none;
+      border-color: #14b8a6; /* focus:border-teal-500 */
+      box-shadow: 0 0 0 3px rgba(20, 184, 166, 0.3); /* focus:ring-teal-500 */
+    }
+    input[type="checkbox"] {
+      height: 1rem; /* h-4 */
+      width: 1rem; /* w-4 */
+      color: #14b8a6; /* text-teal-500 */
+      border: 1px solid #d1d5db; /* border-gray-300 */
+      border-radius: 0.25rem; /* rounded */
+    }
+    input[type="checkbox"]:focus {
+      box-shadow: 0 0 0 3px rgba(20, 184, 166, 0.3);
+    }
+
+    /* Error message styling */
+    .text-red-500 {
+      color: #ef4444; /* text-red-500 */
+      font-size: 0.875rem; /* text-sm */
+      margin-top: 0.25rem; /* mt-1 */
+    }
+
+    /* Tooltip (explanation-box) styling */
+    .learn-more {
+      cursor: pointer;
+      color: #6b7280; /* text-gray-500 */
+      font-size: 0.875rem;
+      margin-left: 0.5rem;
+    }
+    .learn-more:hover {
+      color: #4b5563; /* text-gray-600 */
     }
     .explanation-box {
-      background: #e5e7eb;
-      border: 1px solid #d1d5db;
-      border-radius: 0.5rem;
-      padding: 0;
-      margin-top: 0;
-      font-size: 0.875rem;
-      color: #374151;
-      max-height: 0;
-      overflow: hidden;
-      transition: max-height 0.3s ease, padding 0.3s ease, margin-top 0.3s ease;
+      background-color: #e5e7eb; /* bg-gray-200 */
+      padding: 0.75rem; /* p-3 */
+      border-radius: 0.375rem; /* rounded-md */
+      color: #374151; /* text-gray-700 */
+      font-size: 0.875rem; /* text-sm */
+      margin-top: 0.5rem; /* mt-2 */
     }
-    .explanation-box.expanded {
-      max-height: 500px;
-      padding: 0.75rem 1rem;
-      margin-top: 0.375rem;
+
+    /* Button styling */
+    .btn-primary {
+      background-color: #14b8a6; /* bg-teal-500 */
+      color: #ffffff; /* text-white */
+      font-weight: 700; /* font-bold */
+      padding: 0.5rem 1rem; /* py-2 px-4 */
+      border-radius: 0.375rem; /* rounded-lg */
+      transition: background-color 0.3s ease; /* transition-colors duration-300 */
     }
-  .text-white-400 {
-}
+    .btn-primary:hover {
+      background-color: #0d9488; /* bg-teal-600 */
+    }
+    button:not(.btn-primary) {
+      background-color: #d1d5db; /* bg-gray-300 */
+      color: #374151; /* text-gray-700 */
+      font-weight: 700; /* font-bold */
+      padding: 0.5rem 1rem; /* py-2 px-4 */
+      border-radius: 0.375rem; /* rounded-lg */
+      transition: background-color 0.3s ease;
+    }
+    button:not(.btn-primary):hover {
+      background-color: #9ca3af; /* bg-gray-400 */
+    }
+
+    /* Results section styling */
+    #results {
+      max-width: 896px; /* Matches max-w-4xl */
+      margin: 2rem auto 0; /* mt-8 */
+      background-color: #ffffff; /* bg-white */
+      padding: 1.5rem; /* p-6 */
+      border-radius: 0.375rem; /* rounded-lg */
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); /* shadow-md */
+    }
+    #results h2 {
+      font-size: 1.25rem; /* text-xl */
+      font-weight: 600; /* font-semibold */
+      color: #374151; /* text-gray-700 */
+      margin-bottom: 1rem; /* mb-4 */
+    }
+    #results-content {
+      margin-bottom: 1rem; /* mb-4 */
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      #valuation-form,
+      #results {
+        padding: 1rem; /* Reduced padding on mobile */
+      }
+      input[type="text"],
+      input[type="email"],
+      input[type="number"],
+      select {
+        font-size: 0.875rem; /* Consistent font size */
+      }
+      .btn-primary,
+      button:not(.btn-primary) {
+        padding: 0.5rem 0.75rem; /* Slightly smaller buttons */
+      }
+    }
   </style>
 </head>
 <body class="font-sans bg-gray-50 min-h-screen flex flex-col">
-  <!-- HEADER -->
-<header class="bg-gray-800 text-white py-3 sticky top-0 z-50 shadow">
+  <!-- Header with dark gray background and mobile menu -->
+  <header class="bg-gray-800 text-white py-3 sticky top-0 z-50 shadow">
     <div class="container mx-auto px-4 flex justify-between items-center">
+      <!-- Logo and brand name -->
       <div class="text-xl font-bold">
-       <a href="index.html">SaaS Valuation App</a></div>
-      <nav class="hidden md:flex space-x-4">
-      <a href="index.html#valuation">Free Self Valuation</a> <a href="index.html#resources">About</a> <a href="blog.html">Resources</a> </nav>
+        <a href="index.html" aria-label="SaaS Valuation App Home">SaaS Valuation App</a>
+      </div>
+      <!-- Desktop navigation -->
+      <nav class="desktop-nav hidden md:flex space-x-4" aria-label="Main navigation">
+        <a href="index.html#valuation" class="header-link px-4 py-2 text-sm" aria-label="Free Valuation">Free Valuation</a>
+        <a href="index.html#resources" class="header-link px-4 py-2 text-sm" aria-label="About">About</a>
+        <a href="index.html#pricing" class="header-link px-4 py-2 text-sm" aria-label="Pricing">Pricing</a>
+        <a href="blog.html" class="header-link px-4 py-2 text-sm" aria-label="Resources">Resources</a>
+      </nav>
+      <!-- Mobile menu toggle button -->
       <button id="menu-toggle" class="md:hidden focus:outline-none" aria-label="Toggle Menu">
         <i class="fas fa-bars text-xl"></i>
       </button>
     </div>
-    <div id="mobile-menu" class="md:hidden hidden px-4 pb-4">
-      <nav class="flex flex-col space-y-2 mt-3">
-        <a href="#valuation" class="hover:text-teal-400 text-sm">Self Valuation</a>
-        <a href="#data-room" class="hover:text-teal-400 text-sm">AI Data Room</a>
-        <a href="#resources" class="hover:text-teal-400 text-sm">Resources</a>
+    <!-- Mobile menu (hidden by default) -->
+    <div id="mobile-menu" class="mobile-menu md:hidden hidden px-4 pb-4">
+      <nav class="flex flex-col space-y-2 mt-3" aria-label="Mobile navigation">
+        <a href="index.html#valuation" class="mobile-menu-link hover:text-teal-400 text-sm" aria-label="Free Valuation">Free Valuation</a>
+        <a href="index.html#resources" class="mobile-menu-link hover:text-teal-400 text-sm" aria-label="About">About</a>
+        <a href="index.html#pricing" class="mobile-menu-link hover:text-teal-400 text-sm" aria-label="Pricing">Pricing</a>
+        <a href="blog.html" class="mobile-menu-link hover:text-teal-400 text-sm" aria-label="Resources">Resources</a>
       </nav>
     </div>
   </header>
 
-  <!-- INTRO -->
-<main class="flex-grow">
-    <section class="gradient-bg text-white py-16">
-      <div class="container mx-auto px-4 text-center max-w-3xl">
-        <h1 class="text-3xl md:text-4xl font-bold mb-3">Pro Valuation: Comprehensive SaaS Business Evaluation</h1>
-        <p class="text-base md:text-lg opacity-90">
-          Get a detailed valuation of your SaaS business with advanced metrics and insights.
-        </p>
-      </div>
+  <!-- Main content area, centered -->
+  <main class="container">
+    <!-- Page title -->
+    <h1 class="text-3xl md:text-4xl font-bold text-gray-800 mb-6 tracking-tight">
+      Pro Valuation Tool
+    </h1>
+    <!-- Introductory paragraph -->
+    <p class="text-gray-600 mb-8 text-base md:text-lg">
+      Unlock advanced valuation insights with our Pro Valuation tool, tailored for SaaS businesses. 
+      Select your business type, analyze multiple valuation methods, and download a professional PDF report with actionable insights and 5-year revenue projections.
+    </p>
+    <!-- Form section placeholder -->
+    <section id="valuation-form" class="bg-white p-6 rounded-lg shadow-md">
+      <h2 class="text-xl font-semibold text-gray-700 mb-4">Start Your Pro Valuation</h2>
+      <p class="text-gray-500 mb-6">Complete the form below to receive a comprehensive valuation report, including 5-year revenue projections.</p>
+      <!-- Form content will be added in Part 2 -->
     </section>
+  <!-- Form container for multi-step valuation -->
+    <section id="valuation-form" class="bg-white p-6 rounded-lg shadow-md">
+      <h2 class="text-xl font-semibold text-gray-700 mb-4">Start Your Pro Valuation</h2>
+      <p class="text-gray-500 mb-6">Complete the form below to receive a comprehensive valuation report, including 5-year revenue projections.</p>
 
-    <!-- PRO VALUATION FORM -->
-  <section id="pro-valuation" class="py-12 bg-gray-50">
-      <div class="container mx-auto px-4 max-w-3xl">
-        <div class="text-center mb-8">
-          <h2 class="text-2xl font-bold text-gray-800 mb-2">Pro Valuation Tool</h2>
-          <p class="text-base text-gray-600 max-w-xl mx-auto">
-            Answer questions step-by-step to get a detailed valuation report with actionable insights.
-          </p>
+      <!-- Progress bar for 8 steps -->
+      <div class="mb-8">
+        <div class="flex justify-between mb-2">
+          <span class="text-sm text-gray-600">Step 1 of 8</span>
+          <span class="text-sm text-gray-600">12.5% Complete</span>
         </div>
+        <div class="w-full bg-gray-200 rounded-full h-2.5">
+          <div id="progress-bar" class="bg-teal-500 h-2.5 rounded-full" style="width: 12.5%"></div>
+        </div>
+      </div>
 
-        <!-- Progress Bar -->
-        <div class="mb-6">
-          <div class="relative pt-1">
-            <div class="overflow-hidden h-1.5 mb-2 text-xs flex rounded bg-gray-200">
-              <div
-                id="progress-fill"
-                class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-teal-500"
-                style="width: 8.33%"
-              ></div>
+      <!-- Form element -->
+      <form id="valuation-form-element" class="space-y-6">
+        <!-- Step 1: SaaS Business Type -->
+        <div id="step-1" class="step step-visible" data-step="1">
+          <h3 class="text-lg font-medium text-gray-800 mb-4">Step 1: SaaS Business Type</h3>
+          <div class="mb-4">
+            <label for="saas-type" class="block text-sm font-medium text-gray-700 mb-1">
+              What type of SaaS business are you?
+              <span class="text-gray-500 cursor-pointer learn-more" data-tip="saas-type-tip">Learn more</span>
+            </label>
+            <select id="saas-type" name="saas-type" class="block w-full border-gray-300 rounded-md shadow-sm focus:ring-teal-500 focus:border-teal-500 sm:text-sm" required aria-describedby="saas-type-error saas-type-tip">
+              <option value="" disabled selected>Select your SaaS type</option>
+              <option value="ai-saas">AI SaaS (e.g., AI analytics, machine learning)</option>
+              <option value="fintech-saas">FinTech SaaS (e.g., payment platforms, lending)</option>
+              <option value="healthtech-saas">HealthTech SaaS (e.g., telehealth, medical software)</option>
+              <option value="edtech-saas">EdTech SaaS (e.g., e-learning, educational platforms)</option>
+              <option value="vertical-saas">Vertical SaaS (e.g., industry-specific solutions)</option>
+              <option value="horizontal-saas">Horizontal SaaS (e.g., cross-industry tools)</option>
+              <option value="b2b-saas">B2B SaaS (e.g., enterprise software)</option>
+              <option value="b2c-saas">B2C SaaS (e.g., consumer apps, subscriptions)</option>
+              <option value="crm-saas">CRM SaaS (e.g., customer relationship management)</option>
+              <option value="marketing-saas">Marketing SaaS (e.g., ad platforms, email marketing)</option>
+              <option value="hrtech-saas">HRTech SaaS (e.g., payroll, recruitment)</option>
+              <option value="cybersecurity-saas">Cybersecurity SaaS (e.g., threat detection)</option>
+              <option value="ecommerce-saas">E-commerce SaaS (e.g., storefronts, marketplaces)</option>
+              <option value="collaboration-saas">Collaboration SaaS (e.g., team communication tools)</option>
+              <option value="other-saas">Other SaaS (e.g., custom or niche solutions)</option>
+            </select>
+            <p id="saas-type-error" class="hidden text-red-500 text-sm mt-1">Please select a SaaS business type.</p>
+            <div id="saas-type-tip" class="hidden explanation-box bg-gray-200 p-3 rounded-md text-gray-700 text-sm mt-2">
+              <p>Your SaaS business type affects the valuation multiplier. For example, high-growth sectors like AI SaaS may increase the multiplier, while competitive markets like CRM SaaS may lower it.</p>
             </div>
-            <p class="text-center text-gray-600 text-sm">
-              Step <span id="current-step">1</span> of 7
-            </p>
+          </div>
+          <div class="flex justify-between">
+            <button type="button" id="next-1" class="btn-primary bg-teal-500 text-white font-bold py-2 px-4 rounded-lg transition-colors duration-300 hover:bg-teal-600">
+              Next
+            </button>
           </div>
         </div>
-
-        <div class="valuation-box">
-          <!-- Step 1: Select Valuation Methods -->
-          <div id="step-1" class="step step-visible" data-step="1">
-            <h3 class="text-lg font-semibold text-gray-800 mb-4">Step 1: Select Valuation Methods</h3>
-            <p class="text-gray-600 mb-4 text-sm">
-              Choose up to 3 valuation methods that best fit your SaaS business.
-              <span data-tooltip="Select methods matching your business model." class="text-teal-500 underline cursor-pointer">Learn more</span>
-            </p>
-            <div class="space-y-3">
-              <label class="flex items-center">
-                <input type="checkbox" id="method-multiplier" value="multiplier" class="form-checkbox h-5 w-5 text-teal-500" />
-                <span class="ml-2">Revenue Multiplier</span>
-                <button type="button" class="text-teal-500 underline ml-2 text-xs explanation-toggle" data-target="exp-multiplier">Explain</button>
-              </label>
-              <div id="exp-multiplier" class="explanation-box">
-                Multiplies ARR by a factor (e.g., 5-8), ideal for steady recurring revenue.
-                <br /><em>Example: If ARR is $1,000,000 and multiplier is 6, valuation = $6,000,000.</em>
-              </div>
-
-              <label class="flex items-center">
-                <input type="checkbox" id="method-income" value="income" class="form-checkbox h-5 w-5 text-teal-500" />
-                <span class="ml-2">Income-Based</span>
-                <button type="button" class="text-teal-500 underline ml-2 text-xs explanation-toggle" data-target="exp-income">Explain</button>
-              </label>
-              <div id="exp-income" class="explanation-box">
-                Uses net profit multiplied by a factor (e.g., 4-7), suitable for profitable businesses.
-                <br /><em>Example: If net profit is $200,000 and multiplier is 5, valuation = $1,000,000.</em>
-              </div>
-
-              <label class="flex items-center">
-                <input type="checkbox" id="method-earnings" value="earnings" class="form-checkbox h-5 w-5 text-teal-500" />
-                <span class="ml-2">Earnings-Based</span>
-                <button type="button" class="text-teal-500 underline ml-2 text-xs explanation-toggle" data-target="exp-earnings">Explain</button>
-              </label>
-              <div id="exp-earnings" class="explanation-box">
-                Combines ARR and net profit with growth factors, ideal for scaling businesses.
-                <br /><em>Example: $1,000,000 ARR + $200,000 profit with growth factors may yield $1,500,000.</em>
-              </div>
-
-              <label class="flex items-center">
-                <input type="checkbox" id="method-dcf" value="dcf" class="form-checkbox h-5 w-5 text-teal-500" />
-                <span class="ml-2">Discounted Cash Flow (DCF)</span>
-                <button type="button" class="text-teal-500 underline ml-2 text-xs explanation-toggle" data-target="exp-dcf">Explain</button>
-              </label>
-              <div id="exp-dcf" class="explanation-box">
-                Projects future cash flows discounted to present value, best for long-term projections.
-                <br /><em>Example: $1,000,000 ARR with 20% growth over 5 years may yield $3,000,000.</em>
-              </div>
-            </div>
-
-            <p id="method-error" class="text-red-500 text-sm mt-2 hidden">
-              Please select between 1 and 3 valuation methods.
-            </p>
-
-            <div class="mt-6 flex justify-end">
-              <button id="next-btn-1" class="btn-primary">Next</button>
-</div>
-          </div>
-
-          <!-- Step 2: Financial Metrics -->
-          <div id="step-2" class="step step-hidden" data-step="2">
-            <h3 class="text-lg font-semibold text-gray-800 mb-4">Step 2: Financial Metrics</h3>
-            <p class="text-gray-600 mb-4 text-sm">
-              Provide key financial figures that reflect your business.
-              <span data-tooltip="Use your latest financial statements." class="text-teal-500 underline cursor-pointer">Learn more</span>
-            </p>
-            <div class="space-y-4">
-              <div>
-                <label for="arr" class="block font-medium text-gray-700 mb-1">Annual Recurring Revenue (ARR) ($)</label>
-                <input type="number" id="arr" min="0" step="1000" placeholder="e.g., 500000" class="w-full p-2 border rounded focus:ring focus:ring-teal-400" required />
-                <p class="text-gray-500 text-xs mt-1">Total subscription revenue over last 12 months.<br /><em>Example: $1,200,000 from annual subscriptions.</em></p>
-              </div>
-              <div>
-                <label for="mrr" class="block font-medium text-gray-700 mb-1">Monthly Recurring Revenue (MRR) ($)</label>
-                <input type="number" id="mrr" min="0" step="100" placeholder="e.g., 41667" class="w-full p-2 border rounded focus:ring focus:ring-teal-400" required />
-                <p class="text-gray-500 text-xs mt-1">Average subscription revenue per month.<br /><em>Example: $100,000 monthly subscriptions.</em></p>
-              </div>
-              <div>
-                <label for="ltv" class="block font-medium text-gray-700 mb-1">Customer Lifetime Value (LTV) ($)</label>
-                <input type="number" id="ltv" min="0" step="100" placeholder="e.g., 2000" class="w-full p-2 border rounded focus:ring focus:ring-teal-400" required />
-                <p class="text-gray-500 text-xs mt-1">Revenue from one customer before they leave.<br /><em>Example: $2,000 average customer revenue.</em></p>
-              </div>
-              <div>
-                <label for="cac" class="block font-medium text-gray-700 mb-1">Customer Acquisition Cost (CAC) ($)</label>
-                <input type="number" id="cac" min="0" step="10" placeholder="e.g., 500" class="w-full p-2 border rounded focus:ring focus:ring-teal-400" required />
-                <p class="text-gray-500 text-xs mt-1">Cost to acquire a new customer.<br /><em>Example: $500 spent per customer acquired.</em></p>
-              </div>
-              <div>
-                <label for="gross-margin" class="block font-medium text-gray-700 mb-1">Gross Margin (%)</label>
-                <input type="number" id="gross-margin" min="0" max="100" step="0.1" placeholder="e.g., 75" class="w-full p-2 border rounded focus:ring focus:ring-teal-400" required />
-                <p class="text-gray-500 text-xs mt-1">Revenue after direct costs.<br /><em>Example: 75% means $0.75 left per dollar.</em></p>
-              </div>
-              <div>
-                <label for="net-profit" class="block font-medium text-gray-700 mb-1">Net Profit / EBITDA ($)</label>
-                <input type="number" id="net-profit" min="0" step="1000" placeholder="e.g., 200000" class="w-full p-2 border rounded focus:ring focus:ring-teal-400" required />
-                <p class="text-gray-500 text-xs mt-1">Earnings after all expenses.<br /><em>Example: $200,000 profit this year.</em></p>
-              </div>
-              <div>
-                <label for="burn-rate" class="block font-medium text-gray-700 mb-1">Monthly Burn Rate ($)</label>
-                <input type="number" id="burn-rate" min="0" step="1000" placeholder="e.g., 25000" class="w-full p-2 border rounded focus:ring focus:ring-teal-400" required />
-                <p class="text-gray-500 text-xs mt-1">Cash loss per month.<br /><em>Example: $25,000 overspend monthly.</em></p>
-              </div>
-              <div>
-                <label for="runway" class="block font-medium text-gray-700 mb-1">Runway (Months of Cash Left)</label>
-                <input type="number" id="runway" min="0" step="1" placeholder="e.g., 12" class="w-full p-2 border rounded focus:ring focus:ring-teal-400" required />
-                <p class="text-gray-500 text-xs mt-1">Months before cash runs out.<br /><em>Example: 12 months left.</em></p>
-              </div>
-            </div>
-            <p id="financial-error" class="text-red-500 text-sm mt-4 hidden">Please fill out all required financial fields.</p>
-            <div class="mt-6 flex justify-between">
-              <button idcompsite id="prev-btn-2" class="btn-secondary">Previous</button>
-              <button id="next-btn-2" class="btn-primary">Next</button>
-            </div>
-          </div>
-
-          <!-- Step 3: Growth & Churn Rates -->
-          <div id="step-3" class="step step-hidden" data-step="3">
-            <h3 class="text-lg font-semibold text-gray-800 mb-4">Step 3: Growth and Churn Rates</h3>
-            <p class="text-gray-600 mb-4 text-sm">
-              Enter your revenue growth and customer churn metrics.
-              <span data-tooltip="These metrics influence your valuation multipliers." class="text-teal-500 underline cursor-pointer">Learn more</span>
-            </p>
-            <div class="space-y-4">
-              <div>
-                <label for="revenue-growth-yoy" class="block font-medium text-gray-700 mb-1">Revenue Growth Rate (Year-over-Year %)</label>
-                <input type="number" id="revenue-growth-yoy" min="0" max="100" step="0.1" placeholder="e.g., 20" class="w-full p-2 border rounded focus:ring focus:ring-teal-400" required />
-                <p class="text-gray-500 text-xs mt-1">Percent increase in revenue year-over-year.</p>
-              </div>
-              <div>
-                <label for="revenue-growth-mom" class="block font-medium text-gray-700 mb-1">Revenue Growth Rate (Month-over-Month %)</label>
-                <input type="number" id="revenue-growth-mom" min="0" max="100" step="0.1" placeholder="e.g., 3" class="w-full p-2 border rounded focus:ring focus:ring-teal-400" required />
-                <p class="text-gray-500 text-xs mt-1">Percent increase in revenue month-to-month.</p>
-              </div>
-              <div>
-                <label for="customer-churn" class="block font-medium text-gray-700 mb-1">Customer Churn Rate (%)</label>
-                <input type="number" id="customer-churn" min="0" max="100" step="0.1" placeholder="e.g., 5" class="w-full p-2 border rounded focus:ring focus:ring-teal-400" required />
-                <p class="text-gray-500 text-xs mt-1">Percent of customers lost monthly.</p>
-              </div>
-              <div>
-                <label for="revenue-churn" class="block font-medium text-gray-700 mb-1">Revenue Churn Rate (%)</label>
-                <input type="number" id="revenue-churn" min="0" max="100" step="0.1" placeholder="e.g., 4" class="w-full p-2 border rounded focus:ring focus:ring-teal-400" required />
-                <p class="text-gray-500 text-xs mt-1">Percent of revenue lost due to churn.</p>
-              </div>
-            </div>
-            <p id="growth-churn-error" class="text-red-500 text-sm mt-4 hidden">Please enter valid growth and churn percentages.</p>
-            <div class="mt-6 flex justify-between">
-              <button id="prev-btn-3" class="btn-secondary">Previous</button>
-              <button id="next-btn-3" class="btn-primary">Next</button>
-            </div>
-          </div>
-
-          <!-- Step 4: Customer & Market Metrics -->
-          <div id="step-4" class="step step-hidden" data-step="4">
-            <h3 class="text-lg font-semibold text-gray-800 mb-4">Step 4: Customer & Market Metrics</h3>
-            <p class="text-gray-600 mb-4 text-sm">
-              Tell us about your customers and market to refine your valuation.
-              <span data-tooltip="These details adjust valuation risk and potential." class="text-teal-500 underline cursor-pointer">Learn more</span>
-            </p>
-            <div class="space-y-4">
-              <div>
-                <label for="active-customers" class="block font-medium text-gray-700 mb-1">Active Customers</label>
-                <input type="number" id="active-customers" min="0" step="1" placeholder="e.g., 1500" class="w-full p-2 border rounded focus:ring focus:ring-teal-400" required />
-                <p class="text-gray-500 text-xs mt-1">Number of paying customers.</p>
-              </div>
-              <div>
-                <label for="monthly-active-users" class="block font-medium text-gray-700 mb-1">Monthly Active Users (MAU)</label>
-                <input type="number" id="monthly-active-users" min="0" step="1" placeholder="e.g., 2000" class="w-full p-2 border rounded focus:ring focus:ring-teal-400" required />
-                <p class="text-gray-500 text-xs mt-1">Users active each month.</p>
-              </div>
-              <div>
-                <label for="retention-rate" class="block font-medium text-gray-700 mb-1">Retention Rate (%)</label>
-                <input type="number" id="retention-rate" min="0" max="100" step="0.1" placeholder="e.g., 85" class="w-full p-2 border rounded focus:ring focus:ring-teal-400" required />
-                <p class="text-gray-500 text-xs mt-1">Percent of customers retained.</p>
-              </div>
-              <div>
-                <label for="nps" class="block font-medium text-gray-700 mb-1">Net Promoter Score (NPS)</label>
-                <input type="number" id="nps" min="-100" max="100" step="1" placeholder="e.g., 70" class="w-full p-2 border rounded focus:ring focus:ring-teal-400" required />
-                <p class="text-gray-500 text-xs mt-1">Likelihood of customer recommendations.</p>
-              </div>
-              <div>
-                <label for="customer-segment" class="block font-medium text-gray-700 mb-1">Customer Segment</label>
-                <select id="customer-segment" class="w-full p-2 border rounded focus:ring focus:ring-teal-400" required>
-                  <option value="" disabled selected>Select one</option>
-                  <option value="small-business">Small Businesses</option>
-                  <option value="mid-market">Mid-Market</option>
-                  <option value="enterprise">Enterprise</option>
-                  <option value="consumer">Consumer</option>
-                </select>
-                <p class="text-gray-500 text-xs mt-1">Primary customer type.</p>
-              </div>
-              <div>
-                <label for="buyer-type" class="block font-medium text-gray-700 mb-1">Buyer Type / Exit Potential</label>
-                <select id="buyer-type" class="w-full p-2 border rounded focus:ring focus:ring-teal-400" required>
-                  <option value="" disabled selected>Select one</option>
-                  <option value="investors">Investors</option>
-                  <option value="competitors">Competitors</option>
-                  <option value="strategic-partners">Strategic Partners</option>
-                  <option value="unknown">Unknown</option>
-                </select>
-                <p class="text-gray-500 text-xs mt-1">Potential acquirers or investors.</p>
-              </div>
-            </div>
-            <p id="customer-market-error" class="text-red-500 text-sm mt-4 hidden">Please fill in all required fields correctly.</p>
-            <div class="mt-6 flex justify-between">
-              <button id="prev-btn-4" class="btn-secondary">Previous</button>
-              <button id="next-btn-4" class="btn-primary">Next</button>
-            </div>
-          </div>
-
-          <!-- Step 5: Product & Technology -->
-          <div id="step-5" class="step step-hidden" data-step="5">
-            <h3 class="text-lg font-semibold text-gray-800 mb-4">Step 5: Product & Technology</h3>
-            <p class="text-gray-600 mb-4 text-sm">
-              Provide information about your product’s uniqueness and technology maturity.
-              <span data-tooltip="Key technology metrics influence valuation." class="text-teal-500 underline cursor-pointer">Learn more</span>
-            </p>
-            <div class="space-y-4">
-              <div>
-                <label for="product-market-fit" class="block font-medium text-gray-700 mb-1">Product-Market Fit</label>
-                <select id="product-market-fit" class="w-full p-2 border rounded focus:ring focus:ring-teal-400" required>
-                  <option value="" disabled selected>Select an option</option>
-                  <option value="none">None</option>
-                  <option value="early">Early Signs</option>
-                  <option value="strong">Strong Fit</option>
-                  <option value="fully-confirmed">Fully Confirmed</option>
-                </select>
-                <p class="text-gray-500 text-xs mt-1">How well your product meets market needs.</p>
-              </div>
-              <div>
-                <label for="proprietary-tech" class="block font-medium text-gray-700 mb-1">Proprietary Technology / IP</label>
-                <select id="proprietary-tech" class="w-full p-2 border rounded focus:ring focus:ring-teal-400" required>
-                  <option value="" disabled selected>Select an option</option>
-                  <option value="none">No</option>
-                  <option value="patents">Patents Held</option>
-                  <option value="copyrights">Copyrights / Trade Secrets</option>
-                  <option value="both">Both</option>
-                </select>
-                <p class="text-gray-500 text-xs mt-1">Uniqueness and protection of your tech.</p>
-              </div>
-              <div>
-                <label for="code-quality" class="block font-medium text-gray-700 mb-1">Code Quality Reviewed</label>
-                <select id="code-quality" class="w-full p-2 border rounded focus:ring focus:ring-teal-400" required>
-                  <option value="" disabled selected>Select an option</option>
-                  <option value="no-review">No Review</option>
-                  <option value="internal-review">Internal Review</option>
-                  <option value="external-review">External Audit</option>
-                </select>
-                <p class="text-gray-500 text-xs mt-1">Professional assessment of code quality.</p>
-              </div>
-              <div>
-                <label for="scalable-infrastructure" class="block font-medium text-gray-700 mb-1">Scalable Infrastructure</label>
-                <select id="scalable-infrastructure" class="w-full p-2 border rounded focus:ring focus:ring-teal-400" required>
-                  <option value="" disabled selected>Select an option</option>
-                  <option value="no">No</option>
-                  <option value="partial">Partial</option>
-                  <option value="yes">Yes</option>
-                </select>
-                <p class="text-gray-500 text-xs mt-1">Ability to handle rapid growth.</p>
-              </div>
-              <div>
-                <label for="feature-release-frequency" class="block font-medium text-gray-700 mb-1">Feature Release Frequency</label>
-                <select id="feature-release-frequency" class="w-full p-2 border rounded focus:ring focus:ring-teal-400" required>
-                  <option value="" disabled selected>Select frequency</option>
-                  <option value="rarely">Rarely</option>
-                  <option value="monthly">Monthly</option>
-                  <option value="weekly">Weekly</option>
-                  <option value="daily">Daily</option>
-                </select>
-                <p class="text-gray-500 text-xs mt-1">Frequency of new features or updates.</p>
-              </div>
-              <div>
-                <label for="security-compliance" class="block font-medium text-gray-700 mb-1">Security Compliance</label>
-                <select id="security-compliance" class="w-full p-2 border rounded focus:ring focus:ring-teal-400" required>
-                  <option value="" disabled selected>Select status</option>
-                  <option value="none">None</option>
-                  <option value="gdpr">GDPR</option>
-                  <option value="iso27001">ISO 27001</option>
-                  <option value="other">Other</option>
-                </select>
-                <p class="text-gray-500 text-xs mt-1">Data practice compliance status.</p>
-              </div>
-            </div>
-            <p id="product-tech-error" class="text-red-500 text-sm mt-2 hidden">Please complete all product and technology fields.</p>
-            <div class="mt-6 flex justify-between">
-              <button id="prev-btn-5" class="btn-secondary">Previous</button>
-              <button id="next-btn-5" class="btn-primary">Next</button>
-            </div>
-          </div>
-
-          <!-- Step 6: Team & Operations -->
-          <div id="step-6" class="step step-hidden" data-step="6">
-            <h3 class="text-lg font-semibold text-gray-800 mb-4">Step 6: Team & Operations</h3>
-            <p class="text-gray-600 mb-4 text-sm">
-              Share details about your team and operational efficiency.
-              <span data-tooltip="Strong teams increase valuation." class="text-teal-500 underline cursor-pointer">Learn more</span>
-            </p>
-            <div class="space-y-4">
-              <div>
-                <label for="fte" class="block font-medium text-gray-700 mb-1">Full-Time Employees</label>
-                <input type="number" id="fte" min="0" step="1" placeholder="e.g., 25" class="w-full p-2 border rounded focus:ring focus:ring-teal-400" required />
-                <p class="text-gray-500 text-xs mt-1">Number of full-time staff.</p>
-              </div>
-              <div>
-                <label for="key-staff" class="block font-medium text-gray-700 mb-1">Founders / Key Staff</label>
-                <input type="number" id="key-staff" min="0" step="1" placeholder="e.g., 3" class="w-full p-2 border rounded focus:ring focus:ring-teal-400" required />
-                <p class="text-gray-500 text-xs mt-1">Number of key executives or founders.</p>
-              </div>
-              <div>
-                <label for="turnover-rate" class="block font-medium text-gray-700 mb-1">Staff Turnover Rate (%)</label>
-                <input type="number" id="turnover-rate" min="0" max="100" step="0.1" placeholder="e.g., 5" class="w-full p-2 border rounded focus:ring focus:ring-teal-400" required />
-                <p class="text-gray-500 text-xs mt-1">Annual percentage of staff leaving.</p>
-              </div>
-              <div>
-                <label for="eng-sales-ratio" class="block font-medium text-gray-700 mb-1">Engineering to Sales Ratio</label>
-                <input type="number" id="eng-sales-ratio" min="0" step="0.01" placeholder="e.g., 2.5" class="w-full p-2 border rounded focus:ring focus:ring-teal-400" required />
-                <p class="text-gray-500 text-xs mt-1">Ratio of engineers to salespeople.</p>
-              </div>
-              <div>
-                <label for="support-tickets" class="block font-medium text-gray-700 mb-1">Support Tickets per Month</label>
-                <input type="number" id="support-tickets" min="0" step="1" placeholder="e.g., 100" class="w-full p-2 border rounded focus:ring focus:ring-teal-400" required />
-                <p class="text-gray-500 text-xs mt-1">Monthly customer support requests.</p>
-              </div>
-              <div>
-                <label for="support-rating" class="block font-medium text-gray-700 mb-1">Customer Support Rating (1-10)</label>
-                <input type="number" id="support-rating" min="1" max="10" step="1" placeholder="e.g., 8" class="w-full p-2 border rounded focus:ring focus:ring-teal-400" required />
-                <p class="text-gray-500 text-xs mt-1">Support satisfaction rating.</p>
-              </div>
-              <div>
-                <label for="headcount-growth" class="block font-medium text-gray-700 mb-1">Headcount Growth Rate (%)</label>
-                <input type="number" id="headcount-growth" min="-100" max="100" step="0.1" placeholder="e.g., 20" class="w-full p-2 border rounded focus:ring focus:ring-teal-400" required />
-                <p class="text-gray-500 text-xs mt-1">Annual change in employee count.</p>
-              </div>
-            </div>
-            <p id="team-ops-error" class="text-red-500 text-sm mt-2 hidden">Please fill in all team and operations fields correctly.</p>
-            <div class="mt-6 flex justify-between">
-              <button id="prev-btn-6" class="btn-secondary">Previous</button>
-              <button id="next-btn-6" class="btn-primary">Next</button>
-            </div>
-          </div>
-
-          <!-- Step 7: Legal, Contracts & Risk -->
-          <div id="step-7" class="step step-hidden" data-step="7">
-            <h3 class="text-lg font-semibold text-gray-800 mb-4">Step 7: Legal, Contracts & Risk</h3>
-            <p class="text-gray-600 mb-4 text-sm">
-              Provide information about your legal standing and risks.
-              <span data-tooltip="Proper legal structures reduce risks." class="text-teal-500 underline cursor-pointer">Learn more</span>
-            </p>
-            <div class="space-y-4">
-              <div>
-                <label for="legal-entity" class="block font-medium text-gray-700 mb-1">Legal Entity Registered</label>
-                <select id="legal-entity" class="w-full p-2 border rounded focus:ring focus:ring-teal-400" required>
-                  <option value="" disabled selected>Select an option</option>
-                  <option value="yes">Yes</option>
-                  <option value="no">No</option>
-                </select>
-                <p class="text-gray-500 text-xs mt-1">Is your business registered?</p>
-              </div>
-              <div>
-                <label for="ip-ownership" class="block font-medium text-gray-700 mb-1">IP Ownership Verified</label>
-                <select id="ip-ownership" class="w-full p-2 border rounded focus:ring focus:ring-teal-400" required>
-                  <option value="" disabled selected>Select an option</option>
-                  <option value="yes">Fully Owned</option>
-                  <option value="no">No or Partial Ownership</option>
-                </select>
-                <p class="text-gray-500 text-xs mt-1">Do you own all IP rights?</p>
-              </div>
-              <div>
-                <label for="data-privacy" class="block font-medium text-gray-700 mb-1">Data Privacy Compliance</label>
-                <select id="data-privacy" class="w-full p-2 border rounded focus:ring focus:ring-teal-400" required>
-                  <option value="" disabled selected>Select compliance level</option>
-                  <option value="none">None</option>
-                  <option value="partial">Partial</option>
-                  <option value="full">Fully Compliant (GDPR, CCPA, etc.)</option>
-                </select>
-                <p class="text-gray-500 text-xs mt-1">Compliance with data privacy laws.</p>
-              </div>
-              <div>
-                <label for="contract-renewal" class="block font-medium text-gray-700 mb-1">Contract Renewal Rate (%)</label>
-                <input type="number" id="contract-renewal" min="0" max="100" step="0.1" placeholder="e.g., 85" class="w-full p-2 border rounded focus:ring focus:ring-teal-400" required />
-                <p class="text-gray-500 text-xs mt-1">Percent of contracts renewed.</p>
-              </div>
-              <div>
-                <label for="legal-issues" class="block font-medium text-gray-700 mb-1">Pending Legal Issues</label>
-                <select id="legal-issues" class="w-full p-2 border rounded focus:ring focus:ring-teal-400" required>
-                  <option value="" disabled selected>Are there pending legal issues?</option>
-                  <option value="none">No</option>
-                  <option value="minor">Minor / Resolved</option>
-                  <option value="major">Major / Ongoing</option>
-                </select>
-                <p class="text-gray-500 text-xs mt-1">Any lawsuits or legal risks?</p>
-              </div>
-              <div>
-                <label for="contract-templates" class="block font-medium text-gray-700 mb-1">Contract Templates Available</label>
-                <select id="contract-templates" class="w-full p-2 border rounded focus:ring focus:ring-teal-400" required>
-                  <option value="" disabled selected>Availability of templates</option>
-                  <option value="yes">Yes, standardized</option>
-                  <option value="no">No</option>
-                </select>
-                <p class="text-gray-500 text-xs mt-1">Use of standard contracts.</p>
-              </div>
-              <div>
-                <label for="user-data-ownership" class="block font-medium text-gray-700 mb-1">Ownership of User Data</label>
-                <select id="user-data-ownership" class="w-full p-2 border rounded focus:ring focus:ring-teal-400" required>
-                  <option value="" disabled selected>Who owns the user data?</option>
-                  <option value="company">Company</option>
-                  <option value="customer">Customer</option>
-                  <option value="shared">Shared</option>
-                </select>
-                <p class="text-gray-500 text-xs mt-1">Legal ownership of user data.</p>
-              </div>
-              <div>
-                <label for="terms-update" class="block font-medium text-gray-700 mb-1">Updated Terms of Use</label>
-                <select id="terms-update" class="w-full p-2 border rounded focus:ring focus:ring-teal-400" required>
-                  <option value="" disabled selected>Are terms up to date?</option>
-                  <option value="yes">Yes, recently updated</option>
-                  <option value="no">No / outdated</option>
-                </select>
-                <p class="text-gray-500 text-xs mt-1">Current user policies.</p>
-              </div>
-              <div>
-                <label for="legal-liabilities" class="block font-medium text-gray-700 mb-1">Legal Liabilities</label>
-                <select id="legal-liabilities" class="w-full p-2 border rounded focus:ring focus:ring-teal-400" required>
-                  <option value="" disabled selected>Any legal liabilities?</option>
-                  <option value="none">None</option>
-                  <option value="low">Low</option>
-                  <option value="high">High</option>
-                </select>
-                <p class="text-gray-500 text-xs mt-1">Legal or financial risks.</p>
-              </div>
-            </div>
-            <p id="legal-error" class="text-red-500 text-sm mt-2 hidden">Please complete all required legal fields.</p>
-            <div class="mt-6 flex justify-between">
-              <button id="prev-btn-7" class="btn-secondary">Previous</button>
-              <button id="next-btn-7" class="btn-primary">Calculate Valuation</button>
-            </div>
-          </div>
-
-          <!-- Valuation Results -->
-          <div id="results-container" class="step-hidden bg-white p-6 rounded shadow max-w-3xl mx-auto">
-            <h4 class="text-xl font-semibold text-teal-600 mb-4">Your Valuation Results</h4>
-            <p id="valuation-result" class="text-lg font-bold mb-3">Calculating...</p>
-            <div id="method-breakdown" class="text-gray-700 mb-3 text-sm"></div>
-            <p id="advice" class="text-gray-700 text-sm"></p>
-            <button id="download-pdf" class="btn-primary mt-6">Download Report (PDF)</button>
-            <div class="mt-6">
-              <h5 class="text-lg font-semibold text-gray-800 mb-2">Valuation by Method</h5>
-              <canvas id="valuationChart" class="w-full max-w-full h-64"></canvas>
-            </div>
-            <div class="mt-6">
-              <h5 class="text-lg font-semibold text-gray-800 mb-2">Projected Revenue Growth</h5>
-              <canvas id="revenueGrowthChart" class="w-full max-w-full h-64"></canvas>
-            </div>
-  </section>
-    <section> </section>
-  <center>
-    <!-- Why Valuation Matters Info Box -->
-    <section class="py-16 bg-gray-50 [data-theme='dark']:bg-gray-800 transition-colors duration-300">
-        <div class="container mx-auto px-6">
-            <div class="relative bg-white rounded-2xl shadow-xl max-w-4xl mx-auto p-8 [data-theme='dark']:bg-gray-700 animate-[fadeInUp_1s_ease-out] parallax-card">
-                <div class="absolute inset-0 bg-gradient-to-r from-[var(--primary)]/10 to-transparent rounded-2xl"></div>
-                <h2 class="text-3xl font-bold text-gray-800 mb-6 relative z-10 [data-theme='dark']:text-gray-100">Why Valuation Matters</h2>
-                <p class="text-lg text-gray-600 mb-6 relative z-10 [data-theme='dark']:text-gray-300">Getting the right valuation is like knowing the true worth of your house before selling it—it helps you make smart decisions and get the best deal. Here’s why it’s so important:</p>
-                <ul class="list-disc list-inside text-gray-600 mb-6 relative z-10 space-y-2 [data-theme='dark']:text-gray-300">
-                    <li><strong>Maximize Your Sale Price:</strong> A precise valuation shows buyers your business’s true value, helping you negotiate a higher price when selling.</li>
-                    <li><strong>Attract Investors:</strong> A clear, data-backed valuation makes your business more appealing to investors, showing them exactly what they’re getting.</li>
-                    <li><strong>Plan Strategically:</strong> Understanding your worth helps you decide whether to grow, sell, or raise funds, giving you a roadmap for success.</li>
-                    <li><strong>Avoid Undervaluing:</strong> Without a proper valuation, you might sell your business for less than it’s worth, missing out on thousands or millions.</li>
-                </ul>
-                <p class="text-lg text-gray-600 mb-8 relative z-10 [data-theme='dark']:text-gray-300">Whether you’re preparing to sell, seeking investment, or just planning ahead, Amanda Valuation Pro gives you the insights to make confident, informed decisions.</p>
-                <div class="relative z-10">
-                    <a href="blog.html" class="btn-primary text-black font-bold py-3 px-8 rounded-lg shadow-md inline-flex items-center">
-                        Learn More <i class="fas fa-arrow-right ml-2"></i>
-                    </a>
-                </div>
-            </div>
-        </div>
-        <style>
-            .parallax-card {
-                position: relative;
-                transform: translateZ(0);
-                transition: transform 0.3s ease;
-            }
-            .parallax-card:hover {
-                transform: translateY(-5px);
-            }
-        </style>
+        <!-- Additional steps will be added in Parts 3–5 -->
+      </form>
     </section>
-    </div>
-  <img src="https://theultimatemusicapp.github.io/AmandaValuation/web.jpg" alt="SaaSappinfo"/>  </main></center>
+    <!-- Step 2: Valuation Methods -->
+        <div id="step-2" class="step hidden" data-step="2">
+          <h3 class="text-lg font-medium text-gray-800 mb-4">Step 2: Valuation Methods</h3>
+          <div class="mb-4">
+            <label class="block text-sm font-medium text-gray-700 mb-2">
+              Select up to three valuation methods
+              <span class="text-gray-500 cursor-pointer learn-more" data-tip="valuation-methods-tip">Learn more</span>
+            </label>
+            <div class="space-y-2">
+              <label class="flex items-center">
+                <input type="checkbox" name="valuation-methods" value="revenue-multiplier" class="h-4 w-4 text-teal-500 border-gray-300 rounded focus:ring-teal-500" aria-describedby="valuation-methods-error">
+                <span class="ml-2 text-sm text-gray-600">Revenue Multiplier (based on ARR/MRR)</span>
+              </label>
+              <label class="flex items-center">
+                <input type="checkbox" name="valuation-methods" value="income-based" class="h-4 w-4 text-teal-500 border-gray-300 rounded focus:ring-teal-500" aria-describedby="valuation-methods-error">
+                <span class="ml-2 text-sm text-gray-600">Income-Based (based on net income)</span>
+              </label>
+              <label class="flex items-center">
+                <input type="checkbox" name="valuation-methods" value="dcf" class="h-4 w-4 text-teal-500 border-gray-300 rounded focus:ring-teal-500" aria-describedby="valuation-methods-error">
+                <span class="ml-2 text-sm text-gray-600">Discounted Cash Flow (DCF)</span>
+              </label>
+              <label class="flex items-center">
+                <input type="checkbox" name="valuation-methods" value="earnings-based" class="h-4 w-4 text-teal-500 border-gray-300 rounded focus:ring-teal-500" aria-describedby="valuation-methods-error">
+                <span class="ml-2 text-sm text-gray-600">Earnings-Based (based on EBITDA)</span>
+              </label>
+            </div>
+            <p id="valuation-methods-error" class="hidden text-red-500 text-sm mt-1">Please select at least one valuation method.</p>
+            <div id="valuation-methods-tip" class="hidden explanation-box bg-gray-200 p-3 rounded-md text-gray-700 text-sm mt-2">
+              <p>Choose methods to evaluate your SaaS business. Revenue Multiplier uses ARR/MRR, Income-Based focuses on net income, DCF projects future cash flows, and Earnings-Based uses EBITDA. Select up to three for a comprehensive valuation.</p>
+            </div>
+          </div>
+          <div class="flex justify-between">
+            <button type="button" id="back-2" class="bg-gray-300 text-gray-700 font-bold py-2 px-4 rounded-lg hover:bg-gray-400 transition-colors duration-300">
+              Back
+            </button>
+            <button type="button" id="next-2" class="btn-primary bg-teal-500 text-white font-bold py-2 px-4 rounded-lg transition-colors duration-300 hover:bg-teal-600">
+              Next
+            </button>
+          </div>
+        </div>
 
-  <!-- Footer -->
-  <footer class="bg-gray-800 text-white py-6 mt-12">
-    <div class="container mx-auto px-4">
-      <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
-        <div>
-          <h4 class="text-lg font-semibold mb-3">Company</h4>
-          <p class="text-gray-400 text-sm">SaaS Valuation App provides AI-driven insights to evaluate your business worth.</p>
+    <!-- Step 3: Financial Metrics -->
+        <div id="step-3" class="step hidden" data-step="3">
+          <h3 class="text-lg font-medium text-gray-800 mb-4">Step 3: Financial Metrics</h3>
+          <div class="space-y-4">
+            <!-- ARR -->
+            <div>
+              <label for="arr" class="block text-sm font-medium text-gray-700 mb-1">
+                Annual Recurring Revenue (ARR) ($)
+                <span class="text-gray-500 cursor-pointer learn-more" data-tip="arr-tip">Learn more</span>
+              </label>
+              <input type="number" id="arr" name="arr" min="0" step="1000" class="block w-full border-gray-300 rounded-md shadow-sm focus:ring-teal-500 focus:border-teal-500 sm:text-sm" required aria-describedby="arr-error arr-tip">
+              <p id="arr-error" class="hidden text-red-500 text-sm mt-1">Please enter a valid ARR (positive number).</p>
+              <div id="arr-tip" class="hidden explanation-box bg-gray-200 p-3 rounded-md text-gray-700 text-sm mt-2">
+                <p>ARR is your total recurring revenue annualized. For example, if your MRR is $10,000, your ARR is $120,000. This drives revenue-based valuations.</p>
+              </div>
+            </div>
+            <!-- MRR -->
+            <div>
+              <label for="mrr" class="block text-sm font-medium text-gray-700 mb-1">
+                Monthly Recurring Revenue (MRR) ($)
+                <span class="text-gray-500 cursor-pointer learn-more" data-tip="mrr-tip">Learn more</span>
+              </label>
+              <input type="number" id="mrr" name="mrr" min="0" step="100" class="block w-full border-gray-300 rounded-md shadow-sm focus:ring-teal-500 focus:border-teal-500 sm:text-sm" required aria-describedby="mrr-error mrr-tip">
+              <p id="mrr-error" class="hidden text-red-500 text-sm mt-1">Please enter a valid MRR (positive number).</p>
+              <div id="mrr-tip" class="hidden explanation-box bg-gray-200 p-3 rounded-md text-gray-700 text-sm mt-2">
+                <p>MRR is your recurring revenue per month, excluding one-time fees. It’s a key metric for SaaS valuations.</p>
+              </div>
+            </div>
+            <!-- Gross Margin -->
+            <div>
+              <label for="gross-margin" class="block text-sm font-medium text-gray-700 mb-1">
+                Gross Margin (%)
+                <span class="text-gray-500 cursor-pointer learn-more" data-tip="gross-margin-tip">Learn more</span>
+              </label>
+              <input type="number" id="gross-margin" name="gross-margin" min="0" max="100" step="1" class="block w-full border-gray-300 rounded-md shadow-sm focus:ring-teal-500 focus:border-teal-500 sm:text-sm" required aria-describedby="gross-margin-error gross-margin-tip">
+              <p id="gross-margin-error" class="hidden text-red-500 text-sm mt-1">Please enter a valid gross margin (0–100%).</p>
+              <div id="gross-margin-tip" class="hidden explanation-box bg-gray-200 p-3 rounded-md text-gray-700 text-sm mt-2">
+                <p>Gross margin is your revenue minus cost of goods sold, expressed as a percentage. Higher margins indicate better profitability.</p>
+              </div>
+            </div>
+          </div>
+          <div class="flex justify-between mt-6">
+            <button type="button" id="back-3" class="bg-gray-300 text-gray-700 font-bold py-2 px-4 rounded-lg hover:bg-gray-400 transition-colors duration-300">
+              Back
+            </button>
+            <button type="button" id="next-3" class="btn-primary bg-teal-500 text-white font-bold py-2 px-4 rounded-lg transition-colors duration-300 hover:bg-teal-600">
+              Next
+            </button>
+          </div>
         </div>
-        <div>
-          <h4 class="text-lg font-semibold mb-3">Product</h4>
-          <ul class="space-y-2">
-            <li><a href="index.html#valuation">Self </a><a href="index.html#valuation">Valuation</a></li>
-            <li><a href="ndex.html#data-room">AI Data Room</a></li>
-          </ul>
+        <!-- Step 4: Growth Metrics -->
+        <div id="step-4" class="step hidden" data-step="4">
+          <h3 class="text-lg font-medium text-gray-800 mb-4">Step 4: Growth Metrics</h3>
+          <div class="space-y-4">
+            <!-- YoY Revenue Growth -->
+            <div>
+              <label for="yoy-growth" class="block text-sm font-medium text-gray-700 mb-1">
+                Year-over-Year Revenue Growth (%)
+                <span class="text-gray-500 cursor-pointer learn-more" data-tip="yoy-growth-tip">Learn more</span>
+              </label>
+              <input type="number" id="yoy-growth" name="yoy-growth" min="0" max="100" step="1" class="block w-full border-gray-300 rounded-md shadow-sm focus:ring-teal-500 focus:border-teal-500 sm:text-sm" required aria-describedby="yoy-growth-error yoy-growth-tip">
+              <p id="yoy-growth-error" class="hidden text-red-500 text-sm mt-1">Please enter a valid growth rate (0–100%).</p>
+              <div id="yoy-growth-tip" class="hidden explanation-box bg-gray-200 p-3 rounded-md text-gray-700 text-sm mt-2">
+                <p>YoY Revenue Growth is the percentage increase in revenue from last year to this year. Higher growth rates boost valuation multipliers.</p>
+              </div>
+            </div>
+            <!-- Customer Growth Rate -->
+            <div>
+              <label for="customer-growth" class="block text-sm font-medium text-gray-700 mb-1">
+                Customer Growth Rate (%)
+                <span class="text-gray-500 cursor-pointer learn-more" data-tip="customer-growth-tip">Learn more</span>
+              </label>
+              <input type="number" id="customer-growth" name="customer-growth" min="0" max="100" step="1" class="block w-full border-gray-300 rounded-md shadow-sm focus:ring-teal-500 focus:border-teal-500 sm:text-sm" required aria-describedby="customer-growth-error customer-growth-tip">
+              <p id="customer-growth-error" class="hidden text-red-500 text-sm mt-1">Please enter a valid growth rate (0–100%).</p>
+              <div id="customer-growth-tip" class="hidden explanation-box bg-gray-200 p-3 rounded-md text-gray-700 text-sm mt-2">
+                <p>Customer Growth Rate is the percentage increase in your customer base annually. Strong growth signals scalability.</p>
+              </div>
+            </div>
+            <!-- Net Revenue Retention -->
+            <div>
+              <label for="nrr" class="block text-sm font-medium text-gray-700 mb-1">
+                Net Revenue Retention (NRR) (%)
+                <span class="text-gray-500 cursor-pointer learn-more" data-tip="nrr-tip">Learn more</span>
+              </label>
+              <input type="number" id="nrr" name="nrr" min="0" max="200" step="1" class="block w-full border-gray-300 rounded-md shadow-sm focus:ring-teal-500 focus:border-teal-500 sm:text-sm" required aria-describedby="nrr-error nrr-tip">
+              <p id="nrr-error" class="hidden text-red-500 text-sm mt-1">Please enter a valid NRR (0–200%).</p>
+              <div id="nrr-tip" class="hidden explanation-box bg-gray-200 p-3 rounded-md text-gray-700 text-sm mt-2">
+                <p>NRR measures revenue retained from existing customers, including upsells, minus churn. NRR above 100% indicates strong customer retention and expansion.</p>
+              </div>
+            </div>
+          </div>
+          <div class="flex justify-between mt-6">
+            <button type="button" id="back-4" class="bg-gray-300 text-gray-700 font-bold py-2 px-4 rounded-lg hover:bg-gray-400 transition-colors duration-300">
+              Back
+            </button>
+            <button type="button" id="next-4" class="btn-primary bg-teal-500 text-white font-bold py-2 px-4 rounded-lg transition-colors duration-300 hover:bg-teal-600">
+              Next
+            </button>
+          </div>
         </div>
-        <div>
-          <h4 class="text-lg font-semibold mb-3">Resources</h4>
-          <ul class="space-y-2">
-            <li><a href="blog.html">Blog</a></li>
-            <li><a href="index.html#faq">FAQ</a></li>
-            <li><a href="Support.html">Support</a></li>
-          </ul>
-        </div>
-        <div>
-          <h4 class="text-lg font-semibold mb-3">Legal</h4>
-          <ul class="space-y-2">
-            <li><a href="terms-and-conditions.html" class="text-white-400 hover:text-teal-400 text-sm">Terms</a></li>
-            <li><a href="privacy-policy.html" class="text-white-400 hover:text-teal-400 text-sm">Privacy</a></li>
-          </ul>
-        </div>
-      </div>
-      <div class="text-center mt-4 text-gray-400 text-sm">
-        <p>© 2025 SaaS Valuation App. All rights reserved.</p>
-      </div>
-    </div>
-</footer>
 
+        <!-- Step 5: Customer Metrics -->
+        <div id="step-5" class="step hidden" data-step="5">
+          <h3 class="text-lg font-medium text-gray-800 mb-4">Step 5: Customer Metrics</h3>
+          <div class="space-y-4">
+            <!-- Customer Acquisition Cost -->
+            <div>
+              <label for="cac" class="block text-sm font-medium text-gray-700 mb-1">
+                Customer Acquisition Cost (CAC) ($)
+                <span class="text-gray-500 cursor-pointer learn-more" data-tip="cac-tip">Learn more</span>
+              </label>
+              <input type="number" id="cac" name="cac" min="0" step="100" class="block w-full border-gray-300 rounded-md shadow-sm focus:ring-teal-500 focus:border-teal-500 sm:text-sm" required aria-describedby="cac-error cac-tip">
+              <p id="cac-error" class="hidden text-red-500 text-sm mt-1">Please enter a valid CAC (positive number).</p>
+              <div id="cac-tip" class="hidden explanation-box bg-gray-200 p-3 rounded-md text-gray-700 text-sm mt-2">
+                <p>CAC is the average cost to acquire a new customer, including marketing and sales expenses. Lower CAC improves valuation.</p>
+              </div>
+            </div>
+            <!-- Customer Lifetime Value -->
+            <div>
+              <label for="ltv" class="block text-sm font-medium text-gray-700 mb-1">
+                Customer Lifetime Value (LTV) ($)
+                <span class="text-gray-500 cursor-pointer learn-more" data-tip="ltv-tip">Learn more</span>
+              </label>
+              <input type="number" id="ltv" name="ltv" min="0" step="100" class="block w-full border-gray-300 rounded-md shadow-sm focus:ring-teal-500 focus:border-teal-500 sm:text-sm" required aria-describedby="ltv-error ltv-tip">
+              <p id="ltv-error" class="hidden text-red-500 text-sm mt-1">Please enter a valid LTV (positive number).</p>
+              <div id="ltv-tip" class="hidden explanation-box bg-gray-200 p-3 rounded-md text-gray-700 text-sm mt-2">
+                <p>LTV is the estimated revenue from a customer over their lifetime. Higher LTV relative to CAC signals profitability.</p>
+              </div>
+            </div>
+            <!-- Monthly Churn Rate -->
+            <div>
+              <label for="churn" class="block text-sm font-medium text-gray-700 mb-1">
+                Monthly Churn Rate (%)
+                <span class="text-gray-500 cursor-pointer learn-more" data-tip="churn-tip">Learn more</span>
+              </label>
+              <input type="number" id="churn" name="churn" min="0" max="20" step="0.1" class="block w-full border-gray-300 rounded-md shadow-sm focus:ring-teal-500 focus:border-teal-500 sm:text-sm" required aria-describedby="churn-error churn-tip">
+              <p id="churn-error" class="hidden text-red-500 text-sm mt-1">Please enter a valid churn rate (0–20%).</p>
+              <div id="churn-tip" class="hidden explanation-box bg-gray-200 p-3 rounded-md text-gray-700 text-sm mt-2">
+                <p>Monthly Churn Rate is the percentage of customers who cancel each month. Lower churn improves retention and valuation.</p>
+              </div>
+            </div>
+          </div>
+          <div class="flex justify-between mt-6">
+            <button type="button" id="back-5" class="bg-gray-300 text-gray-700 font-bold py-2 px-4 rounded-lg hover:bg-gray-400 transition-colors duration-300">
+              Back
+            </button>
+            <button type="button" id="next-5" class="btn-primary bg-teal-500 text-white font-bold py-2 px-4 rounded-lg transition-colors duration-300 hover:bg-teal-600">
+              Next
+            </button>
+          </div>
+        </div>
+        <!-- Step 6: Other Metrics -->
+        <div id="step-6" class="step hidden" data-step="6">
+          <h3 class="text-lg font-medium text-gray-800 mb-4">Step 6: Other Metrics</h3>
+          <div class="space-y-4">
+            <!-- Total Addressable Market -->
+            <div>
+              <label for="tam" class="block text-sm font-medium text-gray-700 mb-1">
+                Total Addressable Market (TAM) ($M)
+                <span class="text-gray-500 cursor-pointer learn-more" data-tip="tam-tip">Learn more</span>
+              </label>
+              <input type="number" id="tam" name="tam" min="0" step="1" class="block w-full border-gray-300 rounded-md shadow-sm focus:ring-teal-500 focus:border-teal-500 sm:text-sm" required aria-describedby="tam-error tam-tip">
+              <p id="tam-error" class="hidden text-red-500 text-sm mt-1">Please enter a valid TAM (positive number).</p>
+              <div id="tam-tip" class="hidden explanation-box bg-gray-200 p-3 rounded-md text-gray-700 text-sm mt-2">
+                <p>TAM is the total market opportunity for your SaaS product in millions. A larger TAM suggests higher growth potential.</p>
+              </div>
+            </div>
+            <!-- Employee Count -->
+            <div>
+              <label for="employee-count" class="block text-sm font-medium text-gray-700 mb-1">
+                Employee Count
+                <span class="text-gray-500 cursor-pointer learn-more" data-tip="employee-count-tip">Learn more</span>
+              </label>
+              <input type="number" id="employee-count" name="employee-count" min="0" step="1" class="block w-full border-gray-300 rounded-md shadow-sm focus:ring-teal-500 focus:border-teal-500 sm:text-sm" required aria-describedby="employee-count-error employee-count-tip">
+              <p id="employee-count-error" class="hidden text-red-500 text-sm mt-1">Please enter a valid employee count (positive number).</p>
+              <div id="employee-count-tip" class="hidden explanation-box bg-gray-200 p-3 rounded-md text-gray-700 text-sm mt-2">
+                <p>Employee Count reflects your team size, indicating operational scale and resource needs.</p>
+              </div>
+            </div>
+            <!-- Funding Raised -->
+            <div>
+              <label for="funding" class="block text-sm font-medium text-gray-700 mb-1">
+                Funding Raised ($M)
+                <span class="text-gray-500 cursor-pointer learn-more" data-tip="funding-tip">Learn more</span>
+              </label>
+              <input type="number" id="funding" name="funding" min="0" step="0.1" class="block w-full border-gray-300 rounded-md shadow-sm focus:ring-teal-500 focus:border-teal-500 sm:text-sm" required aria-describedby="funding-error funding-tip">
+              <p id="funding-error" class="hidden text-red-500 text-sm mt-1">Please enter a valid funding amount (positive number).</p>
+              <div id="funding-tip" class="hidden explanation-box bg-gray-200 p-3 rounded-md text-gray-700 text-sm mt-2">
+                <p>Funding Raised is the total capital raised from investors, in millions. It signals market confidence and growth potential.</p>
+              </div>
+            </div>
+          </div>
+          <div class="flex justify-between mt-6">
+            <button type="button" id="back-6" class="bg-gray-300 text-gray-700 font-bold py-2 px-4 rounded-lg hover:bg-gray-400 transition-colors duration-300">
+              Back
+            </button>
+            <button type="button" id="next-6" class="btn-primary bg-teal-500 text-white font-bold py-2 px-4 rounded-lg transition-colors duration-300 hover:bg-teal-600">
+              Next
+            </button>
+          </div>
+        </div>
+
+        <!-- Step 7: Contact -->
+        <div id="step-7" class="step hidden" data-step="7">
+          <h3 class="text-lg font-medium text-gray-800 mb-4">Step 7: Contact Information</h3>
+          <div class="space-y-4">
+            <!-- Name -->
+            <div>
+              <label for="name" class="block text-sm font-medium text-gray-700 mb-1">
+                Name
+                <span class="text-gray-500 cursor-pointer learn-more" data-tip="name-tip">Learn more</span>
+              </label>
+              <input type="text" id="name" name="name" class="block w-full border-gray-300 rounded-md shadow-sm focus:ring-teal-500 focus:border-teal-500 sm:text-sm" required aria-describedby="name-error name-tip">
+              <p id="name-error" class="hidden text-red-500 text-sm mt-1">Please enter a valid name.</p>
+              <div id="name-tip" class="hidden explanation-box bg-gray-200 p-3 rounded-md text-gray-700 text-sm mt-2">
+                <p>Your name is used to personalize the valuation report and for contact purposes.</p>
+              </div>
+            </div>
+            <!-- Email -->
+            <div>
+              <label for="email" class="block text-sm font-medium text-gray-700 mb-1">
+                Email
+                <span class="text-gray-500 cursor-pointer learn-more" data-tip="email-tip">Learn more</span>
+              </label>
+              <input type="email" id="email" name="email" class="block w-full border-gray-300 rounded-md shadow-sm focus:ring-teal-500 focus:border-teal-500 sm:text-sm" required aria-describedby="email-error email-tip">
+              <p id="email-error" class="hidden text-red-500 text-sm mt-1">Please enter a valid email address.</p>
+              <div id="email-tip" class="hidden explanation-box bg-gray-200 p-3 rounded-md text-gray-700 text-sm mt-2">
+                <p>Your email is used to send the valuation report and for communication.</p>
+              </div>
+            </div>
+            <!-- Company Name -->
+            <div>
+              <label for="company" class="block text-sm font-medium text-gray-700 mb-1">
+                Company Name
+                <span class="text-gray-500 cursor-pointer learn-more" data-tip="company-tip">Learn more</span>
+              </label>
+              <input type="text" id="company" name="company" class="block w-full border-gray-300 rounded-md shadow-sm focus:ring-teal-500 focus:border-teal-500 sm:text-sm" required aria-describedby="company-error company-tip">
+              <p id="company-error" class="hidden text-red-500 text-sm mt-1">Please enter a valid company name.</p>
+              <div id="company-tip" class="hidden explanation-box bg-gray-200 p-3 rounded-md text-gray-700 text-sm mt-2">
+                <p>Your company name is included in the valuation report for identification.</p>
+              </div>
+            </div>
+          </div>
+          <div class="flex justify-between mt-6">
+            <button type="button" id="back-7" class="bg-gray-300 text-gray-700 font-bold py-2 px-4 rounded-lg hover:bg-gray-400 transition-colors duration-300">
+              Back
+            </button>
+            <button type="button" id="next-7" class="btn-primary bg-teal-500 text-white font-bold py-2 px-4 rounded-lg transition-colors duration-300 hover:bg-teal-600">
+              Next
+            </button>
+          </div>
+        </div>
+
+        <!-- Step 8: Review -->
+        <div id="step-8" class="step hidden" data-step="8">
+          <h3 class="text-lg font-medium text-gray-800 mb-4">Step 8: Review Your Inputs</h3>
+          <div class="mb-4">
+            <p class="text-sm text-gray-600 mb-2">Please review your inputs before submitting:</p>
+            <ul id="review-list" class="list-disc pl-5 text-sm text-gray-700 space-y-1">
+              <!-- Populated by JavaScript in Part 7 -->
+              <li>SaaS Type: <span id="review-saas-type">[To be filled]</span></li>
+              <li>Valuation Methods: <span id="review-methods">[To be filled]</span></li>
+              <li>ARR: <span id="review-arr">[To be filled]</span></li>
+              <li>MRR: <span id="review-mrr">[To be filled]</span></li>
+              <li>Gross Margin: <span id="review-gross-margin">[To be filled]</span></li>
+              <li>YoY Growth: <span id="review-yoy-growth">[To be filled]</span></li>
+              <li>Customer Growth: <span id="review-customer-growth">[To be filled]</span></li>
+              <li>NRR: <span id="review-nrr">[To be filled]</span></li>
+              <li>CAC: <span id="review-cac">[To be filled]</span></li>
+              <li>LTV: <span id="review-ltv">[To be filled]</span></li>
+              <li>Churn Rate: <span id="review-churn">[To be filled]</span></li>
+              <li>TAM: <span id="review-tam">[To be filled]</span></li>
+              <li>Employee Count: <span id="review-employee-count">[To be filled]</span></li>
+              <li>Funding Raised: <span id="review-funding">[To be filled]</span></li>
+              <li>Name: <span id="review-name">[To be filled]</span></li>
+              <li>Email: <span id="review-email">[To be filled]</span></li>
+              <li>Company: <span id="review-company">[To be filled]</span></li>
+            </ul>
+          </div>
+          <div class="flex justify-between mt-6">
+            <button type="button" id="back-8" class="bg-gray-300 text-gray-700 font-bold py-2 px-4 rounded-lg hover:bg-gray-400 transition-colors duration-300">
+              Back
+            </button>
+            <button type="button" id="submit" class="btn-primary bg-teal-500 text-white font-bold py-2 px-4 rounded-lg transition-colors duration-300 hover:bg-teal-600">
+              Submit
+            </button>
+          </div>
+        </div>
+      </form>
+
+      <!-- Results Display -->
+      <section id="results" class="hidden mt-8 bg-white p-6 rounded-lg shadow-md">
+        <h2 class="text-xl font-semibold text-gray-700 mb-4">Your Valuation Results</h2>
+        <p class="text-gray-600 mb-4">Below is your SaaS valuation based on your inputs, including the impact of your SaaS business type.</p>
+        <div id="results-content" class="space-y-4">
+          <!-- Populated by JavaScript in Part 8 -->
+          <p>Valuation Range: <span id="valuation-range">[Calculating...]</span></p>
+          <p>SaaS Type Multiplier Impact: <span id="saas-type-impact">[Calculating...]</span></p>
+        </div>
+        <button id="download-pdf" class="btn-primary bg-teal-500 text-white font-bold py-2 px-4 rounded-lg transition-colors duration-300 hover:bg-teal-600 mt-4">
+          Download PDF Report
+        </button>
+      </section>
+    <!-- JavaScript for form setup, navigation, validation, and review -->
   <script>
-    // Constants
-    const TOTAL_STEPS = 7;
-
-    // Chart instances
-    let valuationChart;
-    let revenueGrowthChart;
-
-    // Utility functions
-    const val = id => {
-      const el = document.getElementById(id);
-      if (!el) return 0;
-      const v = el.value.replace(/,/g, '').trim();
-      const n = parseFloat(v);
-      return isNaN(n) ? 0 : n;
-    };
-
-    const sval = id => {
-      const el = document.getElementById(id);
-      return el ? el.value.trim() : '';
-    };
-
-    // Step navigation
-    let currentStep = 0;
+    // Initialize DOM elements
+    const form = document.getElementById('valuation-form-element');
     const steps = document.querySelectorAll('.step');
+    const progressBar = document.getElementById('progress-bar');
+    const learnMoreSpans = document.querySelectorAll('.learn-more');
+    const mobileMenuToggle = document.getElementById('menu-toggle');
+    const mobileMenu = document.getElementById('mobile-menu');
 
-    function showStep(index) {
-      steps.forEach((step, i) => {
-        step.classList.toggle('step-hidden', i !== index);
-        step.classList.toggle('step-visible', i === index);
-      });
-      document.getElementById('current-step').textContent = index + 1;
-      document.getElementById('progress-fill').style.width = ((index + 1) / TOTAL_STEPS) * 100 + '%';
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+    // Current step tracking
+    let currentStep = 1;
+
+    // Format number with commas and prefix/suffix
+    function formatNumber(value, prefix = '', suffix = '') {
+      if (!value && value !== 0) return '[Not provided]';
+      return prefix + Number(value).toLocaleString('en-US') + suffix;
     }
 
-    // Validation functions
-    function validateStep(stepIndex) {
-      let errorElement, inputs;
-      switch (stepIndex) {
-        case 0: // Valuation methods
-          const checked = document.querySelectorAll('#step-1 input[type="checkbox"]:checked').length;
-          errorElement = document.getElementById('method-error');
-          if (checked < 1 || checked > 3) {
-            errorElement.classList.remove('hidden');
-            return false;
-          }
-          errorElement.classList.add('hidden');
-          return true;
+    // Validate step inputs
+    function validateStep(step) {
+      const stepDiv = document.getElementById(`step-${step}`);
+      let isValid = true;
 
-        case 1: // Financial metrics
-          inputs = document.querySelectorAll('#step-2 input[required]');
-          errorElement = document.getElementById('financial-error');
-          for (let input of inputs) {
-            if (!input.value || val(input.id) < 0) {
-              errorElement.classList.remove('hidden');
-              return false;
-            }
+      if (step === 1) {
+        const saasType = document.getElementById('saas-type').value;
+        const error = document.getElementById('saas-type-error');
+        if (!saasType) {
+          error.classList.remove('hidden');
+          isValid = false;
+        } else {
+          error.classList.add('hidden');
+        }
+      } else if (step === 2) {
+        const methods = document.querySelectorAll('input[name="valuation-methods"]:checked');
+        const error = document.getElementById('valuation-methods-error');
+        if (methods.length === 0) {
+          error.classList.remove('hidden');
+          isValid = false;
+        } else {
+          error.classList.add('hidden');
+        }
+      } else if (step === 3) {
+        const inputs = ['arr', 'mrr', 'gross-margin'];
+        inputs.forEach(id => {
+          const input = document.getElementById(id);
+          const error = document.getElementById(`${id}-error`);
+          const value = input.value;
+          if (value === '' || (id !== 'gross-margin' && value < 0) || (id === 'gross-margin' && (value < 0 || value > 100))) {
+            error.classList.remove('hidden');
+            isValid = false;
+          } else {
+            error.classList.add('hidden');
           }
-          errorElement.classList.add('hidden');
-          return true;
-
-        case 2: // Growth and churn
-          inputs = document.querySelectorAll('#step-3 input[required]');
-          errorElement = document.getElementById('growth-churn-error');
-          for (let input of inputs) {
-            const value = val(input.id);
-            if (!input.value || value < 0 || value > 100) {
-              errorElement.classList.remove('hidden');
-              return false;
-            }
+        });
+      } else if (step === 4) {
+        const inputs = ['yoy-growth', 'customer-growth', 'nrr'];
+        inputs.forEach(id => {
+          const input = document.getElementById(id);
+          const error = document.getElementById(`${id}-error`);
+          const value = input.value;
+          const max = id === 'nrr' ? 200 : 100;
+          if (value === '' || value < 0 || value > max) {
+            error.classList.remove('hidden');
+            isValid = false;
+          } else {
+            error.classList.add('hidden');
           }
-          errorElement.classList.add('hidden');
-          return true;
-
-        case 3: // Customer and market
-          inputs = document.querySelectorAll('#step-4 input[required], #step-4 select[required]');
-          errorElement = document.getElementById('customer-market-error');
-          for (let input of inputs) {
-            if (!input.value) {
-              errorElement.classList.remove('hidden');
-              return false;
-            }
-            if (input.type === 'number') {
-              const value = val(input.id);
-              if (input.id === 'nps' && (value < -100 || value > 100)) {
-                errorElement.classList.remove('hidden');
-                return false;
-              }
-              if (input.id !== 'nps' && value < 0) {
-                errorElement.classList.remove('hidden');
-                return false;
-              }
-            }
+        });
+      } else if (step === 5) {
+        const inputs = ['cac', 'ltv', 'churn'];
+        inputs.forEach(id => {
+          const input = document.getElementById(id);
+          const error = document.getElementById(`${id}-error`);
+          const value = input.value;
+          const max = id === 'churn' ? 20 : Infinity;
+          if (value === '' || value < 0 || value > max) {
+            error.classList.remove('hidden');
+            isValid = false;
+          } else {
+            error.classList.add('hidden');
           }
-          errorElement.classList.add('hidden');
-          return true;
-
-        case 4: // Product and technology
-          inputs = document.querySelectorAll('#step-5 select[required]');
-          errorElement = document.getElementById('product-tech-error');
-          for (let input of inputs) {
-            if (!input.value) {
-              errorElement.classList.remove('hidden');
-              return false;
-            }
+        });
+      } else if (step === 6) {
+        const inputs = ['tam', 'employee-count', 'funding'];
+        inputs.forEach(id => {
+          const input = document.getElementById(id);
+          const error = document.getElementById(`${id}-error`);
+          const value = input.value;
+          if (value === '' || value < 0) {
+            error.classList.remove('hidden');
+            isValid = false;
+          } else {
+            error.classList.add('hidden');
           }
-          errorElement.classList.add('hidden');
-          return true;
-
-        case 5: // Team and operations
-          inputs = document.querySelectorAll('#step-6 input[required]');
-          errorElement = document.getElementById('team-ops-error');
-          for (let input of inputs) {
-            if (!input.value || val(input.id) < 0) {
-              errorElement.classList.remove('hidden');
-              return false;
-            }
-            if (input.id === 'support-rating' && (val(input.id) < 1 || val(input.id) > 10)) {
-              errorElement.classList.remove('hidden');
-              return false;
-            }
+        });
+      } else if (step === 7) {
+        const inputs = ['name', 'email', 'company'];
+        inputs.forEach(id => {
+          const input = document.getElementById(id);
+          const error = document.getElementById(`${id}-error`);
+          const value = input.value;
+          const isValidEmail = id === 'email' ? /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value) : value.trim() !== '';
+          if (!isValidEmail) {
+            error.classList.remove('hidden');
+            isValid = false;
+          } else {
+            error.classList.add('hidden');
           }
-          errorElement.classList.add('hidden');
-          return true;
-
-        case 6: // Legal and contracts
-          inputs = document.querySelectorAll('#step-7 input[required], #step-7 select[required]');
-          errorElement = document.getElementById('legal-error');
-          for (let input of inputs) {
-            if (!input.value) {
-              errorElement.classList.remove('hidden');
-              return false;
-            }
-            if (input.id === 'contract-renewal' && (val(input.id) < 0 || val(input.id) > 100)) {
-              errorElement.classList.remove('hidden');
-              return false;
-            }
-          }
-          errorElement.classList.add('hidden');
-          return true;
-
-        default:
-          return true;
+        });
       }
+
+      return isValid;
     }
 
-    // Calculate valuation
-function calculateValuation() {
-  console.log('Starting valuation calculation...');
-  try {
-    const methods = Array.from(document.querySelectorAll('#step-1 input[type=checkbox]:checked')).map(cb => cb.value);
-    console.log('Selected valuation methods:', methods);
-    if (methods.length === 0) {
-      console.warn('No valuation methods selected.');
-      alert('Please select at least one valuation method.');
-      return;
+    // Show specific step
+    function showStep(step) {
+      steps.forEach(s => s.classList.remove('step-visible'));
+      document.getElementById(`step-${step}`).classList.add('step-visible');
+      progressBar.style.width = `${step * 12.5}%`;
+      currentStep = step;
     }
 
-    // Gather inputs
-    const arr = val('arr');
-    console.log('ARR:', arr);
-    const mrr = val('mrr');
-    const ltv = val('ltv');
-    const cac = val('cac');
-    const grossMargin = val('gross-margin') / 100;
-    const netProfit = val('net-profit');
-    const burnRate = val('burn-rate');
-    const runway = val('runway');
-    const revenueGrowth = val('revenue-growth-yoy') / 100;
-    const churnRate = val('customer-churn') / 100;
-    const retentionRate = val('retention-rate') / 100;
-    const pmFit = sval('product-market-fit');
-    const legalRisks = sval('legal-liabilities');
-
-    // Base multipliers
-    const baseRevenueMultiplier = 6;
-    const baseIncomeMultiplier = 5;
-
-    let valuations = {};
-    let totalValuation = 0;
-
-    // Revenue Multiplier
-    if (methods.includes('multiplier')) {
-      let multiplier = baseRevenueMultiplier + revenueGrowth * 3 - churnRate * 2 + grossMargin / 50;
-      multiplier = Math.min(Math.max(multiplier, 3), 10);
-      const valRevenue = arr * multiplier;
-      valuations['Revenue Multiplier'] = valRevenue;
-      totalValuation += valRevenue;
+    // Populate review list in Step 8
+    function populateReviewList() {
+      document.getElementById('review-saas-type').textContent = document.getElementById('saas-type').options[document.getElementById('saas-type').selectedIndex].text;
+      const methods = Array.from(document.querySelectorAll('input[name="valuation-methods"]:checked')).map(m => m.value).join(', ');
+      document.getElementById('review-methods').textContent = methods || '[None selected]';
+      document.getElementById('review-arr').textContent = formatNumber(document.getElementById('arr').value, '$');
+      document.getElementById('review-mrr').textContent = formatNumber(document.getElementById('mrr').value, '$');
+      document.getElementById('review-gross-margin').textContent = formatNumber(document.getElementById('gross-margin').value, '', '%');
+      document.getElementById('review-yoy-growth').textContent = formatNumber(document.getElementById('yoy-growth').value, '', '%');
+      document.getElementById('review-customer-growth').textContent = formatNumber(document.getElementById('customer-growth').value, '', '%');
+      document.getElementById('review-nrr').textContent = formatNumber(document.getElementById('nrr').value, '', '%');
+      document.getElementById('review-cac').textContent = formatNumber(document.getElementById('cac').value, '$');
+      document.getElementById('review-ltv').textContent = formatNumber(document.getElementById('ltv').value, '$');
+      document.getElementById('review-churn').textContent = formatNumber(document.getElementById('churn').value, '', '%');
+      document.getElementById('review-tam').textContent = formatNumber(document.getElementById('tam').value, '$', 'M');
+      document.getElementById('review-employee-count').textContent = formatNumber(document.getElementById('employee-count').value);
+      document.getElementById('review-funding').textContent = formatNumber(document.getElementById('funding').value, '$', 'M');
+      document.getElementById('review-name').textContent = document.getElementById('name').value || '[Not provided]';
+      document.getElementById('review-email').textContent = document.getElementById('email').value || '[Not provided]';
+      document.getElementById('review-company').textContent = document.getElementById('company').value || '[Not provided]';
     }
 
-    // Income-Based
-    if (methods.includes('income')) {
-      let multiplier = baseIncomeMultiplier + revenueGrowth * 3 - churnRate * 2;
-      multiplier = Math.min(Math.max(multiplier, 3), 8);
-      const valIncome = netProfit * multiplier;
-      valuations['Income-Based'] = valIncome;
-      totalValuation += valIncome;
-    }
-
-    // Earnings-Based
-    if (methods.includes('earnings')) {
-      let pmFitFactor = pmFit === 'none' ? 0.8 : pmFit === 'early' ? 1.0 : pmFit === 'strong' ? 1.2 : 1.4;
-      let retentionFactor = retentionRate || 1;
-      let teamFactor = 1 + (val('fte') / 50);
-      const valEarnings = (arr + netProfit) * pmFitFactor * retentionFactor * teamFactor;
-      valuations['Earnings-Based'] = valEarnings;
-      totalValuation += valEarnings;
-    }
-
-    // DCF
-    if (methods.includes('dcf')) {
-      const discountRate = 0.12 + churnRate / 200 + (legalRisks === 'high' ? 0.05 : 0);
-      let cashFlow = arr || mrr * 12;
-      let dcfValue = 0;
-      let growthAdjustment = revenueGrowth + (pmFit === 'fully-confirmed' ? 0.05 : 0);
-      for (let year = 1; year <= 5; year++) {
-        cashFlow *= 1 + growthAdjustment;
-        dcfValue += cashFlow / Math.pow(1 + discountRate, year);
-      }
-      valuations['Discounted Cash Flow'] = dcfValue;
-      totalValuation += dcfValue;
-    }
-
-    // Average valuation
-    const avgValuation = totalValuation / methods.length;
-
-    // Build breakdown
-    let breakdownHTML = '<ul class="list-disc pl-5">';
-    for (const [key, val] of Object.entries(valuations)) {
-      breakdownHTML += `<li><strong>${key}:</strong> $${Math.round(val).toLocaleString()}</li>`;
-    }
-    breakdownHTML += '</ul>';
-
-    // Advice
-    let advice = '';
-    if (churnRate > 0.1) advice += 'High customer churn detected; focus on retention.<br>';
-    if (netProfit / arr < 0.1 && arr > 0) advice += 'Low profit margins; consider cost optimization.<br>';
-    if (legalRisks === 'high') advice += 'Address legal liabilities to improve valuation.<br>';
-    if (!advice) advice = 'Your inputs look strong. Well done!';
-
-    // Update DOM
-    document.getElementById('valuation-result').innerHTML = `<strong>Estimated Valuation: $${Math.round(avgValuation).toLocaleString()}</strong>`;
-    document.getElementById('method-breakdown').innerHTML = breakdownHTML;
-    document.getElementById('advice').innerHTML = advice;
-
-    // Store chart data
-    window.valuationChartData = {
-      labels: Object.keys(valuations),
-      data: Object.values(valuations).map(v => Math.round(v))
-    };
-
-    renderCharts();
-    console.log('Valuation calculated successfully.');
-  } catch (error) {
-    console.error('Error in calculateValuation:', error);
-    document.getElementById('results-container').textContent = 'Error calculating valuation. Please contact support.';
-  }
-}
-
-    // Render charts
-    function renderCharts() {
-      const ctxVal = document.getElementById('valuationChart').getContext('2d');
-      const ctxRev = document.getElementById('revenueGrowthChart').getContext('2d');
-
-      if (valuationChart) valuationChart.destroy();
-      if (revenueGrowthChart) revenueGrowthChart.destroy();
-
-      const valuationData = window.valuationChartData || { labels: [], data: [] };
-
-      valuationChart = new Chart(ctxVal, {
-        type: 'bar',
-        data: {
-          labels: valuationData.labels,
-          datasets: [{
-            label: 'Valuation ($)',
-            data: valuationData.data,
-            backgroundColor: 'rgba(56, 178, 172, 0.7)',
-            borderColor: 'rgba(56, 178, 172, 1)',
-            borderWidth: 1
-          }]
-        },
-        options: {
-          scales: { y: { beginAtZero: true, title: { display: true, text: 'Valuation ($)' } } },
-          plugins: { legend: { display: false }, title: { display: true, text: 'Valuation Comparison' } }
+    // Event listeners for navigation
+    document.querySelectorAll('[id^="next-"]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        if (validateStep(currentStep)) {
+          if (currentStep < 8) {
+            showStep(currentStep + 1);
+            if (currentStep === 7) populateReviewList();
+          }
         }
       });
-
-      const arr = val('arr');
-      const growthRate = val('revenue-growth-yoy') / 100 || 0;
-      const labels = ['Current Year', 'Year 1', 'Year 2', 'Year 3', 'Year 4', 'Year 5'];
-      const revenueData = [arr];
-      for (let i = 1; i <= 5; i++) {
-        revenueData.push(revenueData[i - 1] * (1 + growthRate));
+    });
+    document.querySelectorAll('[id^="back-"]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        if (currentStep > 1) showStep(currentStep - 1);
+      });
+    });
+    document.getElementById('submit').addEventListener('click', () => {
+      if (validateStep(currentStep)) {
+        document.getElementById('results').classList.remove('hidden');
+        form.classList.add('hidden');
+        // Valuation calculation and results display in Part 8
       }
-
-      revenueGrowthChart = new Chart(ctxRev, {
-        type: 'line',
-        data: {
-          labels: labels,
-          datasets: [{
-            label: 'Projected Revenue ($)',
-            data: revenueData.map(v => Math.round(v)),
-            fill: false,
-            borderColor: 'rgba(56, 178, 172, 1)',
-            tension: 0.1
-          }]
-        },
-        options: {
-          scales: { y: { beginAtZero: true, title: { display: true, text: 'Revenue ($)' } } },
-          plugins: { legend: { display: false }, title: { display: true, text: 'Projected 5-Year Revenue Growth' } }
-        }
-      });
-    }
-
-    // PDF export
-    function downloadPDF() {
-    const { jsPDF } = window.jspdf;
-    const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
-
-    // Colors
-    const teal = '#38B2AC';
-    const darkGray = '#2D3748';
-
-    // Helper function to add text with wrapping
-    const addWrappedText = (text, x, y, maxWidth, fontSize, color, fontStyle = 'normal') => {
-        doc.setFontSize(fontSize);
-        doc.setTextColor(color);
-        doc.setFont('helvetica', fontStyle);
-        doc.text(text, x, y, { maxWidth });
-    };
-
-    // Cover Page
-    doc.setFillColor(teal);
-    doc.rect(0, 0, 210, 40, 'F'); // Header bar
-    addWrappedText('SaaS Valuation App', 10, 20, 190, 24, '#FFFFFF', 'bold');
-    addWrappedText('Pro Valuation Report', 10, 30, 190, 18, '#FFFFFF', 'bold');
-    addWrappedText('Comprehensive Business Evaluation', 10, 60, 190, 14, darkGray);
-    addWrappedText('Prepared on ' + new Date().toLocaleDateString(), 10, 80, 190, 12, darkGray);
-    addWrappedText('Powered by AI-Driven Insights | https://saasvaluation.app', 10, 100, 190, 10, darkGray);
-    addWrappedText('Confidential – For Internal Use Only', 10, 120, 190, 8, darkGray);
-    doc.addPage();
-
-    // Header and Footer on all pages
-    const addHeaderFooter = () => {
-        doc.setFillColor(teal);
-        doc.rect(0, 0, 210, 10, 'F');
-        addWrappedText('SaaS Valuation App', 10, 7, 100, 8, '#FFFFFF');
-        addWrappedText('Page ' + doc.internal.getCurrentPageInfo().pageNumber, 190, 7, 20, 8, '#FFFFFF', 'bold');
-        doc.setFillColor(darkGray);
-        doc.rect(0, 287, 210, 10, 'F');
-        addWrappedText('© 2025 SaaS Valuation App', 10, 294, 190, 8, '#FFFFFF');
-    };
-
-    // Executive Summary
-    addHeaderFooter();
-    addWrappedText('Executive Summary', 10, 20, 190, 16, teal, 'bold');
-    addWrappedText(
-        'This SaaS Pro Valuation Report provides a comprehensive evaluation of your business, leveraging advanced metrics and AI-driven insights. Below are the key findings:',
-        10, 30, 190, 10, darkGray
-    );
-    const valuation = document.getElementById('valuation-result').textContent;
-    const methods = Array.from(document.querySelectorAll('#step-1 input[type=checkbox]:checked'))
-        .map(cb => cb.value.replace('multiplier', 'Revenue Multiplier').replace('income', 'Income-Based').replace('earnings', 'Earnings-Based').replace('dcf', 'Discounted Cash Flow'))
-        .join(', ');
-    const advice = document.getElementById('advice').textContent;
-    addWrappedText(`• Estimated Valuation: ${valuation}`, 10, 40, 190, 10, darkGray);
-    addWrappedText(`• Valuation Methods: ${methods}`, 10, 48, 190, 10, darkGray);
-    addWrappedText(`• Key Strengths: High revenue growth, strong product-market fit, or scalable infrastructure.`, 10, 56, 190, 10, darkGray);
-    addWrappedText(`• Areas for Improvement: ${advice}`, 10, 64, 190, 10, darkGray);
-
-    // Valuation Breakdown
-    addWrappedText('Valuation Breakdown', 10, 80, 190, 16, teal, 'bold');
-    addWrappedText('The valuation is calculated using the following methods:', 10, 90, 190, 10, darkGray);
-    let yPos = 100;
-    document.querySelectorAll('#method-breakdown li').forEach(li => {
-        const [method, amount] = li.textContent.split(': ');
-        const description = method === 'Revenue Multiplier' ? 'Based on ARR multiplied by a factor adjusted for growth and churn.' :
-                          method === 'Income-Based' ? 'Derived from net profit with multipliers reflecting profitability.' :
-                          method === 'Earnings-Based' ? 'Combines ARR and net profit, adjusted for retention.' :
-                          'Projects future cash flows discounted to present value.';
-        addWrappedText(`• ${method}: ${amount}`, 10, yPos, 190, 10, darkGray);
-        addWrappedText(description, 15, yPos + 5, 185, 8, darkGray);
-        yPos += 15;
     });
 
-    // Add Valuation Chart
-    const valuationCanvas = document.getElementById('valuationChart');
-    if (valuationCanvas) {
-        const valuationImage = valuationCanvas.toDataURL('image/png');
-        doc.addImage(valuationImage, 'PNG', 10, yPos, 190, 60);
-        yPos += 70;
-    }
-
-    doc.addPage();
-
-    // Key Financial Metrics
-    addHeaderFooter();
-    addWrappedText('Key Financial Metrics', 10, 20, 190, 16, teal, 'bold');
-    addWrappedText('Critical financial inputs driving the valuation:', 10, 30, 190, 10, darkGray);
-    const metrics = [
-        { label: 'Annual Recurring Revenue (ARR)', value: `$${val('arr').toLocaleString()}` },
-        { label: 'Monthly Recurring Revenue (MRR)', value: `$${val('mrr').toLocaleString()}` },
-        { label: 'Customer Lifetime Value (LTV)', value: `$${val('ltv').toLocaleString()}` },
-        { label: 'Customer Acquisition Cost (CAC)', value: `$${val('cac').toLocaleString()}` },
-        { label: 'Gross Margin', value: `${val('gross-margin')}%` },
-        { label: 'Net Profit / EBITDA', value: `$${val('net-profit').toLocaleString()}` },
-        { label: 'Monthly Burn Rate', value: `$${val('burn-rate').toLocaleString()}` },
-        { label: 'Runway', value: `${val('runway')} months` },
-        { label: 'Revenue Growth (YoY)', value: `${val('revenue-growth-yoy')}%` },
-        { label: 'Customer Churn Rate', value: `${val('customer-churn')}%` }
-    ];
-    yPos = 40;
-    metrics.forEach(metric => {
-        addWrappedText(`${metric.label}: ${metric.value}`, 10, yPos, 190, 10, darkGray);
-        yPos += 8;
+    // Toggle tooltips
+    learnMoreSpans.forEach(span => {
+      span.addEventListener('click', () => {
+        const tipId = span.getAttribute('data-tip');
+        const tip = document.getElementById(tipId);
+        document.querySelectorAll('.explanation-box').forEach(t => {
+          if (t !== tip) t.classList.add('hidden');
+        });
+        tip.classList.toggle('hidden');
+      });
     });
 
-    // Add Revenue Growth Chart
-    const revenueCanvas = document.getElementById('revenueGrowthChart');
-    if (revenueCanvas) {
-        const revenueImage = revenueCanvas.toDataURL('image/png');
-        doc.addImage(revenueImage, 'PNG', 10, yPos, 190, 60);
-        yPos += 70;
-    }
-
-    doc.addPage();
-
-    // Strategic Recommendations
-    addHeaderFooter();
-    addWrappedText('Strategic Recommendations', 10, 20, 190, 16, teal, 'bold');
-    addWrappedText('To enhance your business value:', 10, 30, 190, 10, darkGray);
-    const churnRate = val('customer-churn');
-    const netProfit = val('net-profit');
-    const arr = val('arr');
-    const legalRisks = sval('legal-liabilities');
-    const recommendations = [
-        churnRate > 10 ? `• Reduce Churn: High churn rates (${churnRate}%) suggest focusing on customer retention strategies.` : null,
-        netProfit / arr < 0.1 && arr > 0 ? `• Optimize Profitability: Low profit margins indicate potential for cost optimization.` : null,
-        legalRisks === 'high' ? `• Mitigate Legal Risks: Address legal liabilities to reduce valuation discounts.` : null,
-        `• Leverage Strengths: Capitalize on strong product-market fit or scalable infrastructure.`
-    ].filter(Boolean);
-    yPos = 40;
-    recommendations.forEach(rec => {
-        addWrappedText(rec, 10, yPos, 190, 10, darkGray);
-        yPos += 8;
-    });
-
-    // About Section
-    addWrappedText('About SaaS Valuation App', 10, yPos + 10, 190, 16, teal, 'bold');
-    addWrappedText(
-        'SaaS Valuation App provides AI-driven insights to help business owners understand their company’s worth. Visit https://saasvaluation.app for more information.',
-        10, yPos + 20, 190, 10, darkGray
-    );
-
-    // Save the PDF
-    doc.save('saas-pro-valuation-report.pdf');
-}
-
-    // Event listeners
-    document.addEventListener('DOMContentLoaded', () => {
-      showStep(0);
-
-      // Mobile menu toggle
-      document.getElementById('menu-toggle').addEventListener('click', () => {
-        document.getElementById('mobile-menu').classList.toggle('hidden');
-      });
-
-      // Explanation toggles
-      document.querySelectorAll('.explanation-toggle').forEach(button => {
-        button.addEventListener('click', () => {
-          const target = document.getElementById(button.dataset.target);
-          if (target) target.classList.toggle('expanded');
-        });
-      });
-
-      // Navigation buttons
-      document.querySelectorAll('[id^="next-btn-"]').forEach(button => {
-        button.addEventListener('click', () => {
-          if (validateStep(currentStep)) {
-            currentStep++;
-            if (currentStep >= TOTAL_STEPS) {
-              calculateValuation();
-              document.getElementById('results-container').classList.remove('step-hidden');
-              document.getElementById('results-container').scrollIntoView({ behavior: 'smooth' });
-            } else {
-              showStep(currentStep);
-            }
-          }
-        });
-      });
-
-      document.querySelectorAll('[id^="prev-btn-"]').forEach(button => {
-        button.addEventListener('click', () => {
-          if (currentStep > 0) {
-            currentStep--;
-            showStep(currentStep);
-          }
-        });
-      });
-
-      // PDF download
-      document.getElementById('download-pdf').addEventListener('click', downloadPDF);
+    // Mobile menu toggle
+    mobileMenuToggle.addEventListener('click', () => {
+      mobileMenu.classList.toggle('hidden');
     });
   </script>
+    <!-- Add canvas for chart and continue JavaScript for valuation and chart -->
+  <canvas id="revenue-chart" class="mt-4" style="max-height: 300px;"></canvas>
+
+  <script>
+    // SaaS type multiplier adjustments
+    const saasTypeMultipliers = {
+      'ai-saas': 1, // +1 to base multiplier
+      'fintech-saas': 0.5,
+      'healthtech-saas': 0.5,
+      'edtech-saas': 0.3,
+      'vertical-saas': 0.4,
+      'horizontal-saas': 0,
+      'b2b-saas': 0.2,
+      'b2c-saas': 0.1,
+      'crm-saas': -0.2,
+      'marketing-saas': -0.1,
+      'hrtech-saas': 0.2,
+      'cybersecurity-saas': 0.6,
+      'ecommerce-saas': 0,
+      'collaboration-saas': -0.1,
+      'other-saas': 0
+    };
+
+    // Calculate valuation for each method
+    function calculateValuation() {
+      const arr = parseFloat(document.getElementById('arr').value) || 0;
+      const mrr = parseFloat(document.getElementById('mrr').value) || 0;
+      const grossMargin = parseFloat(document.getElementById('gross-margin').value) || 0;
+      const yoyGrowth = parseFloat(document.getElementById('yoy-growth').value) || 0;
+      const saasType = document.getElementById('saas-type').value;
+      const methods = Array.from(document.querySelectorAll('input[name="valuation-methods"]:checked')).map(m => m.value);
+      const valuations = [];
+
+      // Base multiplier for Revenue Multiplier
+      let baseMultiplier = 3;
+      const saasMultiplier = saasTypeMultipliers[saasType] || 0;
+      const adjustedMultiplier = baseMultiplier + saasMultiplier;
+
+      // Revenue Multiplier
+      if (methods.includes('revenue-multiplier')) {
+        const valuation = arr * adjustedMultiplier;
+        valuations.push(valuation);
+      }
+
+      // Income-Based (simplified: net income = MRR * gross margin * 12)
+      if (methods.includes('income-based')) {
+        const netIncome = (mrr * (grossMargin / 100) * 12);
+        const valuation = netIncome * 10; // 10x net income
+        valuations.push(valuation);
+      }
+
+      // DCF (simplified: 5-year cash flow projection with 10% discount rate)
+      if (methods.includes('dcf')) {
+        let dcfValue = 0;
+        const discountRate = 0.1;
+        for (let year = 1; year <= 5; year++) {
+          const projectedRevenue = arr * Math.pow(1 + (yoyGrowth / 100), year);
+          const discountedCashFlow = projectedRevenue / Math.pow(1 + discountRate, year);
+          dcfValue += discountedCashFlow;
+        }
+        valuations.push(dcfValue);
+      }
+
+      // Earnings-Based (simplified: EBITDA = MRR * gross margin * 12)
+      if (methods.includes('earnings-based')) {
+        const ebitda = (mrr * (grossMargin / 100) * 12);
+        const valuation = ebitda * 8; // 8x EBITDA
+        valuations.push(valuation);
+      }
+
+      // Calculate valuation range and SaaS type impact
+      const minValuation = valuations.length > 0 ? Math.min(...valuations) : 0;
+      const maxValuation = valuations.length > 0 ? Math.max(...valuations) : 0;
+      const saasTypeImpact = methods.includes('revenue-multiplier') ? (saasMultiplier / baseMultiplier) * 100 : 0;
+
+      return { minValuation, maxValuation, saasTypeImpact };
+    }
+
+    // Display valuation results
+    function displayResults() {
+      const { minValuation, maxValuation, saasTypeImpact } = calculateValuation();
+      const rangeText = minValuation === maxValuation
+        ? formatNumber(minValuation, '$')
+        : `${formatNumber(minValuation, '$')} - ${formatNumber(maxValuation, '$')}`;
+      const impactText = saasTypeImpact === 0
+        ? 'No impact (Revenue Multiplier not selected)'
+        : `${saasTypeImpact > 0 ? '+' : ''}${saasTypeImpact.toFixed(1)}% due to SaaS type multiplier`;
+
+      document.getElementById('valuation-range').textContent = rangeText;
+      document.getElementById('saas-type-impact').textContent = impactText;
+    }
+
+    // Initialize revenue projection chart
+    function initChart() {
+      const arr = parseFloat(document.getElementById('arr').value) || 0;
+      const yoyGrowth = parseFloat(document.getElementById('yoy-growth').value) || 0;
+      const ctx = document.getElementById('revenue-chart').getContext('2d');
+      const years = Array.from({ length: 6 }, (_, i) => new Date().getFullYear() + i);
+      const revenues = years.map((_, i) => arr * Math.pow(1 + (yoyGrowth / 100), i));
+
+      new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: years,
+          datasets: [{
+            label: 'Projected Revenue ($)',
+            data: revenues,
+            borderColor: '#14b8a6', // teal-500
+            backgroundColor: 'rgba(20, 184, 166, 0.2)',
+            fill: true,
+            tension: 0.3
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            y: {
+              beginAtZero: true,
+              title: { display: true, text: 'Revenue ($)' }
+            },
+            x: {
+              title: { display: true, text: 'Year' }
+            }
+          },
+          plugins: {
+            legend: { display: true, position: 'top' }
+          }
+        }
+      });
+    }
+
+    // Update submit event listener to include valuation and chart
+    document.getElementById('submit').removeEventListener('click', window.submitHandler); // Remove old handler
+    window.submitHandler = () => {
+      if (validateStep(currentStep)) {
+        document.getElementById('results').classList.remove('hidden');
+        form.classList.add('hidden');
+        displayResults();
+        initChart();
+      }
+    };
+    document.getElementById('submit').addEventListener('click', window.submitHandler);
+  </script>
+    <script>
+    // Generate PDF report with valuation results and chart
+    function generatePDF() {
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF();
+      const pageWidth = doc.internal.pageSize.getWidth();
+      const margin = 20;
+      let yPos = 20;
+
+      // Helper function to add text with wrapping
+      function addText(text, x, y, options = {}) {
+        doc.text(text, x, y, options);
+        return y + (options.lineHeight || 6);
+      }
+
+      // Helper function to add section header
+      function addHeader(text) {
+        doc.setFontSize(16);
+        doc.setTextColor('#14b8a6'); // teal-500
+        doc.setFont('helvetica', 'bold');
+        yPos = addText(text, margin, yPos);
+        doc.setFontSize(12);
+        doc.setTextColor('#000000');
+        doc.setFont('helvetica', 'normal');
+        yPos += 2;
+      }
+
+      // Title
+      doc.setFontSize(20);
+      doc.setTextColor('#1f2937'); // gray-800
+      doc.setFont('helvetica', 'bold');
+      yPos = addText('SaaS Valuation Report', margin, yPos, { lineHeight: 8 });
+      doc.setFontSize(12);
+      doc.setTextColor('#000000');
+      doc.setFont('helvetica', 'normal');
+      yPos += 5;
+
+      // Company Details
+      addHeader('Company Details');
+      const name = document.getElementById('name').value || 'N/A';
+      const company = document.getElementById('company').value || 'N/A';
+      const email = document.getElementById('email').value || 'N/A';
+      yPos = addText(`Name: ${name}`, margin, yPos);
+      yPos = addText(`Company: ${company}`, margin, yPos);
+      yPos = addText(`Email: ${email}`, margin, yPos);
+      yPos += 5;
+
+      // Valuation Summary
+      addHeader('Valuation Summary');
+      const { minValuation, maxValuation, saasTypeImpact } = calculateValuation();
+      const rangeText = minValuation === maxValuation
+        ? formatNumber(minValuation, '$')
+        : `${formatNumber(minValuation, '$')} - ${formatNumber(maxValuation, '$')}`;
+      const saasType = document.getElementById('saas-type').options[document.getElementById('saas-type').selectedIndex].text;
+      const impactText = saasTypeImpact === 0
+        ? 'No impact (Revenue Multiplier not selected)'
+        : `${saasTypeImpact > 0 ? '+' : ''}${saasTypeImpact.toFixed(1)}% due to ${saasType} multiplier`;
+      yPos = addText(`Valuation Range: ${rangeText}`, margin, yPos);
+      yPos = addText(`SaaS Type Impact: ${impactText}`, margin, yPos);
+      yPos += 5;
+
+      // Key Metrics
+      addHeader('Key Metrics');
+      const methods = Array.from(document.querySelectorAll('input[name="valuation-methods"]:checked')).map(m => m.value).join(', ') || 'None';
+      yPos = addText(`SaaS Type: ${saasType}`, margin, yPos);
+      yPos = addText(`Valuation Methods: ${methods}`, margin, yPos);
+      yPos = addText(`ARR: ${formatNumber(document.getElementById('arr').value, '$')}`, margin, yPos);
+      yPos = addText(`MRR: ${formatNumber(document.getElementById('mrr').value, '$')}`, margin, yPos);
+      yPos = addText(`Gross Margin: ${formatNumber(document.getElementById('gross-margin').value, '', '%')}`, margin, yPos);
+      yPos = addText(`YoY Growth: ${formatNumber(document.getElementById('yoy-growth').value, '', '%')}`, margin, yPos);
+      yPos = addText(`NRR: ${formatNumber(document.getElementById('nrr').value, '', '%')}`, margin, yPos);
+      yPos = addText(`CAC: ${formatNumber(document.getElementById('cac').value, '$')}`, margin, yPos);
+      yPos = addText(`LTV: ${formatNumber(document.getElementById('ltv').value, '$')}`, margin, yPos);
+      yPos = addText(`Churn Rate: ${formatNumber(document.getElementById('churn').value, '', '%')}`, margin, yPos);
+      yPos = addText(`TAM: ${formatNumber(document.getElementById('tam').value, '$', 'M')}`, margin, yPos);
+      yPos = addText(`Employee Count: ${formatNumber(document.getElementById('employee-count').value)}`, margin, yPos);
+      yPos = addText(`Funding Raised: ${formatNumber(document.getElementById('funding').value, '$', 'M')}`, margin, yPos);
+      yPos += 5;
+
+      // Check for page break before adding chart
+      if (yPos > 250) {
+        doc.addPage();
+        yPos = 20;
+      }
+
+      // Revenue Projection Chart
+      addHeader('5-Year Revenue Projection');
+      const canvas = document.getElementById('revenue-chart');
+      const chartImage = canvas.toDataURL('image/png');
+      doc.addImage(chartImage, 'PNG', margin, yPos, 150, 75); // Scale to 150x75mm
+      yPos += 80;
+
+      // Save PDF with dynamic filename
+      const today = new Date().toISOString().slice(0, 10); // e.g., 2025-05-10
+      doc.save(`SaaS_Valuation_Report_${today}.pdf`);
+    }
+
+    // Event listener for PDF download
+    document.getElementById('download-pdf').addEventListener('click', () => {
+      generatePDF();
+    });
+  </script>
+    <!-- Footer -->
+  <footer class="bg-gray-800 text-gray-300 py-6">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center">
+        <h2 class="text-lg font-semibold text-white">SaaS Valuation Pro</h2>
+        <p class="mt-2 text-sm">© 2025 SaaS Valuation Pro. All rights reserved.</p>
+        <div class="mt-4 flex justify-center space-x-4">
+          <a href="/privacy" class="text-sm hover:text-white transition-colors duration-300">Privacy Policy</a>
+          <a href="/terms" class="text-sm hover:text-white transition-colors duration-300">Terms of Service</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Final JavaScript for error handling, analytics, and form reset -->
+  <script>
+    // Error handling for form submission and PDF generation
+    function handleError(error, context) {
+      console.error(`Error in ${context}:`, error);
+      alert(`An error occurred while ${context}. Please try again or contact support.`);
+    }
+
+    // Analytics tracking (placeholder)
+    function trackEvent(eventName, properties = {}) {
+      // Replace with actual analytics service (e.g., Google Analytics, Mixpanel)
+      console.log(`Tracking event: ${eventName}`, properties);
+      // Example: gtag('event', eventName, properties);
+    }
+
+    // Reset form and return to Step 1
+    function resetForm() {
+      form.reset();
+      steps.forEach(s => s.classList.remove('step-visible'));
+      document.getElementById('step-1').classList.add('step-visible');
+      progressBar.style.width = '12.5%';
+      document.getElementById('results').classList.add('hidden');
+      form.classList.remove('hidden');
+      currentStep = 1;
+      trackEvent('form_reset');
+    }
+
+    // Update submit handler with error handling and analytics
+    document.getElementById('submit').removeEventListener('click', window.submitHandler);
+    window.submitHandler = () => {
+      try {
+        if (validateStep(currentStep)) {
+          document.getElementById('results').classList.remove('hidden');
+          form.classList.add('hidden');
+          displayResults();
+          initChart();
+          trackEvent('form_submit', {
+            saasType: document.getElementById('saas-type').value,
+            valuationMethods: Array.from(document.querySelectorAll('input[name="valuation-methods"]:checked')).map(m => m.value)
+          });
+        }
+      } catch (error) {
+        handleError(error, 'form submission');
+      }
+    };
+    document.getElementById('submit').addEventListener('click', window.submitHandler);
+
+    // Update PDF download handler with error handling and analytics
+    document.getElementById('download-pdf').removeEventListener('click', generatePDF);
+    document.getElementById('download-pdf').addEventListener('click', () => {
+      try {
+        generatePDF();
+        trackEvent('pdf_download', {
+          company: document.getElementById('company').value || 'N/A',
+          valuationRange: document.getElementById('valuation-range').textContent
+        });
+      } catch (error) {
+        handleError(error, 'PDF generation');
+      }
+    });
+
+    // Add Start Over button to results section
+    const resultsSection = document.getElementById('results');
+    const startOverButton = document.createElement('button');
+    startOverButton.id = 'start-over';
+    startOverButton.className = 'bg-gray-300 text-gray-700 font-bold py-2 px-4 rounded-lg hover:bg-gray-400 transition-colors duration-300 mt-4 ml-4';
+    startOverButton.textContent = 'Start Over';
+    startOverButton.addEventListener('click', resetForm);
+    resultsSection.appendChild(startOverButton);
+  </script>
+
+  <!-- Closing tags -->
+  </main>
 </body>
 </html>
+      
