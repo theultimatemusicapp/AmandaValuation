@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Step-by-Step Guide to Selling Your Small Business | SaaS Valuation App</title>
+    <meta name="description" content="Learn the essential steps to prepare and sell your small business, with expert tips to maximize value and streamline the sale process in 2025.">
+    <meta name="keywords" content="sell small business, business sale, business valuation, business broker, due diligence">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <style>
+        .header-dark {
+            background-color: #1a202c;
+            color: #e2e8f0;
+        }
+        .gradient-bg {
+            background: linear-gradient(90deg, #38b2ac 0%, #4c51bf 100%);
+        }
+        .btn-primary {
+            background-color: #38b2ac;
+            transition: background-color 0.3s;
+            border-radius: 9999px;
+        }
+        .btn-primary:hover {
+            background-color: #2d8b87;
+        }
+        .btn-secondary {
+            background-color: #4a5568;
+            transition: background-color 0.3s;
+            border-radius: 9999px;
+        }
+        .btn-secondary:hover {
+            background-color: #2d3748;
+        }
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        .testimonial-card {
+            background-color: #ffffff;
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            padding: 1.5rem;
+            border-left: 4px solid #38b2ac;
+            position: relative;
+            overflow: hidden;
+        }
+        .testimonial-card::before {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: #38b2ac;
+            border-radius: 50%;
+            top: -10px;
+            left: -10px;
+        }
+        .testimonial-card::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: #38b2ac;
+            border-radius: 50%;
+            bottom: -10px;
+            right: -10px;
+        }
+        .input-error {
+            border-color: #e53e3e;
+        }
+        .step-hidden {
+            display: none;
+        }
+        .step-visible {
+            display: block;
+        }
+        .dropdown-content {
+            display: none;
+            padding: 1.5rem;
+            background-color: #f7fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 1rem;
+            margin-top: 0.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #f3f4f6;
+        }
+        main {
+            min-height: calc(100vh - 20rem);
+        }
+        .cta-section {
+            background: linear-gradient(90deg, #2a6f6f 0%, #3b5b9a 100%);
+            color: white;
+            padding: 3rem 2rem;
+            text-align: center;
+            border-radius: 1rem;
+            margin: 2rem auto;
+            max-width: 80%;
+        }
+        .cta-section button {
+            background-color: #48bb78;
+            border-radius: 9999px;
+            padding: 0.75rem 2rem;
+            color: white;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+        .cta-section button:hover {
+            background-color: #38a169;
+        }
+        @media (max-width: 768px) {
+            #mobile-menu {
+                display: none;
+            }
+            #mobile-menu.hidden {
+                display: block;
+            }
+            .md\\:grid-cols-3 {
+                grid-template-columns: 1fr;
+            }
+            .cta-section {
+                max-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body class="font-sans text-gray-800">
+    <!-- Header -->
+    <header class="header-dark shadow-md fixed w-full z-10">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <h1 class="text-xl font-bold"><a href="index.html">SaaS Valuation App</a></h1>
+            <nav class="hidden md:flex space-x-6">
+                <a href="index.html#valuation" class="hover:text-teal-300">Valuation</a>
+                <a href="index.html#pricing" class="hover:text-teal-300">Pricing</a>
+                <a href="#demo" class="hover:text-teal-300">Demo</a>
+            </nav>
+            <div class="md:hidden">
+                <button id="menu-toggle" class="focus:outline-none text-teal-300">
+                    <i class="fas fa-bars text-2xl"></i>
+                </button>
+            </div>
+        </div>
+        <div id="mobile-menu" class="hidden md:hidden bg-gray-800 py-2 px-6 space-y-2">
+            <a href="index.html#valuation" class="block hover:text-teal-300">Valuation</a>
+            <a href="index.html#pricing" class="block hover:text-teal-300">Pricing</a>
+            <a href="#demo" class="block hover:text-teal-300">Demo</a>
+        </div>
+    </header>
+    <br><br>
+
+    <!-- Main Content -->
+    <main class="pt-12">
+        <!-- Blog Article -->
+        <section class="py-12">
+            <div class="container mx-auto px-6">
+                <article class="max-w-3xl mx-auto bg-white p-6 rounded-lg shadow-md">
+                    <h2 class="text-3xl font-bold text-gray-800 mb-4">Step-by-Step Guide to Selling Your Small Business</h2>
+                    <p class="text-gray-600 mb-4">By Josie Brosovic | May 01, 2025</p>
+                    <p class="text-gray-600 mb-6">Selling a small business is a significant milestone, requiring careful planning to maximize value and ensure a smooth transition. This guide walks you through the essential steps, with insights from our team at SaaS Valuation App. For more resources, check out our due diligence checklist or get a free valuation on our homepage.</p>
+
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Step 1: Prepare Your Business for Sale</h3>
+                    <p class="text-gray-600 mb-4">Start by assessing your business’s value using tools like SaaS Valuation App’s AI-driven platform. Clean up financials, ensuring 2-3 years of accurate records, and document key processes (e.g., operations, customer acquisition). Reduce owner dependency by delegating tasks to staff or outsourcing, boosting appeal to buyers.</p>
+                    <p class="text-gray-600 mb-4">Address risks like customer concentration (no client over 20% of revenue) and secure intellectual property (e.g., trademarks). A strong Monthly Recurring Revenue (MRR) and low churn (under 5% monthly) can lift valuations by 0.5x-1x. Our data shows businesses with documented SOPs sell 20% faster.</p>
+
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Step 2: Determine Your Valuation</h3>
+                    <p class="text-gray-600 mb-4">Valuation methods vary by business size and model. For small businesses under $2 million, Seller Discretionary Earnings (SDE) multiples (2x-4x) are common, adding back owner salaries. Larger firms may use EBITDA (4x-6x), while SaaS or tech businesses lean on revenue multiples (3x-7x ARR). Key metrics include MRR, churn, and growth rate.</p>
+                    <p class="text-gray-600 mb-4">Use SaaS Valuation App to analyze 80+ factors, from financials to market trends, for an accurate valuation. Businesses with consistent growth (20%+ YoY) and diversified revenue streams command premiums. Our recent sales data shows average SDE multiples of 3.2x for small businesses in 2025.</p>
+
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Step 3: Find the Right Buyer</h3>
+                    <p class="text-gray-600 mb-4">Engage a business broker for access to vetted buyers, or list on marketplaces like Flippa or Empire Flippers. Brokers charge 10-15% commissions but streamline negotiations. Highlight your business’s strengths—stable MRR, low churn, or scalable tech—to attract strategic buyers or private equity.</p>
+                    <p class="text-gray-600 mb-4">Prepare a confidential information memorandum (CIM) summarizing financials, operations, and growth potential. Our AI data room at SaaS Valuation App helps organize documents securely, impressing buyers with clear metrics like LTV/CAC (ideally 3+). Avoid sharing sensitive data until NDAs are signed.</p>
+
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Step 4: Negotiate and Close the Deal</h3>
+                    <p class="text-gray-600 mb-4">Negotiations focus on price, terms (e.g., cash vs. earn-outs), and transition support. Buyers may request a 3-6 month handover to ensure continuity. Be transparent about risks, like churn spikes, to build trust. Our data shows 60% of deals include earn-outs for small businesses.</p>
+                    <p class="text-gray-600 mb-4">Use legal counsel to draft a purchase agreement, covering assets, liabilities, and warranties. Due diligence typically takes 30-60 days, verifying financials and contracts. SaaS Valuation App’s platform can generate reports to speed up this process. Once closed, plan for tax implications with an accountant.</p>
+
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Step 5: Transition and Exit</h3>
+                    <p class="text-gray-600 mb-4">Support the buyer during the transition, training staff or transferring vendor relationships. Document all processes in a shared drive for clarity. A smooth handover boosts buyer satisfaction and reduces clawback risks. Our clients report 80% fewer disputes with detailed transition plans.</p>
+                    <p class="text-gray-600 mb-4">After exiting, explore new ventures or reinvest proceeds. SaaS Valuation App offers post-sale consulting to guide your next steps. Ready to sell? Contact us for a confidential valuation and expert advice to maximize your exit.</p>
+
+                    <a href="blog.html" class="btn-secondary text-white font-bold py-2 px-4 rounded-lg mt-4 inline-block">Back to Blog</a>
+                </article>
+            </div>
+        </section>
+
+        <!-- Testimonials Section -->
+        <section class="py-12 bg-gray-100">
+            <div class="container mx-auto px-6">
+                <h2 class="text-2xl font-bold text-center mb-8 text-gray-800">What Our Users Say</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="testimonial-card">
+                        <p class="text-gray-600">"SaaS Valuation App gave me a clear picture of my company’s value in just 15 minutes. The AI insights were a game-changer for our investor pitch!"</p>
+                        <p class="mt-4 text-gray-800 font-semibold">John Edwards, Founder, TechTrend Innovations</p>
+                        <div class="flex mt-2">
+                            <span class="text-yellow-400">★★★★★</span>
+                        </div>
+                    </div>
+                    <div class="testimonial-card">
+                        <p class="text-gray-600">"The data room feature made due diligence a breeze. I was able to share documents securely and get AI-driven insights that impressed our investors."</p>
+                        <p class="mt-4 text-gray-800 font-semibold">Ben Howard, CEO, CloudSync Solutions</p>
+                        <div class="flex mt-2">
+                            <span class="text-yellow-400">★★★★★</span>
+                        </div>
+                    </div>
+                    <div class="testimonial-card">
+                        <p class="text-gray-600">"I love how SaaS Valuation App improves my understanding of business worth with AI-driven insights."</p>
+                        <p class="mt-4 text-gray-800 font-semibold">Josie Brosovic, Founder, InnovateFlow</p>
+                        <div class="flex mt-2">
+                            <span class="text-yellow-400">★★★★★</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA Section -->
+        <section class="cta-section">
+            <h2 class="text-2xl font-bold mb-4">Ready to Discover Your SaaS Value?</h2>
+            <p class="mb-6">Join thousands of founders who trust SaaS Valuation App to understand their business worth and grow smarter.</p>
+            <button class="mt-4">Get Started Now</button>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-8">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div>
+                    <h3 class="text-lg font-bold mb-4">SaaS Valuation App</h3>
+                    <p class="text-gray-400">Empowering SaaS founders to understand their business worth with AI-driven insights.</p>
+                </div>
+                <div>
+                    <h3 class="text-lg font-bold mb-4">Product</h3>
+                    <ul class="space-y-2">
+                        <li><a href="index.html#valuation" class="text-gray-400 hover:text-teal-400">Self Valuation</a></li>
+                        <li><a href="index.html#pricing" class="text-gray-400 hover:text-teal-400">Pricing</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-lg font-bold mb-4">Legal</h3>
+                    <ul class="space-y-2">
+                        <li><a href="privacy-policy.html" class="text-gray-400 hover:text-teal-400">Privacy Policy</a></li>
+                        <li><a href="terms-and-conditions.html" class="text-gray-400 hover:text-teal-400">Terms and Conditions</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-700 mt-8 pt-6 text-center">
+                <p class="text-gray-400">© 2025 SaaS Valuation App. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        document.getElementById('menu-toggle').addEventListener('click', () => {
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Demo modal
+        document.querySelector('a[href="#demo"]').addEventListener('click', (e) => {
+            e.preventDefault();
+            document.getElementById('demo-modal').classList.remove('hidden');
+        });
+
+        document.getElementById('close-modal').addEventListener('click', () => {
+            document.getElementById('demo-modal').classList.add('hidden');
+            document.getElementById('demo-video').src = document.getElementById('demo-video').src;
+        });
+    </script>
+</body>
+</html>
