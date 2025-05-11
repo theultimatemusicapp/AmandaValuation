@@ -1,10 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://saasvaluation.app/</loc></url>
-  <url><loc>https://saasvaluation.app/blog.html</loc></url>
-  <url><loc>https://saasvaluation.app/index.html</loc></url>
-  <url><loc>https://saasvaluation.app/privacy-policy.html</loc></url>
-  <url><loc>https://saasvaluation.app/pro-valuation.html</loc></url>
-  <url><loc>https://saasvaluation.app/pro.html</loc></url>
-  <url><loc>https://saasvaluation.app/terms-and-conditions.html</loc></url>
+
+  <!-- Home -->
+  <url>
+    <loc>https://saasvaluation.app/</loc>
+    <lastmod>2025-05-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.00</priority>
+  </url>
+
+  <!-- Main articles & tools -->
+  <url><loc>https://saasvaluation.app/blog.html</loc><lastmod>2025-05-10</lastmod><changefreq>weekly</changefreq><priority>0.80</priority></url>
+  <url><loc>https://saasvaluation.app/boost-saas-revenue.html</loc><lastmod>2025-05-10</lastmod><changefreq>monthly</changefreq><priority>0.75</priority></url>
+  <url><loc>https://saasvaluation.app/grow-tactics-for-2025.html</loc><lastmod>2025-05-10</lastmod><changefreq>monthly</changefreq><priority>0.75</priority></url>
+  <url><loc>https://saasvaluation.app/how-to-value-saas.html</loc><lastmod>2025-05-10</lastmod><changefreq>monthly</changefreq><priority>0.80</priority></url>
+  <url><loc>https://saasvaluation.app/payment.html</loc><lastmod>2025-05-08</lastmod><changefreq>monthly</changefreq><priority>0.70</priority></url>
+
+  <!-- Value-add guides -->
+  <url><loc>https://saasvaluation.app/selling-your-small-business.html</loc><lastmod>2025-05-10</lastmod><changefreq>monthly</changefreq><priority>0.70</priority></url>
+  <url><loc>https://saasvaluation.app/strategies-for-customer-retention.html</loc><lastmod>2025-05-10</lastmod><changefreq>monthly</changefreq><priority>0.70</priority></url>
+  <url><loc>https://saasvaluation.app/valuing-ai-driven-trends.html</loc><lastmod>2025-05-10</lastmod><changefreq>monthly</changefreq><priority>0.70</priority></url>
+
+  <!-- Legal / system pages -->
+  <url><loc>https://saasvaluation.app/privacy-policy.html</loc><lastmod>2025-05-07</lastmod><changefreq>yearly</changefreq><priority>0.30</priority></url>
+  <url><loc>https://saasvaluation.app/terms-and-conditions.html</loc><lastmod>2025-05-07</lastmod><changefreq>yearly</changefreq><priority>0.30</priority></url>
+  <url><loc>https://saasvaluation.app/robots.txt</loc><lastmod>2025-05-07</lastmod><changefreq>yearly</changefreq><priority>0.10</priority></url>
+
 </urlset>
