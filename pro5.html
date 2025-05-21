@@ -8,7 +8,8 @@
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.3/jspdf.plugin.autotable.min.js"></script>
 	<style>
     .gradient-bg {
       background: linear-gradient(135deg, #38b2ac 0%, #2d3748 100%);
@@ -1452,8 +1453,6 @@
         },
         options: { scales: { r: { min: 0, max: 10 } } }
       });
-
- 
 
 // Optimized PDF Report (jsPDF with autoTable)
 document.getElementById('download-report').addEventListener('click', () => {
