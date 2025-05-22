@@ -1,3 +1,4 @@
+<!-- STEP 1/15 START: HTML Head, CSS Styles, and Opening Body -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -94,9 +95,15 @@
         grid-template-columns: 1fr;
       }
     }
+    /* Chart canvas styles for PDF export */
+    .chart-canvas {
+      display: none;
+    }
   </style>
 </head>
 <body>
+<!-- STEP 1/15 END: Paste this at the top of your Dreamweaver file -->
+  <!-- STEP 2/15 START: Header and Hero Section -->
   <!-- HEADER -->
   <header class="bg-gray-800 text-white py-3 sticky top-0 z-50 shadow-lg">
     <div class="container mx-auto px-4 flex justify-between items-center">
@@ -107,9 +114,9 @@
         </a>
       </div>
       <nav class="hidden md:flex space-x-6" aria-label="Main navigation">
-        <a href="index.html">Free Valuation</a>
-        <a href="#features">Features</a>
-        <a href="#how-it-works">How It Works</a>
+        <a href="index.html" class="nav-link">Free Valuation</a>
+        <a href="#features" class="nav-link">Features</a>
+        <a href="#how-it-works" class="nav-link">How It Works</a>
         <a href="blog.html" class="nav-link">Resources</a>
       </nav>
       <button id="menu-toggle" class="md:hidden focus:outline-none" aria-label="Toggle Menu">
@@ -146,8 +153,9 @@
       </div>
     </div>
   </section>
-
-    <!-- FEATURES SECTION -->
+<!-- STEP 2/15 END: Paste this after the <body> tag from Step 1 -->
+  <!-- STEP 3/15 START: Features and How-It-Works Sections -->
+  <!-- FEATURES SECTION -->
   <section id="features" class="py-16 bg-white">
     <div class="container mx-auto px-4">
       <div class="text-center mb-12">
@@ -194,13 +202,13 @@
       <div class="text-center mb-12">
         <h2 class="text-3xl font-bold text-gray-800 mb-4">How Our Valuation Works</h2>
         <p class="text-lg text-gray-600 max-w-2xl mx-auto">
-          Our 7-step process evaluates every aspect of your SaaS business to deliver an accurate valuation.
+          Our 8-step process evaluates every aspect of your SaaS business to deliver an accurate valuation.
         </p>
       </div>
       <div class="max-w-4xl mx-auto">
-        <!-- (Keep your original "How it works" step-by-step summary here) -->
         <ol class="list-decimal pl-6 text-gray-700 space-y-2 text-base">
-          <li><b>Select Valuation Methods:</b> Choose up to 3 methods that best fit your business model.</li>
+          <li><b>Select SaaS Type:</b> Choose the category that best describes your SaaS business.</li>
+          <li><b>Enter Company Info and Valuation Methods:</b> Provide company name, website, email, and select up to 3 valuation methods.</li>
           <li><b>Enter Financial Metrics:</b> Provide key financial data including ARR, MRR, LTV, CAC, gross margin, net profit, burn rate, and runway.</li>
           <li><b>Growth & Churn Rates:</b> Input your revenue growth rates (YoY and MoM) along with customer and revenue churn rates.</li>
           <li><b>Customer & Market Metrics:</b> Detail your customer base, retention, NPS, segment, and buyer type.</li>
@@ -211,7 +219,8 @@
       </div>
     </div>
   </section>
-
+<!-- STEP 3/15 END: Paste this after the hero section from Step 2 -->
+  <!-- STEP 4/15 START: Pro Valuation Form (Step 0: SaaS Type, Step 1: Company Info + Valuation Methods) -->
   <!-- PRO VALUATION FORM -->
   <section id="pro-valuation" class="py-12 bg-gray-50">
     <div class="container mx-auto px-4 max-w-3xl">
@@ -273,33 +282,51 @@
           </div>
         </div>
 
-        <!-- Step 1: Select Valuation Methods -->
+        <!-- Step 1: Company Info & Valuation Methods -->
         <div id="step-1" class="step step-hidden" data-step="1">
-          <h3 class="text-lg font-semibold text-gray-800 mb-4">Step 1: Select Valuation Methods</h3>
+          <h3 class="text-lg font-semibold text-gray-800 mb-4">Step 1: Company Information & Valuation Methods</h3>
           <p class="text-gray-600 mb-4 text-sm">
-            Choose up to 3 valuation methods for your SaaS business.
-            <span data-tooltip="Select methods matching your business model." class="text-teal-500 underline cursor-pointer">Learn more</span>
+            Provide your company details and choose up to 3 valuation methods.
+            <span data-tooltip="Company info will appear in the report." class="text-teal-500 underline cursor-pointer">Learn more</span>
           </p>
           <div class="space-y-3">
-            <label class="flex items-center">
-              <input type="checkbox" id="method-multiplier" value="multiplier" class="form-checkbox h-5 w-5 text-teal-500" aria-label="Revenue Multiplier" />
-              <span class="ml-2">Revenue Multiplier</span>
-            </label>
-            <label class="flex items-center">
-              <input type="checkbox" id="method-income" value="income" class="form-checkbox h-5 w-5 text-teal-500" aria-label="Income-Based" />
-              <span class="ml-2">Income-Based</span>
-            </label>
-            <label class="flex items-center">
-              <input type="checkbox" id="method-earnings" value="earnings" class="form-checkbox h-5 w-5 text-teal-500" aria-label="Earnings-Based" />
-              <span class="ml-2">Earnings-Based</span>
-            </label>
-            <label class="flex items-center">
-              <input type="checkbox" id="method-dcf" value="dcf" class="form-checkbox h-5 w-5 text-teal-500" aria-label="Discounted Cash Flow (DCF)" />
-              <span class="ml-2">Discounted Cash Flow (DCF)</span>
-            </label>
-            <p id="method-error" class="text-red-500 text-sm mt-2 hidden" role="alert">
-              Please select 1 to 3 valuation methods.
-            </p>
+            <div>
+              <label for="company-name" class="block font-medium text-gray-700 mb-1">Company Name</label>
+              <input type="text" id="company-name" placeholder="e.g., Acme Inc." class="w-full p-2 border rounded focus:ring focus:ring-teal-400" required aria-describedby="company-name-error" />
+              <p id="company-name-error" class="text-red-500 text-sm mt-1 hidden" role="alert">Please enter a valid company name.</p>
+            </div>
+            <div>
+              <label for="company-website" class="block font-medium text-gray-700 mb-1">Company Website</label>
+              <input type="url" id="company-website" placeholder="e.g., https://www.acme.com" class="w-full p-2 border rounded focus:ring focus:ring-teal-400" required aria-describedby="company-website-error" />
+              <p id="company-website-error" class="text-red-500 text-sm mt-1 hidden" role="alert">Please enter a valid URL (e.g., https://www.example.com).</p>
+            </div>
+            <div>
+              <label for="company-email" class="block font-medium text-gray-700 mb-1">Company Email</label>
+              <input type="email" id="company-email" placeholder="e.g., contact@acme.com" class="w-full p-2 border rounded focus:ring focus:ring-teal-400" required aria-describedby="company-email-error" />
+              <p id="company-email-error" class="text-red-500 text-sm mt-1 hidden" role="alert">Please enter a valid email address.</p>
+            </div>
+            <div>
+              <label class="block font-medium text-gray-700 mb-1">Valuation Methods</label>
+              <label class="flex items-center">
+                <input type="checkbox" id="method-multiplier" value="multiplier" class="form-checkbox h-5 w-5 text-teal-500" aria-label="Revenue Multiplier" />
+                <span class="ml-2">Revenue Multiplier</span>
+              </label>
+              <label class="flex items-center">
+                <input type="checkbox" id="method-income" value="income" class="form-checkbox h-5 w-5 text-teal-500" aria-label="Income-Based" />
+                <span class="ml-2">Income-Based</span>
+              </label>
+              <label class="flex items-center">
+                <input type="checkbox" id="method-earnings" value="earnings" class="form-checkbox h-5 w-5 text-teal-500" aria-label="Earnings-Based" />
+                <span class="ml-2">Earnings-Based</span>
+              </label>
+              <label class="flex items-center">
+                <input type="checkbox" id="method-dcf" value="dcf" class="form-checkbox h-5 w-5 text-teal-500" aria-label="Discounted Cash Flow (DCF)" />
+                <span class="ml-2">Discounted Cash Flow (DCF)</span>
+              </label>
+              <p id="method-error" class="text-red-500 text-sm mt-2 hidden" role="alert">
+                Please select 1 to 3 valuation methods.
+              </p>
+            </div>
           </div>
           <div class="explanation-section">
             <div class="explanation-box">
@@ -335,7 +362,9 @@
             <button id="next-btn-1" class="btn-primary" aria-label="Proceed to next step">Next</button>
           </div>
         </div>
-         <!-- Step 2: Financial Metrics -->
+<!-- STEP 4/15 END: Paste this after the how-it-works section from Step 3 -->
+        <!-- STEP 5/15 START: Pro Valuation Form (Step 2: Financial Metrics) -->
+        <!-- Step 2: Financial Metrics -->
         <div id="step-2" class="step step-hidden" data-step="2">
           <h3 class="text-lg font-semibold text-gray-800 mb-4">Step 2: Financial Metrics</h3>
           <p class="text-gray-600 mb-4 text-sm">
@@ -448,24 +477,25 @@
             </div>
           </div>
         </div>
-
+<!-- STEP 5/15 END: Paste this after Step 1 from Step 4 -->
+        <!-- STEP 6/15 START: Pro Valuation Form (Step 3: Growth & Churn Rates) -->
         <!-- Step 3: Growth & Churn Rates -->
         <div id="step-3" class="step step-hidden" data-step="3">
-          <h3 class="text-lg font-semibold text-gray-800 mb-4">Step 3: Growth and Churn Rates</h3>
+          <h3 class="text-lg font-semibold text-gray-800 mb-4">Step 3: Growth & Churn Rates</h3>
           <p class="text-gray-600 mb-4 text-sm">
-            Enter revenue growth and churn metrics.
-            <span data-tooltip="These impact valuation multipliers." class="text-teal-500 underline cursor-pointer">Learn more</span>
+            Provide your revenue growth and churn rates.
+            <span data-tooltip="Use data from analytics platforms." class="text-teal-500 underline cursor-pointer">Learn more</span>
           </p>
           <div class="space-y-3">
             <div>
-              <label for="revenue-growth-yoy" class="block font-medium text-gray-700 mb-1">Revenue Growth (YoY %)</label>
-              <input type="number" id="revenue-growth-yoy" min="0" max="100" step="0.1" placeholder="e.g., 20" class="w-full p-2 border rounded focus:ring focus:ring-teal-400" required aria-describedby="revenue-growth-yoy-error" />
-              <p id="revenue-growth-yoy-error" class="text-red-500 text-sm mt-1 hidden" role="alert">Please enter a value between 0 and 100.</p>
+              <label for="yoy-growth" class="block font-medium text-gray-700 mb-1">Year-over-Year Revenue Growth (%)</label>
+              <input type="number" id="yoy-growth" min="0" step="0.1" placeholder="e.g., 25" class="w-full p-2 border rounded focus:ring focus:ring-teal-400" required aria-describedby="yoy-growth-error" />
+              <p id="yoy-growth-error" class="text-red-500 text-sm mt-1 hidden" role="alert">Please enter a valid number.</p>
             </div>
             <div>
-              <label for="revenue-growth-mom" class="block font-medium text-gray-700 mb-1">Revenue Growth (MoM %)</label>
-              <input type="number" id="revenue-growth-mom" min="0" max="100" step="0.1" placeholder="e.g., 3" class="w-full p-2 border rounded focus:ring focus:ring-teal-400" required aria-describedby="revenue-growth-mom-error" />
-              <p id="revenue-growth-mom-error" class="text-red-500 text-sm mt-1 hidden" role="alert">Please enter a value between 0 and 100.</p>
+              <label for="mom-growth" class="block font-medium text-gray-700 mb-1">Month-over-Month Revenue Growth (%)</label>
+              <input type="number" id="mom-growth" min="0" step="0.1" placeholder="e.g., 5" class="w-full p-2 border rounded focus:ring focus:ring-teal-400" required aria-describedby="mom-growth-error" />
+              <p id="mom-growth-error" class="text-red-500 text-sm mt-1 hidden" role="alert">Please enter a valid number.</p>
             </div>
             <div>
               <label for="customer-churn" class="block font-medium text-gray-700 mb-1">Customer Churn Rate (%)</label>
@@ -477,7 +507,7 @@
               <input type="number" id="revenue-churn" min="0" max="100" step="0.1" placeholder="e.g., 4" class="w-full p-2 border rounded focus:ring focus:ring-teal-400" required aria-describedby="revenue-churn-error" />
               <p id="revenue-churn-error" class="text-red-500 text-sm mt-1 hidden" role="alert">Please enter a value between 0 and 100.</p>
             </div>
-            <p id="growth-churn-error" class="text-red-500 text-sm mt-2 hidden" role="alert">Please enter valid growth and churn percentages.</p>
+            <p id="growth-churn-error" class="text-red-500 text-sm mt-2 hidden" role="alert">Please fill all growth and churn fields correctly.</p>
             <div class="mt-4 flex justify-between">
               <button id="prev-btn-3" class="btn-secondary" aria-label="Return to previous step">Previous</button>
               <button id="next-btn-3" class="btn-primary" aria-label="Proceed to next step">Next</button>
@@ -485,86 +515,87 @@
           </div>
           <div class="explanation-section">
             <div class="explanation-box">
-              <h4>Revenue Growth (YoY)</h4>
-              <p><strong>What:</strong> Annual revenue growth percentage.</p>
-              <p><strong>Why:</strong> High growth signals expansion potential.</p>
-              <p><strong>Scenario:</strong> $1M to $1.2M revenue = 20% YoY growth.</p>
-              <p><strong>Source:</strong> Financial reports (e.g., QuickBooks).</p>
+              <h4>Year-over-Year Revenue Growth</h4>
+              <p><strong>What:</strong> Annual revenue increase (%).</p>
+              <p><strong>Why:</strong> High growth boosts valuation.</p>
+              <p><strong>Scenario:</strong> $1M to $1.25M = 25% YoY.</p>
+              <p><strong>Source:</strong> Financial reports (e.g., Xero).</p>
             </div>
             <div class="explanation-box">
-              <h4>Revenue Growth (MoM)</h4>
-              <p><strong>What:</strong> Monthly revenue growth percentage.</p>
-              <p><strong>Why:</strong> Shows short-term growth trends.</p>
-              <p><strong>Scenario:</strong> $100K to $103K revenue = 3% MoM growth.</p>
-              <p><strong>Source:</strong> Billing systems (e.g., Stripe).</p>
+              <h4>Month-over-Month Revenue Growth</h4>
+              <p><strong>What:</strong> Monthly revenue increase (%).</p>
+              <p><strong>Why:</strong> Shows short-term momentum.</p>
+              <p><strong>Scenario:</strong> $100K to $105K = 5% MoM.</p>
+              <p><strong>Source:</strong> Billing systems (e.g., Chargebee).</p>
             </div>
             <div class="explanation-box">
               <h4>Customer Churn Rate</h4>
-              <p><strong>What:</strong> Percentage of customers leaving monthly.</p>
-              <p><strong>Why:</strong> Low churn boosts revenue stability.</p>
-              <p><strong>Scenario:</strong> 50 of 1,000 customers leave = 5% churn.</p>
-              <p><strong>Source:</strong> CRM (e.g., Salesforce).</p>
+              <p><strong>What:</strong> % of customers lost monthly.</p>
+              <p><strong>Why:</strong> Low churn signals retention.</p>
+              <p><strong>Scenario:</strong> 5 of 100 customers leave = 5%.</p>
+              <p><strong>Source:</strong> CRM (e.g., HubSpot).</p>
             </div>
             <div class="explanation-box">
               <h4>Revenue Churn Rate</h4>
-              <p><strong>What:</strong> Percentage of revenue lost monthly.</p>
-              <p><strong>Why:</strong> Low revenue churn supports valuation.</p>
-              <p><strong>Scenario:</strong> $4K lost of $100K MRR = 4% churn.</p>
-              <p><strong>Source:</strong> Billing tools (e.g., Chargebee).</p>
+              <p><strong>What:</strong> % of revenue lost monthly.</p>
+              <p><strong>Why:</strong> Low revenue churn boosts stability.</p>
+              <p><strong>Scenario:</strong> $5K of $100K MRR lost = 5%.</p>
+              <p><strong>Source:</strong> Analytics (e.g., Baremetrics).</p>
             </div>
           </div>
         </div>
-                <!-- Step 4: Customer & Market Metrics -->
+<!-- STEP 6/15 END: Paste this after Step 2 from Step 5 -->
+        <!-- STEP 7/15 START: Pro Valuation Form (Step 4: Customer & Market Metrics) -->
+        <!-- Step 4: Customer & Market Metrics -->
         <div id="step-4" class="step step-hidden" data-step="4">
           <h3 class="text-lg font-semibold text-gray-800 mb-4">Step 4: Customer & Market Metrics</h3>
           <p class="text-gray-600 mb-4 text-sm">
-            Provide customer and market details.
-            <span data-tooltip="These adjust valuation risk." class="text-teal-500 underline cursor-pointer">Learn more</span>
+            Provide details about your customer base and market.
+            <span data-tooltip="Use CRM and survey data." class="text-teal-500 underline cursor-pointer">Learn more</span>
           </p>
           <div class="space-y-3">
             <div>
-              <label for="active-customers" class="block font-medium text-gray-700 mb-1">Active Customers</label>
-              <input type="number" id="active-customers" min="0" step="1" placeholder="e.g., 1500" class="w-full p-2 border rounded focus:ring focus:ring-teal-400" required aria-describedby="active-customers-error" />
-              <p id="active-customers-error" class="text-red-500 text-sm mt-1 hidden" role="alert">Please enter a valid number.</p>
+              <label for="total-customers" class="block font-medium text-gray-700 mb-1">Total Active Customers</label>
+              <input type="number" id="total-customers" min="0" step="1" placeholder="e.g., 1000" class="w-full p-2 border rounded focus:ring focus:ring-teal-400" required aria-describedby="total-customers-error" />
+              <p id="total-customers-error" class="text-red-500 text-sm mt-1 hidden" role="alert">Please enter a valid number.</p>
             </div>
             <div>
-              <label for="monthly-active-users" class="block font-medium text-gray-700 mb-1">Monthly Active Users (MAU)</label>
-              <input type="number" id="monthly-active-users" min="0" step="1" placeholder="e.g., 2000" class="w-full p-2 border rounded focus:ring focus:ring-teal-400" required aria-describedby="monthly-active-users-error" />
-              <p id="monthly-active-users-error" class="text-red-500 text-sm mt-1 hidden" role="alert">Please enter a valid number.</p>
-            </div>
-            <div>
-              <label for="retention-rate" class="block font-medium text-gray-700 mb-1">Retention Rate (%)</label>
+              <label for="retention-rate" class="block font-medium text-gray-700 mb-1">Customer Retention Rate (%)</label>
               <input type="number" id="retention-rate" min="0" max="100" step="0.1" placeholder="e.g., 85" class="w-full p-2 border rounded focus:ring focus:ring-teal-400" required aria-describedby="retention-rate-error" />
               <p id="retention-rate-error" class="text-red-500 text-sm mt-1 hidden" role="alert">Please enter a value between 0 and 100.</p>
             </div>
             <div>
               <label for="nps" class="block font-medium text-gray-700 mb-1">Net Promoter Score (NPS)</label>
-              <input type="number" id="nps" min="-100" max="100" step="1" placeholder="e.g., 70" class="w-full p-2 border rounded focus:ring focus:ring-teal-400" required aria-describedby="nps-error" />
+              <input type="number" id="nps" min="-100" max="100" step="1" placeholder="e.g., 30" class="w-full p-2 border rounded focus:ring focus:ring-teal-400" required aria-describedby="nps-error" />
               <p id="nps-error" class="text-red-500 text-sm mt-1 hidden" role="alert">Please enter a value between -100 and 100.</p>
             </div>
             <div>
-              <label for="customer-segment" class="block font-medium text-gray-700 mb-1">Customer Segment</label>
-              <select id="customer-segment" class="w-full p-2 border rounded focus:ring focus:ring-teal-400" required aria-describedby="customer-segment-error">
-                <option value="" disabled selected>Select one</option>
-                <option value="small-business">Small Businesses</option>
+              <label for="market-segment" class="block font-medium text-gray-700 mb-1">Primary Market Segment</label>
+              <select id="market-segment" class="w-full p-2 border rounded focus:ring focus:ring-teal-400" required aria-describedby="market-segment-error">
+                <option value="" disabled selected>Select Market Segment</option>
+                <option value="smb">Small & Medium Businesses (SMB)</option>
                 <option value="mid-market">Mid-Market</option>
                 <option value="enterprise">Enterprise</option>
                 <option value="consumer">Consumer</option>
+                <option value="government">Government</option>
+                <option value="nonprofit">Nonprofit</option>
               </select>
-              <p id="customer-segment-error" class="text-red-500 text-sm mt-1 hidden" role="alert">Please select an option.</p>
+              <p id="market-segment-error" class="text-red-500 text-sm mt-1 hidden" role="alert">Please select a market segment.</p>
             </div>
             <div>
-              <label for="buyer-type" class="block font-medium text-gray-700 mb-1">Buyer Type / Exit Potential</label>
+              <label for="buyer-type" class="block font-medium text-gray-700 mb-1">Primary Buyer Type</label>
               <select id="buyer-type" class="w-full p-2 border rounded focus:ring focus:ring-teal-400" required aria-describedby="buyer-type-error">
-                <option value="" disabled selected>Select one</option>
-                <option value="investors">Investors</option>
-                <option value="competitors">Competitors</option>
-                <option value="strategic-partners">Strategic Partners</option>
-                <option value="unknown">Unknown</option>
+                <option value="" disabled selected>Select Buyer Type</option>
+                <option value="executive">C-Level Executives</option>
+                <option value="manager">Managers</option>
+                <option value="end-user">End Users</option>
+                <option value="it">IT Departments</option>
+                <option value="hr">HR Departments</option>
+                <option value="finance">Finance Departments</option>
               </select>
-              <p id="buyer-type-error" class="text-red-500 text-sm mt-1 hidden" role="alert">Please select an option.</p>
+              <p id="buyer-type-error" class="text-red-500 text-sm mt-1 hidden" role="alert">Please select a buyer type.</p>
             </div>
-            <p id="customer-market-error" class="text-red-500 text-sm mt-2 hidden" role="alert">Please fill all fields correctly.</p>
+            <p id="customer-market-error" class="text-red-500 text-sm mt-2 hidden" role="alert">Please fill all customer and market fields correctly.</p>
             <div class="mt-4 flex justify-between">
               <button id="prev-btn-4" class="btn-secondary" aria-label="Return to previous step">Previous</button>
               <button id="next-btn-4" class="btn-primary" aria-label="Proceed to next step">Next</button>
@@ -572,122 +603,113 @@
           </div>
           <div class="explanation-section">
             <div class="explanation-box">
-              <h4>Active Customers</h4>
+              <h4>Total Active Customers</h4>
               <p><strong>What:</strong> Number of paying customers.</p>
-              <p><strong>Why:</strong> More customers increase revenue.</p>
-              <p><strong>Scenario:</strong> 1,500 customers = strong base.</p>
-              <p><strong>Source:</strong> Subscription tools (e.g., Stripe).</p>
+              <p><strong>Why:</strong> Large base signals market traction.</p>
+              <p><strong>Scenario:</strong> 1,000 active subscriptions.</p>
+              <p><strong>Source:</strong> CRM (e.g., Salesforce).</p>
             </div>
             <div class="explanation-box">
-              <h4>Monthly Active Users (MAU)</h4>
-              <p><strong>What:</strong> Users engaging monthly.</p>
-              <p><strong>Why:</strong> High MAU shows product popularity.</p>
-              <p><strong>Scenario:</strong> 2,000 MAU = strong engagement.</p>
-              <p><strong>Source:</strong> Analytics (e.g., Google Analytics).</p>
-            </div>
-            <div class="explanation-box">
-              <h4>Retention Rate</h4>
-              <p><strong>What:</strong> Percentage of customers staying.</p>
-              <p><strong>Why:</strong> High retention boosts stability.</p>
-              <p><strong>Scenario:</strong> 85% retention = loyal customers.</p>
-              <p><strong>Source:</strong> CRM (e.g., HubSpot).</p>
+              <h4>Customer Retention Rate</h4>
+              <p><strong>What:</strong> % of customers retained yearly.</p>
+              <p><strong>Why:</strong> High retention boosts valuation.</p>
+              <p><strong>Scenario:</strong> 850 of 1,000 customers stay = 85%.</p>
+              <p><strong>Source:</strong> Analytics (e.g., Mixpanel).</p>
             </div>
             <div class="explanation-box">
               <h4>Net Promoter Score (NPS)</h4>
-              <p><strong>What:</strong> Likelihood of customer referrals (-100 to 100).</p>
-              <p><strong>Why:</strong> High NPS indicates satisfaction.</p>
-              <p><strong>Scenario:</strong> NPS 70 = happy customers.</p>
+              <p><strong>What:</strong> Customer satisfaction (-100 to 100).</p>
+              <p><strong>Why:</strong> High NPS shows loyalty.</p>
+              <p><strong>Scenario:</strong> 40% promoters, 10% detractors = 30 NPS.</p>
               <p><strong>Source:</strong> Surveys (e.g., SurveyMonkey).</p>
             </div>
             <div class="explanation-box">
-              <h4>Customer Segment</h4>
-              <p><strong>What:</strong> Main customer type (e.g., enterprise).</p>
-              <p><strong>Why:</strong> Impacts growth and risk.</p>
-              <p><strong>Scenario:</strong> Enterprise = high-value deals.</p>
-              <p><strong>Source:</strong> CRM customer data.</p>
+              <h4>Primary Market Segment</h4>
+              <p><strong>What:</strong> Main customer group.</p>
+              <p><strong>Why:</strong> Defines market fit and valuation context.</p>
+              <p><strong>Scenario:</strong> SMBs as primary customers.</p>
+              <p><strong>Source:</strong> Sales data.</p>
             </div>
             <div class="explanation-box">
-              <h4>Buyer Type / Exit Potential</h4>
-              <p><strong>What:</strong> Likely buyers (e.g., competitors).</p>
-              <p><strong>Why:</strong> Influences valuation estimates.</p>
-              <p><strong>Scenario:</strong> Competitors may pay premium.</p>
-              <p><strong>Source:</strong> Industry research or advisors.</p>
+              <h4>Primary Buyer Type</h4>
+              <p><strong>What:</strong> Main decision-maker for purchases.</p>
+              <p><strong>Why:</strong> Buyer type affects sales cycle.</p>
+              <p><strong>Scenario:</strong> Targeting C-level executives.</p>
+              <p><strong>Source:</strong> Sales team insights.</p>
             </div>
           </div>
         </div>
-                <!-- Step 5: Product & Technology -->
+<!-- STEP 7/15 END: Paste this after Step 3 from Step 6 -->
+        <!-- STEP 8/15 START: Pro Valuation Form (Step 5: Product & Technology) -->
+        <!-- Step 5: Product & Technology -->
         <div id="step-5" class="step step-hidden" data-step="5">
           <h3 class="text-lg font-semibold text-gray-800 mb-4">Step 5: Product & Technology</h3>
           <p class="text-gray-600 mb-4 text-sm">
-            Detail your product and tech maturity.
-            <span data-tooltip="Tech strength impacts valuation." class="text-teal-500 underline cursor-pointer">Learn more</span>
+            Assess your product and tech stack.
+            <span data-tooltip="Use product and engineering team insights." class="text-teal-500 underline cursor-pointer">Learn more</span>
           </p>
           <div class="space-y-3">
             <div>
               <label for="product-market-fit" class="block font-medium text-gray-700 mb-1">Product-Market Fit</label>
               <select id="product-market-fit" class="w-full p-2 border rounded focus:ring focus:ring-teal-400" required aria-describedby="product-market-fit-error">
-                <option value="" disabled selected>Select option</option>
-                <option value="none">None</option>
-                <option value="early">Early Signs</option>
-                <option value="strong">Strong Fit</option>
-                <option value="fully-confirmed">Fully Confirmed</option>
+                <option value="" disabled selected>Select Option</option>
+                <option value="proven">Proven (High demand, retention)</option>
+                <option value="developing">Developing (Some traction)</option>
+                <option value="early">Early Stage (Testing fit)</option>
               </select>
               <p id="product-market-fit-error" class="text-red-500 text-sm mt-1 hidden" role="alert">Please select an option.</p>
             </div>
             <div>
-              <label for="proprietary-tech" class="block font-medium text-gray-700 mb-1">Proprietary Technology / IP</label>
+              <label for="proprietary-tech" class="block font-medium text-gray-700 mb-1">Proprietary Technology</label>
               <select id="proprietary-tech" class="w-full p-2 border rounded focus:ring focus:ring-teal-400" required aria-describedby="proprietary-tech-error">
-                <option value="" disabled selected>Select option</option>
-                <option value="none">No</option>
-                <option value="patents">Patents Held</option>
-                <option value="copyrights">Copyrights / Trade Secrets</option>
-                <option value="both">Both</option>
+                <option value="" disabled selected>Select Option</option>
+                <option value="unique">Unique (Patented or exclusive)</option>
+                <option value="some">Some (Differentiated but not exclusive)</option>
+                <option value="none">None (Standard tech)</option>
               </select>
               <p id="proprietary-tech-error" class="text-red-500 text-sm mt-1 hidden" role="alert">Please select an option.</p>
             </div>
             <div>
-              <label for="code-quality" class="block font-medium text-gray-700 mb-1">Code Quality Reviewed</label>
+              <label for="code-quality" class="block font-medium text-gray-700 mb-1">Code Quality</label>
               <select id="code-quality" class="w-full p-2 border rounded focus:ring focus:ring-teal-400" required aria-describedby="code-quality-error">
-                <option value="" disabled selected>Select option</option>
-                <option value="no-review">No Review</option>
-                <option value="internal-review">Internal Review</option>
-                <option value="external-review">External Audit</option>
+                <option value="" disabled selected>Select Option</option>
+                <option value="high">High (Well-documented, tested)</option>
+                <option value="medium">Medium (Functional, some issues)</option>
+                <option value="low">Low (Legacy, technical debt)</option>
               </select>
               <p id="code-quality-error" class="text-red-500 text-sm mt-1 hidden" role="alert">Please select an option.</p>
             </div>
             <div>
-              <label for="scalable-infrastructure" class="block font-medium text-gray-700 mb-1">Scalable Infrastructure</label>
-              <select id="scalable-infrastructure" class="w-full p-2 border rounded focus:ring focus:ring-teal-400" required aria-describedby="scalable-infrastructure-error">
-                <option value="" disabled selected>Select option</option>
-                <option value="no">No</option>
-                <option value="partial">Partial</option>
-                <option value="yes">Yes</option>
+              <label for="scalability" class="block font-medium text-gray-700 mb-1">Scalability</label>
+              <select id="scalability" class="w-full p-2 border rounded focus:ring focus:ring-teal-400" required aria-describedby="scalability-error">
+                <option value="" disabled selected>Select Option</option>
+                <option value="high">High (Cloud-native, auto-scaling)</option>
+                <option value="medium">Medium (Scalable with effort)</option>
+                <option value="low">Low (Limited by infrastructure)</option>
               </select>
-              <p id="scalable-infrastructure-error" class="text-red-500 text-sm mt-1 hidden" role="alert">Please select an option.</p>
+              <p id="scalability-error" class="text-red-500 text-sm mt-1 hidden" role="alert">Please select an option.</p>
             </div>
             <div>
-              <label for="feature-release-frequency" class="block font-medium text-gray-700 mb-1">Feature Release Frequency</label>
-              <select id="feature-release-frequency" class="w-full p-2 border rounded focus:ring focus:ring-teal-400" required aria-describedby="feature-release-frequency-error">
-                <option value="" disabled selected>Select frequency</option>
-                <option value="rarely">Rarely</option>
-                <option value="monthly">Monthly</option>
-                <option value="weekly">Weekly</option>
-                <option value="daily">Daily</option>
+              <label for="release-frequency" class="block font-medium text-gray-700 mb-1">Release Frequency</label>
+              <select id="release-frequency" class="w-full p-2 border rounded focus:ring focus:ring-teal-400" required aria-describedby="release-frequency-error">
+                <option value="" disabled selected>Select Option</option>
+                <option value="frequent">Frequent (Weekly/Bi-weekly)</option>
+                <option value="regular">Regular (Monthly/Quarterly)</option>
+                <option value="infrequent">Infrequent (Rare updates)</option>
               </select>
-              <p id="feature-release-frequency-error" class="text-red-500 text-sm mt-1 hidden" role="alert">Please select an option.</p>
+              <p id="release-frequency-error" class="text-red-500 text-sm mt-1 hidden" role="alert">Please select an option.</p>
             </div>
             <div>
-              <label for="security-compliance" class="block font-medium text-gray-700 mb-1">Security Compliance</label>
+              <label for="security-compliance" class="block font-medium text-gray-700 mb-1">Security & Compliance</label>
               <select id="security-compliance" class="w-full p-2 border rounded focus:ring focus:ring-teal-400" required aria-describedby="security-compliance-error">
-                <option value="" disabled selected>Select status</option>
-                <option value="none">None</option>
-                <option value="gdpr">GDPR</option>
-                <option value="iso27001">ISO 27001</option>
-                <option value="other">Other</option>
+                <option value="" disabled selected>Select Option</option>
+                <option value="certified">Certified (SOC 2, GDPR, etc.)</option>
+                <option value="partial">Partial (Basic measures)</option>
+                <option value="none">None (No formal compliance)</option>
               </select>
               <p id="security-compliance-error" class="text-red-500 text-sm mt-1 hidden" role="alert">Please select an option.</p>
             </div>
-            <p id="product-tech-error" class="text-red-500 text-sm mt-2 hidden" role="alert">Please complete all fields.</p>
+            <p id="product-tech-error" class="text-red-500 text-sm mt-2 hidden" role="alert">Please fill all product and technology fields correctly.</p>
             <div class="mt-4 flex justify-between">
               <button id="prev-btn-5" class="btn-secondary" aria-label="Return to previous step">Previous</button>
               <button id="next-btn-5" class="btn-primary" aria-label="Proceed to next step">Next</button>
@@ -696,92 +718,104 @@
           <div class="explanation-section">
             <div class="explanation-box">
               <h4>Product-Market Fit</h4>
-              <p><strong>What:</strong> How well product meets customer needs.</p>
-              <p><strong>Why:</strong> Strong fit drives growth.</p>
-              <p><strong>Scenario:</strong> High usage = strong fit.</p>
-              <p><strong>Source:</strong> Feedback (e.g., Mixpanel).</p>
+              <p><strong>What:</strong> How well your product meets market needs.</p>
+              <p><strong>Why:</strong> Proven fit increases valuation.</p>
+              <p><strong>Scenario:</strong> High retention = Proven fit.</p>
+              <p><strong>Source:</strong> Customer feedback (e.g., surveys).</p>
             </div>
             <div class="explanation-box">
-              <h4>Proprietary Technology / IP</h4>
-              <p><strong>What:</strong> Unique, protected technology.</p>
-              <p><strong>Why:</strong> Hard-to-copy tech boosts value.</p>
-              <p><strong>Scenario:</strong> Patented algorithm = higher valuation.</p>
-              <p><strong>Source:</strong> Legal team or patent records.</p>
+              <h4>Proprietary Technology</h4>
+              <p><strong>What:</strong> Unique tech owned by your company.</p>
+              <p><strong>Why:</strong> Exclusive tech adds value.</p>
+              <p><strong>Scenario:</strong> Patented algorithm = Unique.</p>
+              <p><strong>Source:</strong> Patent filings, tech audits.</p>
             </div>
             <div class="explanation-box">
-              <h4>Code Quality Reviewed</h4>
-              <p><strong>What:</strong> Clean, reliable code.</p>
-              <p><strong>Why:</strong> Reduces maintenance risks.</p>
-              <p><strong>Scenario:</strong> External audit = buyer confidence.</p>
-              <p><strong>Source:</strong> Tech team or auditors.</p>
+              <h4>Code Quality</h4>
+              <p><strong>What:</strong> Quality of your codebase.</p>
+              <p><strong>Why:</strong> High quality reduces tech debt.</p>
+              <p><strong>Scenario:</strong> Well-tested code = High.</p>
+              <p><strong>Source:</strong> Engineering reports (e.g., SonarQube).</p>
             </div>
             <div class="explanation-box">
-              <h4>Scalable Infrastructure</h4>
-              <p><strong>What:</strong> Tech that handles growth.</p>
-              <p><strong>Why:</strong> Supports expansion without issues.</p>
-              <p><strong>Scenario:</strong> 10x user capacity = scalable.</p>
-              <p><strong>Source:</strong> Cloud provider (e.g., AWS).</p>
+              <h4>Scalability</h4>
+              <p><strong>What:</strong> Ability to handle growth.</p>
+              <p><strong>Why:</strong> High scalability supports expansion.</p>
+              <p><strong>Scenario:</strong> AWS auto-scaling = High.</p>
+              <p><strong>Source:</strong> Infrastructure audits.</p>
             </div>
             <div class="explanation-box">
-              <h4>Feature Release Frequency</h4>
-              <p><strong>What:</strong> How often new features launch.</p>
-              <p><strong>Why:</strong> Shows innovation pace.</p>
-              <p><strong>Scenario:</strong> Weekly releases = active dev.</p>
-              <p><strong>Source:</strong> Dev logs (e.g., Jira).</p>
+              <h4>Release Frequency</h4>
+              <p><strong>What:</strong> How often you update your product.</p>
+              <p><strong>Why:</strong> Frequent releases show agility.</p>
+              <p><strong>Scenario:</strong> Weekly updates = Frequent.</p>
+              <p><strong>Source:</strong> CI/CD logs (e.g., GitHub Actions).</p>
             </div>
             <div class="explanation-box">
-              <h4>Security Compliance</h4>
-              <p><strong>What:</strong> Adherence to data security laws.</p>
-              <p><strong>Why:</strong> Reduces legal risks.</p>
-              <p><strong>Scenario:</strong> GDPR compliance = trust.</p>
-              <p><strong>Source:</strong> Legal team or audits.</p>
+              <h4>Security & Compliance</h4>
+              <p><strong>What:</strong> Adherence to security standards.</p>
+              <p><strong>Why:</strong> Compliance builds trust.</p>
+              <p><strong>Scenario:</strong> SOC 2 certified = Certified.</p>
+              <p><strong>Source:</strong> Audit reports.</p>
             </div>
           </div>
         </div>
-                <!-- Step 6: Team & Operations -->
+<!-- STEP 8/15 END: Paste this after Step 4 from Step 7 -->
+        <!-- STEP 9/15 START: Pro Valuation Form (Step 6: Team & Operations) -->
+        <!-- Step 6: Team & Operations -->
         <div id="step-6" class="step step-hidden" data-step="6">
           <h3 class="text-lg font-semibold text-gray-800 mb-4">Step 6: Team & Operations</h3>
           <p class="text-gray-600 mb-4 text-sm">
-            Share team and operational details.
-            <span data-tooltip="Strong teams boost valuation." class="text-teal-500 underline cursor-pointer">Learn more</span>
+            Provide details about your team and operational efficiency.
+            <span data-tooltip="Use HR and operational data." class="text-teal-500 underline cursor-pointer">Learn more</span>
           </p>
           <div class="space-y-3">
             <div>
-              <label for="fte" class="block font-medium text-gray-700 mb-1">Full-Time Employees</label>
-              <input type="number" id="fte" min="0" step="1" placeholder="e.g., 25" class="w-full p-2 border rounded focus:ring focus:ring-teal-400" required aria-describedby="fte-error" />
-              <p id="fte-error" class="text-red-500 text-sm mt-1 hidden" role="alert">Please enter a valid number.</p>
+              <label for="team-size" class="block font-medium text-gray-700 mb-1">Total Team Size</label>
+              <input type="number" id="team-size" min="0" step="1" placeholder="e.g., 50" class="w-full p-2 border rounded focus:ring focus:ring-teal-400" required aria-describedby="team-size-error" />
+              <p id="team-size-error" class="text-red-500 text-sm mt-1 hidden" role="alert">Please enter a valid number.</p>
             </div>
             <div>
-              <label for="key-staff" class="block font-medium text-gray-700 mb-1">Founders / Key Staff</label>
-              <input type="number" id="key-staff" min="0" step="1" placeholder="e.g., 3" class="w-full p-2 border rounded focus:ring focus:ring-teal-400" required aria-describedby="key-staff-error" />
-              <p id="key-staff-error" class="text-red-500 text-sm mt-1 hidden" role="alert">Please enter a valid number.</p>
+              <label for="key-staff" class="block font-medium text-gray-700 mb-1">Key Staff Retention</label>
+              <select id="key-staff" class="w-full p-2 border rounded focus:ring focus:ring-teal-400" required aria-describedby="key-staff-error">
+                <option value="" disabled selected>Select Option</option>
+                <option value="high">High (Stable leadership)</option>
+                <option value="medium">Medium (Some turnover)</option>
+                <option value="low">Low (Frequent changes)</option>
+              </select>
+              <p id="key-staff-error" class="text-red-500 text-sm mt-1 hidden" role="alert">Please select an option.</p>
             </div>
             <div>
-              <label for="turnover-rate" class="block font-medium text-gray-700 mb-1">Staff Turnover Rate (%)</label>
-              <input type="number" id="turnover-rate" min="0" max="100" step="0.1" placeholder="e.g., 5" class="w-full p-2 border rounded focus:ring focus:ring-teal-400" required aria-describedby="turnover-rate-error" />
+              <label for="turnover-rate" class="block font-medium text-gray-700 mb-1">Employee Turnover Rate (%)</label>
+              <input type="number" id="turnover-rate" min="0" max="100" step="0.1" placeholder="e.g., 10" class="w-full p-2 border rounded focus:ring focus:ring-teal-400" required aria-describedby="turnover-rate-error" />
               <p id="turnover-rate-error" class="text-red-500 text-sm mt-1 hidden" role="alert">Please enter a value between 0 and 100.</p>
             </div>
             <div>
-              <label for="eng-sales-ratio" class="block font-medium text-gray-700 mb-1">Engineering to Sales Ratio</label>
-              <input type="number" id="eng-sales-ratio" min="0" step="0.01" placeholder="e.g., 2.5" class="w-full p-2 border rounded focus:ring focus:ring-teal-400" required aria-describedby="eng-sales-ratio-error" />
-              <p id="eng-sales-ratio-error" class="text-red-500 text-sm mt-1 hidden" role="alert">Please enter a valid number.</p>
+              <label for="eng-sales-ratio" class="block font-medium text-gray-700 mb-1">Engineer-to-Sales Ratio</label>
+              <select id="eng-sales-ratio" class="w-full p-2 border rounded focus:ring focus:ring-teal-400" required aria-describedby="eng-sales-ratio-error">
+                <option value="" disabled selected>Select Option</option>
+                <option value="high">High (More engineers)</option>
+                <option value="balanced">Balanced</option>
+                <option value="low">Low (More sales)</option>
+              </select>
+              <p id="eng-sales-ratio-error" class="text-red-500 text-sm mt-1 hidden" role="alert">Please select an option.</p>
             </div>
             <div>
-              <label for="support-tickets" class="block font-medium text-gray-700 mb-1">Support Tickets per Month</label>
-              <input type="number" id="support-tickets" min="0" step="1" placeholder="e.g., 100" class="w-full p-2 border rounded focus:ring focus:ring-teal-400" required aria-describedby="support-tickets-error" />
-              <p id="support-tickets-error" class="text-red-500 text-sm mt-1 hidden" role="alert">Please enter a valid number.</p>
+              <label for="support-quality" class="block font-medium text-gray-700 mb-1">Customer Support Quality</label>
+              <select id="support-quality" class="w-full p-2 border rounded focus:ring focus:ring-teal-400" required aria-describedby="support-quality-error">
+                <option value="" disabled selected>Select Option</option>
+                <option value="high">High (24/7, dedicated team)</option>
+                <option value="medium">Medium (Standard support)</option>
+                <option value="low">Low (Limited support)</option>
+              </select>
+              <p id="support-quality-error" class="text-red-500 text-sm mt-1 hidden" role="alert">Please select an option.</p>
             </div>
             <div>
-              <label for="support-rating" class="block font-medium text-gray-700 mb-1">Customer Support Rating (1-10)</label>
-              <input type="number" id="support-rating" min="1" max="10" step="1" placeholder="e.g., 8" class="w-full p-2 border rounded focus:ring focus:ring-teal-400" required aria-describedby="support-rating-error" />
-              <p id="support-rating-error" class="text-red-500 text-sm mt-1 hidden" role="alert">Please enter a value between 1 and 10.</p>
+              <label for="headcount-growth" class="block font-medium text-gray-700 mb-1">Headcount Growth (%)</label>
+              <input type="number" id="headcount-growth" min="0" step="0.1" placeholder="e.g., 20" class="w-full p-2 border rounded focus:ring focus:ring-teal-400" required aria-describedby="headcount-growth-error" />
+              <p id="headcount-growth-error" class="text-red-500 text-sm mt-1 hidden" role="alert">Please enter a valid number.</p>
             </div>
-            <div>
-              <label for="headcount-growth" class="block font-medium text-gray-700 mb-1">Headcount Growth Rate (%)</label>
-              <input type="number" id="headcount-growth" min="-100" max="100" step="0.1" placeholder="e.g., 20" class="w-full p-2 border rounded focus:ring focus:ring-teal-400" required aria-describedby="headcount-growth-error" />
-              <p id="headcount-growth-error" class="text-red-500 text-sm mt-1 hidden" role="alert">Please enter a value between -100 and 100.</p>
-            </div>
-            <p id="team-ops-error" class="text-red-500 text-sm mt-2 hidden" role="alert">Please fill all fields correctly.</p>
+            <p id="team-ops-error" class="text-red-500 text-sm mt-2 hidden" role="alert">Please fill all team and operations fields correctly.</p>
             <div class="mt-4 flex justify-between">
               <button id="prev-btn-6" class="btn-secondary" aria-label="Return to previous step">Previous</button>
               <button id="next-btn-6" class="btn-primary" aria-label="Proceed to next step">Next</button>
@@ -789,900 +823,399 @@
           </div>
           <div class="explanation-section">
             <div class="explanation-box">
-              <h4>Full-Time Employees</h4>
-              <p><strong>What:</strong> Number of full-time staff.</p>
-              <p><strong>Why:</strong> Shows operational capacity.</p>
-              <p><strong>Scenario:</strong> 25 employees = robust team.</p>
-              <p><strong>Source:</strong> HR records (e.g., Gusto).</p>
+              <h4>Total Team Size</h4>
+              <p><strong>What:</strong> Number of full-time employees.</p>
+              <p><strong>Why:</strong> Large teams signal scalability.</p>
+              <p><strong>Scenario:</strong> 50 employees across roles.</p>
+              <p><strong>Source:</strong> HR records (e.g., BambooHR).</p>
             </div>
             <div class="explanation-box">
-              <h4>Founders / Key Staff</h4>
-              <p><strong>What:</strong> Critical leadership count.</p>
-              <p><strong>Why:</strong> Strong leaders boost confidence.</p>
-              <p><strong>Scenario:</strong> 3 founders = committed team.</p>
-              <p><strong>Source:</strong> Org chart or records.</p>
+              <h4>Key Staff Retention</h4>
+              <p><strong>What:</strong> Stability of leadership team.</p>
+              <p><strong>Why:</strong> High retention builds trust.</p>
+              <p><strong>Scenario:</strong> No C-level turnover = High.</p>
+              <p><strong>Source:</strong> HR data.</p>
             </div>
             <div class="explanation-box">
-              <h4>Staff Turnover Rate</h4>
-              <p><strong>What:</strong> Annual employee departure (%).</p>
-              <p><strong>Why:</strong> Low turnover signals stability.</p>
-              <p><strong>Scenario:</strong> 5% turnover = stable team.</p>
-              <p><strong>Source:</strong> HR or payroll data.</p>
+              <h4>Employee Turnover Rate</h4>
+              <p><strong>What:</strong> % of employees leaving yearly.</p>
+              <p><strong>Why:</strong> Low turnover shows stability.</p>
+              <p><strong>Scenario:</strong> 5 of 50 leave = 10%.</p>
+              <p><strong>Source:</strong> HR metrics (e.g., Workday).</p>
             </div>
             <div class="explanation-box">
-              <h4>Engineering to Sales Ratio</h4>
-              <p><strong>What:</strong> Engineers vs. salespeople ratio.</p>
-              <p><strong>Why:</strong> Balances dev and sales efficiency.</p>
-              <p><strong>Scenario:</strong> 2.5:1 = tech-focused.</p>
-              <p><strong>Source:</strong> HR team records.</p>
+              <h4>Engineer-to-Sales Ratio</h4>
+              <p><strong>What:</strong> Balance of tech vs. sales staff.</p>
+              <p><strong>Why:</strong> Balanced ratio optimizes growth.</p>
+              <p><strong>Scenario:</strong> 20 engineers, 20 sales = Balanced.</p>
+              <p><strong>Source:</strong> Org chart.</p>
             </div>
             <div class="explanation-box">
-              <h4>Support Tickets per Month</h4>
-              <p><strong>What:</strong> Monthly customer support requests.</p>
-              <p><strong>Why:</strong> Fewer tickets = reliable product.</p>
-              <p><strong>Scenario:</strong> 100 tickets = moderate load.</p>
-              <p><strong>Source:</strong> Support tools (e.g., Zendesk).</p>
+              <h4>Customer Support Quality</h4>
+              <p><strong>What:</strong> Quality of customer support.</p>
+              <p><strong>Why:</strong> High quality improves retention.</p>
+              <p><strong>Scenario:</strong> 24/7 support team = High.</p>
+              <p><strong>Source:</strong> Support metrics (e.g., Zendesk).</p>
             </div>
             <div class="explanation-box">
-              <h4>Customer Support Rating</h4>
-              <p><strong>What:</strong> Customer rating of support (1-10).</p>
-              <p><strong>Why:</strong> High ratings show satisfaction.</p>
-              <p><strong>Scenario:</strong> 8/10 = strong support.</p>
-              <p><strong>Source:</strong> Support surveys.</p>
-            </div>
-            <div class="explanation-box">
-              <h4>Headcount Growth Rate</h4>
-              <p><strong>What:</strong> Annual staff growth (%).</p>
-              <p><strong>Why:</strong> Moderate growth shows ambition.</p>
-              <p><strong>Scenario:</strong> 20% growth = expanding team.</p>
-              <p><strong>Source:</strong> HR records comparison.</p>
+              <h4>Headcount Growth</h4>
+              <p><strong>What:</strong> % increase in staff yearly.</p>
+              <p><strong>Why:</strong> Growth shows scalability.</p>
+              <p><strong>Scenario:</strong> 50 to 60 employees = 20%.</p>
+              <p><strong>Source:</strong> HR planning.</p>
             </div>
           </div>
         </div>
-                <!-- Step 7: Legal, Contracts & Risk -->
+<!-- STEP 9/15 END: Paste this after Step 5 from Step 8 -->
+        <!-- STEP 10/15 START: Pro Valuation Form (Step 7: Legal, Contracts & Risk) -->
+        <!-- Step 7: Legal, Contracts & Risk -->
         <div id="step-7" class="step step-hidden" data-step="7">
           <h3 class="text-lg font-semibold text-gray-800 mb-4">Step 7: Legal, Contracts & Risk</h3>
           <p class="text-gray-600 mb-4 text-sm">
-            Provide legal and risk details.
-            <span data-tooltip="Legal issues can lower valuation." class="text-teal-500 underline cursor-pointer">Learn more</span>
+            Provide details about legal status and risks.
+            <span data-tooltip="Use legal and financial documents." class="text-teal-500 underline cursor-pointer">Learn more</span>
           </p>
           <div class="space-y-3">
             <div>
               <label for="legal-entity" class="block font-medium text-gray-700 mb-1">Legal Entity Type</label>
               <select id="legal-entity" class="w-full p-2 border rounded focus:ring focus:ring-teal-400" required aria-describedby="legal-entity-error">
-                <option value="" disabled selected>Select type</option>
+                <option value="" disabled selected>Select Option</option>
+                <option value="corporation">Corporation (C-Corp, S-Corp)</option>
                 <option value="llc">LLC</option>
-                <option value="c-corp">C-Corp</option>
-                <option value="s-corp">S-Corp</option>
-                <option value="other">Other</option>
+                <option value="partnership">Partnership</option>
+                <option value="sole">Sole Proprietorship</option>
               </select>
               <p id="legal-entity-error" class="text-red-500 text-sm mt-1 hidden" role="alert">Please select an option.</p>
             </div>
             <div>
-              <label for="ip-ownership" class="block font-medium text-gray-700 mb-1">IP Ownership Status</label>
+              <label for="ip-ownership" class="block font-medium text-gray-700 mb-1">Intellectual Property Ownership</label>
               <select id="ip-ownership" class="w-full p-2 border rounded focus:ring focus:ring-teal-400" required aria-describedby="ip-ownership-error">
-                <option value="" disabled selected>Select status</option>
-                <option value="fully-owned">Fully Owned</option>
-                <option value="partial">Partially Owned</option>
-                <option value="third-party">Third-Party Licensed</option>
+                <option value="" disabled selected>Select Option</option>
+                <option value="full">Full (Patents, trademarks owned)</option>
+                <option value="partial">Partial (Some IP licensed)</option>
+                <option value="none">None (No formal IP)</option>
               </select>
               <p id="ip-ownership-error" class="text-red-500 text-sm mt-1 hidden" role="alert">Please select an option.</p>
             </div>
             <div>
-              <label for="contract-length" class="block font-medium text-gray-700 mb-1">Average Customer Contract Length (Months)</label>
-              <input type="number" id="contract-length" min="0" step="1" placeholder="e.g., 12" class="w-full p-2 border rounded focus:ring focus:ring-teal-400" required aria-describedby="contract-length-error" />
-              <p id="contract-length-error" class="text-red-500 text-sm mt-1 hidden" role="alert">Please enter a valid number.</p>
-            </div>
-            <div>
-              <label for="contract-value" class="block font-medium text-gray-700 mb-1">Average Contract Value (ACV) ($)</label>
-              <input type="number" id="contract-value" min="0" step="100" placeholder="e.g., 12000" class="w-full p-2 border rounded focus:ring focus:ring-teal-400" required aria-describedby="contract-value-error" />
-              <p id="contract-value-error" class="text-red-500 text-sm mt-1 hidden" role="alert">Please enter a valid number.</p>
-            </div>
-            <div>
-              <label for="vendor-lockin" class="block font-medium text-gray-700 mb-1">Vendor Lock-In</label>
-              <select id="vendor-lockin" class="w-full p-2 border rounded focus:ring focus:ring-teal-400" required aria-describedby="vendor-lockin-error">
-                <option value="" disabled selected>Select level</option>
-                <option value="none">None</option>
-                <option value="moderate">Moderate</option>
-                <option value="high">High</option>
+              <label for="contract-length" class="block font-medium text-gray-700 mb-1">Average Contract Length</label>
+              <select id="contract-length" class="w-full p-2 border rounded focus:ring focus:ring-teal-400" required aria-describedby="contract-length-error">
+                <option value="" disabled selected>Select Option</option>
+                <option value="long">Long-term (12+ months)</option>
+                <option value="medium">Medium-term (6-12 months)</option>
+                <option value="short">Short-term (<6 months)</option>
               </select>
-              <p id="vendor-lockin-error" class="text-red-500 text-sm mt-1 hidden" role="alert">Please select an option.</p>
+              <p id="contract-length-error" class="text-red-500 text-sm mt-1 hidden" role="alert">Please select an option.</p>
+            </div>
+            <div>
+              <label for="vendor-lock" class="block font-medium text-gray-700 mb-1">Vendor Lock-In Risk</label>
+              <select id="vendor-lock" class="w-full p-2 border rounded focus:ring focus:ring-teal-400" required aria-describedby="vendor-lock-error">
+                <option value="" disabled selected>Select Option</option>
+                <option value="low">Low (Multiple vendors)</option>
+                <option value="medium">Medium (Some dependency)</option>
+                <option value="high">High (Single vendor)</option>
+              </select>
+              <p id="vendor-lock-error" class="text-red-500 text-sm mt-1 hidden" role="alert">Please select an option.</p>
             </div>
             <div>
               <label for="legal-issues" class="block font-medium text-gray-700 mb-1">Pending Legal Issues</label>
               <select id="legal-issues" class="w-full p-2 border rounded focus:ring focus:ring-teal-400" required aria-describedby="legal-issues-error">
-                <option value="" disabled selected>Select status</option>
+                <option value="" disabled selected>Select Option</option>
                 <option value="none">None</option>
-                <option value="minor">Minor</option>
-                <option value="major">Major</option>
+                <option value="minor">Minor (Non-material)</option>
+                <option value="major">Major (Material impact)</option>
               </select>
               <p id="legal-issues-error" class="text-red-500 text-sm mt-1 hidden" role="alert">Please select an option.</p>
             </div>
             <div>
-              <label for="data-privacy" class="block font-medium text-gray-700 mb-1">Data Privacy Compliance</label>
-              <select id="data-privacy" class="w-full p-2 border rounded focus:ring focus:ring-teal-400" required aria-describedby="data-privacy-error">
-                <option value="" disabled selected>Select status</option>
-                <option value="full">Fully Compliant</option>
-                <option value="partial">Partially Compliant</option>
-                <option value="none">Not Compliant</option>
+              <label for="privacy-compliance" class="block font-medium text-gray-700 mb-1">Privacy Compliance</label>
+              <select id="privacy-compliance" class="w-full p-2 border rounded focus:ring focus:ring-teal-400" required aria-describedby="privacy-compliance-error">
+                <option value="" disabled selected>Select Option</option>
+                <option value="full">Full (GDPR, CCPA compliant)</option>
+                <option value="partial">Partial (In progress)</option>
+                <option value="none">None (Not compliant)</option>
               </select>
-              <p id="data-privacy-error" class="text-red-500 text-sm mt-1 hidden" role="alert">Please select an option.</p>
+              <p id="privacy-compliance-error" class="text-red-500 text-sm mt-1 hidden" role="alert">Please select an option.</p>
             </div>
             <div>
-              <label for="cyber-insurance" class="block font-medium text-gray-700 mb-1">Cybersecurity Insurance</label>
-              <select id="cyber-insurance" class="w-full p-2 border rounded focus:ring focus:ring-teal-400" required aria-describedby="cyber-insurance-error">
-                <option value="" disabled selected>Select status</option>
-                <option value="yes">Yes</option>
-                <option value="no">No</option>
+              <label for="insurance" class="block font-medium text-gray-700 mb-1">Insurance Coverage</label>
+              <select id="insurance" class="w-full p-2 border rounded focus:ring focus:ring-teal-400" required aria-describedby="insurance-error">
+                <option value="" disabled selected>Select Option</option>
+                <option value="comprehensive">Comprehensive (Full coverage)</option>
+                <option value="basic">Basic (Limited coverage)</option>
+                <option value="none">None</option>
               </select>
-              <p id="cyber-insurance-error" class="text-red-500 text-sm mt-1 hidden" role="alert">Please select an option.</p>
+              <p id="insurance-error" class="text-red-500 text-sm mt-1 hidden" role="alert">Please select an option.</p>
             </div>
             <div>
-              <label for="debt-level" class="block font-medium text-gray-700 mb-1">Debt Level ($)</label>
-              <input type="number" id="debt-level" min="0" step="1000" placeholder="e.g., 50000" class="w-full p-2 border rounded focus:ring focus:ring-teal-400" required aria-describedby="debt-level-error" />
-              <p id="debt-level-error" class="text-red-500 text-sm mt-1 hidden" role="alert">Please enter a valid number.</p>
+              <label for="debt" class="block font-medium text-gray-700 mb-1">Outstanding Debt ($)</label>
+              <input type="number" id="debt" min="0" step="1000" placeholder="e.g., 50000" class="w-full p-2 border rounded focus:ring focus:ring-teal-400" required aria-describedby="debt-error" />
+              <p id="debt-error" class="text-red-500 text-sm mt-1 hidden" role="alert">Please enter a valid number.</p>
             </div>
-            <p id="legal-risk-error" class="text-red-500 text-sm mt-2 hidden" role="alert">Please complete all fields.</p>
+            <p id="legal-risk-error" class="text-red-500 text-sm mt-2 hidden" role="alert">Please fill all legal and risk fields correctly.</p>
             <div class="mt-4 flex justify-between">
               <button id="prev-btn-7" class="btn-secondary" aria-label="Return to previous step">Previous</button>
-              <button id="next-btn-7" class="btn-primary" aria-label="View Results">View Results</button>
+              <button id="next-btn-7" class="btn-primary" aria-label="Submit and view results">Submit</button>
             </div>
           </div>
           <div class="explanation-section">
             <div class="explanation-box">
               <h4>Legal Entity Type</h4>
-              <p><strong>What:</strong> Business structure (e.g., LLC).</p>
-              <p><strong>Why:</strong> Impacts tax and liability.</p>
-              <p><strong>Scenario:</strong> C-Corp = investor-friendly.</p>
-              <p><strong>Source:</strong> Incorporation documents.</p>
+              <p><strong>What:</strong> Your business’s legal structure.</p>
+              <p><strong>Why:</strong> Affects liability and valuation.</p>
+              <p><strong>Scenario:</strong> C-Corp for scalability.</p>
+              <p><strong>Source:</strong> Business registration.</p>
             </div>
             <div class="explanation-box">
-              <h4>IP Ownership Status</h4>
-              <p><strong>What:</strong> Who owns intellectual property.</p>
-              <p><strong>Why:</strong> Full ownership boosts value.</p>
-              <p><strong>Scenario:</strong> Fully owned = no disputes.</p>
-              <p><strong>Source:</strong> Legal agreements.</p>
+              <h4>Intellectual Property Ownership</h4>
+              <p><strong>What:</strong> Ownership of IP assets.</p>
+              <p><strong>Why:</strong> Full ownership adds value.</p>
+              <p><strong>Scenario:</strong> Patented software = Full.</p>
+              <p><strong>Source:</strong> Patent/trademark filings.</p>
             </div>
             <div class="explanation-box">
-              <h4>Average Customer Contract Length</h4>
-              <p><strong>What:</strong> Typical contract duration.</p>
-              <p><strong>Why:</strong> Longer contracts = stable revenue.</p>
-              <p><strong>Scenario:</strong> 12 months = predictable cash flow.</p>
-              <p><strong>Source:</strong> CRM or contracts.</p>
+              <h4>Average Contract Length</h4>
+              <p><strong>What:</strong> Typical customer contract duration.</p>
+              <p><strong>Why:</strong> Long contracts ensure revenue.</p>
+              <p><strong>Scenario:</strong> 12-month contracts = Long.</p>
+              <p><strong>Source:</strong> Sales contracts.</p>
             </div>
             <div class="explanation-box">
-              <h4>Average Contract Value (ACV)</h4>
-              <p><strong>What:</strong> Yearly contract revenue.</p>
-              <p><strong>Why:</strong> Higher ACV = more value.</p>
-              <p><strong>Scenario:</strong> $12K ACV = strong deals.</p>
-              <p><strong>Source:</strong> Billing systems.</p>
-            </div>
-            <div class="explanation-box">
-              <h4>Vendor Lock-In</h4>
-              <p><strong>What:</strong> Customer reliance on your product.</p>
-              <p><strong>Why:</strong> High lock-in reduces churn.</p>
-              <p><strong>Scenario:</strong> High = sticky product.</p>
-              <p><strong>Source:</strong> Customer feedback or CRM.</p>
+              <h4>Vendor Lock-In Risk</h4>
+              <p><strong>What:</strong> Dependency on single vendors.</p>
+              <p><strong>Why:</strong> Low risk improves flexibility.</p>
+              <p><strong>Scenario:</strong> Multiple cloud providers = Low.</p>
+              <p><strong>Source:</strong> Vendor contracts.</p>
             </div>
             <div class="explanation-box">
               <h4>Pending Legal Issues</h4>
-              <p><strong>What:</strong> Ongoing lawsuits or disputes.</p>
-              <p><strong>Why:</strong> Issues lower valuation.</p>
-              <p><strong>Scenario:</strong> None = clean record.</p>
-              <p><strong>Source:</strong> Legal team.</p>
+              <p><strong>What:</strong> Ongoing legal disputes.</p>
+              <p><strong>Why:</strong> No issues reduce risk.</p>
+              <p><strong>Scenario:</strong> No lawsuits = None.</p>
+              <p><strong>Source:</strong> Legal counsel.</p>
             </div>
             <div class="explanation-box">
-              <h4>Data Privacy Compliance</h4>
+              <h4>Privacy Compliance</h4>
               <p><strong>What:</strong> Adherence to privacy laws.</p>
-              <p><strong>Why:</strong> Compliance reduces risks.</p>
-              <p><strong>Scenario:</strong> GDPR-compliant = safe.</p>
-              <p><strong>Source:</strong> Legal audits.</p>
+              <p><strong>Why:</strong> Compliance builds trust.</p>
+              <p><strong>Scenario:</strong> GDPR certified = Full.</p>
+              <p><strong>Source:</strong> Compliance audits.</p>
             </div>
             <div class="explanation-box">
-              <h4>Cybersecurity Insurance</h4>
-              <p><strong>What:</strong> Insurance for cyber risks.</p>
-              <p><strong>Why:</strong> Mitigates data breach costs.</p>
-              <p><strong>Scenario:</strong> Yes = risk-prepared.</p>
-              <p><strong>Source:</strong> Insurance policy.</p>
+              <h4>Insurance Coverage</h4>
+              <p><strong>What:</strong> Business insurance scope.</p>
+              <p><strong>Why:</strong> Comprehensive coverage reduces risk.</p>
+              <p><strong>Scenario:</strong> Full liability insurance = Comprehensive.</p>
+              <p><strong>Source:</strong> Insurance policies.</p>
             </div>
             <div class="explanation-box">
-              <h4>Debt Level</h4>
-              <p><strong>What:</strong> Outstanding business debt.</p>
-              <p><strong>Why:</strong> High debt lowers valuation.</p>
-              <p><strong>Scenario:</strong> $50K debt = manageable.</p>
+              <h4>Outstanding Debt</h4>
+              <p><strong>What:</strong> Total debt owed.</p>
+              <p><strong>Why:</strong> Low debt improves valuation.</p>
+              <p><strong>Scenario:</strong> $50K loan = $50K debt.</p>
               <p><strong>Source:</strong> Financial statements.</p>
             </div>
           </div>
         </div>
-                <!-- Results Section (Step 8) -->
-        <div id="results" class="step step-hidden" data-step="8">
-          <h3 class="text-lg font-semibold text-gray-800 mb-4">Valuation Results</h3>
-          <p class="text-gray-600 mb-4 text-sm">
-            Your SaaS business valuation based on provided data.
-            <span data-tooltip="Download as PDF for sharing." class="text-teal-500 underline cursor-pointer">Learn more</span>
-          </p>
-          <div id="valuation-results" class="text-center mb-6">
-            <p class="text-2xl font-bold text-teal-600" id="valuation-amount">$0</p>
-            <p class="text-gray-600 text-sm mt-2">Estimated Valuation Range: <span id="valuation-range">$0 - $0</span></p>
-            <p class="text-gray-600 text-sm">Confidence Score: <span id="confidence-score">0%</span></p>
-          </div>
-          <div class="text-center">
-            <button id="download-report" class="btn-primary" aria-label="Download valuation report as PDF">Download Report</button>
-          </div>
-        </div>
-      </div><!-- end .valuation-box -->
-    </div><!-- end .container -->
+      </div>
+    </div>
   </section>
-  <script>
-/* --- SaaS Type Multipliers --- */
-const saasTypeMultipliers = {
-  crm: 6, marketing: 6.5, analytics: 7, erp: 5, finance: 7.5, hr: 5.5, project: 5,
-  collaboration: 6, devtools: 7, security: 8, ecommerce: 6, education: 5, healthcare: 7,
-  realestate: 5, vertical: 5, productivity: 5.5, support: 5.5, media: 5, iot: 6, other: 5
-};
+<!-- STEP 10/15 END: Paste this after Step 6 from Step 9 -->
+  <!-- STEP 11/15 START: Results Section and Hidden Chart Canvases -->
+  <!-- RESULTS SECTION -->
+  <section id="results" class="py-12 bg-white hidden">
+    <div class="container mx-auto px-4 max-w-3xl">
+      <h2 class="text-2xl font-bold text-gray-800 mb-4 text-center">Your SaaS Valuation Results</h2>
+      <p class="text-base text-gray-600 mb-6 text-center">
+        Below is the valuation of your SaaS business based on the provided data.
+      </p>
+      <div class="bg-gray-50 p-6 rounded-lg shadow-md">
+        <h3 class="text-xl font-semibold text-gray-800 mb-4">Valuation Summary</h3>
+        <p id="valuation-result" class="text-lg text-gray-700 mb-4">
+          Your SaaS business is valued at: <span id="valuation-amount" class="font-bold text-teal-500">$0</span>
+        </p>
+        <p id="valuation-details" class="text-gray-600 mb-4">
+          Details will appear here once the valuation is calculated.
+        </p>
+        <div class="mt-6 flex justify-center">
+          <button id="download-pdf" class="btn-primary" aria-label="Download valuation report as PDF">
+            <i class="fas fa-download mr-2"></i> Download PDF Report
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
 
-/* --- Step Navigation --- */
+  <!-- Hidden Chart Canvases for PDF -->
+  <div class="chart-canvas">
+    <canvas id="valuation-chart" width="400" height="300"></canvas>
+    <canvas id="revenue-profit-chart" width="400" height="300"></canvas>
+    <canvas id="growth-churn-chart" width="400" height="300"></canvas>
+    <canvas id="customer-metrics-chart" width="400" height="300"></canvas>
+  </div>
+<!-- STEP 11/15 END: Paste this after the valuation form from Step 10 -->
+  <!-- STEP 12/15 START: JavaScript - Step Navigation and Validation (Steps 0–7) -->
+<script>
+// Mobile menu toggle
+document.getElementById('menu-toggle').addEventListener('click', () => {
+  const mobileMenu = document.getElementById('mobile-menu');
+  mobileMenu.classList.toggle('hidden');
+});
+
+// Form navigation and validation
 const steps = document.querySelectorAll('.step');
 const progressFill = document.getElementById('progress-fill');
 const currentStepDisplay = document.getElementById('current-step');
 let currentStep = 0;
 
 function updateProgress() {
-  const progress = ((currentStep + 1) / 8) * 100;
-  progressFill.style.width = `${progress}%`;
+  const progressPercent = ((currentStep + 1) / 8) * 100;
+  progressFill.style.width = `${progressPercent}%`;
   currentStepDisplay.textContent = currentStep + 1;
 }
-function showStep(stepNumber) {
-  steps.forEach(step => {
-    step.classList.toggle('step-visible', step.dataset.step == stepNumber);
-    step.classList.toggle('step-hidden', step.dataset.step != stepNumber);
+
+function showStep(stepIndex) {
+  steps.forEach((step, index) => {
+    step.classList.toggle('step-visible', index === stepIndex);
+    step.classList.toggle('step-hidden', index !== stepIndex);
   });
-  currentStep = stepNumber;
+  currentStep = stepIndex;
   updateProgress();
 }
 
-/* --- Step 0 Validation --- */
-document.getElementById('next-btn-0').addEventListener('click', () => {
-  const saasType = document.getElementById('saas-type').value;
-  const error = document.getElementById('saas-type-error');
-  if (!saasType) {
-    error.classList.remove('hidden');
-    return;
+function validateStep(stepIndex) {
+  let isValid = true;
+  const step = steps[stepIndex];
+  const errorMessages = step.querySelectorAll('[id$="-error"]');
+  errorMessages.forEach(msg => msg.classList.add('hidden'));
+
+  if (stepIndex === 0) {
+    const saasType = document.getElementById('saas-type').value;
+    if (!saasType) {
+      document.getElementById('saas-type-error').classList.remove('hidden');
+      isValid = false;
+    }
+  } else if (stepIndex === 1) {
+    // Validate company info
+    const companyName = document.getElementById('company-name').value.trim();
+    const companyWebsite = document.getElementById('company-website').value.trim();
+    const companyEmail = document.getElementById('company-email').value.trim();
+    const urlPattern = /^(https?:\/\/)?([\w-]+\.)+[\w-]+(\/[\w-./?%&=]*)?$/i;
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!companyName || companyName.length < 2) {
+      document.getElementById('company-name-error').classList.remove('hidden');
+      isValid = false;
+    }
+    if (!companyWebsite || !urlPattern.test(companyWebsite)) {
+      document.getElementById('company-website-error').classList.remove('hidden');
+      isValid = false;
+    }
+    if (!companyEmail || !emailPattern.test(companyEmail)) {
+      document.getElementById('company-email-error').classList.remove('hidden');
+      isValid = false;
+    }
+
+    // Validate valuation methods
+    const methods = document.querySelectorAll('input[type="checkbox"]:checked');
+    if (methods.length < 1 || methods.length > 3) {
+      document.getElementById('method-error').classList.remove('hidden');
+      isValid = false;
+    }
+  } else if (stepIndex === 2) {
+    const inputs = step.querySelectorAll('input[type="number"]');
+    inputs.forEach(input => {
+      const value = parseFloat(input.value);
+      if (isNaN(value) || value < 0 || (input.id === 'gross-margin' && value > 100)) {
+        document.getElementById(`${input.id}-error`).classList.remove('hidden');
+        isValid = false;
+      }
+    });
+  } else if (stepIndex === 3) {
+    const inputs = step.querySelectorAll('input[type="number"]');
+    inputs.forEach(input => {
+      const value = parseFloat(input.value);
+      if (isNaN(value) || value < 0 || ((input.id === 'customer-churn' || input.id === 'revenue-churn') && value > 100)) {
+        document.getElementById(`${input.id}-error`).classList.remove('hidden');
+        isValid = false;
+      }
+    });
+  } else if (stepIndex === 4) {
+    const totalCustomers = parseFloat(document.getElementById('total-customers').value);
+    const retentionRate = parseFloat(document.getElementById('retention-rate').value);
+    const nps = parseFloat(document.getElementById('nps').value);
+    const marketSegment = document.getElementById('market-segment').value;
+    const buyerType = document.getElementById('buyer-type').value;
+
+    if (isNaN(totalCustomers) || totalCustomers < 0) {
+      document.getElementById('total-customers-error').classList.remove('hidden');
+      isValid = false;
+    }
+    if (isNaN(retentionRate) || retentionRate < 0 || retentionRate > 100) {
+      document.getElementById('retention-rate-error').classList.remove('hidden');
+      isValid = false;
+    }
+    if (isNaN(nps) || nps < -100 || nps > 100) {
+      document.getElementById('nps-error').classList.remove('hidden');
+      isValid = false;
+    }
+    if (!marketSegment) {
+      document.getElementById('market-segment-error').classList.remove('hidden');
+      isValid = false;
+    }
+    if (!buyerType) {
+      document.getElementById('buyer-type-error').classList.remove('hidden');
+      isValid = false;
+    }
+  } else if (stepIndex === 5 || stepIndex === 6 || stepIndex === 7) {
+    const selects = step.querySelectorAll('select');
+    const inputs = step.querySelectorAll('input[type="number"]');
+    selects.forEach(select => {
+      if (!select.value) {
+        document.getElementById(`${select.id}-error`).classList.remove('hidden');
+        isValid = false;
+      }
+    });
+    inputs.forEach(input => {
+      const value = parseFloat(input.value);
+      if (isNaN(value) || value < 0 || (input.id === 'turnover-rate' && value > 100)) {
+        document.getElementById(`${input.id}-error`).classList.remove('hidden');
+        isValid = false;
+      }
+    });
   }
-  error.classList.add('hidden');
-  showStep(1);
+
+  if (!isValid) {
+    step.querySelector(`#${stepIndex === 2 ? 'financial' : stepIndex === 3 ? 'growth-churn' : stepIndex === 4 ? 'customer-market' : stepIndex === 5 ? 'product-tech' : stepIndex === 6 ? 'team-ops' : stepIndex === 7 ? 'legal-risk' : 'step'}-error`)?.classList.remove('hidden');
+  }
+  return isValid;
+}
+
+// Event listeners for navigation buttons
+document.querySelectorAll('[id^="next-btn-"]').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const stepIndex = parseInt(btn.id.split('-')[2]);
+    if (validateStep(stepIndex)) {
+      if (stepIndex < steps.length - 1) {
+        showStep(stepIndex + 1);
+      } else {
+        calculateValuation();
+        document.getElementById('results').classList.remove('hidden');
+        document.getElementById('pro-valuation').classList.add('hidden');
+      }
+    }
+  });
 });
 
-/* --- Step 1 Validation --- */
-function validateStep1() {
-  const methods = document.querySelectorAll('input[type="checkbox"]:checked');
-  const error = document.getElementById('method-error');
-  if (methods.length < 1 || methods.length > 3) {
-    error.classList.remove('hidden');
-    return false;
-  }
-  error.classList.add('hidden');
-  return true;
-}
-
-/* --- Step 2 Validation --- */
-function validateStep2() {
-  const inputs = ['arr', 'mrr', 'ltv', 'cac', 'gross-margin', 'net-profit', 'burn-rate', 'runway'];
-  let valid = true;
-  inputs.forEach(id => {
-    const input = document.getElementById(id);
-    const error = document.getElementById(`${id}-error`);
-    if (!input.value || input.value < 0 || (id === 'gross-margin' && input.value > 100)) {
-      error.classList.remove('hidden');
-      valid = false;
-    } else {
-      error.classList.add('hidden');
-    }
+document.querySelectorAll('[id^="prev-btn-"]').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const stepIndex = parseInt(btn.id.split('-')[2]);
+    showStep(stepIndex - 1);
   });
-  document.getElementById('financial-error').classList.toggle('hidden', valid);
-  return valid;
-}
+});
 
-/* --- Step 3 Validation --- */
-function validateStep3() {
-  const inputs = ['revenue-growth-yoy', 'revenue-growth-mom', 'customer-churn', 'revenue-churn'];
-  let valid = true;
-  inputs.forEach(id => {
-    const input = document.getElementById(id);
-    const error = document.getElementById(`${id}-error`);
-    if (!input.value || input.value < 0 || input.value > 100) {
-      error.classList.remove('hidden');
-      valid = false;
-    } else {
-      error.classList.add('hidden');
-    }
-  });
-  document.getElementById('growth-churn-error').classList.toggle('hidden', valid);
-  return valid;
-}
-
-/* --- Step 4 Validation --- */
-function validateStep4() {
-  const inputs = ['active-customers', 'monthly-active-users', 'retention-rate', 'nps', 'customer-segment', 'buyer-type'];
-  let valid = true;
-  inputs.forEach(id => {
-    const input = document.getElementById(id);
-    const error = document.getElementById(`${id}-error`);
-    if (!input.value || (['active-customers', 'monthly-active-users'].includes(id) && input.value < 0) ||
-        (id === 'retention-rate' && (input.value < 0 || input.value > 100)) ||
-        (id === 'nps' && (input.value < -100 || input.value > 100))) {
-      error.classList.remove('hidden');
-      valid = false;
-    } else {
-      error.classList.add('hidden');
-    }
-  });
-  document.getElementById('customer-market-error').classList.toggle('hidden', valid);
-  return valid;
-}
-
-/* --- Step 5 Validation --- */
-function validateStep5() {
-  const inputs = ['product-market-fit', 'proprietary-tech', 'code-quality', 'scalable-infrastructure', 'feature-release-frequency', 'security-compliance'];
-  let valid = true;
-  inputs.forEach(id => {
-    const input = document.getElementById(id);
-    const error = document.getElementById(`${id}-error`);
-    if (!input.value) {
-      error.classList.remove('hidden');
-      valid = false;
-    } else {
-      error.classList.add('hidden');
-    }
-  });
-  document.getElementById('product-tech-error').classList.toggle('hidden', valid);
-  return valid;
-}
-
-/* --- Step 6 Validation --- */
-function validateStep6() {
-  const inputs = ['fte', 'key-staff', 'turnover-rate', 'eng-sales-ratio', 'support-tickets', 'support-rating', 'headcount-growth'];
-  let valid = true;
-  inputs.forEach(id => {
-    const input = document.getElementById(id);
-    const error = document.getElementById(`${id}-error`);
-    if (!input.value || (['fte', 'key-staff', 'support-tickets'].includes(id) && input.value < 0) ||
-        (id === 'turnover-rate' && (input.value < 0 || input.value > 100)) ||
-        (id === 'eng-sales-ratio' && input.value < 0) ||
-        (id === 'support-rating' && (input.value < 1 || input.value > 10)) ||
-        (id === 'headcount-growth' && (input.value < -100 || input.value > 100))) {
-      error.classList.remove('hidden');
-      valid = false;
-    } else {
-      error.classList.add('hidden');
-    }
-  });
-  document.getElementById('team-ops-error').classList.toggle('hidden', valid);
-  return valid;
-}
-
-/* --- Step 7 Validation --- */
-function validateStep7() {
-  const inputs = ['legal-entity', 'ip-ownership', 'contract-length', 'contract-value', 'vendor-lockin', 'legal-issues', 'data-privacy', 'cyber-insurance', 'debt-level'];
-  let valid = true;
-  inputs.forEach(id => {
-    const input = document.getElementById(id);
-    const error = document.getElementById(`${id}-error`);
-    if (!input.value || (['contract-length', 'contract-value', 'debt-level'].includes(id) && input.value < 0)) {
-      error.classList.remove('hidden');
-      valid = false;
-    } else {
-      error.classList.add('hidden');
-    }
-  });
-  document.getElementById('legal-risk-error').classList.toggle('hidden', valid);
-  return valid;
-}
-
-/* --- Navigation Button Listeners for Steps 1-7 --- */
-for (let i = 1; i <= 7; i++) {
-  const nextBtn = document.getElementById(`next-btn-${i}`);
-  const prevBtn = document.getElementById(`prev-btn-${i}`);
-  if (nextBtn) {
-    nextBtn.addEventListener('click', () => {
-      const validate = window[`validateStep${i}`];
-      if (validate()) {
-        showStep(i + 1);
-        if (i === 7) calculateValuation();
-      }
-    });
-  }
-  if (prevBtn) {
-    prevBtn.addEventListener('click', () => showStep(i - 1));
-  }
-}
-
-/* --- Results Calculation & PDF Generation --- */
-function calculateValuation() {
-  const saasType = document.getElementById('saas-type').value;
-  let multiplier = saasTypeMultipliers[saasType] || 5;
-  const arr = parseFloat(document.getElementById('arr').value) || 0;
-  const netProfit = parseFloat(document.getElementById('net-profit').value) || 0;
-  const growthYoy = parseFloat(document.getElementById('revenue-growth-yoy').value) || 0;
-  const customerChurn = parseFloat(document.getElementById('customer-churn').value) || 0;
-  const retentionRate = parseFloat(document.getElementById('retention-rate').value) || 0;
-  const nps = parseFloat(document.getElementById('nps').value) || 0;
-  const legalIssues = document.getElementById('legal-issues').value;
-  const ipOwnership = document.getElementById('ip-ownership').value;
-  const mrr = parseFloat(document.getElementById('mrr').value) || 0;
-  const ltv = parseFloat(document.getElementById('ltv').value) || 0;
-  const cac = parseFloat(document.getElementById('cac').value) || 0;
-  const grossMargin = parseFloat(document.getElementById('gross-margin').value) || 0;
-  const burnRate = parseFloat(document.getElementById('burn-rate').value) || 0;
-  const runway = parseFloat(document.getElementById('runway').value) || 0;
-  const activeCustomers = parseFloat(document.getElementById('active-customers').value) || 0;
-  const mau = parseFloat(document.getElementById('monthly-active-users').value) || 0;
-  const debtLevel = parseFloat(document.getElementById('debt-level').value) || 0;
-
-  if (growthYoy > 20) multiplier += 1;
-  if (customerChurn < 5) multiplier += 0.5;
-  if (retentionRate > 80) multiplier += 0.5;
-  if (nps > 50) multiplier += 0.5;
-  if (legalIssues !== 'none') multiplier -= 1;
-  if (ipOwnership === 'fully-owned') multiplier += 0.5;
-
-  const methods = Array.from(document.querySelectorAll('input[type="checkbox"]:checked')).map(input => input.value);
-  let valuations = [];
-  if (methods.includes('multiplier')) valuations.push({ method: 'Revenue Multiplier', value: arr * multiplier });
-  if (methods.includes('income')) valuations.push({ method: 'Income-Based', value: netProfit * (multiplier - 1) });
-  if (methods.includes('earnings')) valuations.push({ method: 'Earnings-Based', value: (arr * 0.6 + netProfit * 0.4) * multiplier });
-  if (methods.includes('dcf')) valuations.push({ method: 'DCF', value: (netProfit * 1.2) / 0.1 });
-
-  const avgValuation = valuations.reduce((sum, v) => sum + v.value, 0) / valuations.length;
-  const rangeLow = avgValuation * 0.9;
-  const rangeHigh = avgValuation * 1.1;
-  const confidence = Math.min(95, 60 + (methods.length * 10) + (growthYoy > 20 ? 10 : 0) + (customerChurn < 5 ? 10 : 0));
-
-  document.getElementById('valuation-amount').textContent = `$${Math.round(avgValuation).toLocaleString()}`;
-  document.getElementById('valuation-range').textContent = `$${Math.round(rangeLow).toLocaleString()} - $${Math.round(rangeHigh).toLocaleString()}`;
-  document.getElementById('confidence-score').textContent = `${Math.round(confidence)}%`;
-
-  // PDF Download Button
- document.getElementById('download-report').onclick = function () {
-  const { jsPDF } = window.jspdf;
-  const doc = new jsPDF();
-
-  // --- Cover Page ---
-  doc.setFillColor(20, 30, 60);
-  doc.rect(0, 0, doc.internal.pageSize.getWidth(), 20, 'F');
-  doc.setTextColor(255, 255, 255);
-  doc.setFontSize(20);
-  doc.text("SaaS Valuation Report", 15, 14);
-  doc.setTextColor(0, 0, 0);
-  doc.setFontSize(14);
-  doc.text(`SaaS Type: ${document.getElementById('saas-type').selectedOptions[0].text}`, 15, 35);
-  doc.text(`Valuation: $${Math.round(avgValuation).toLocaleString()}`, 15, 45);
-  doc.text(`Range: $${Math.round(rangeLow).toLocaleString()} - $${Math.round(rangeHigh).toLocaleString()}`, 15, 55);
-  doc.text(`Confidence: ${Math.round(confidence)}%`, 15, 65);
-  doc.setFontSize(11);
-  doc.text("Generated: " + new Date().toLocaleDateString(), 15, 75);
-
-  // --- Valuation Methods Page ---
-  doc.addPage();
-  doc.setFontSize(16);
-  doc.text("Valuation Methods & Calculations", 15, 20);
-  doc.setFontSize(11);
-  doc.autoTable({
-    startY: 25,
-    head: [['Method', 'Value ($)', 'Explanation', 'AI Comment']],
-    body: valuations.map(v => [
-      v.method,
-      Math.round(v.value).toLocaleString(),
-      v.method === 'Revenue Multiplier'
-        ? 'ARR x Multiplier, adjusted for growth/churn'
-        : v.method === 'Income-Based'
-        ? 'Net profit x Multiplier'
-        : v.method === 'Earnings-Based'
-        ? 'Weighted ARR and profit'
-        : 'Discounted future cash flows',
-      v.method === 'Revenue Multiplier'
-        ? (arr > 1000000 ? 'High ARR boosts this method.' : 'Low ARR limits this method.')
-        : v.method === 'Income-Based'
-        ? (netProfit > 0 ? 'Profitability is a strong signal.' : 'Negative profit reduces value.')
-        : v.method === 'Earnings-Based'
-        ? (retentionRate > 80 ? 'High retention increases this value.' : 'Low retention is a risk.')
-        : (runway > 12 ? 'Long runway increases DCF.' : 'Short runway is a risk.')
-    ])
-  });
-
-  // --- Financial Metrics Page ---
-  doc.addPage();
-  doc.setFontSize(16);
-  doc.text("Financial Metrics & AI Insights", 15, 20);
-  doc.setFontSize(11);
-  doc.autoTable({
-    startY: 25,
-    head: [['Metric', 'Value', 'AI Insight', 'Improvement Suggestion']],
-    body: [
-      ['ARR', `$${arr.toLocaleString()}`,
-        arr > 1000000 ? 'Excellent recurring revenue.' : 'Below SaaS median.',
-        arr > 1000000 ? 'Maintain growth.' : 'Increase ARR via upsells or new customers.'],
-      ['MRR', `$${mrr.toLocaleString()}`,
-        mrr > 100000 ? 'Strong monthly base.' : 'Needs improvement.',
-        mrr > 100000 ? 'Keep churn low.' : 'Increase monthly signups.'],
-      ['LTV', `$${ltv.toLocaleString()}`,
-        ltv > 3 * cac ? 'High customer value.' : 'Could be higher.',
-        ltv > 3 * cac ? 'Maintain retention.' : 'Increase retention or pricing.'],
-      ['CAC', `$${cac.toLocaleString()}`,
-        cac < ltv / 3 ? 'Efficient acquisition.' : 'High cost per customer.',
-        cac < ltv / 3 ? 'Sustain channels.' : 'Optimize marketing spend.'],
-      ['Gross Margin', `${grossMargin}%`,
-        grossMargin > 70 ? 'Efficient operations.' : 'Margins could improve.',
-        grossMargin > 70 ? 'Keep costs low.' : 'Reduce COGS.'],
-      ['Net Profit', `$${netProfit.toLocaleString()}`,
-        netProfit > 0 ? 'Profitable business.' : 'Currently unprofitable.',
-        netProfit > 0 ? 'Reinvest in growth.' : 'Cut unnecessary expenses.'],
-      ['Burn Rate', `$${burnRate.toLocaleString()}`,
-        burnRate < mrr ? 'Sustainable.' : 'High burn rate.',
-        burnRate < mrr ? 'Monitor spending.' : 'Reduce fixed costs.'],
-      ['Runway', `${runway} months`,
-        runway > 12 ? 'Long runway.' : 'Short runway.',
-        runway > 12 ? 'Plan for growth.' : 'Raise capital or cut burn.']
-    ]
-  });
-
-  // --- Growth & Churn Metrics Page ---
-  doc.addPage();
-  doc.setFontSize(16);
-  doc.text("Growth & Churn Metrics", 15, 20);
-  doc.setFontSize(11);
-  doc.autoTable({
-    startY: 25,
-    head: [['Metric', 'Value', 'AI Insight', 'Improvement Suggestion']],
-    body: [
-      ['YoY Growth', `${growthYoy}%`,
-        growthYoy > 20 ? 'Excellent annual growth.' : 'Below SaaS average.',
-        growthYoy > 20 ? 'Maintain momentum.' : 'Accelerate sales/marketing.'],
-      ['MoM Growth', `${parseFloat(document.getElementById('revenue-growth-mom').value) || 0}%`,
-        (parseFloat(document.getElementById('revenue-growth-mom').value) || 0) > 2 ? 'Good monthly growth.' : 'Flat growth.',
-        (parseFloat(document.getElementById('revenue-growth-mom').value) || 0) > 2 ? 'Keep up product launches.' : 'Test new channels.'],
-      ['Customer Churn', `${customerChurn}%`,
-        customerChurn < 5 ? 'Excellent retention.' : 'Churn is a risk.',
-        customerChurn < 5 ? 'Keep customers happy.' : 'Improve onboarding/support.'],
-      ['Revenue Churn', `${parseFloat(document.getElementById('revenue-churn').value) || 0}%`,
-        (parseFloat(document.getElementById('revenue-churn').value) || 0) < 5 ? 'Stable revenue.' : 'Revenue loss risk.',
-        (parseFloat(document.getElementById('revenue-churn').value) || 0) < 5 ? 'Maintain upsells.' : 'Reduce downgrades.']
-    ]
-  });
-
-  // --- Customer & Market Metrics Page ---
-  doc.addPage();
-  doc.setFontSize(16);
-  doc.text("Customer & Market Metrics", 15, 20);
-  doc.setFontSize(11);
-  doc.autoTable({
-    startY: 25,
-    head: [['Metric', 'Value', 'AI Insight', 'Improvement Suggestion']],
-    body: [
-      ['Active Customers', activeCustomers,
-        activeCustomers > 1000 ? 'Large customer base.' : 'Could be larger.',
-        activeCustomers > 1000 ? 'Focus on retention.' : 'Expand acquisition.'],
-      ['MAU', mau,
-        mau > 1000 ? 'High engagement.' : 'Low engagement.',
-        mau > 1000 ? 'Maintain product stickiness.' : 'Increase feature usage.'],
-      ['Retention Rate', `${retentionRate}%`,
-        retentionRate > 80 ? 'Excellent retention.' : 'Could improve.',
-        retentionRate > 80 ? 'Keep NPS high.' : 'Reduce churn triggers.'],
-      ['NPS', nps,
-        nps > 50 ? 'Customers are promoters.' : 'Room for improvement.',
-        nps > 50 ? 'Ask for referrals.' : 'Improve support/UX.']
-    ]
-  });
-
-  // --- Product & Technology Metrics Page ---
-  doc.addPage();
-  doc.setFontSize(16);
-  doc.text("Product & Technology Metrics", 15, 20);
-  doc.setFontSize(11);
-  doc.autoTable({
-    startY: 25,
-    head: [['Metric', 'Value', 'AI Insight', 'Improvement Suggestion']],
-    body: [
-      ['Product-Market Fit', document.getElementById('product-market-fit').value,
-        document.getElementById('product-market-fit').value === 'fully-confirmed' ? 'Strong fit.' : 'Still developing.',
-        document.getElementById('product-market-fit').value === 'fully-confirmed' ? 'Scale up.' : 'Gather more feedback.'],
-      ['Proprietary Tech', document.getElementById('proprietary-tech').value,
-        document.getElementById('proprietary-tech').value !== 'none' ? 'Defensible IP.' : 'No moat.',
-        document.getElementById('proprietary-tech').value !== 'none' ? 'Highlight in pitch.' : 'Consider patents.'],
-      ['Code Quality', document.getElementById('code-quality').value,
-        document.getElementById('code-quality').value === 'external-review' ? 'Externally validated.' : 'Could improve.',
-        document.getElementById('code-quality').value === 'external-review' ? 'Show audit.' : 'Get external review.'],
-      ['Scalable Infra', document.getElementById('scalable-infrastructure').value,
-        document.getElementById('scalable-infrastructure').value === 'yes' ? 'Ready for growth.' : 'May bottleneck.',
-        document.getElementById('scalable-infrastructure').value === 'yes' ? 'Promote scalability.' : 'Invest in infra.']
-    ]
-  });
-
-  // --- Team & Operations Metrics Page ---
-  doc.addPage();
-  doc.setFontSize(16);
-  doc.text("Team & Operations Metrics", 15, 20);
-  doc.setFontSize(11);
-  doc.autoTable({
-    startY: 25,
-    head: [['Metric', 'Value', 'AI Insight', 'Improvement Suggestion']],
-    body: [
-      ['Full-Time Employees', document.getElementById('fte').value,
-        document.getElementById('fte').value > 10 ? 'Good team size.' : 'Small team.',
-        document.getElementById('fte').value > 10 ? 'Maintain culture.' : 'Hire for growth.'],
-      ['Key Staff', document.getElementById('key-staff').value,
-        document.getElementById('key-staff').value >= 2 ? 'Leadership in place.' : 'Add key hires.',
-        document.getElementById('key-staff').value >= 2 ? 'Retain leaders.' : 'Recruit experienced staff.'],
-      ['Turnover Rate', document.getElementById('turnover-rate').value + '%',
-        document.getElementById('turnover-rate').value < 10 ? 'Low turnover.' : 'High turnover.',
-        document.getElementById('turnover-rate').value < 10 ? 'Keep morale high.' : 'Address retention.']
-    ]
-  });
-
-  // --- Risk & Legal Metrics Page ---
-  doc.addPage();
-  doc.setFontSize(16);
-  doc.text("Risk & Legal Metrics", 15, 20);
-  doc.setFontSize(11);
-  doc.autoTable({
-    startY: 25,
-    head: [['Metric', 'Value', 'AI Insight', 'Improvement Suggestion']],
-    body: [
-      ['Legal Entity', document.getElementById('legal-entity').value,
-        document.getElementById('legal-entity').value === 'c-corp' ? 'Investor-friendly.' : 'May need conversion.',
-        document.getElementById('legal-entity').value === 'c-corp' ? 'Highlight to VCs.' : 'Consider C-Corp.'],
-      ['IP Ownership', document.getElementById('ip-ownership').value,
-        document.getElementById('ip-ownership').value === 'fully-owned' ? 'No IP risk.' : 'Potential IP risk.',
-        document.getElementById('ip-ownership').value === 'fully-owned' ? 'Show IP docs.' : 'Secure full IP.'],
-      ['Debt Level', `$${debtLevel.toLocaleString()}`,
-        debtLevel < 100000 ? 'Low debt.' : 'High debt.',
-        debtLevel < 100000 ? 'Maintain low leverage.' : 'Reduce debt.']
-    ]
-  });
-
-  // --- Graphs Page ---
-  doc.addPage();
-  doc.setFontSize(16);
-  doc.text("Key Graphs", 15, 20);
-  // Example: Add your charts as images (ensure charts are rendered in DOM)
-  const chartIds = ['valuation-chart', 'financial-chart', 'growth-churn-chart', 'risk-chart'];
-  let yGraph = 30;
-  chartIds.forEach((id, idx) => {
-    const canvas = document.getElementById(id);
-    if (canvas) {
-      const imgData = canvas.toDataURL('image/png');
-      doc.addImage(imgData, 'PNG', 15, yGraph, 80, 50);
-      yGraph += 60;
-      if (yGraph > 220 && idx < chartIds.length - 1) {
-        doc.addPage();
-        yGraph = 30;
-      }
-    }
-  });
-
-  // --- AI Assessment & Recommendations Page ---
-  doc.addPage();
-  doc.setFontSize(16);
-  doc.text("Comprehensive AI Assessment", 15, 20);
-  doc.setFontSize(11);
-  let y = 30;
-  [
-    ...aiComments,
-    "To maximize your valuation, focus on: increasing ARR, reducing churn, improving NPS, and maintaining a strong team.",
-    "Highlight your proprietary technology and scalability in investor conversations.",
-    "Monitor your burn rate and runway to ensure long-term sustainability."
-  ].forEach(comment => {
-    doc.text("- " + comment, 15, y);
-    y += 8;
-  });
-
-  // --- Disclaimer & About Page ---
-  doc.addPage();
-  doc.setFontSize(16);
-  doc.text("About & Disclaimer", 15, 20);
-  doc.setFontSize(11);
-  y = 30;
-  doc.text("This report is generated by SaaSValuation.app using industry-standard methods and your provided data.", 15, y);
-  y += 10;
-  doc.text("Disclaimer: This valuation is an estimate and not financial advice. For investment or acquisition decisions, consult a professional advisor. The accuracy of this report depends on the data you provide.", 15, y);
-  y += 20;
-  doc.text("Contact: support@saasvaluation.app | www.saasvaluation.app", 15, y);
-
-  doc.save('saas_valuation_report.pdf');
-};
-
-// Initialize to Step 0
+// Initialize form
 showStep(0);
 </script>
-<!-- TESTIMONIALS SECTION -->
-<section class="py-16 bg-gray-50">
-  <div class="container mx-auto px-4">
-    <div class="text-center mb-12">
-      <h2 class="text-3xl font-bold text-gray-800 mb-4">Trusted by SaaS Founders</h2>
-      <p class="text-lg text-gray-600 max-w-2xl mx-auto">
-        See what other SaaS entrepreneurs say about our valuation tool.
-      </p>
-    </div>
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-      <!-- Testimonial 1 -->
-      <div class="bg-white p-6 rounded-lg shadow-md">
-        <div class="flex items-center mb-4">
-          <div class="text-yellow-400 mr-2">
-            <i class="fas fa-star"></i><i class="fas fa-star"></i>
-            <i class="fas fa-star"></i><i class="fas fa-star"></i>
-            <i class="fas fa-star"></i>
-          </div>
-        </div>
-        <p class="text-gray-600 mb-4">
-          "This valuation tool helped us secure funding by providing an investor-ready report that justified our asking price."
-        </p>
-        <div class="flex items-center">
-          <div class="bg-gray-200 rounded-full w-10 h-10 flex items-center justify-center mr-3">
-            <i class="fas fa-user text-gray-500"></i>
-          </div>
-          <div>
-            <h4 class="font-bold text-gray-800">Sarah K.</h4>
-            <p class="text-sm text-gray-500">Founder, Marketing SaaS</p>
-          </div>
-        </div>
-      </div>
-      <!-- Testimonial 2 -->
-      <div class="bg-white p-6 rounded-lg shadow-md">
-        <div class="flex items-center mb-4">
-          <div class="text-yellow-400 mr-2">
-            <i class="fas fa-star"></i><i class="fas fa-star"></i>
-            <i class="fas fa-star"></i><i class="fas fa-star"></i>
-            <i class="fas fa-star"></i>
-          </div>
-        </div>
-        <p class="text-gray-600 mb-4">
-          "The most comprehensive SaaS valuation tool I've found. The PDF report was exactly what we needed for our acquisition talks."
-        </p>
-        <div class="flex items-center">
-          <div class="bg-gray-200 rounded-full w-10 h-10 flex items-center justify-center mr-3">
-            <i class="fas fa-user text-gray-500"></i>
-          </div>
-          <div>
-            <h4 class="font-bold text-gray-800">Michael T.</h4>
-            <p class="text-sm text-gray-500">CEO, HR Tech Platform</p>
-          </div>
-        </div>
-      </div>
-      <!-- Testimonial 3 -->
-      <div class="bg-white p-6 rounded-lg shadow-md">
-        <div class="flex items-center mb-4">
-          <div class="text-yellow-400 mr-2">
-            <i class="fas fa-star"></i><i class="fas fa-star"></i>
-            <i class="fas fa-star"></i><i class="fas fa-star"></i>
-            <i class="fas fa-star-half-alt"></i>
-          </div>
-        </div>
-        <p class="text-gray-600 mb-4">
-          "As a VC, I recommend this tool to all our portfolio companies. It provides a realistic valuation range based on actual metrics."
-        </p>
-        <div class="flex items-center">
-          <div class="bg-gray-200 rounded-full w-10 h-10 flex items-center justify-center mr-3">
-            <i class="fas fa-user text-gray-500"></i>
-          </div>
-          <div>
-            <h4 class="font-bold text-gray-800">David L.</h4>
-            <p class="text-sm text-gray-500">Partner, Venture Capital</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- CTA SECTION -->
-<section class="gradient-bg text-white py-16">
-  <div class="container mx-auto px-4 text-center">
-    <h2 class="text-3xl font-bold mb-6">Ready to Discover Your SaaS Business Value?</h2>
-    <p class="text-xl opacity-90 mb-8 max-w-2xl mx-auto">
-      Get started with our comprehensive valuation tool today - it's free and takes less than 10 minutes.
-    </p>
-    <a href="#valuation" class="btn-primary px-8 py-3 text-lg inline-block">
-      <i class="fas fa-rocket mr-2"></i> Start Valuation Now
-    </a>
-  </div>
-</section>
-
-<!-- FOOTER -->
-<footer class="bg-gray-800 text-white py-8">
-  <div class="container mx-auto px-4">
-    <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
-      <div>
-        <div class="flex items-center mb-4">
-          <i class="fas fa-chart-line text-teal-400 mr-2 text-xl"></i>
-          <span class="text-xl font-bold">SaaS<span class="text-teal-400">Val</span></span>
-        </div>
-        <p class="text-gray-400">
-          The most accurate SaaS business valuation tool for founders, investors, and acquirers.
-        </p>
-      </div>
-      <div>
-        <h3 class="text-lg font-bold mb-4">Quick Links</h3>
-        <ul class="space-y-2">
-          <li><a href="#valuation" class="text-gray-400 hover:text-teal-400 transition-colors duration-300">Valuation Tool</a></li>
-          <li><a href="#features" class="text-gray-400 hover:text-teal-400 transition-colors duration-300">Features</a></li>
-          <li><a href="#how-it-works" class="text-gray-400 hover:text-teal-400 transition-colors duration-300">How It Works</a></li>
-          <li><a href="blog.html" class="text-gray-400 hover:text-teal-400 transition-colors duration-300">Resources</a></li>
-        </ul>
-      </div>
-      <div>
-        <h3 class="text-lg font-bold mb-4">Resources</h3>
-        <ul class="space-y-2">
-          <li><a href="#" class="text-gray-400 hover:text-teal-400 transition-colors duration-300">Blog</a></li>
-          <li><a href="#" class="text-gray-400 hover:text-teal-400 transition-colors duration-300">SaaS Valuation Guide</a></li>
-          <li><a href="#" class="text-gray-400 hover:text-teal-400 transition-colors duration-300">Case Studies</a></li>
-          <li><a href="#" class="text-gray-400 hover:text-teal-400 transition-colors duration-300">FAQ</a></li>
-        </ul>
-      </div>
-      <div>
-        <h3 class="text-lg font-bold mb-4">Connect</h3>
-        <div class="flex space-x-4 mb-4">
-          <a href="#" class="text-gray-400 hover:text-teal-400 transition-colors duration-300 text-xl">
-            <i class="fab fa-twitter"></i>
-          </a>
-          <a href="#" class="text-gray-400 hover:text-teal-400 transition-colors duration-300 text-xl">
-            <i class="fab fa-linkedin"></i>
-          </a>
-          <a href="#" class="text-gray-400 hover:text-teal-400 transition-colors duration-300 text-xl">
-            <i class="fab fa-facebook"></i>
-          </a>
-        </div>
-      </div>
-    </div>
-    <div class="pt-6 border-t border-gray-700 text-center md:text-left">
-      <div class="flex flex-col md:flex-row justify-between items-center">
-        <p class="text-gray-400 mb-4 md:mb-0">
-          © 2025 SaaSVal. All rights reserved.
-        </p>
-        <div class="flex space-x-4">
-          <a href="privacy-policy.html">Privacy Policy</a>
-          <a href="terms-and-conditions.html">Terms of Service</a>
-          <a href="#" class="text-gray-400 hover:text-teal-400 transition-colors duration-300 text-sm">Cookies</a>
-        </div>
-      </div>
-    </div>
-  </div>
-</footer>
-
-<!-- JAVASCRIPT: Mobile Menu & Smooth Scrolling -->
-<script>
-  // Mobile Menu Toggle
-  document.getElementById('menu-toggle').addEventListener('click', () => {
-    const menu = document.getElementById('mobile-menu');
-    menu.classList.toggle('hidden');
-    const icon = document.getElementById('menu-toggle').querySelector('i');
-    icon.classList.toggle('fa-bars');
-    icon.classList.toggle('fa-times');
-  });
-
-  // Smooth scrolling for anchor links
-  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-      e.preventDefault();
-      const targetId = this.getAttribute('href');
-      if (targetId === '#') return;
-      const targetElement = document.querySelector(targetId);
-      if (targetElement) {
-        window.scrollTo({
-          top: targetElement.offsetTop - 80,
-          behavior: 'smooth'
-        });
-        // Close mobile menu if open
-        const mobileMenu = document.getElementById('mobile-menu');
-        if (!mobileMenu.classList.contains('hidden')) {
-          mobileMenu.classList.add('hidden');
-          const icon = document.getElementById('menu-toggle').querySelector('i');
-          icon.classList.remove('fa-times');
-          icon.classList.add('fa-bars');
-        }
-      }
-    });
-  });
-</script>
-</body>
-</html>
+<!-- STEP 12/15 END: Paste this after the hidden chart canvases from Step 11 -->
   
