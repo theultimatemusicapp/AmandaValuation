@@ -1054,7 +1054,7 @@
     <canvas id="customer-metrics-chart" width="400" height="300"></canvas>
   </div>
 <!-- STEP 11/15 END: Paste this after the valuation form from Step 10 -->
-  <!-- STEP 12/15 START: JavaScript - Step Navigation and Validation (Steps 0–7) -->
+<!-- STEP 12/15 START: JavaScript - Step Navigation and Validation (Steps 0–7) -->
 <script>
 // Mobile menu toggle
 document.getElementById('menu-toggle').addEventListener('click', () => {
@@ -1096,7 +1096,6 @@ function validateStep(stepIndex) {
       isValid = false;
     }
   } else if (stepIndex === 1) {
-    // Validate company info
     const companyName = document.getElementById('company-name').value.trim();
     const companyWebsite = document.getElementById('company-website').value.trim();
     const companyEmail = document.getElementById('company-email').value.trim();
@@ -1115,8 +1114,6 @@ function validateStep(stepIndex) {
       document.getElementById('company-email-error').classList.remove('hidden');
       isValid = false;
     }
-
-    // Validate valuation methods
     const methods = document.querySelectorAll('input[type="checkbox"]:checked');
     if (methods.length < 1 || methods.length > 3) {
       document.getElementById('method-error').classList.remove('hidden');
@@ -1178,16 +1175,22 @@ function validateStep(stepIndex) {
     });
     inputs.forEach(input => {
       const value = parseFloat(input.value);
-      if (isNaN(value) || value < 0 || (input.id === 'turnover-rate' && value > 100)) {
+      if (isNaN(value) || value < 0) { // Simplified for Step 7 (only debt)
         document.getElementById(`${input.id}-error`).classList.remove('hidden');
         isValid = false;
       }
     });
   }
 
-  if (!isValid) {
-    step.querySelector(`#${stepIndex === 2 ? 'financial' : stepIndex === 3 ? 'growth-churn' : stepIndex === 4 ? 'customer-market' : stepIndex === 5 ? 'product-tech' : stepIndex === 6 ? 'team-ops' : stepIndex === 7 ? 'legal-risk' : 'step'}-error`)?.classList.remove('hidden');
+  // Show general error for Step 7 if validation fails
+  if (!isValid && stepIndex === 7) {
+    const generalError = document.getElementById('legal-risk-error');
+    if (generalError) {
+      generalError.classList.remove('hidden');
+    }
   }
+
+  console.log(`Validating Step ${stepIndex}: ${isValid ? 'Valid' : 'Invalid'}`);
   return isValid;
 }
 
@@ -1195,14 +1198,24 @@ function validateStep(stepIndex) {
 document.querySelectorAll('[id^="next-btn-"]').forEach(btn => {
   btn.addEventListener('click', () => {
     const stepIndex = parseInt(btn.id.split('-')[2]);
+    console.log(`Next button clicked for Step ${stepIndex}`);
     if (validateStep(stepIndex)) {
       if (stepIndex < steps.length - 1) {
+        console.log(`Moving to Step ${stepIndex + 1}`);
         showStep(stepIndex + 1);
       } else {
-        calculateValuation();
-        document.getElementById('results').classList.remove('hidden');
-        document.getElementById('pro-valuation').classList.add('hidden');
+        console.log('Submitting form and showing results');
+        try {
+          calculateValuation();
+          document.getElementById('results').classList.remove('hidden');
+          document.getElementById('pro-valuation').classList.add('hidden');
+          window.scrollTo(0, document.getElementById('results').offsetTop);
+        } catch (error) {
+          console.error('Error in form submission:', error);
+        }
       }
+    } else {
+      console.log(`Validation failed for Step ${stepIndex}`);
     }
   });
 });
@@ -1210,6 +1223,7 @@ document.querySelectorAll('[id^="next-btn-"]').forEach(btn => {
 document.querySelectorAll('[id^="prev-btn-"]').forEach(btn => {
   btn.addEventListener('click', () => {
     const stepIndex = parseInt(btn.id.split('-')[2]);
+    console.log(`Previous button clicked for Step ${stepIndex}`);
     showStep(stepIndex - 1);
   });
 });
