@@ -1056,14 +1056,14 @@
 <!-- STEP 11/15 END: Paste this after the valuation form from Step 10 -->
 <!-- STEP 12/15 START: JavaScript - Step Navigation and Validation (Steps 0–7) -->
 <script>
-	// Step 1: Store Chart Instances
+// Step 1: Store Chart Instances
 const charts = {
   valuation: null,
   revenueProfit: null,
   growthChurn: null,
   customerMetrics: null
 };
-	
+
 // Mobile menu toggle
 document.getElementById('menu-toggle').addEventListener('click', () => {
   const mobileMenu = document.getElementById('mobile-menu');
@@ -1073,157 +1073,54 @@ document.getElementById('menu-toggle').addEventListener('click', () => {
 // Form navigation and validation
 const steps = document.querySelectorAll('.step');
 const progressFill = document.getElementById('progress-fill');
-const currentStepDisplay = document.getElementById('current-step');
-let currentStep = 0;
-
-function updateProgress() {
-  const progressPercent = ((currentStep + 1) / 8) * 100;
-  progressFill.style.width = `${progressPercent}%`;
-  currentStepDisplay.textContent = currentStep + 1;
-}
 
 function showStep(stepIndex) {
   steps.forEach((step, index) => {
-    step.classList.toggle('step-visible', index === stepIndex);
-    step.classList.toggle('step-hidden', index !== stepIndex);
+    step.classList.toggle('hidden', index !== stepIndex);
   });
-  currentStep = stepIndex;
-  updateProgress();
+  const progress = (stepIndex / (steps.length - 1)) * 100;
+  progressFill.style.width = `${progress}%`;
 }
 
 function validateStep(stepIndex) {
-  let isValid = true;
   const step = steps[stepIndex];
-  const errorMessages = step.querySelectorAll('[id$="-error"]');
-  errorMessages.forEach(msg => msg.classList.add('hidden'));
+  const inputs = step.querySelectorAll('input[required]');
+  let isValid = true;
 
-  if (stepIndex === 0) {
-    const saasType = document.getElementById('saas-type').value;
-    if (!saasType) {
-      document.getElementById('saas-type-error').classList.remove('hidden');
+  inputs.forEach(input => {
+    if (!input.value.trim()) {
       isValid = false;
+      input.classList.add('border-red-500');
+      input.nextElementSibling.classList.remove('hidden');
+    } else {
+      input.classList.remove('border-red-500');
+      input.classList.add('border-green-500');
+      input.nextElementSibling.classList.add('hidden');
     }
-  } else if (stepIndex === 1) {
-    const companyName = document.getElementById('company-name').value.trim();
-    const companyWebsite = document.getElementById('company-website').value.trim();
-    const companyEmail = document.getElementById('company-email').value.trim();
-    const urlPattern = /^(https?:\/\/)?([\w-]+\.)+[\w-]+(\/[\w-./?%&=]*)?$/i;
-    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  });
 
-    if (!companyName || companyName.length < 2) {
-      document.getElementById('company-name-error').classList.remove('hidden');
-      isValid = false;
-    }
-    if (!companyWebsite || !urlPattern.test(companyWebsite)) {
-      document.getElementById('company-website-error').classList.remove('hidden');
-      isValid = false;
-    }
-    if (!companyEmail || !emailPattern.test(companyEmail)) {
-      document.getElementById('company-email-error').classList.remove('hidden');
-      isValid = false;
-    }
-    const methods = document.querySelectorAll('input[type="checkbox"]:checked');
-    if (methods.length < 1 || methods.length > 3) {
-      document.getElementById('method-error').classList.remove('hidden');
-      isValid = false;
-    }
-  } else if (stepIndex === 2) {
-    const inputs = step.querySelectorAll('input[type="number"]');
-    inputs.forEach(input => {
-      const value = parseFloat(input.value);
-      if (isNaN(value) || value < 0 || (input.id === 'gross-margin' && value > 100)) {
-        document.getElementById(`${input.id}-error`).classList.remove('hidden');
-        isValid = false;
-      }
-    });
-  } else if (stepIndex === 3) {
-    const inputs = step.querySelectorAll('input[type="number"]');
-    inputs.forEach(input => {
-      const value = parseFloat(input.value);
-      if (isNaN(value) || value < 0 || ((input.id === 'customer-churn' || input.id === 'revenue-churn') && value > 100)) {
-        document.getElementById(`${input.id}-error`).classList.remove('hidden');
-        isValid = false;
-      }
-    });
-  } else if (stepIndex === 4) {
-    const totalCustomers = parseFloat(document.getElementById('total-customers').value);
-    const retentionRate = parseFloat(document.getElementById('retention-rate').value);
-    const nps = parseFloat(document.getElementById('nps').value);
-    const marketSegment = document.getElementById('market-segment').value;
-    const buyerType = document.getElementById('buyer-type').value;
-
-    if (isNaN(totalCustomers) || totalCustomers < 0) {
-      document.getElementById('total-customers-error').classList.remove('hidden');
-      isValid = false;
-    }
-    if (isNaN(retentionRate) || retentionRate < 0 || retentionRate > 100) {
-      document.getElementById('retention-rate-error').classList.remove('hidden');
-      isValid = false;
-    }
-    if (isNaN(nps) || nps < -100 || nps > 100) {
-      document.getElementById('nps-error').classList.remove('hidden');
-      isValid = false;
-    }
-    if (!marketSegment) {
-      document.getElementById('market-segment-error').classList.remove('hidden');
-      isValid = false;
-    }
-    if (!buyerType) {
-      document.getElementById('buyer-type-error').classList.remove('hidden');
-      isValid = false;
-    }
-  } else if (stepIndex === 5 || stepIndex === 6 || stepIndex === 7) {
-    const selects = step.querySelectorAll('select');
-    const inputs = step.querySelectorAll('input[type="number"]');
-    selects.forEach(select => {
-      if (!select.value) {
-        document.getElementById(`${select.id}-error`).classList.remove('hidden');
-        isValid = false;
-      }
-    });
-    inputs.forEach(input => {
-      const value = parseFloat(input.value);
-      if (isNaN(value) || value < 0) { // Simplified for Step 7 (only debt)
-        document.getElementById(`${input.id}-error`).classList.remove('hidden');
-        isValid = false;
-      }
-    });
-  }
-
-  // Show general error for Step 7 if validation fails
-  if (!isValid && stepIndex === 7) {
-    const generalError = document.getElementById('legal-risk-error');
-    if (generalError) {
-      generalError.classList.remove('hidden');
-    }
-  }
-
-  console.log(`Validating Step ${stepIndex}: ${isValid ? 'Valid' : 'Invalid'}`);
   return isValid;
 }
 
-// Event listeners for navigation buttons
 document.querySelectorAll('[id^="next-btn-"]').forEach(btn => {
   btn.addEventListener('click', () => {
     const stepIndex = parseInt(btn.id.split('-')[2]);
-    console.log(`Next button clicked for Step ${stepIndex}`);
     if (validateStep(stepIndex)) {
       if (stepIndex < steps.length - 1) {
-        console.log(`Moving to Step ${stepIndex + 1}`);
         showStep(stepIndex + 1);
       } else {
-        console.log('Submitting form and showing results');
         try {
+          // Destroy existing charts before recalculation
+          Object.values(charts).forEach(chart => chart?.destroy());
           calculateValuation();
           document.getElementById('results').classList.remove('hidden');
           document.getElementById('pro-valuation').classList.add('hidden');
           window.scrollTo(0, document.getElementById('results').offsetTop);
         } catch (error) {
-          console.error('Error in form submission:', error);
+          console.error('Error during form submission:', error);
+          alert('Failed to calculate valuation. Please check the console for details and ensure all inputs are valid.');
         }
       }
-    } else {
-      console.log(`Validation failed for Step ${stepIndex}`);
     }
   });
 });
@@ -1231,242 +1128,310 @@ document.querySelectorAll('[id^="next-btn-"]').forEach(btn => {
 document.querySelectorAll('[id^="prev-btn-"]').forEach(btn => {
   btn.addEventListener('click', () => {
     const stepIndex = parseInt(btn.id.split('-')[2]);
-    console.log(`Previous button clicked for Step ${stepIndex}`);
     showStep(stepIndex - 1);
   });
 });
-
-// Initialize form
-showStep(0);
 </script>
 <!-- STEP 12/15 END: Paste this after the hidden chart canvases from Step 11 -->
 <!-- STEP 13/15 START: JavaScript - Chart Generation with Chart.js -->
 <script>
 // Chart generation functions
 function createValuationChart(valuations) {
-  const ctx = document.getElementById('valuation-chart').getContext('2d');
-  if (charts.valuation) {
-    charts.valuation.destroy(); // Destroy existing chart
-  }
-  charts.valuation = new Chart(ctx, {
-    type: 'bar',
-    data: {
-      labels: Object.keys(valuations).map(key => key.replace('Valuation', '')),
-      datasets: [{
-        label: 'Valuation ($)',
-        data: Object.values(valuations),
-        backgroundColor: ['#38b2ac', '#4a5568', '#ed8936', '#9f7aea'],
-        borderColor: ['#2c8a86', '#3c4656', '#c56b1f', '#805ad5'],
-        borderWidth: 1
-      }]
-    },
-    options: {
-      responsive: false,
-      maintainAspectRatio: true,
-      scales: {
-        y: {
-          beginAtZero: true,
-          title: { display: true, text: 'Valuation ($)', color: '#1a202c' },
-          ticks: { color: '#1a202c' },
-          grid: { color: '#e2e8f0' }
-        },
-        x: {
-          title: { display: true, text: 'Valuation Method', color: '#1a202c' },
-          ticks: { color: '#1a202c' },
-          grid: { display: false }
-        }
-      },
-      plugins: {
-        legend: { labels: { color: '#1a202c' } },
-        title: { display: true, text: 'Valuation by Method', color: '#1a202c', font: { size: 16 } }
-      }
+  try {
+    const ctx = document.getElementById('valuation-chart').getContext('2d');
+    if (!ctx) throw new Error('Valuation chart canvas context not found');
+    if (charts.valuation) {
+      charts.valuation.destroy();
     }
-  });
+    charts.valuation = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: Object.keys(valuations).map(key => key.replace('Valuation', '')),
+        datasets: [{
+          label: 'Valuation ($)',
+          data: Object.values(valuations),
+          backgroundColor: ['#38b2ac', '#4a5568', '#ed8936', '#9f7aea'],
+          borderColor: ['#2c8a86', '#3c4656', '#c56b1f', '#805ad5'],
+          borderWidth: 1
+        }]
+      },
+      options: {
+        responsive: false,
+        maintainAspectRatio: true,
+        scales: {
+          y: {
+            beginAtZero: true,
+            title: { display: true, text: 'Valuation ($)', color: '#1a202c' },
+            ticks: { color: '#1a202c' },
+            grid: { color: '#e2e8f0' }
+          },
+          x: {
+            title: { display: true, text: 'Valuation Method', color: '#1a202c' },
+            ticks: { color: '#1a202c' },
+            grid: { display: false }
+          }
+        },
+        plugins: {
+          legend: { labels: { color: '#1a202c' } },
+          title: { display: true, text: 'Valuation by Method', color: '#1a202c', font: { size: 16 } }
+        }
+      }
+    });
+    console.log('Valuation chart created successfully');
+  } catch (error) {
+    console.error('Error creating Valuation chart:', error);
+    throw error; // Re-throw to be caught by calculateValuation
+  }
 }
 
 function createRevenueProfitChart(arr, netProfit) {
-  const ctx = document.getElementById('revenue-profit-chart').getContext('2d');
-  if (charts.revenueProfit) {
-    charts.revenueProfit.destroy();
-  }
-  charts.revenueProfit = new Chart(ctx, {
-    type: 'bar',
-    data: {
-      labels: ['ARR', 'Net Profit'],
-      datasets: [{
-        label: 'Amount ($)',
-        data: [arr, netProfit],
-        backgroundColor: ['#38b2ac', '#ed8936'],
-        borderColor: ['#2c8a86', '#c56b1f'],
-        borderWidth: 1
-      }]
-    },
-    options: {
-      responsive: false,
-      maintainAspectRatio: true,
-      scales: {
-        y: {
-          beginAtZero: true,
-          title: { display: true, text: 'Amount ($)', color: '#1a202c' },
-          ticks: { color: '#1a202c' },
-          grid: { color: '#e2e8f0' }
-        },
-        x: {
-          title: { display: true, text: 'Metric', color: '#1a202c' },
-          ticks: { color: '#1a202c' },
-          grid: { display: false }
-        }
-      },
-      plugins: {
-        legend: { labels: { color: '#1a202c' } },
-        title: { display: true, text: 'Revenue vs. Net Profit', color: '#1a202c', font: { size: 16 } }
-      }
+  try {
+    const ctx = document.getElementById('revenue-profit-chart').getContext('2d');
+    if (!ctx) throw new Error('Revenue-profit chart canvas context not found');
+    if (charts.revenueProfit) {
+      charts.revenueProfit.destroy();
     }
-  });
+    charts.revenueProfit = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: ['ARR', 'Net Profit'],
+        datasets: [{
+          label: 'Amount ($)',
+          data: [arr, netProfit],
+          backgroundColor: ['#38b2ac', '#ed8936'],
+          borderColor: ['#2c8a86', '#c56b1f'],
+          borderWidth: 1
+        }]
+      },
+      options: {
+        responsive: false,
+        maintainAspectRatio: true,
+        scales: {
+          y: {
+            beginAtZero: true,
+            title: { display: true, text: 'Amount ($)', color: '#1a202c' },
+            ticks: { color: '#1a202c' },
+            grid: { color: '#e2e8f0' }
+          },
+          x: {
+            title: { display: true, text: 'Metric', color: '#1a202c' },
+            ticks: { color: '#1a202c' },
+            grid: { display: false }
+          }
+        },
+        plugins: {
+          legend: { labels: { color: '#1a202c' } },
+          title: { display: true, text: 'Revenue vs. Net Profit', color: '#1a202c', font: { size: 16 } }
+        }
+      }
+    });
+    console.log('Revenue-Profit chart created successfully');
+  } catch (error) {
+    console.error('Error creating Revenue-Profit chart:', error);
+    throw error;
+  }
 }
 
 function createGrowthChurnChart(yoyGrowth, momGrowth, customerChurn, revenueChurn) {
-  const ctx = document.getElementById('growth-churn-chart').getContext('2d');
-  if (charts.growthChurn) {
-    charts.growthChurn.destroy();
-  }
-  charts.growthChurn = new Chart(ctx, {
-    type: 'bar',
-    data: {
-      labels: ['YoY Growth', 'MoM Growth', 'Customer Churn', 'Revenue Churn'],
-      datasets: [{
-        label: 'Rate (%)',
-        data: [yoyGrowth, momGrowth, customerChurn, revenueChurn],
-        backgroundColor: ['#38b2ac', '#4a5568', '#ed8936', '#9f7aea'],
-        borderColor: ['#2c8a86', '#3c4656', '#c56b1f', '#805ad5'],
-        borderWidth: 1
-      }]
-    },
-    options: {
-      responsive: false,
-      maintainAspectRatio: true,
-      scales: {
-        y: {
-          beginAtZero: true,
-          title: { display: true, text: 'Rate (%)', color: '#1a202c' },
-          ticks: { color: '#1a202c' },
-          grid: { color: '#e2e8f0' }
-        },
-        x: {
-          title: { display: true, text: 'Metric', color: '#1a202c' },
-          ticks: { color: '#1a202c' },
-          grid: { display: false }
-        }
-      },
-      plugins: {
-        legend: { labels: { color: '#1a202c' } },
-        title: { display: true, text: 'Growth vs. Churn Rates', color: '#1a202c', font: { size: 16 } }
-      }
+  try {
+    const ctx = document.getElementById('growth-churn-chart').getContext('2d');
+    if (!ctx) throw new Error('Growth-Churn chart canvas context not found');
+    if (charts.growthChurn) {
+      charts.growthChurn.destroy();
     }
-  });
+    charts.growthChurn = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: ['YoY Growth', 'MoM Growth', 'Customer Churn', 'Revenue Churn'],
+        datasets: [{
+          label: 'Rate (%)',
+          data: [yoyGrowth, momGrowth, customerChurn, revenueChurn],
+          backgroundColor: ['#38b2ac', '#4a5568', '#ed8936', '#9f7aea'],
+          borderColor: ['#2c8a86', '#3c4656', '#c56b1f', '#805ad5'],
+          borderWidth: 1
+        }]
+      },
+      options: {
+        responsive: false,
+        maintainAspectRatio: true,
+        scales: {
+          y: {
+            beginAtZero: true,
+            title: { display: true, text: 'Rate (%)', color: '#1a202c' },
+            ticks: { color: '#1a202c' },
+            grid: { color: '#e2e8f0' }
+          },
+          x: {
+            title: { display: true, text: 'Metric', color: '#1a202c' },
+            ticks: { color: '#1a202c' },
+            grid: { display: false }
+          }
+        },
+        plugins: {
+          legend: { labels: { color: '#1a202c' } },
+          title: { display: true, text: 'Growth vs. Churn Rates', color: '#1a202c', font: { size: 16 } }
+        }
+      }
+    });
+    console.log('Growth-Churn chart created successfully');
+  } catch (error) {
+    console.error('Error creating Growth-Churn chart:', error);
+    throw error;
+  }
 }
 
 function createCustomerMetricsChart(totalCustomers, retentionRate, nps) {
-  const ctx = document.getElementById('customer-metrics-chart').getContext('2d');
-  if (charts.customerMetrics) {
-    charts.customerMetrics.destroy();
-  }
-  charts.customerMetrics = new Chart(ctx, {
-    type: 'bar',
-    data: {
-      labels: ['Total Customers', 'Retention Rate (%)', 'NPS'],
-      datasets: [{
-        label: 'Value',
-        data: [totalCustomers, retentionRate, nps],
-        backgroundColor: ['#38b2ac', '#ed8936', '#9f7aea'],
-        borderColor: ['#2c8a86', '#c56b1f', '#805ad5'],
-        borderWidth: 1
-      }]
-    },
-    options: {
-      responsive: false,
-      maintainAspectRatio: true,
-      scales: {
-        y: {
-          beginAtZero: true,
-          title: { display: true, text: 'Value', color: '#1a202c' },
-          ticks: { color: '#1a202c' },
-          grid: { color: '#e2e8f0' }
-        },
-        x: {
-          title: { display: true, text: 'Metric', color: '#1a202c' },
-          ticks: { color: '#1a202c' },
-          grid: { display: false }
-        }
-      },
-      plugins: {
-        legend: { labels: { color: '#1a202c' } },
-        title: { display: true, text: 'Customer Metrics', color: '#1a202c', font: { size: 16 } }
-      }
+  try {
+    const ctx = document.getElementById('customer-metrics-chart').getContext('2d');
+    if (!ctx) throw new Error('Customer-Metrics chart canvas context not found');
+    if (charts.customerMetrics) {
+      charts.customerMetrics.destroy();
     }
-  });
+    charts.customerMetrics = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: ['Total Customers', 'Retention Rate (%)', 'NPS'],
+        datasets: [{
+          label: 'Value',
+          data: [totalCustomers, retentionRate, nps],
+          backgroundColor: ['#38b2ac', '#ed8936', '#9f7aea'],
+          borderColor: ['#2c8a86', '#c56b1f', '#805ad5'],
+          borderWidth: 1
+        }]
+      },
+      options: {
+        responsive: false,
+        maintainAspectRatio: true,
+        scales: {
+          y: {
+            beginAtZero: true,
+            title: { display: true, text: 'Value', color: '#1a202c' },
+            ticks: { color: '#1a202c' },
+            grid: { color: '#e2e8f0' }
+          },
+          x: {
+            title: { display: true, text: 'Metric', color: '#1a202c' },
+            ticks: { color: '#1a202c' },
+            grid: { display: false }
+          }
+        },
+        plugins: {
+          legend: { labels: { color: '#1a202c' } },
+          title: { display: true, text: 'Customer Metrics', color: '#1a202c', font: { size: 16 } }
+        }
+      }
+    });
+    console.log('Customer-Metrics chart created successfully');
+  } catch (error) {
+    console.error('Error creating Customer-Metrics chart:', error);
+    throw error;
+  }
 }
 </script>
 <!-- STEP 13/15 END: Paste this after the step navigation JavaScript from Step 12 -->
 <!-- STEP 14/15 START: JavaScript - Valuation Calculation and PDF Generation -->
 <script>
 function calculateValuation() {
-  const arr = parseFloat(document.getElementById('arr').value) || 0;
-  const grossMargin = parseFloat(document.getElementById('gross-margin').value) || 0;
-  const netProfit = parseFloat(document.getElementById('net-profit').value) || 0;
-  const yoyGrowth = parseFloat(document.getElementById('yoy-growth').value) || 0;
-  const momGrowth = parseFloat(document.getElementById('mom-growth').value) || 0;
-  const customerChurn = parseFloat(document.getElementById('customer-churn').value) || 0;
-  const revenueChurn = parseFloat(document.getElementById('revenue-churn').value) || 0;
-  const totalCustomers = parseFloat(document.getElementById('total-customers').value) || 0;
-  const retentionRate = parseFloat(document.getElementById('retention-rate').value) || 0;
-  const nps = parseFloat(document.getElementById('nps').value) || 0;
+  console.log('Starting valuation calculation...');
+  try {
+    // Input retrieval with validation
+    const arrInput = document.getElementById('arr');
+    const grossMarginInput = document.getElementById('gross-margin');
+    const netProfitInput = document.getElementById('net-profit');
+    const yoyGrowthInput = document.getElementById('yoy-growth');
+    const momGrowthInput = document.getElementById('mom-growth');
+    const customerChurnInput = document.getElementById('customer-churn');
+    const revenueChurnInput = document.getElementById('revenue-churn');
+    const totalCustomersInput = document.getElementById('total-customers');
+    const retentionRateInput = document.getElementById('retention-rate');
+    const npsInput = document.getElementById('nps');
 
-  const revenueMultiple = 5;
-  const profitMultiple = 10;
-  const growthAdjustment = (yoyGrowth + momGrowth) / 200;
-  const churnAdjustment = (customerChurn + revenueChurn) / 200;
+    if (!arrInput || !grossMarginInput || !netProfitInput || !yoyGrowthInput || !momGrowthInput ||
+        !customerChurnInput || !revenueChurnInput || !totalCustomersInput || !retentionRateInput || !npsInput) {
+      throw new Error('One or more input fields are missing in the DOM');
+    }
 
-  const revenueValuation = arr * revenueMultiple * (1 + growthAdjustment - churnAdjustment);
-  const profitValuation = netProfit * profitMultiple * (1 + growthAdjustment - churnAdjustment);
-  const customerValuation = totalCustomers * 1000 * (retentionRate / 100) * (nps / 100);
-  const marginAdjustedValuation = (revenueValuation + profitValuation) * (grossMargin / 100);
+    const arr = parseFloat(arrInput.value) || 0;
+    const grossMargin = parseFloat(grossMarginInput.value) || 0;
+    const netProfit = parseFloat(netProfitInput.value) || 0;
+    const yoyGrowth = parseFloat(yoyGrowthInput.value) || 0;
+    const momGrowth = parseFloat(momGrowthInput.value) || 0;
+    const customerChurn = parseFloat(customerChurnInput.value) || 0;
+    const revenueChurn = parseFloat(revenueChurnInput.value) || 0;
+    const totalCustomers = parseFloat(totalCustomersInput.value) || 0;
+    const retentionRate = parseFloat(retentionRateInput.value) || 0;
+    const nps = parseFloat(npsInput.value) || 0;
 
-  const valuations = {
-    'RevenueValuation': revenueValuation,
-    'ProfitValuation': profitValuation,
-    'CustomerValuation': customerValuation,
-    'MarginAdjustedValuation': marginAdjustedValuation
-  };
+    console.log('Inputs retrieved:', { arr, grossMargin, netProfit, yoyGrowth, momGrowth, customerChurn, revenueChurn, totalCustomers, retentionRate, nps });
 
-  document.getElementById('revenue-valuation').textContent = `$${Math.round(revenueValuation).toLocaleString()}`;
-  document.getElementById('profit-valuation').textContent = `$${Math.round(profitValuation).toLocaleString()}`;
-  document.getElementById('customer-valuation').textContent = `$${Math.round(customerValuation).toLocaleString()}`;
-  document.getElementById('margin-adjusted-valuation').textContent = `$${Math.round(marginAdjustedValuation).toLocaleString()}`;
+    const revenueMultiple = 5;
+    const profitMultiple = 10;
+    const growthAdjustment = (yoyGrowth + momGrowth) / 200;
+    const churnAdjustment = (customerChurn + revenueChurn) / 200;
 
-  createValuationChart(valuations);
-  createRevenueProfitChart(arr, netProfit);
-  createGrowthChurnChart(yoyGrowth, momGrowth, customerChurn, revenueChurn);
-  createCustomerMetricsChart(totalCustomers, retentionRate, nps);
+    const revenueValuation = arr * revenueMultiple * (1 + growthAdjustment - churnAdjustment);
+    const profitValuation = netProfit * profitMultiple * (1 + growthAdjustment - churnAdjustment);
+    const customerValuation = totalCustomers * 1000 * (retentionRate / 100) * (nps / 100);
+    const marginAdjustedValuation = (revenueValuation + profitValuation) * (grossMargin / 100);
 
-  return {
-    arr,
-    grossMargin,
-    netProfit,
-    yoyGrowth,
-    momGrowth,
-    customerChurn,
-    revenueChurn,
-    totalCustomers,
-    retentionRate,
-    nps,
-    revenueValuation,
-    profitValuation,
-    customerValuation,
-    marginAdjustedValuation,
-    growthAdjustment,
-    churnAdjustment
-  };
+    const valuations = {
+      'RevenueValuation': revenueValuation,
+      'ProfitValuation': profitValuation,
+      'CustomerValuation': customerValuation,
+      'MarginAdjustedValuation': marginAdjustedValuation
+    };
+
+    console.log('Valuations calculated:', valuations);
+
+    document.getElementById('revenue-valuation').textContent = `$${Math.round(revenueValuation).toLocaleString()}`;
+    document.getElementById('profit-valuation').textContent = `$${Math.round(profitValuation).toLocaleString()}`;
+    document.getElementById('customer-valuation').textContent = `$${Math.round(customerValuation).toLocaleString()}`;
+    document.getElementById('margin-adjusted-valuation').textContent = `$${Math.round(marginAdjustedValuation).toLocaleString()}`;
+
+    // Generate charts with error handling
+    try {
+      createValuationChart(valuations);
+    } catch (error) {
+      console.error('Failed to create Valuation chart, continuing...', error);
+    }
+    try {
+      createRevenueProfitChart(arr, netProfit);
+    } catch (error) {
+      console.error('Failed to create Revenue-Profit chart, continuing...', error);
+    }
+    try {
+      createGrowthChurnChart(yoyGrowth, momGrowth, customerChurn, revenueChurn);
+    } catch (error) {
+      console.error('Failed to create Growth-Churn chart, continuing...', error);
+    }
+    try {
+      createCustomerMetricsChart(totalCustomers, retentionRate, nps);
+    } catch (error) {
+      console.error('Failed to create Customer-Metrics chart, continuing...', error);
+    }
+
+    return {
+      arr,
+      grossMargin,
+      netProfit,
+      yoyGrowth,
+      momGrowth,
+      customerChurn,
+      revenueChurn,
+      totalCustomers,
+      retentionRate,
+      nps,
+      revenueValuation,
+      profitValuation,
+      customerValuation,
+      marginAdjustedValuation,
+      growthAdjustment,
+      churnAdjustment
+    };
+  } catch (error) {
+    console.error('Error in calculateValuation:', error);
+    throw error;
+  }
 }
 
 document.getElementById('download-pdf').addEventListener('click', async () => {
@@ -1493,10 +1458,32 @@ document.getElementById('download-pdf').addEventListener('click', async () => {
       churnAdjustment
     } = calculations;
 
-    const valuationChart = document.getElementById('valuation-chart').toDataURL('image/png');
-    const revenueProfitChart = document.getElementById('revenue-profit-chart').toDataURL('image/png');
-    const growthChurnChart = document.getElementById('growth-churn-chart').toDataURL('image/png');
-    const customerMetricsChart = document.getElementById('customer-metrics-chart').toDataURL('image/png');
+    // Get chart images with fallback
+    let valuationChart, revenueProfitChart, growthChurnChart, customerMetricsChart;
+    try {
+      valuationChart = document.getElementById('valuation-chart').toDataURL('image/png');
+    } catch (error) {
+      console.error('Failed to get Valuation chart image:', error);
+      valuationChart = null;
+    }
+    try {
+      revenueProfitChart = document.getElementById('revenue-profit-chart').toDataURL('image/png');
+    } catch (error) {
+      console.error('Failed to get Revenue-Profit chart image:', error);
+      revenueProfitChart = null;
+    }
+    try {
+      growthChurnChart = document.getElementById('growth-churn-chart').toDataURL('image/png');
+    } catch (error) {
+      console.error('Failed to get Growth-Churn chart image:', error);
+      growthChurnChart = null;
+    }
+    try {
+      customerMetricsChart = document.getElementById('customer-metrics-chart').toDataURL('image/png');
+    } catch (error) {
+      console.error('Failed to get Customer-Metrics chart image:', error);
+      customerMetricsChart = null;
+    }
 
     const { jsPDF } = window.jspdf;
     const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
@@ -1636,41 +1623,54 @@ document.getElementById('download-pdf').addEventListener('click', async () => {
     doc.text(explanationText, margin, y, { maxWidth: pageWidth - 2 * margin });
     y += (explanationText.length * 5) + 10;
 
-    if (y + 60 > pageHeight - margin) {
-      doc.addPage();
-      y = margin;
+    // Add charts only if they were successfully generated
+    if (valuationChart) {
+      if (y + 60 > pageHeight - margin) {
+        doc.addPage();
+        y = margin;
+      }
+      doc.addImage(valuationChart, 'PNG', margin, y, 90, 60);
+      y += 70;
+    } else {
+      console.warn('Skipping Valuation chart in PDF due to rendering failure');
     }
 
-    doc.addImage(valuationChart, 'PNG', margin, y, 90, 60);
-    y += 70;
-
-    if (y + 60 > pageHeight - margin) {
-      doc.addPage();
-      y = margin;
+    if (revenueProfitChart) {
+      if (y + 60 > pageHeight - margin) {
+        doc.addPage();
+        y = margin;
+      }
+      doc.addImage(revenueProfitChart, 'PNG', margin, y, 90, 60);
+      y += 70;
+    } else {
+      console.warn('Skipping Revenue-Profit chart in PDF due to rendering failure');
     }
 
-    doc.addImage(revenueProfitChart, 'PNG', margin, y, 90, 60);
-    y += 70;
-
-    if (y + 60 > pageHeight - margin) {
-      doc.addPage();
-      y = margin;
+    if (growthChurnChart) {
+      if (y + 60 > pageHeight - margin) {
+        doc.addPage();
+        y = margin;
+      }
+      doc.addImage(growthChurnChart, 'PNG', margin, y, 90, 60);
+      y += 70;
+    } else {
+      console.warn('Skipping Growth-Churn chart in PDF due to rendering failure');
     }
 
-    doc.addImage(growthChurnChart, 'PNG', margin, y, 90, 60);
-    y += 70;
-
-    if (y + 60 > pageHeight - margin) {
-      doc.addPage();
-      y = margin;
+    if (customerMetricsChart) {
+      if (y + 60 > pageHeight - margin) {
+        doc.addPage();
+        y = margin;
+      }
+      doc.addImage(customerMetricsChart, 'PNG', margin, y, 90, 60);
+      y += 70;
+    } else {
+      console.warn('Skipping Customer-Metrics chart in PDF due to rendering failure');
     }
-
-    doc.addImage(customerMetricsChart, 'PNG', margin, y, 90, 60);
-    y += 70;
 
     doc.save('saas-valuation-report.pdf');
 
-    // Formspree submission with enhanced debugging
+    // Formspree submission
     const formData = new FormData();
     formData.append('arr', arr.toString());
     formData.append('gross_margin', grossMargin.toString());
@@ -1704,7 +1704,7 @@ document.getElementById('download-pdf').addEventListener('click', async () => {
         headers: { 'Accept': 'application/json' }
       });
 
-      const responseBody = await response.text(); // Get the response body for debugging
+      const responseBody = await response.text();
       console.log('Formspree response status:', response.status);
       console.log('Formspree response body:', responseBody);
 
