@@ -1056,14 +1056,14 @@
 <!-- STEP 11/15 END: Paste this after the valuation form from Step 10 -->
 <!-- STEP 12/15 START: JavaScript - Step Navigation and Validation (Steps 0–7) -->
 <script>
-// Step 1: Store Chart Instances
+	// Step 1: Store Chart Instances
 const charts = {
   valuation: null,
   revenueProfit: null,
   growthChurn: null,
   customerMetrics: null
 };
-
+	
 // Mobile menu toggle
 document.getElementById('menu-toggle').addEventListener('click', () => {
   const mobileMenu = document.getElementById('mobile-menu');
@@ -1073,54 +1073,157 @@ document.getElementById('menu-toggle').addEventListener('click', () => {
 // Form navigation and validation
 const steps = document.querySelectorAll('.step');
 const progressFill = document.getElementById('progress-fill');
+const currentStepDisplay = document.getElementById('current-step');
+let currentStep = 0;
+
+function updateProgress() {
+  const progressPercent = ((currentStep + 1) / 8) * 100;
+  progressFill.style.width = `${progressPercent}%`;
+  currentStepDisplay.textContent = currentStep + 1;
+}
 
 function showStep(stepIndex) {
   steps.forEach((step, index) => {
-    step.classList.toggle('hidden', index !== stepIndex);
+    step.classList.toggle('step-visible', index === stepIndex);
+    step.classList.toggle('step-hidden', index !== stepIndex);
   });
-  const progress = (stepIndex / (steps.length - 1)) * 100;
-  progressFill.style.width = `${progress}%`;
+  currentStep = stepIndex;
+  updateProgress();
 }
 
 function validateStep(stepIndex) {
-  const step = steps[stepIndex];
-  const inputs = step.querySelectorAll('input[required]');
   let isValid = true;
+  const step = steps[stepIndex];
+  const errorMessages = step.querySelectorAll('[id$="-error"]');
+  errorMessages.forEach(msg => msg.classList.add('hidden'));
 
-  inputs.forEach(input => {
-    if (!input.value.trim()) {
+  if (stepIndex === 0) {
+    const saasType = document.getElementById('saas-type').value;
+    if (!saasType) {
+      document.getElementById('saas-type-error').classList.remove('hidden');
       isValid = false;
-      input.classList.add('border-red-500');
-      input.nextElementSibling.classList.remove('hidden');
-    } else {
-      input.classList.remove('border-red-500');
-      input.classList.add('border-green-500');
-      input.nextElementSibling.classList.add('hidden');
     }
-  });
+  } else if (stepIndex === 1) {
+    const companyName = document.getElementById('company-name').value.trim();
+    const companyWebsite = document.getElementById('company-website').value.trim();
+    const companyEmail = document.getElementById('company-email').value.trim();
+    const urlPattern = /^(https?:\/\/)?([\w-]+\.)+[\w-]+(\/[\w-./?%&=]*)?$/i;
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
+    if (!companyName || companyName.length < 2) {
+      document.getElementById('company-name-error').classList.remove('hidden');
+      isValid = false;
+    }
+    if (!companyWebsite || !urlPattern.test(companyWebsite)) {
+      document.getElementById('company-website-error').classList.remove('hidden');
+      isValid = false;
+    }
+    if (!companyEmail || !emailPattern.test(companyEmail)) {
+      document.getElementById('company-email-error').classList.remove('hidden');
+      isValid = false;
+    }
+    const methods = document.querySelectorAll('input[type="checkbox"]:checked');
+    if (methods.length < 1 || methods.length > 3) {
+      document.getElementById('method-error').classList.remove('hidden');
+      isValid = false;
+    }
+  } else if (stepIndex === 2) {
+    const inputs = step.querySelectorAll('input[type="number"]');
+    inputs.forEach(input => {
+      const value = parseFloat(input.value);
+      if (isNaN(value) || value < 0 || (input.id === 'gross-margin' && value > 100)) {
+        document.getElementById(`${input.id}-error`).classList.remove('hidden');
+        isValid = false;
+      }
+    });
+  } else if (stepIndex === 3) {
+    const inputs = step.querySelectorAll('input[type="number"]');
+    inputs.forEach(input => {
+      const value = parseFloat(input.value);
+      if (isNaN(value) || value < 0 || ((input.id === 'customer-churn' || input.id === 'revenue-churn') && value > 100)) {
+        document.getElementById(`${input.id}-error`).classList.remove('hidden');
+        isValid = false;
+      }
+    });
+  } else if (stepIndex === 4) {
+    const totalCustomers = parseFloat(document.getElementById('total-customers').value);
+    const retentionRate = parseFloat(document.getElementById('retention-rate').value);
+    const nps = parseFloat(document.getElementById('nps').value);
+    const marketSegment = document.getElementById('market-segment').value;
+    const buyerType = document.getElementById('buyer-type').value;
+
+    if (isNaN(totalCustomers) || totalCustomers < 0) {
+      document.getElementById('total-customers-error').classList.remove('hidden');
+      isValid = false;
+    }
+    if (isNaN(retentionRate) || retentionRate < 0 || retentionRate > 100) {
+      document.getElementById('retention-rate-error').classList.remove('hidden');
+      isValid = false;
+    }
+    if (isNaN(nps) || nps < -100 || nps > 100) {
+      document.getElementById('nps-error').classList.remove('hidden');
+      isValid = false;
+    }
+    if (!marketSegment) {
+      document.getElementById('market-segment-error').classList.remove('hidden');
+      isValid = false;
+    }
+    if (!buyerType) {
+      document.getElementById('buyer-type-error').classList.remove('hidden');
+      isValid = false;
+    }
+  } else if (stepIndex === 5 || stepIndex === 6 || stepIndex === 7) {
+    const selects = step.querySelectorAll('select');
+    const inputs = step.querySelectorAll('input[type="number"]');
+    selects.forEach(select => {
+      if (!select.value) {
+        document.getElementById(`${select.id}-error`).classList.remove('hidden');
+        isValid = false;
+      }
+    });
+    inputs.forEach(input => {
+      const value = parseFloat(input.value);
+      if (isNaN(value) || value < 0) { // Simplified for Step 7 (only debt)
+        document.getElementById(`${input.id}-error`).classList.remove('hidden');
+        isValid = false;
+      }
+    });
+  }
+
+  // Show general error for Step 7 if validation fails
+  if (!isValid && stepIndex === 7) {
+    const generalError = document.getElementById('legal-risk-error');
+    if (generalError) {
+      generalError.classList.remove('hidden');
+    }
+  }
+
+  console.log(`Validating Step ${stepIndex}: ${isValid ? 'Valid' : 'Invalid'}`);
   return isValid;
 }
 
+// Event listeners for navigation buttons
 document.querySelectorAll('[id^="next-btn-"]').forEach(btn => {
   btn.addEventListener('click', () => {
     const stepIndex = parseInt(btn.id.split('-')[2]);
+    console.log(`Next button clicked for Step ${stepIndex}`);
     if (validateStep(stepIndex)) {
       if (stepIndex < steps.length - 1) {
+        console.log(`Moving to Step ${stepIndex + 1}`);
         showStep(stepIndex + 1);
       } else {
+        console.log('Submitting form and showing results');
         try {
-          // Destroy existing charts before recalculation
-          Object.values(charts).forEach(chart => chart?.destroy());
           calculateValuation();
           document.getElementById('results').classList.remove('hidden');
           document.getElementById('pro-valuation').classList.add('hidden');
           window.scrollTo(0, document.getElementById('results').offsetTop);
         } catch (error) {
-          console.error('Error during form submission:', error);
-          alert('Failed to calculate valuation. Please check the console for details and ensure all inputs are valid.');
+          console.error('Error in form submission:', error);
         }
       }
+    } else {
+      console.log(`Validation failed for Step ${stepIndex}`);
     }
   });
 });
@@ -1128,9 +1231,13 @@ document.querySelectorAll('[id^="next-btn-"]').forEach(btn => {
 document.querySelectorAll('[id^="prev-btn-"]').forEach(btn => {
   btn.addEventListener('click', () => {
     const stepIndex = parseInt(btn.id.split('-')[2]);
+    console.log(`Previous button clicked for Step ${stepIndex}`);
     showStep(stepIndex - 1);
   });
 });
+
+// Initialize form
+showStep(0);
 </script>
 <!-- STEP 12/15 END: Paste this after the hidden chart canvases from Step 11 -->
 <!-- STEP 13/15 START: JavaScript - Chart Generation with Chart.js -->
