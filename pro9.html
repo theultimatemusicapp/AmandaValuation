@@ -1408,212 +1408,317 @@ function createCustomerMetricsChart(totalCustomers, retentionRate, nps) {
 }
 </script>
 <!-- STEP 13/15 END: Paste this after the step navigation JavaScript from Step 12 -->
-<!-- STEP 14/15 START: JavaScript - PDF Generation and Formspree Submission -->
+<!-- STEP 14/15 START: JavaScript - Valuation Calculation and PDF Generation -->
 <script>
-// Valuation calculation (unchanged from original)
 function calculateValuation() {
   const arr = parseFloat(document.getElementById('arr').value) || 0;
+  const grossMargin = parseFloat(document.getElementById('gross-margin').value) || 0;
   const netProfit = parseFloat(document.getElementById('net-profit').value) || 0;
   const yoyGrowth = parseFloat(document.getElementById('yoy-growth').value) || 0;
+  const momGrowth = parseFloat(document.getElementById('mom-growth').value) || 0;
   const customerChurn = parseFloat(document.getElementById('customer-churn').value) || 0;
   const revenueChurn = parseFloat(document.getElementById('revenue-churn').value) || 0;
-  const momGrowth = parseFloat(document.getElementById('mom-growth').value) || 0;
   const totalCustomers = parseFloat(document.getElementById('total-customers').value) || 0;
   const retentionRate = parseFloat(document.getElementById('retention-rate').value) || 0;
   const nps = parseFloat(document.getElementById('nps').value) || 0;
-  const methods = Array.from(document.querySelectorAll('input[type="checkbox"]:checked')).map(input => input.value);
 
-  let valuations = {};
-  let multiplier = 5; // Base multiplier
-  if (yoyGrowth > 20) multiplier += 1;
-  if (customerChurn < 5) multiplier += 0.5;
-  if (retentionRate > 80) multiplier += 0.5;
+  const revenueMultiple = 5;
+  const profitMultiple = 10;
+  const growthAdjustment = (yoyGrowth + momGrowth) / 200;
+  const churnAdjustment = (customerChurn + revenueChurn) / 200;
 
-  if (methods.includes('multiplier')) {
-    valuations['Revenue Multiplier'] = arr * multiplier;
-  }
-  if (methods.includes('income')) {
-    valuations['Income-Based'] = netProfit * 5;
-  }
-  if (methods.includes('earnings')) {
-    valuations['Earnings-Based'] = (arr + netProfit) * 0.75;
-  }
-  if (methods.includes('dcf')) {
-    const growthFactor = 1 + (yoyGrowth / 100);
-    const futureCashFlow = arr * growthFactor * 5;
-    valuations['DCF'] = futureCashFlow / 1.1;
-  }
+  const revenueValuation = arr * revenueMultiple * (1 + growthAdjustment - churnAdjustment);
+  const profitValuation = netProfit * profitMultiple * (1 + growthAdjustment - churnAdjustment);
+  const customerValuation = totalCustomers * 1000 * (retentionRate / 100) * (nps / 100);
+  const marginAdjustedValuation = (revenueValuation + profitValuation) * (grossMargin / 100);
 
-  const averageValuation = Object.values(valuations).length
-    ? Object.values(valuations).reduce((sum, val) => sum + val, 0) / Object.values(valuations).length
-    : 0;
+  const valuations = {
+    'RevenueValuation': revenueValuation,
+    'ProfitValuation': profitValuation,
+    'CustomerValuation': customerValuation,
+    'MarginAdjustedValuation': marginAdjustedValuation
+  };
 
-  document.getElementById('valuation-amount').textContent = `$${Math.round(averageValuation).toLocaleString()}`;
-  document.getElementById('valuation-details').innerHTML = `
-    <p><strong>Valuation Methods Used:</strong> ${Object.keys(valuations).join(', ')}</p>
-    <p><strong>Key Metrics:</strong></p>
-    <ul class="list-disc pl-5">
-      <li>ARR: $${arr.toLocaleString()}</li>
-      <li>Net Profit: $${netProfit.toLocaleString()}</li>
-      <li>YoY Growth: ${yoyGrowth}%</li>
-      <li>Customer Churn: ${customerChurn}%</li>
-    </ul>
-  `;
+  document.getElementById('revenue-valuation').textContent = `$${Math.round(revenueValuation).toLocaleString()}`;
+  document.getElementById('profit-valuation').textContent = `$${Math.round(profitValuation).toLocaleString()}`;
+  document.getElementById('customer-valuation').textContent = `$${Math.round(customerValuation).toLocaleString()}`;
+  document.getElementById('margin-adjusted-valuation').textContent = `$${Math.round(marginAdjustedValuation).toLocaleString()}`;
 
   createValuationChart(valuations);
   createRevenueProfitChart(arr, netProfit);
   createGrowthChurnChart(yoyGrowth, momGrowth, customerChurn, revenueChurn);
   createCustomerMetricsChart(totalCustomers, retentionRate, nps);
 
-  return { averageValuation, valuations, arr, netProfit, yoyGrowth, momGrowth, customerChurn, revenueChurn, totalCustomers, retentionRate, nps };
+  return {
+    arr,
+    grossMargin,
+    netProfit,
+    yoyGrowth,
+    momGrowth,
+    customerChurn,
+    revenueChurn,
+    totalCustomers,
+    retentionRate,
+    nps,
+    revenueValuation,
+    profitValuation,
+    customerValuation,
+    marginAdjustedValuation,
+    growthAdjustment,
+    churnAdjustment
+  };
 }
 
-// PDF generation
 document.getElementById('download-pdf').addEventListener('click', async () => {
   console.log('Download PDF button clicked');
   try {
-    // Check if jsPDF is loaded
-    if (!window.jspdf || !window.jspdf.jsPDF) {
-      console.error('jsPDF not loaded');
-      alert('PDF generation failed: jsPDF library not loaded. Please check your internet connection and try again.');
-      return;
-    }
+    const calculations = calculateValuation();
+
+    const {
+      arr,
+      grossMargin,
+      netProfit,
+      yoyGrowth,
+      momGrowth,
+      customerChurn,
+      revenueChurn,
+      totalCustomers,
+      retentionRate,
+      nps,
+      revenueValuation,
+      profitValuation,
+      customerValuation,
+      marginAdjustedValuation,
+      growthAdjustment,
+      churnAdjustment
+    } = calculations;
+
+    const valuationChart = document.getElementById('valuation-chart').toDataURL('image/png');
+    const revenueProfitChart = document.getElementById('revenue-profit-chart').toDataURL('image/png');
+    const growthChurnChart = document.getElementById('growth-churn-chart').toDataURL('image/png');
+    const customerMetricsChart = document.getElementById('customer-metrics-chart').toDataURL('image/png');
 
     const { jsPDF } = window.jspdf;
     const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
-    const pageWidth = doc.internal.pageSize.width;
+
+    const pageWidth = doc.internal.pageSize.getWidth();
+    const pageHeight = doc.internal.pageSize.getHeight();
     const margin = 10;
-    let y = 10;
+    let y = margin;
 
-    // Company info
-    const companyName = document.getElementById('company-name').value.trim() || 'Unknown Company';
-    const companyWebsite = document.getElementById('company-website').value.trim() || 'N/A';
-    const companyEmail = document.getElementById('company-email').value.trim() || 'N/A';
-    console.log('Company info:', { companyName, companyWebsite, companyEmail });
     doc.setFontSize(16);
-    doc.text('SaaS Valuation Report', margin, y);
+    doc.setTextColor('#1a202c');
+    doc.text('SaaS Valuation Report', pageWidth / 2, y, { align: 'center' });
     y += 10;
+
     doc.setFontSize(12);
-    doc.text(`Company: ${companyName}`, margin, y);
-    y += 7;
-    doc.text(`Website: ${companyWebsite}`, margin, y);
-    y += 7;
-    doc.text(`Email: ${companyEmail}`, margin, y);
-    y += 10;
+    doc.text('Input Data Used for Valuation', margin, y);
+    y += 5;
 
-    // Valuation summary
-    const valuationData = calculateValuation();
-    console.log('Valuation data:', valuationData);
-    doc.setFontSize(14);
-    doc.text('Valuation Summary', margin, y);
-    y += 7;
-    doc.setFontSize(12);
-    doc.text(`Average Valuation: $${Math.round(valuationData.averageValuation).toLocaleString()}`, margin, y);
-    y += 10;
+    const formDataTable = [
+      ['Annual Recurring Revenue (ARR)', `$${parseFloat(arr).toLocaleString()}`],
+      ['Gross Margin', `${grossMargin}%`],
+      ['Net Profit', `$${parseFloat(netProfit).toLocaleString()}`],
+      ['Year-over-Year Growth (YoY)', `${yoyGrowth}%`],
+      ['Month-over-Month Growth (MoM)', `${momGrowth}%`],
+      ['Customer Churn Rate', `${customerChurn}%`],
+      ['Revenue Churn Rate', `${revenueChurn}%`],
+      ['Total Customers', parseFloat(totalCustomers).toLocaleString()],
+      ['Retention Rate', `${retentionRate}%`],
+      ['Net Promoter Score (NPS)', nps]
+    ];
 
-    // Valuation chart
-    const valuationChartCanvas = document.getElementById('valuation-chart');
-    if (!valuationChartCanvas) {
-      console.error('Valuation chart canvas not found');
-      throw new Error('Valuation chart canvas missing');
-    }
-    const valuationChart = valuationChartCanvas.toDataURL('image/png');
-    console.log('Valuation chart data URL generated');
-    doc.addImage(valuationChart, 'PNG', margin, y, 90, 60);
-    y += 70;
-
-    // Financial metrics table
     doc.autoTable({
       startY: y,
       head: [['Metric', 'Value']],
-      body: [
-        ['ARR', `$${valuationData.arr.toLocaleString()}`],
-        ['Net Profit', `$${valuationData.netProfit.toLocaleString()}`],
-        ['Gross Margin', `${document.getElementById('gross-margin').value || 0}%`],
-        ['Monthly Burn Rate', `$${document.getElementById('burn-rate').value || 0}`],
-        ['Runway', `${document.getElementById('runway').value || 0} months`],
-      ],
-      theme: 'grid',
-      styles: { fontSize: 10, cellPadding: 2 },
-      headStyles: { fillColor: '#38b2ac', textColor: '#ffffff' },
+      body: formDataTable,
+      theme: 'striped',
+      headStyles: { fillColor: '#2b6cb0', textColor: '#ffffff' },
+      bodyStyles: { textColor: '#1a202c' },
+      alternateRowStyles: { fillColor: '#edf2f7' }
     });
+
     y = doc.lastAutoTable.finalY + 10;
 
-    // Revenue vs. profit chart
-    const revenueProfitChart = document.getElementById('revenue-profit-chart').toDataURL('image/png');
-    console.log('Revenue-profit chart data URL generated');
+    doc.setFontSize(12);
+    doc.text('Valuation Results', margin, y);
+    y += 5;
+
+    const valuationsTable = [
+      ['Revenue Valuation', `$${Math.round(revenueValuation).toLocaleString()}`],
+      ['Profit Valuation', `$${Math.round(profitValuation).toLocaleString()}`],
+      ['Customer Valuation', `$${Math.round(customerValuation).toLocaleString()}`],
+      ['Margin-Adjusted Valuation', `$${Math.round(marginAdjustedValuation).toLocaleString()}`]
+    ];
+
+    doc.autoTable({
+      startY: y,
+      head: [['Valuation Type', 'Value']],
+      body: valuationsTable,
+      theme: 'striped',
+      headStyles: { fillColor: '#2b6cb0', textColor: '#ffffff' },
+      bodyStyles: { textColor: '#1a202c' },
+      alternateRowStyles: { fillColor: '#edf2f7' }
+    });
+
+    y = doc.lastAutoTable.finalY + 10;
+
+    if (y + 50 > pageHeight - margin) {
+      doc.addPage();
+      y = margin;
+    }
+
+    doc.setFontSize(12);
+    doc.text('Why You Got This Valuation', margin, y);
+    y += 5;
+
+    doc.setFontSize(10);
+    let explanationText = [
+      'This valuation was calculated using four methods, adjusted based on your inputs:',
+      '',
+      '1. Revenue Valuation: Based on your Annual Recurring Revenue (ARR) multiplied by a revenue multiple of 5, adjusted for growth and churn rates.',
+      `   - Your ARR of $${parseFloat(arr).toLocaleString()} resulted in a base valuation of $${Math.round(arr * 5).toLocaleString()}.`,
+      `   - Growth Adjustment: +${(growthAdjustment * 100).toFixed(1)}% (YoY Growth: ${yoyGrowth}%, MoM Growth: ${momGrowth}%)`,
+      `   - Churn Adjustment: -${(churnAdjustment * 100).toFixed(1)}% (Customer Churn: ${customerChurn}%, Revenue Churn: ${revenueChurn}%)`,
+      `   - Final Revenue Valuation: $${Math.round(revenueValuation).toLocaleString()}`,
+      '',
+      '2. Profit Valuation: Based on your Net Profit multiplied by a profit multiple of 10, adjusted for growth and churn rates.',
+      `   - Your Net Profit of $${parseFloat(netProfit).toLocaleString()} resulted in a base valuation of $${Math.round(netProfit * 10).toLocaleString()}.`,
+      `   - Adjusted by the same growth and churn factors as above.`,
+      `   - Final Profit Valuation: $${Math.round(profitValuation).toLocaleString()}`,
+      '',
+      '3. Customer Valuation: Based on Total Customers, Retention Rate, and NPS.',
+      `   - Formula: Total Customers (${parseFloat(totalCustomers).toLocaleString()}) × $1,000 × (Retention Rate: ${retentionRate}% / 100) × (NPS: ${nps} / 100)`,
+      `   - Final Customer Valuation: $${Math.round(customerValuation).toLocaleString()}`,
+      '',
+      '4. Margin-Adjusted Valuation: Combines Revenue and Profit Valuations, adjusted by your Gross Margin.',
+      `   - Formula: (Revenue Valuation + Profit Valuation) × (Gross Margin: ${grossMargin}% / 100)`,
+      `   - Final Margin-Adjusted Valuation: $${Math.round(marginAdjustedValuation).toLocaleString()}`,
+      ''
+    ];
+
+    let insights = [];
+    if (arr < 100000) {
+      insights.push('• Your ARR is relatively low. Increasing recurring revenue through new customer acquisition or upselling could significantly boost your valuation.');
+    } else if (arr > 1000000) {
+      insights.push('• Your high ARR strengthens your Revenue Valuation. Continue focusing on sustainable growth to maintain this strength.');
+    }
+
+    if (grossMargin < 50) {
+      insights.push('• Your Gross Margin is below 50%. Improving operational efficiency or raising prices could increase your Margin-Adjusted Valuation.');
+    } else if (grossMargin > 80) {
+      insights.push('• Your high Gross Margin positively impacts your Margin-Adjusted Valuation. This is a strong point for potential buyers.');
+    }
+
+    if (customerChurn > 10 || revenueChurn > 10) {
+      insights.push('• High churn rates (Customer Churn: ' + customerChurn + '%, Revenue Churn: ' + revenueChurn + '%) are negatively impacting your valuation. Focus on customer retention strategies to improve your score.');
+    } else if (customerChurn < 5 && revenueChurn < 5) {
+      insights.push('• Low churn rates (Customer Churn: ' + customerChurn + '%, Revenue Churn: ' + revenueChurn + '%) are a strong positive factor in your valuation. This indicates good customer satisfaction and stability.');
+    }
+
+    if (yoyGrowth > 20 || momGrowth > 5) {
+      insights.push('• Strong growth rates (YoY: ' + yoyGrowth + '%, MoM: ' + momGrowth + '%) are boosting your valuation. This signals a healthy, growing business to potential buyers.');
+    } else if (yoyGrowth < 10 && momGrowth < 2) {
+      insights.push('• Growth rates (YoY: ' + yoyGrowth + '%, MoM: ' + momGrowth + '%) are relatively low. Accelerating growth through marketing or product expansion could improve your valuation.');
+    }
+
+    if (retentionRate < 70) {
+      insights.push('• A Retention Rate of ' + retentionRate + '% is below average. Improving customer retention could enhance your Customer Valuation.');
+    }
+
+    if (nps < 30) {
+      insights.push('• An NPS of ' + nps + ' is below the industry benchmark. Improving customer satisfaction could increase your Customer Valuation.');
+    }
+
+    explanationText.push('Key Insights for Improving Your Valuation:');
+    explanationText = explanationText.concat(insights);
+
+    doc.text(explanationText, margin, y, { maxWidth: pageWidth - 2 * margin });
+    y += (explanationText.length * 5) + 10;
+
+    if (y + 60 > pageHeight - margin) {
+      doc.addPage();
+      y = margin;
+    }
+
+    doc.addImage(valuationChart, 'PNG', margin, y, 90, 60);
+    y += 70;
+
+    if (y + 60 > pageHeight - margin) {
+      doc.addPage();
+      y = margin;
+    }
+
     doc.addImage(revenueProfitChart, 'PNG', margin, y, 90, 60);
     y += 70;
 
-    // Growth and churn chart
-    const growthChurnChart = document.getElementById('growth-churn-chart').toDataURL('image/png');
-    console.log('Growth-churn chart data URL generated');
-    doc.addImage(growthChurnChart, 'PNG', margin, y, 90, 60);
-    y += 70;
-    if (y > 250) {
+    if (y + 60 > pageHeight - margin) {
       doc.addPage();
-      y = 10;
+      y = margin;
     }
 
-    // Customer metrics chart
-    const customerMetricsChart = document.getElementById('customer-metrics-chart').toDataURL('image/png');
-    console.log('Customer metrics chart data URL generated');
+    doc.addImage(growthChurnChart, 'PNG', margin, y, 90, 60);
+    y += 70;
+
+    if (y + 60 > pageHeight - margin) {
+      doc.addPage();
+      y = margin;
+    }
+
     doc.addImage(customerMetricsChart, 'PNG', margin, y, 90, 60);
     y += 70;
 
-    // Definitions section
-    doc.setFontSize(14);
-    doc.text('Key Definitions', margin, y);
-    y += 7;
-    doc.setFontSize(10);
-    const definitions = [
-      ['ARR', 'Annual Recurring Revenue: Total subscription revenue per year.'],
-      ['MRR', 'Monthly Recurring Revenue: Total subscription revenue per month.'],
-      ['LTV', 'Customer Lifetime Value: Total revenue expected from a customer.'],
-      ['CAC', 'Customer Acquisition Cost: Cost to acquire a new customer.'],
-      ['Gross Margin', 'Revenue after direct costs, as a percentage.'],
-      ['Net Profit', 'Revenue after all expenses (EBITDA).'],
-      ['Churn Rate', 'Percentage of customers or revenue lost monthly.'],
-      ['NPS', 'Net Promoter Score: Measure of customer satisfaction (-100 to 100).'],
-    ];
-    doc.autoTable({
-      startY: y,
-      head: [['Term', 'Definition']],
-      body: definitions,
-      theme: 'grid',
-      styles: { fontSize: 8, cellPadding: 2 },
-      headStyles: { fillColor: '#38b2ac', textColor: '#ffffff' },
-    });
-    y = doc.lastAutoTable.finalY + 10;
+    doc.save('saas-valuation-report.pdf');
 
-    // Disclaimer
-    doc.setFontSize(10);
-    doc.text('Disclaimer', margin, y);
-    y += 5;
-    const disclaimer = 'This valuation is based on user-provided data and industry-standard methods. SaaSVal holds no responsibility for inaccuracies or decisions made based on this report. Consult a professional advisor for financial decisions.';
-    doc.text(doc.splitTextToSize(disclaimer, pageWidth - 2 * margin), margin, y);
-    y += 20;
-
-    // Save PDF
-    console.log('Saving PDF');
-    doc.save(`${companyName}_SaaS_Valuation_Report.pdf`);
-
-    // Submit to Formspree
-    console.log('Submitting to Formspree');
+    // Formspree submission with enhanced debugging
     const formData = new FormData();
-    formData.append('Company Name', companyName);
-    formData.append('Company Website', companyWebsite);
-    formData.append('Company Email', companyEmail);
-    formData.append('Valuation Result', `$${Math.round(valuationData.averageValuation).toLocaleString()}`);
+    formData.append('arr', arr.toString());
+    formData.append('gross_margin', grossMargin.toString());
+    formData.append('net_profit', netProfit.toString());
+    formData.append('yoy_growth', yoyGrowth.toString());
+    formData.append('mom_growth', momGrowth.toString());
+    formData.append('customer_churn', customerChurn.toString());
+    formData.append('revenue_churn', revenueChurn.toString());
+    formData.append('total_customers', totalCustomers.toString());
+    formData.append('retention_rate', retentionRate.toString());
+    formData.append('nps', nps.toString());
+
+    console.log('Preparing to submit to Formspree...');
+    console.log('Form data:', {
+      arr: arr.toString(),
+      gross_margin: grossMargin.toString(),
+      net_profit: netProfit.toString(),
+      yoy_growth: yoyGrowth.toString(),
+      mom_growth: momGrowth.toString(),
+      customer_churn: customerChurn.toString(),
+      revenue_churn: revenueChurn.toString(),
+      total_customers: totalCustomers.toString(),
+      retention_rate: retentionRate.toString(),
+      nps: nps.toString()
+    });
+
     try {
       const response = await fetch('https://formspree.io/f/mnnnoogg', {
         method: 'POST',
         body: formData,
-        headers: { 'Accept': 'application/json' },
+        headers: { 'Accept': 'application/json' }
       });
-      console.log('Formspree response:', response.ok ? 'Success' : 'Failed');
+
+      const responseBody = await response.text(); // Get the response body for debugging
+      console.log('Formspree response status:', response.status);
+      console.log('Formspree response body:', responseBody);
+
+      if (response.ok) {
+        console.log('Formspree submission successful');
+        alert('Your valuation data has been submitted successfully!');
+      } else {
+        console.error('Formspree submission failed with status:', response.status);
+        console.error('Response body:', responseBody);
+        alert(`Formspree submission failed with status ${response.status}. Check the console for details. Possible reasons: invalid project ID, rate limit exceeded, or server error.`);
+      }
     } catch (error) {
-      console.error('Formspree submission failed:', error);
+      console.error('Formspree submission error:', error.message);
+      alert(`An error occurred while submitting to Formspree: ${error.message}. Check the console for details. Make sure you're testing on a live server (not file://).`);
     }
   } catch (error) {
     console.error('PDF generation failed:', error);
