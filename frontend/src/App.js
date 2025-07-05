@@ -426,19 +426,43 @@ function App() {
 }
 
 // Header Component
-const Header = ({ mobileMenuOpen, toggleMobileMenu }) => (
+const Header = ({ mobileMenuOpen, toggleMobileMenu, currentPage, setCurrentPage }) => (
   <header className="bg-gray-800 text-white py-3 sticky top-0 z-50 shadow-lg">
     <div className="container mx-auto px-4 flex justify-between items-center">
-      <div className="flex items-center">
+      <div className="flex items-center cursor-pointer" onClick={() => setCurrentPage('home')}>
         <i className="fas fa-chart-line text-teal-400 mr-2 text-xl"></i>
         <div className="text-xl font-bold">
           SaaS<span className="text-teal-400">Val</span>
         </div>
       </div>
       <nav className="hidden md:flex space-x-6">
-        <a href="#valuation" className="hover:text-teal-400 transition-colors duration-300">Valuation</a>
-        <a href="#features" className="hover:text-teal-400 transition-colors duration-300">Features</a>
-        <a href="#how-it-works" className="hover:text-teal-400 transition-colors duration-300">How It Works</a>
+        <a 
+          href="#valuation" 
+          className="hover:text-teal-400 transition-colors duration-300"
+          onClick={() => setCurrentPage('home')}
+        >
+          Valuation
+        </a>
+        <a 
+          href="#features" 
+          className="hover:text-teal-400 transition-colors duration-300"
+          onClick={() => setCurrentPage('home')}
+        >
+          Features
+        </a>
+        <a 
+          href="#pricing" 
+          className="hover:text-teal-400 transition-colors duration-300"
+          onClick={() => setCurrentPage('home')}
+        >
+          Pricing
+        </a>
+        <button 
+          onClick={() => setCurrentPage('blog')}
+          className={`hover:text-teal-400 transition-colors duration-300 ${currentPage === 'blog' ? 'text-teal-400' : ''}`}
+        >
+          Blog
+        </button>
       </nav>
       <button 
         onClick={toggleMobileMenu}
@@ -451,9 +475,33 @@ const Header = ({ mobileMenuOpen, toggleMobileMenu }) => (
     {mobileMenuOpen && (
       <div className="md:hidden px-4 pb-4 bg-gray-700">
         <nav className="flex flex-col space-y-2 mt-3">
-          <a href="#valuation" className="block py-2 hover:text-teal-400 transition-colors duration-300">Valuation</a>
-          <a href="#features" className="block py-2 hover:text-teal-400 transition-colors duration-300">Features</a>
-          <a href="#how-it-works" className="block py-2 hover:text-teal-400 transition-colors duration-300">How It Works</a>
+          <a 
+            href="#valuation" 
+            className="block py-2 hover:text-teal-400 transition-colors duration-300"
+            onClick={() => { setCurrentPage('home'); toggleMobileMenu(); }}
+          >
+            Valuation
+          </a>
+          <a 
+            href="#features" 
+            className="block py-2 hover:text-teal-400 transition-colors duration-300"
+            onClick={() => { setCurrentPage('home'); toggleMobileMenu(); }}
+          >
+            Features
+          </a>
+          <a 
+            href="#pricing" 
+            className="block py-2 hover:text-teal-400 transition-colors duration-300"
+            onClick={() => { setCurrentPage('home'); toggleMobileMenu(); }}
+          >
+            Pricing
+          </a>
+          <button 
+            onClick={() => { setCurrentPage('blog'); toggleMobileMenu(); }}
+            className="block py-2 hover:text-teal-400 transition-colors duration-300 text-left"
+          >
+            Blog
+          </button>
         </nav>
       </div>
     )}
