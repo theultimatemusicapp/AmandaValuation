@@ -17,19 +17,6 @@ import {
 import { BlogSection, BlogPage } from './components/BlogSection';
 import { BlogPost1, BlogPost2, BlogPost3 } from './components/BlogPosts';
 
-const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
-const API = `${BACKEND_URL}/api`;
-
-// Main App Component
-function App() {
-  const [currentPage, setCurrentPage] = useState('home'); // 'home', 'pro', 'blog', 'blog-post-1', etc.
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-
-  // Mobile menu toggle
-  const toggleMobileMenu = () => {
-    setMobileMenuOpen(!mobileMenuOpen);
-  };
-
 // Header Component
 const Header = ({ mobileMenuOpen, toggleMobileMenu, currentPage, setCurrentPage }) => (
   <header className="bg-gray-800 text-white py-3 sticky top-0 z-50 shadow-lg">
