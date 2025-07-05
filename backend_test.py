@@ -350,7 +350,7 @@ class SaaSValuationAPITester:
 
 def main():
     # Get the backend URL from the environment
-    backend_url = "https://5b31e80a-f2e1-49d7-8a8c-13650ab38ae3.preview.emergentagent.com"
+    backend_url = "https://946616a4-5b70-4d71-86cd-9c536a3a9770.preview.emergentagent.com"
     
     # Create the tester
     tester = SaaSValuationAPITester(backend_url)
