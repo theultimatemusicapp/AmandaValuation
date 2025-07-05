@@ -508,33 +508,4 @@ const Header = ({ mobileMenuOpen, toggleMobileMenu, currentPage, setCurrentPage 
   </header>
 );
 
-// Hero Section
-const HeroSection = () => (
-  <section className="bg-gradient-to-br from-teal-500 to-gray-800 text-white py-20">
-    <div className="container mx-auto px-4 text-center max-w-4xl">
-      <h1 className="text-4xl md:text-5xl font-bold mb-6 leading-tight">
-        Professional SaaS Business Valuation <br />
-        <span className="text-teal-300">Powered by Real Metrics</span>
-      </h1>
-      <p className="text-xl md:text-2xl opacity-90 mb-8 max-w-3xl mx-auto">
-        Get an accurate, data-driven valuation of your SaaS business with our comprehensive evaluation tool.
-      </p>
-      <div className="flex flex-col sm:flex-row justify-center gap-4">
-        <a 
-          href="#valuation" 
-          className="bg-teal-500 hover:bg-teal-600 text-white font-bold py-3 px-8 rounded-lg transition-colors duration-300 text-lg"
-        >
-          <i className="fas fa-calculator mr-2"></i> Start Valuation
-        </a>
-        <a 
-          href="#how-it-works" 
-          className="bg-white text-gray-800 hover:bg-gray-100 font-bold py-3 px-8 rounded-lg transition-colors duration-300 text-lg"
-        >
-          <i className="fas fa-play-circle mr-2"></i> How It Works
-        </a>
-      </div>
-    </div>
-  </section>
-);
-
 export default App;
