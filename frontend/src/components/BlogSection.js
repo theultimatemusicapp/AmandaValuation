@@ -1,7 +1,7 @@
 import React from 'react';
 
 // Blog Landing Component
-export const BlogSection = () => (
+export const BlogSection = ({ setCurrentPage }) => (
   <section className="py-16 bg-gray-50">
     <div className="container mx-auto px-6">
       <div className="text-center mb-12">
@@ -20,28 +20,28 @@ export const BlogSection = () => (
           <p className="text-gray-600 mb-6">
             Learn key valuation methods and metrics for SaaS businesses, with insights on market trends and strategies to boost value.
           </p>
-          <a 
-            href="/blog/how-to-value-saas" 
+          <button 
+            onClick={() => setCurrentPage('blog-post-1')}
             className="bg-teal-500 hover:bg-teal-600 text-white font-bold py-2 px-4 rounded-lg transition-colors duration-300 inline-block"
           >
             Read More
-          </a>
+          </button>
         </div>
 
         <div className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
           <h3 className="text-xl font-semibold text-gray-800 mb-2">
-            AI Market Trends: Valuing AI-Driven Businesses
+            Mastering SaaS Pricing Models: Boost Revenue in 2025
           </h3>
-          <p className="text-gray-600 mb-4">By Ben Howard | April 15, 2025</p>
+          <p className="text-gray-600 mb-4">By Emily Rivera | August 20, 2025</p>
           <p className="text-gray-600 mb-6">
-            Explore the booming AI market and learn how proprietary technology and growth metrics drive AI business valuations.
+            Learn how to optimize your SaaS pricing model to maximize revenue, with insights on tiered pricing and value-based strategies.
           </p>
-          <a 
-            href="/blog/valuing-ai-driven-trends" 
+          <button 
+            onClick={() => setCurrentPage('blog-post-2')}
             className="bg-teal-500 hover:bg-teal-600 text-white font-bold py-2 px-4 rounded-lg transition-colors duration-300 inline-block"
           >
             Read More
-          </a>
+          </button>
         </div>
 
         <div className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
@@ -52,29 +52,29 @@ export const BlogSection = () => (
           <p className="text-gray-600 mb-6">
             Discover essential steps to prepare and sell your small business, with tips to maximize value and streamline the process.
           </p>
-          <a 
-            href="/blog/selling-your-small-business" 
+          <button 
+            onClick={() => setCurrentPage('blog-post-3')}
             className="bg-teal-500 hover:bg-teal-600 text-white font-bold py-2 px-4 rounded-lg transition-colors duration-300 inline-block"
           >
             Read More
-          </a>
+          </button>
         </div>
       </div>
       
       <div className="text-center mt-12">
-        <a 
-          href="/blog" 
+        <button 
+          onClick={() => setCurrentPage('blog')}
           className="bg-gray-600 hover:bg-gray-700 text-white font-bold py-3 px-8 rounded-lg transition-colors duration-300"
         >
           View All Articles
-        </a>
+        </button>
       </div>
     </div>
   </section>
 );
 
 // Full Blog Page Component
-export const BlogPage = () => (
+export const BlogPage = ({ setCurrentPage }) => (
   <div className="min-h-screen bg-gray-50 pt-20">
     <div className="container mx-auto px-6 py-12">
       {/* Blog Header */}
@@ -96,29 +96,29 @@ export const BlogPage = () => (
           <p className="text-gray-600 mb-6">
             Learn key valuation methods and metrics for SaaS businesses, with insights on market trends and strategies to boost value.
           </p>
-          <a 
-            href="/blog/how-to-value-saas" 
+          <button 
+            onClick={() => setCurrentPage('blog-post-1')}
             className="bg-teal-500 hover:bg-teal-600 text-white font-bold py-2 px-4 rounded-lg transition-colors duration-300 inline-block"
           >
             Read More
-          </a>
+          </button>
         </div>
 
         {/* Blog Post 2 */}
         <div className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
           <h3 className="text-xl font-semibold text-gray-800 mb-2">
-            AI Market Trends: Valuing AI-Driven Businesses
+            Mastering SaaS Pricing Models: Boost Revenue in 2025
           </h3>
-          <p className="text-gray-600 mb-4">By Ben Howard | April 15, 2025</p>
+          <p className="text-gray-600 mb-4">By Emily Rivera | August 20, 2025</p>
           <p className="text-gray-600 mb-6">
-            Explore the booming AI market and learn how proprietary technology and growth metrics drive AI business valuations.
+            Learn how to optimize your SaaS pricing model to maximize revenue, with insights on tiered pricing and value-based strategies.
           </p>
-          <a 
-            href="/blog/valuing-ai-driven-trends" 
+          <button 
+            onClick={() => setCurrentPage('blog-post-2')}
             className="bg-teal-500 hover:bg-teal-600 text-white font-bold py-2 px-4 rounded-lg transition-colors duration-300 inline-block"
           >
             Read More
-          </a>
+          </button>
         </div>
 
         {/* Blog Post 3 */}
@@ -130,12 +130,12 @@ export const BlogPage = () => (
           <p className="text-gray-600 mb-6">
             Discover essential steps to prepare and sell your small business, with tips to maximize value and streamline the process.
           </p>
-          <a 
-            href="/blog/selling-your-small-business" 
+          <button 
+            onClick={() => setCurrentPage('blog-post-3')}
             className="bg-teal-500 hover:bg-teal-600 text-white font-bold py-2 px-4 rounded-lg transition-colors duration-300 inline-block"
           >
             Read More
-          </a>
+          </button>
         </div>
 
         {/* Blog Post 4 */}
@@ -147,12 +147,12 @@ export const BlogPage = () => (
           <p className="text-gray-600 mb-6">
             Dive into proven strategies to reduce churn in your SaaS business, from improving onboarding to leveraging customer feedback.
           </p>
-          <a 
-            href="/blog/strategies-for-customer-retention" 
-            className="bg-teal-500 hover:bg-teal-600 text-white font-bold py-2 px-4 rounded-lg transition-colors duration-300 inline-block"
+          <button 
+            className="bg-gray-400 text-white font-bold py-2 px-4 rounded-lg cursor-not-allowed"
+            disabled
           >
-            Read More
-          </a>
+            Coming Soon
+          </button>
         </div>
 
         {/* Blog Post 5 */}
@@ -164,29 +164,29 @@ export const BlogPage = () => (
           <p className="text-gray-600 mb-6">
             Explore actionable tactics to scale your SaaS business, including market expansion, pricing strategies, and team growth.
           </p>
-          <a 
-            href="/blog/grow-tactics-for-2025" 
-            className="bg-teal-500 hover:bg-teal-600 text-white font-bold py-2 px-4 rounded-lg transition-colors duration-300 inline-block"
+          <button 
+            className="bg-gray-400 text-white font-bold py-2 px-4 rounded-lg cursor-not-allowed"
+            disabled
           >
-            Read More
-          </a>
+            Coming Soon
+          </button>
         </div>
 
         {/* Blog Post 6 */}
         <div className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
           <h3 className="text-xl font-semibold text-gray-800 mb-2">
-            Mastering SaaS Pricing Models: Boost Revenue in 2025
+            AI Market Trends: Valuing AI-Driven Businesses
           </h3>
-          <p className="text-gray-600 mb-4">By Emily Rivera | August 20, 2025</p>
+          <p className="text-gray-600 mb-4">By Ben Howard | April 15, 2025</p>
           <p className="text-gray-600 mb-6">
-            Learn how to optimize your SaaS pricing model to maximize revenue, with insights on tiered pricing and value-based strategies.
+            Explore the booming AI market and learn how proprietary technology and growth metrics drive AI business valuations.
           </p>
-          <a 
-            href="/blog/boost-saas-revenue" 
-            className="bg-teal-500 hover:bg-teal-600 text-white font-bold py-2 px-4 rounded-lg transition-colors duration-300 inline-block"
+          <button 
+            className="bg-gray-400 text-white font-bold py-2 px-4 rounded-lg cursor-not-allowed"
+            disabled
           >
-            Read More
-          </a>
+            Coming Soon
+          </button>
         </div>
       </div>
 
@@ -237,12 +237,12 @@ export const BlogPage = () => (
           <p className="mb-6">
             Join thousands of founders who trust SaaS Valuation App to understand their business worth and grow smarter.
           </p>
-          <a 
-            href="/" 
+          <button 
+            onClick={() => setCurrentPage('home')}
             className="bg-teal-500 hover:bg-teal-600 text-white font-bold py-3 px-8 rounded-lg transition-colors duration-300"
           >
             Get Started Now
-          </a>
+          </button>
         </div>
       </section>
     </div>
