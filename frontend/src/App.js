@@ -349,44 +349,73 @@ function App() {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
-      <Header mobileMenuOpen={mobileMenuOpen} toggleMobileMenu={toggleMobileMenu} />
+      <Header 
+        mobileMenuOpen={mobileMenuOpen} 
+        toggleMobileMenu={toggleMobileMenu}
+        currentPage={currentPage}
+        setCurrentPage={setCurrentPage}
+      />
       
       {/* Main Content */}
       <main className="flex-grow">
-        {!showPayment && !showResults && (
+        {currentPage === 'blog' ? (
+          <BlogPage />
+        ) : (
           <>
-            {/* Hero Section */}
-            <HeroSection />
+            {!showPayment && !showResults && (
+              <>
+                {/* Enhanced Hero Section */}
+                <EnhancedHeroSection />
+                
+                {/* Enhanced Features Section */}
+                <EnhancedFeaturesSection />
+                
+                {/* AI Data Room Section */}
+                <AIDataRoomSection />
+                
+                {/* How It Works */}
+                <HowItWorksSection />
+                
+                {/* Valuation Form */}
+                <ValuationForm
+                  currentStep={currentStep}
+                  formData={formData}
+                  errors={errors}
+                  updateFormData={updateFormData}
+                  nextStep={nextStep}
+                  prevStep={prevStep}
+                  isLoading={isLoading}
+                />
+                
+                {/* Pricing Section */}
+                <PricingSection />
+                
+                {/* Blog Section */}
+                <BlogSection />
+                
+                {/* Testimonials */}
+                <TestimonialsSection />
+                
+                {/* Resources */}
+                <ResourcesSection />
+                
+                {/* Call to Action */}
+                <CTASection />
+              </>
+            )}
             
-            {/* Features Section */}
-            <FeaturesSection />
+            {showPayment && (
+              <PaymentSection
+                valuationResult={valuationResult}
+                onPaymentSuccess={handlePaymentSuccess}
+                onBypassCode={handleBypassCode}
+              />
+            )}
             
-            {/* How It Works */}
-            <HowItWorksSection />
-            
-            {/* Valuation Form */}
-            <ValuationForm
-              currentStep={currentStep}
-              formData={formData}
-              errors={errors}
-              updateFormData={updateFormData}
-              nextStep={nextStep}
-              prevStep={prevStep}
-              isLoading={isLoading}
-            />
+            {showResults && (
+              <ResultsSection valuationResult={valuationResult} />
+            )}
           </>
-        )}
-        
-        {showPayment && (
-          <PaymentSection
-            valuationResult={valuationResult}
-            onPaymentSuccess={handlePaymentSuccess}
-            onBypassCode={handleBypassCode}
-          />
-        )}
-        
-        {showResults && (
-          <ResultsSection valuationResult={valuationResult} />
         )}
       </main>
       
