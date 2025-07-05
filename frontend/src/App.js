@@ -30,91 +30,6 @@ function App() {
     setMobileMenuOpen(!mobileMenuOpen);
   };
 
-  return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <Header 
-        mobileMenuOpen={mobileMenuOpen} 
-        toggleMobileMenu={toggleMobileMenu}
-        currentPage={currentPage}
-        setCurrentPage={setCurrentPage}
-      />
-      
-      {/* Main Content */}
-      <main className="flex-grow">
-        {currentPage === 'blog' ? (
-          <BlogPage setCurrentPage={setCurrentPage} />
-        ) : currentPage === 'blog-post-1' ? (
-          <BlogPost1 />
-        ) : currentPage === 'blog-post-2' ? (
-          <BlogPost2 />
-        ) : currentPage === 'blog-post-3' ? (
-          <BlogPost3 />
-        ) : (
-          <>
-            {!showPayment && !showResults && (
-              <>
-                {/* Enhanced Hero Section */}
-                <EnhancedHeroSection />
-                
-                {/* Enhanced Features Section */}
-                <EnhancedFeaturesSection />
-                
-                {/* AI Data Room Section */}
-                <AIDataRoomSection />
-                
-                {/* How It Works */}
-                <HowItWorksSection />
-                
-                {/* Valuation Form */}
-                <ValuationForm
-                  currentStep={currentStep}
-                  formData={formData}
-                  errors={errors}
-                  updateFormData={updateFormData}
-                  nextStep={nextStep}
-                  prevStep={prevStep}
-                  isLoading={isLoading}
-                />
-                
-                {/* Pricing Section */}
-                <PricingSection />
-                
-                {/* Blog Section */}
-                <BlogSection setCurrentPage={setCurrentPage} />
-                
-                {/* Testimonials */}
-                <TestimonialsSection />
-                
-                {/* Resources */}
-                <ResourcesSection />
-                
-                {/* Call to Action */}
-                <CTASection />
-              </>
-            )}
-            
-            {showPayment && (
-              <PaymentSection
-                valuationResult={valuationResult}
-                onPaymentSuccess={handlePaymentSuccess}
-                onBypassCode={handleBypassCode}
-              />
-            )}
-            
-            {showResults && (
-              <ResultsSection valuationResult={valuationResult} />
-            )}
-          </>
-        )}
-      </main>
-      
-      {/* Footer */}
-      <Footer />
-    </div>
-  );
-}
-
 // Header Component
 const Header = ({ mobileMenuOpen, toggleMobileMenu, currentPage, setCurrentPage }) => (
   <header className="bg-gray-800 text-white py-3 sticky top-0 z-50 shadow-lg">
@@ -147,6 +62,12 @@ const Header = ({ mobileMenuOpen, toggleMobileMenu, currentPage, setCurrentPage 
         >
           Pricing
         </a>
+        <button 
+          onClick={() => setCurrentPage('pro')}
+          className="hover:text-teal-400 transition-colors duration-300 bg-teal-600 px-3 py-1 rounded-lg"
+        >
+          Pro Tool
+        </button>
         <button 
           onClick={() => setCurrentPage('blog')}
           className={`hover:text-teal-400 transition-colors duration-300 ${currentPage === 'blog' ? 'text-teal-400' : ''}`}
@@ -187,6 +108,12 @@ const Header = ({ mobileMenuOpen, toggleMobileMenu, currentPage, setCurrentPage 
             Pricing
           </a>
           <button 
+            onClick={() => { setCurrentPage('pro'); toggleMobileMenu(); }}
+            className="block py-2 hover:text-teal-400 transition-colors duration-300 text-left bg-teal-600 px-3 rounded-lg"
+          >
+            Pro Tool
+          </button>
+          <button 
             onClick={() => { setCurrentPage('blog'); toggleMobileMenu(); }}
             className="block py-2 hover:text-teal-400 transition-colors duration-300 text-left"
           >
@@ -197,5 +124,78 @@ const Header = ({ mobileMenuOpen, toggleMobileMenu, currentPage, setCurrentPage 
     )}
   </header>
 );
+
+// Main App Component
+function App() {
+  const [currentPage, setCurrentPage] = useState('home'); // 'home', 'pro', 'blog', 'blog-post-1', etc.
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  // Mobile menu toggle
+  const toggleMobileMenu = () => {
+    setMobileMenuOpen(!mobileMenuOpen);
+  };
+
+  return (
+    <div className="min-h-screen bg-gray-50">
+      {/* Header */}
+      <Header 
+        mobileMenuOpen={mobileMenuOpen} 
+        toggleMobileMenu={toggleMobileMenu}
+        currentPage={currentPage}
+        setCurrentPage={setCurrentPage}
+      />
+      
+      {/* Main Content */}
+      <main className="flex-grow">
+        {currentPage === 'pro' ? (
+          <ProValuationPage setCurrentPage={setCurrentPage} />
+        ) : currentPage === 'blog' ? (
+          <BlogPage setCurrentPage={setCurrentPage} />
+        ) : currentPage === 'blog-post-1' ? (
+          <BlogPost1 />
+        ) : currentPage === 'blog-post-2' ? (
+          <BlogPost2 />
+        ) : currentPage === 'blog-post-3' ? (
+          <BlogPost3 />
+        ) : (
+          <>
+            {/* Enhanced Hero Section */}
+            <EnhancedHeroSection />
+            
+            {/* Enhanced Features Section */}
+            <EnhancedFeaturesSection />
+            
+            {/* AI Data Room Section */}
+            <AIDataRoomSection />
+            
+            {/* How It Works */}
+            <HowItWorksSection />
+            
+            {/* Free Valuation Tool */}
+            <FreeValuationTool setCurrentPage={setCurrentPage} />
+            
+            {/* Pricing Section */}
+            <PricingSection />
+            
+            {/* Blog Section */}
+            <BlogSection setCurrentPage={setCurrentPage} />
+            
+            {/* Testimonials */}
+            <TestimonialsSection />
+            
+            {/* Resources */}
+            <ResourcesSection />
+            
+            {/* Call to Action */}
+            <CTASection />
+          </>
+        )}
+      </main>
+      
+      {/* Footer */}
+      <Footer />
+    </div>
+  );
+}
 
 export default App;
