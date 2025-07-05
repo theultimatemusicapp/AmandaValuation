@@ -360,7 +360,13 @@ function App() {
       {/* Main Content */}
       <main className="flex-grow">
         {currentPage === 'blog' ? (
-          <BlogPage />
+          <BlogPage setCurrentPage={setCurrentPage} />
+        ) : currentPage === 'blog-post-1' ? (
+          <BlogPost1 />
+        ) : currentPage === 'blog-post-2' ? (
+          <BlogPost2 />
+        ) : currentPage === 'blog-post-3' ? (
+          <BlogPost3 />
         ) : (
           <>
             {!showPayment && !showResults && (
@@ -392,7 +398,7 @@ function App() {
                 <PricingSection />
                 
                 {/* Blog Section */}
-                <BlogSection />
+                <BlogSection setCurrentPage={setCurrentPage} />
                 
                 {/* Testimonials */}
                 <TestimonialsSection />
