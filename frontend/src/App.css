@@ -1,3 +1,5 @@
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css');
+
 .App {
     text-align: center;
 }
@@ -35,4 +37,52 @@
     to {
         transform: rotate(360deg);
     }
+}
+
+/* Custom styles for SaaS Valuation App */
+.btn-primary {
+    @apply bg-teal-500 text-white font-bold py-2 px-4 rounded-lg transition-colors duration-300;
+}
+
+.btn-primary:hover {
+    @apply bg-teal-600;
+}
+
+.btn-secondary {
+    @apply bg-yellow-500 text-white font-bold py-2 px-4 rounded-lg transition-colors duration-300;
+}
+
+.btn-secondary:hover {
+    @apply bg-yellow-600;
+}
+
+.feature-card {
+    @apply bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300;
+}
+
+.feature-icon {
+    @apply text-teal-500 text-3xl mb-4;
+}
+
+.nav-link {
+    @apply hover:text-teal-400 transition-colors duration-300;
+}
+
+.mobile-nav-link {
+    @apply block py-2 hover:text-teal-400 transition-colors duration-300;
+}
+
+.valuation-box {
+    max-width: 900px;
+    margin: 0 auto;
+    background-color: #f9fafb;
+    border: 2px solid #d1d5db;
+    border-radius: 1rem;
+    padding: 1rem;
+    box-shadow: 0 4px 10px rgb(0 0 0 / 0.05);
+}
+
+input:focus, select:focus {
+    outline: 2px solid #38b2ac;
+    outline-offset: 2px;
 }
