@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './App.css';
-import { FeaturesSection, HowItWorksSection, ValuationForm } from './components/ValuationForm';
-import { Step5, Step6, Step7 } from './components/AdditionalSteps';
-import PaymentSection from './components/PaymentSection';
-import ResultsSection from './components/ResultsSection';
+import { FeaturesSection, HowItWorksSection } from './components/ValuationForm';
+import { FreeValuationTool } from './components/FreeValuationTool';
+import { ProValuationPage } from './components/ProValuationPage';
 import Footer from './components/Footer';
 import { 
   EnhancedHeroSection, 
