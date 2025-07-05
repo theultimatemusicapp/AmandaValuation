@@ -10,6 +10,41 @@ from typing import List, Optional, Dict, Any
 import uuid
 from datetime import datetime
 import math
+import json
+from bson import ObjectId
+
+# Custom JSON encoder to handle MongoDB ObjectId
+class JSONEncoder(json.JSONEncoder):
+    def default(self, o):
+        if isinstance(o, ObjectId):
+            return str(o)
+        if isinstance(o, datetime):
+            return o.isoformat()
+        return json.JSONEncoder.default(self, o)
+
+# Helper function to convert MongoDB documents to JSON-serializable format
+def convert_mongo_doc(doc):
+    if doc is None:
+        return None
+    
+    # Convert ObjectId to string
+    if '_id' in doc:
+        doc['_id'] = str(doc['_id'])
+    
+    # Process nested documents
+    for key, value in doc.items():
+        if isinstance(value, ObjectId):
+            doc[key] = str(value)
+        elif isinstance(value, datetime):
+            doc[key] = value.isoformat()
+        elif isinstance(value, dict):
+            doc[key] = convert_mongo_doc(value)
+        elif isinstance(value, list):
+            doc[key] = [convert_mongo_doc(item) if isinstance(item, dict) else 
+                        str(item) if isinstance(item, ObjectId) else item 
+                        for item in value]
+    
+    return doc
 
 ROOT_DIR = Path(__file__).parent
 load_dotenv(ROOT_DIR / '.env')
@@ -435,13 +470,15 @@ async def get_valuation(valuation_id: str):
     if not valuation:
         raise HTTPException(status_code=404, detail="Valuation not found")
     
-    return valuation
+    # Convert MongoDB document to JSON-serializable format
+    return convert_mongo_doc(valuation)
 
 @api_router.get("/valuations")
 async def get_valuations():
     """Get all valuations (for admin/debugging)"""
     valuations = await db.valuations.find().to_list(1000)
-    return valuations
+    # Convert MongoDB documents to JSON-serializable format
+    return [convert_mongo_doc(v) for v in valuations]
 
 # Include the router in the main app
 app.include_router(api_router)
