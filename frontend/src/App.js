@@ -6,6 +6,16 @@ import { Step5, Step6, Step7 } from './components/AdditionalSteps';
 import PaymentSection from './components/PaymentSection';
 import ResultsSection from './components/ResultsSection';
 import Footer from './components/Footer';
+import { 
+  EnhancedHeroSection, 
+  EnhancedFeaturesSection, 
+  TestimonialsSection, 
+  PricingSection, 
+  AIDataRoomSection, 
+  ResourcesSection, 
+  CTASection 
+} from './components/EnhancedLanding';
+import { BlogSection, BlogPage } from './components/BlogSection';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
