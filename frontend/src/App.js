@@ -1,6 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './App.css';
+import { FeaturesSection, HowItWorksSection, ValuationForm } from './components/ValuationForm';
+import { Step5, Step6, Step7 } from './components/AdditionalSteps';
+import PaymentSection from './components/PaymentSection';
+import ResultsSection from './components/ResultsSection';
+import Footer from './components/Footer';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
