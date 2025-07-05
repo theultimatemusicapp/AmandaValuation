@@ -1,4 +1,5 @@
 import React from 'react';
+import { Step5, Step6, Step7 } from './AdditionalSteps';
 
 // Features Section Component
 export const FeaturesSection = () => (
