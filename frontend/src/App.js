@@ -16,6 +16,7 @@ import {
   CTASection 
 } from './components/EnhancedLanding';
 import { BlogSection, BlogPage } from './components/BlogSection';
+import { BlogPost1, BlogPost2, BlogPost3 } from './components/BlogPosts';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
