@@ -24,7 +24,7 @@ const API = `${BACKEND_URL}/api`;
 // Main App Component
 function App() {
   const [currentStep, setCurrentStep] = useState(1);
-  const [currentPage, setCurrentPage] = useState('home'); // 'home' or 'blog'
+  const [currentPage, setCurrentPage] = useState('home'); // 'home', 'blog', 'blog-post-1', 'blog-post-2', 'blog-post-3'
   const [formData, setFormData] = useState({
     // Step 1: Methods
     methods: [],
