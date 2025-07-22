@@ -2,14 +2,13 @@
 <html lang="en">
 <head>
   <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-772JV93TYR"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-772JV93TYR');
-</script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-772JV93TYR"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-772JV93TYR');
+  </script>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>SaaS Pro Valuation - Payment</title>
@@ -17,86 +16,112 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
   <style>
     .btn-primary {
-      @apply bg-teal-500 text-white font-bold py-2 px-4 rounded-lg transition-colors duration-300;
+      @apply bg-teal-500 text-white font-bold py-3 px-6 rounded-lg transition-colors duration-300 shadow-md;
     }
     .btn-primary:hover {
-      @apply bg-teal-600;
+      @apply bg-teal-600 transform scale-105;
     }
     .feature-box {
-      @apply bg-white p-4 rounded-lg shadow-md;
+      @apply bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 border border-gray-100;
+    }
+    .section-gradient {
+      @apply bg-gradient-to-b from-gray-50 to-gray-100;
+    }
+    .fade-in {
+      animation: fadeIn 1s ease-in-out;
+    }
+    @keyframes fadeIn {
+      0% { opacity: 0; transform: translateY(10px); }
+      100% { opacity: 1; transform: translateY(0); }
     }
   </style>
 </head>
 <body class="font-sans bg-gray-50 min-h-screen flex flex-col">
   <!-- HEADER -->
-  <header class="bg-gray-800 text-white py-3 sticky top-0 z-50 shadow">
+  <header class="bg-gray-800 text-white py-4 sticky top-0 z-50 shadow-lg">
     <div class="container mx-auto px-4 flex justify-between items-center">
-      <div class="text-xl font-bold">
-        <a href="index.html">SaaS Valuation App</a>
+      <div class="text-2xl font-extrabold tracking-tight">
+        <a href="index.html" class="flex items-center">
+          <i class="fas fa-chart-line mr-2"></i>SaaS Valuation
+        </a>
       </div>
-      <nav class="hidden md:flex space-x-4">
-        <a href="index.html#valuation">Free Self Valuation</a>
-        <a href="index.html#resources">About</a>
-        <a href="index.html#pricing">Pricing</a>
-        <a href="blog.html">Resources</a>
+      <nav class="hidden md:flex space-x-6 text-sm font-medium">
+        <a href="index.html#valuation" class="hover:text-teal-200 transition-colors duration-200">Free Self Valuation</a>
+        <a href="index.html#resources" class="hover:text-teal-200 transition-colors duration-200">About</a>
+        <a href="index.html#pricing" class="hover:text-teal-200 transition-colors duration-200">Pricing</a>
+        <a href="blog.html" class="hover:text-teal-200 transition-colors duration-200">Resources</a>
       </nav>
       <button id="menu-toggle" class="md:hidden focus:outline-none" aria-label="Toggle Menu">
         <i class="fas fa-bars text-xl"></i>
       </button>
     </div>
-    <div id="mobile-menu" class="md:hidden hidden px-4 pb-4">
-      <nav class="flex flex-col space-y-2 mt-3">
-        <a href="#valuation" class="hover:text-teal-400 text-sm">Self Valuation</a>
-        <a href="#data-room" class="hover:text-teal-400 text-sm">AI Data Room</a>
-        <a href="#pricing" class="hover:text-teal-400 text-sm">Pricing</a>
-        <a href="#resources" class="hover:text-teal-400 text-sm">Resources</a>
+    <div id="mobile-menu" class="md:hidden hidden px-4 pb-4 bg-gray-700">
+      <nav class="flex flex-col space-y-3 mt-4 text-sm font-medium">
+        <a href="#valuation" class="hover:text-teal-200 transition-colors duration-200">Self Valuation</a>
+        <a href="#data-room" class="hover:text-teal-200 transition-colors duration-200">AI Data Room</a>
+        <a href="#pricing" class="hover:text-teal-200 transition-colors duration-200">Pricing</a>
+        <a href="#resources" class="hover:text-teal-200 transition-colors duration-200">Resources</a>
       </nav>
     </div>
   </header>
 
   <!-- MAIN CONTENT -->
-  <main class="flex-grow">
-    <section class="py-16 bg-gray-50">
-      <div class="container mx-auto px-4 max-w-4xl">
-        <h1 class="text-3xl font-bold text-gray-800 mb-4 text-center">Unlock Pro Valuation</h1>
-        <p class="text-gray-600 mb-8 text-center">
-          Complete your secure payment to access the Pro Valuation Tool, delivering advanced insights for your SaaS business.
+  <main class="flex-grow section-gradient">
+    <section class="py-20">
+      <div class="container mx-auto px-4 max-w-5xl fade-in">
+        <h1 class="text-4xl md:text-5xl font-extrabold text-gray-800 mb-6 text-center leading-tight">
+          Unlock Your <span class="text-teal-600">Pro Valuation</span>
+        </h1>
+        <p class="text-gray-600 mb-12 text-lg text-center max-w-2xl mx-auto">
+          Securely access the Pro Valuation Tool for advanced insights and actionable strategies to elevate your SaaS business.
         </p>
 
         <!-- What You Get -->
-        <div class="mb-12">
-          <h2 class="text-2xl font-semibold text-gray-800 mb-6 text-center">What You Get with Pro Valuation</h2>
+        <div class="mb-16">
+          <h2 class="text-3xl font-semibold text-gray-800 mb-8 text-center">What’s Included in Pro Valuation</h2>
           <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div class="feature-box">
-              <h3 class="text-lg font-medium text-teal-600 mb-2">Multiple Valuation Methods</h3>
-              <p class="text-gray-600 text-sm">
-                Evaluate your business using up to three methods (Revenue Multiplier, Income-Based, DCF, Earnings-Based) for a comprehensive valuation.
-              </p>
+            <div class="feature-box flex items-start">
+              <i class="fas fa-calculator text-teal-500 text-2xl mr-4 mt-1"></i>
+              <div>
+                <h3 class="text-xl font-medium text-teal-600 mb-2">Multiple Valuation Methods</h3>
+                <p class="text-gray-600 text-base">
+                  Evaluate your business using Revenue Multiplier, Income-Based, DCF, and Earnings-Based methods for a holistic valuation.
+                </p>
+              </div>
             </div>
-            <div class="feature-box">
-              <h3 class="text-lg font-medium text-teal-600 mb-2">Detailed Insights & Charts</h3>
-              <p class="text-gray-600 text-sm">
-                Receive a breakdown of your valuation with interactive charts showing method comparisons and 5-year revenue projections.
-              </p>
+            <div class="feature-box flex items-start">
+              <i class="fas fa-chart-pie text-teal-500 text-2xl mr-4 mt-1"></i>
+              <div>
+                <h3 class="text-xl font-medium text-teal-600 mb-2">Detailed Insights & Charts</h3>
+                <p class="text-gray-600 text-base">
+                  Get a comprehensive breakdown with interactive charts comparing methods and 5-year revenue projections.
+                </p>
+              </div>
             </div>
-            <div class="feature-box">
-              <h3 class="text-lg font-medium text-teal-600 mb-2">Actionable Advice</h3>
-              <p class="text-gray-600 text-sm">
-                Get tailored recommendations to improve your valuation, such as reducing churn or optimizing costs.
-              </p>
+            <div class="feature-box flex items-start">
+              <i class="fas fa-lightbulb text-teal-500 text-2xl mr-4 mt-1"></i>
+              <div>
+                <h3 class="text-xl font-medium text-teal-600 mb-2">Actionable Advice</h3>
+                <p class="text-gray-600 text-base">
+                  Receive tailored recommendations to boost your valuation, like reducing churn or optimizing costs.
+                </p>
+              </div>
             </div>
-            <div class="feature-box">
-              <h3 class="text-lg font-medium text-teal-600 mb-2">Professional PDF Report</h3>
-              <p class="text-gray-600 text-sm">
-                Download a polished PDF report to share with investors, buyers, or your team, summarizing your valuation and insights.
-              </p>
+            <div class="feature-box flex items-start">
+              <i class="fas fa-file-pdf text-teal-500 text-2xl mr-4 mt-1"></i>
+              <div>
+                <h3 class="text-xl font-medium text-teal-600 mb-2">Professional PDF Report</h3>
+                <p class="text-gray-600 text-base">
+                  Download a polished PDF report to share with investors, buyers, or your team.
+                </p>
+              </div>
             </div>
           </div>
         </div>
 
         <!-- Payment Section -->
-        <div class="text-center">
-          <h2 class="text-xl font-semibold text-gray-800 mb-4">Complete Payment</h2>
+        <div class="text-center bg-white p-8 rounded-xl shadow-lg max-w-lg mx-auto">
+          <h2 class="text-2xl font-semibold text-gray-800 mb-6">Complete Your Payment</h2>
           <div id="paypal-container-NVJVZYW6GRKY4" class="mx-auto max-w-xs"></div>
           <div id="payment-error" class="text-red-500 text-sm mt-4 hidden">
             Payment failed. Please try again or contact support.
@@ -105,7 +130,7 @@
             Payment successful! Redirecting to Pro Valuation...
           </div>
           <div id="loading-spinner" class="hidden text-center mt-4">
-            <i class="fas fa-spinner fa-spin text-teal-500"></i> Processing...
+            <i class="fas fa-spinner fa-spin text-teal-500 text-xl"></i> Processing...
           </div>
         </div>
       </div>
@@ -113,38 +138,40 @@
   </main>
 
   <!-- FOOTER -->
-  <footer class="bg-gray-800 text-white py-6 mt-12">
+  <footer class="bg-gray-800 text-white py-8 mt-12">
     <div class="container mx-auto px-4">
-      <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
         <div>
-          <h4 class="text-lg font-semibold mb-3">Company</h4>
-          <p class="text-gray-400 text-sm">SaaS Valuation App provides AI-driven insights to evaluate your business worth.</p>
+          <h4 class="text-lg font-semibold mb-4">Company</h4>
+          <p class="text-gray-400 text-sm leading-relaxed">
+            SaaS Valuation App delivers AI-driven insights to accurately assess your business’s worth.
+          </p>
         </div>
         <div>
-          <h4 class="text-lg font-semibold mb-3">Product</h4>
-          <ul class="space-y-2">
-            <li><a href="index.html#valuation">Self Valuation</a></li>
-            <li><a href="index.html#data-room">AI Data Room</a></li>
-            <li><a href="index.html#pricing">Pricing</a></li>
+          <h4 class="text-lg font-semibold mb-4">Product</h4>
+          <ul class="space-y-3 text-sm">
+            <li><a href="index.html#valuation" class="hover:text-teal-200 transition-colors duration-200">Self Valuation</a></li>
+            <li><a href="index.html#data-room" class="hover:text-teal-200 transition-colors duration-200">AI Data Room</a></li>
+            <li><a href="index.html#pricing" class="hover:text-teal-200 transition-colors duration-200">Pricing</a></li>
           </ul>
         </div>
         <div>
-          <h4 class="text-lg font-semibold mb-3">Resources</h4>
-          <ul class="space-y-2">
-            <li><a href="blog.html">Blog</a></li>
-            <li><a href="index.html#faq">FAQ</a></li>
-            <li><a href="Support.html">Support</a></li>
+          <h4 class="text-lg font-semibold mb-4">Resources</h4>
+          <ul class="space-y-3 text-sm">
+            <li><a href="blog.html" class="hover:text-teal-200 transition-colors duration-200">Blog</a></li>
+            <li><a href="index.html#faq" class="hover:text-teal-200 transition-colors duration-200">FAQ</a></li>
+            <li><a href="Support.html" class="hover:text-teal-200 transition-colors duration-200">Support</a></li>
           </ul>
         </div>
         <div>
-          <h4 class="text-lg font-semibold mb-3">Legal</h4>
-          <ul class="space-y-2">
-            <li><a href="terms-and-conditions.html" class="text-gray-400 hover:text-teal-400 text-sm">Terms</a></li>
-            <li><a href="privacy-policy.html" class="text-gray-400 hover:text-teal-400 text-sm">Privacy</a></li>
+          <h4 class="text-lg font-semibold mb-4">Legal</h4>
+          <ul class="space-y-3 text-sm">
+            <li><a href="terms-and-conditions.html" class="hover:text-teal-200 transition-colors duration-200">Terms</a></li>
+            <li><a href="privacy-policy.html" class="hover:text-teal-200 transition-colors duration-200">Privacy</a></li>
           </ul>
         </div>
       </div>
-      <div class="text-center mt-4 text-gray-400 text-sm">
+      <div class="text-center mt-8 text-gray-400 text-sm">
         <p>© 2025 SaaS Valuation App. All rights reserved.</p>
       </div>
     </div>
