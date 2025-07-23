@@ -493,7 +493,7 @@
             </div>
         </div>
     </section>
-    <!-- Call to Action -->
+   <!-- Call to Action -->
     <section class="gradient-bg text-white py-16">
         <div class="container mx-auto px-6 text-center">
             <h2 class="text-3xl font-bold mb-4">
@@ -584,288 +584,261 @@
                 return regex.test(cleanedValue) && cleanedValue !== '';
             }
 
-            if (step === 1) {
-                const methods = document.querySelectorAll('input[type="checkbox"]:checked');
-                const methodError = document.getElementById('method-error');
-                if (methods.length < 1 || methods.length >frontal lobe 3) {
-                    methodError.classList.remove('hidden');
-                    isValid = false;
-                } else {
-                    methodError.classList.add('hidden');
-                }
-
-                const dcfSelected = document.getElementById('method-dcf').checked;
-                const earningsSelected = document.getElementById('method-earnings').checked;
-                document.getElementById('dcfFields').classList.toggle('hidden', !dcfSelected);
-                document.getElementById('earningsFields').classList.toggle('hidden', !earningsSelected);
-                document.getElementById('dcfChartContainer').classList.toggle('hidden', !dcfSelected);
-            }
-
-            if (step === 2) {
-                const inputs = [
-                    { id: 'ownerSalary', error: 'ownerSalary-error', regex: /^\d+(\.\d{1,2})?$/ },
-                    { id: 'averageSalary', error: 'averageSalary-error', regex: /^\d+(\.\d{1,2})?$/ },
-                    { id: 'employeeBenefits', error: 'employeeBenefits-error', regex: /^\d+(\.\d{1,2})?$/ },
-                    { id: 'staffNumber', error: 'staffNumber-error', regex: /^\d+$/ },
-                    { id: 'expenses', error: 'expenses-error', regex: /^\d+(\.\d{1,2})?$/ },
-                    { id: 'debt', error: 'debt-error', regex: /^\d+(\.\d{1,2})?$/, allowEmpty: true },
-                    { id: 'growthRate', error: 'growthRate-error', regex: /^(100|[0-9]{1,2})$/ },
-                    { id: 'yearsOperating', error: 'yearsOperating-error', regex: /^\d+$/ }
-                ];
-
-                inputs.forEach(input => {
-                    const element = document.getElementById(input.id);
-                    const errorElement = document.getElementById(input.error);
-                    const isValidInput = cleanNumericInput(element.value, input.regex, input.allowEmpty);
-                    if (!isValidInput) {
-                        element.classList.add('input-error');
-                        errorElement.classList.remove('hidden');
+            try {
+                if (step === 1) {
+                    const methods = document.querySelectorAll('input[type="checkbox"]:checked');
+                    const methodError = document.getElementById('method-error');
+                    if (methods.length < 1 || methods.length > 3) {
+                        methodError.classList.remove('hidden');
                         isValid = false;
                     } else {
-                        element.classList.remove('input-error');
-                        errorElement.classList.add('hidden');
+                        methodError.classList.add('hidden');
                     }
-                });
-            }
 
-            if (step === 3) {
-                const inputs = [
-                    { id: 'ltv', error: 'ltv-error', regex: /^\d+(\.\d{1,2})?$/ },
-                    { id: 'cac', error: 'cac-error', regex: /^\d+(\.\d{1,2})?$/ },
-                    { id: 'churnRate', error: 'churnRate-error', regex: /^(100|[0-9]{1,2})$/ },
-                    { id: 'customerGrowthRate', error: 'customerGrowthRate-error', regex: /^(100|[0-9]{1,2})$/ }
-                ];
-
-                inputs.forEach(input => {
-                    const element = document.getElementById(input.id);
-                    const errorElement = document.getElementById(input.error);
-                    if (!cleanNumericInput(element.value, input.regex)) {
-                        element.classList.add('input-error');
-                        errorElement.classList.remove('hidden');
-                        isValid = false;
-                    } else {
-                        element.classList.remove('input-error');
-                        errorElement.classList.add('hidden');
-                    }
-                });
-            }
-
-            if (step === 4) {
-                const industry = document.getElementById('industry');
-                const industryError = document.getElementById('industry-error');
-                if (!industry.value) {
-                    industry.classList.add('input-error');
-                    industryError.classList.remove('hidden');
-                    isValid = false;
-                } else {
-                    industry.classList.remove('input-error');
-                    industryError.classList.add('hidden');
-                }
-            }
-
-            if (step === 5) {
-                const aiReplaceable = document.getElementById('aiReplaceable');
-                const aiReplaceableError = document.getElementById('aiReplaceable-error');
-                const hasIP = document.getElementById('hasIP');
-                const hasIPError = document.getElementById('hasIP-error');
-
-                if (!aiReplaceable.value) {
-                    aiReplaceable.classList.add('input-error');
-                    aiReplaceableError.classList.remove('hidden');
-                    isValid = false;
-                } else {
-                    aiReplaceable.classList.remove('input-error');
-                    aiReplaceableError.classList.add('hidden');
+                    const dcfSelected = document.getElementById('method-dcf').checked;
+                    const earningsSelected = document.getElementById('method-earnings').checked;
+                    document.getElementById('dcfFields').classList.toggle('hidden', !dcfSelected);
+                    document.getElementById('earningsFields').classList.toggle('hidden', !earningsSelected);
+                    document.getElementById('dcfChartContainer').classList.toggle('hidden', !dcfSelected);
                 }
 
-                if (aiReplaceable.value === 'yes') {
-                    const aiReplaceCount = document.getElementById('aiReplaceCount');
-                    const aiReplaceCountError = document.getElementById('aiReplaceCount-error');
-                    if (!cleanNumericInput(aiReplaceCount.value, /^\d+$/)) {
-                        aiReplaceCount.classList.add('input-error');
-                        aiReplaceCountError.classList.remove('hidden');
-                        isValid = false;
-                    } else {
-                        aiReplaceCount.classList.remove('input-error');
-                        aiReplaceCountError.classList.add('hidden');
-                    }
-                }
-
-                if (!hasIP.value) {
-                    hasIP.classList.add('input-error');
-                    hasIPError.classList.remove('hidden');
-                    isValid = false;
-                } else {
-                    hasIP.classList.remove('input-error');
-                    hasIPError.classList.add('hidden');
-                }
-
-                if (hasIP.value === 'yes') {
-                    const ipValue = document.getElementById('ipValue');
-                    const ipValueError = document.getElementById('ipValue-error');
-                    const ipUnique = document.getElementById('ipUnique');
-                    const ipUniqueError = document.getElementById('ipUnique-error');
-
-                    if (!cleanNumericInput(ipValue.value, /^\d+(\.\d{1,2})?$/)) {
-                        ipValue.classList.add('input-error');
-                        ipValueError.classList.remove('hidden');
-                        isValid = false;
-                    } else {
-                        ipValue.classList.remove('input-error');
-                        ipValueError.classList.add('hidden');
-                    }
-
-                    if (!ipUnique.value) {
-                        ipUnique.classList.add('input-error');
-                        ipUniqueError.classList.remove('hidden');
-                        isValid = false;
-                    } else {
-                        ipUnique.classList.remove('input-error');
-                        ipUniqueError.classList.add('hidden');
-                    }
-                }
-            }
-
-            if (step === 6) {
-                const inputs = [
-                    { id: 'projectedRevenue', error: 'projectedRevenue-error', regex: /^\d+(\.\d{1,2})?$/ },
-                    { id: 'expectedGrowthRate', error: 'expectedGrowthRate-error', regex: /^(100|[0-9]{1,2})$/ }
-                ];
-
-                inputs.forEach(input => {
-                    const element = document.getElementById(input.id);
-                    const errorElement = document.getElementById(input.error);
-                    if (!cleanNumericInput(element.value, input.regex)) {
-                        element.classList.add('input-error');
-                        errorElement.classList.remove('hidden');
-                        isValid = false;
-                    } else {
-                        element.classList.remove('input-error');
-                        errorElement.classList.add('hidden');
-                    }
-                });
-
-                if (document.getElementById('method-dcf').checked) {
-                    const dcfInputs = [
-                        { id: 'cashFlow1', error: 'cashFlow1-error', regex: /^\d+(\.\d{1,2})?$/ },
-                        { id: 'cashFlow2', error: 'cashFlow2-error', regex: /^\d+(\.\d{1,2})?$/ },
-                        { id: 'cashFlow3', error: 'cashFlow3-error', regex: /^\d+(\.\d{1,2})?$/ },
-                        { id: 'cashFlow4', error: 'cashFlow4-error', regex: /^\d+(\.\d{1,2})?$/ },
-                        { id: 'cashFlow5', error: 'cashFlow5-error', regex: /^\d+(\.\d{1,2})?$/ },
-                        { id: 'discountRate', error: 'discountRate-error', regex: /^(100|[0-9]{1,2})$/ },
-                        { id: 'terminalGrowthRate', error: 'terminalGrowthRate-error', regex: /^(100|[0-9]{1,2})$/ }
+                if (step === 2) {
+                    const inputs = [
+                        { id: 'ownerSalary', error: 'ownerSalary-error', regex: /^\d+(\.\d{1,2})?$/ },
+                        { id: 'averageSalary', error: 'averageSalary-error', regex: /^\d+(\.\d{1,2})?$/ },
+                        { id: 'employeeBenefits', error: 'employeeBenefits-error', regex: /^\d+(\.\d{1,2})?$/ },
+                        { id: 'staffNumber', error: 'staffNumber-error', regex: /^\d+$/ },
+                        { id: 'expenses', error: 'expenses-error', regex: /^\d+(\.\d{1,2})?$/ },
+                        { id: 'debt', error: 'debt-error', regex: /^\d+(\.\d{1,2})?$/, allowEmpty: true },
+                        { id: 'growthRate', error: 'growthRate-error', regex: /^(100|[0-9]{1,2})$/ },
+                        { id: 'yearsOperating', error: 'yearsOperating-error', regex: /^\d+$/ }
                     ];
 
-                    dcfInputs.forEach(input => {
+                    inputs.forEach(input => {
                         const element = document.getElementById(input.id);
                         const errorElement = document.getElementById(input.error);
-                        if (!cleanNumericInput(element.value, input.regex)) {
-                            element.classList.add('input-error');
-                            errorElement.classList.remove('hidden');
+                        if (!element || !cleanNumericInput(element.value, input.regex, input.allowEmpty)) {
+                            element?.classList.add('input-error');
+                            errorElement?.classList.remove('hidden');
                             isValid = false;
                         } else {
-                            element.classList.remove('input-error');
-                            errorElement.classList.add('hidden');
+                            element?.classList.remove('input-error');
+                            errorElement?.classList.add('hidden');
                         }
                     });
                 }
 
-                if (document.getElementById('method-earnings').checked) {
-                    const assets = document.getElementById('assets');
-                    const assetsError = document.getElementById('assets-error');
-                    if (!cleanNumericInput(assets.value, /^\d+(\.\d{1,2})?$/)) {
-                        assets.classList.add('input-error');
-                        assetsError.classList.remove('hidden');
+                if (step === 3) {
+                    const inputs = [
+                        { id: 'ltv', error: 'ltv-error', regex: /^\d+(\.\d{1,2})?$/ },
+                        { id: 'cac', error: 'cac-error', regex: /^\d+(\.\d{1,2})?$/ },
+                        { id: 'churnRate', error: 'churnRate-error', regex: /^(100|[0-9]{1,2})$/ },
+                        { id: 'customerGrowthRate', error: 'customerGrowthRate-error', regex: /^(100|[0-9]{1,2})$/ }
+                    ];
+
+                    inputs.forEach(input => {
+                        const element = document.getElementById(input.id);
+                        const errorElement = document.getElementById(input.error);
+                        if (!element || !cleanNumericInput(element.value, input.regex)) {
+                            element?.classList.add('input-error');
+                            errorElement?.classList.remove('hidden');
+                            isValid = false;
+                        } else {
+                            element?.classList.remove('input-error');
+                            errorElement?.classList.add('hidden');
+                        }
+                    });
+                }
+
+                if (step === 4) {
+                    const industry = document.getElementById('industry');
+                    const industryError = document.getElementById('industry-error');
+                    if (!industry || !industry.value) {
+                        industry?.classList.add('input-error');
+                        industryError?.classList.remove('hidden');
                         isValid = false;
                     } else {
-                        assets.classList.remove('input-error');
-                        assetsError.classList.add('hidden');
+                        industry?.classList.remove('input-error');
+                        industryError?.classList.add('hidden');
                     }
                 }
+
+                if (step === 5) {
+                    const aiReplaceable = document.getElementById('aiReplaceable');
+                    const aiReplaceableError = document.getElementById('aiReplaceable-error');
+                    const hasIP = document.getElementById('hasIP');
+                    const hasIPError = document.getElementById('hasIP-error');
+
+                    if (!aiReplaceable || !aiReplaceable.value) {
+                        aiReplaceable?.classList.add('input-error');
+                        aiReplaceableError?.classList.remove('hidden');
+                        isValid = false;
+                    } else {
+                        aiReplaceable?.classList.remove('input-error');
+                        aiReplaceableError?.classList.add('hidden');
+                    }
+
+                    if (aiReplaceable?.value === 'yes') {
+                        const aiReplaceCount = document.getElementById('aiReplaceCount');
+                        const aiReplaceCountError = document.getElementById('aiReplaceCount-error');
+                        if (!aiReplaceCount || !cleanNumericInput(aiReplaceCount.value, /^\d+$/)) {
+                            aiReplaceCount?.classList.add('input-error');
+                            aiReplaceCountError?.classList.remove('hidden');
+                            isValid = false;
+                        } else {
+                            aiReplaceCount?.classList.remove('input-error');
+                            aiReplaceCountError?.classList.add('hidden');
+                        }
+                    }
+
+                    if (!hasIP || !hasIP.value) {
+                        hasIP?.classList.add('input-error');
+                        hasIPError?.classList.remove('hidden');
+                        isValid = false;
+                    } else {
+                        hasIP?.classList.remove('input-error');
+                        hasIPError?.classList.add('hidden');
+                    }
+
+                    if (hasIP?.value === 'yes') {
+                        const ipValue = document.getElementById('ipValue');
+                        const ipValueError = document.getElementById('ipValue-error');
+                        const ipUnique = document.getElementById('ipUnique');
+                        const ipUniqueError = document.getElementById('ipUnique-error');
+
+                        if (!ipValue || !cleanNumericInput(ipValue.value, /^\d+(\.\d{1,2})?$/)) {
+                            ipValue?.classList.add('input-error');
+                            ipValueError?.classList.remove('hidden');
+                            isValid = false;
+                        } else {
+                            ipValue?.classList.remove('input-error');
+                            ipValueError?.classList.add('hidden');
+                        }
+
+                        if (!ipUnique || !ipUnique.value) {
+                            ipUnique?.classList.add('input-error');
+                            ipUniqueError?.classList.remove('hidden');
+                            isValid = false;
+                        } else {
+                            ipUnique?.classList.remove('input-error');
+                            ipUniqueError?.classList.add('hidden');
+                        }
+                    }
+                }
+
+                if (step === 6) {
+                    const inputs = [
+                        { id: 'projectedRevenue', error: 'projectedRevenue-error', regex: /^\d+(\.\d{1,2})?$/ },
+                        { id: 'expectedGrowthRate', error: 'expectedGrowthRate-error', regex: /^(100|[0-9]{1,2})$/ }
+                    ];
+
+                    inputs.forEach(input => {
+                        const element = document.getElementById(input.id);
+                        const errorElement = document.getElementById(input.error);
+                        if (!element || !cleanNumericInput(element.value, input.regex)) {
+                            element?.classList.add('input-error');
+                            errorElement?.classList.remove('hidden');
+                            isValid = false;
+                        } else {
+                            element?.classList.remove('input-error');
+                            errorElement?.classList.add('hidden');
+                        }
+                    });
+
+                    if (document.getElementById('method-dcf')?.checked) {
+                        const dcfInputs = [
+                            { id: 'cashFlow1', error: 'cashFlow1-error', regex: /^\d+(\.\d{1,2})?$/ },
+                            { id: 'cashFlow2', error: 'cashFlow2-error', regex: /^\d+(\.\d{1,2})?$/ },
+                            { id: 'cashFlow3', error: 'cashFlow3-error', regex: /^\d+(\.\d{1,2})?$/ },
+                            { id: 'cashFlow4', error: 'cashFlow4-error', regex: /^\d+(\.\d{1,2})?$/ },
+                            { id: 'cashFlow5', error: 'cashFlow5-error', regex: /^\d+(\.\d{1,2})?$/ },
+                            { id: 'discountRate', error: 'discountRate-error', regex: /^(100|[0-9]{1,2})$/ },
+                            { id: 'terminalGrowthRate', error: 'terminalGrowthRate-error', regex: /^(100|[0-9]{1,2})$/ }
+                        ];
+
+                        dcfInputs.forEach(input => {
+                            const element = document.getElementById(input.id);
+                            const errorElement = document.getElementById(input.error);
+                            if (!element || !cleanNumericInput(element.value, input.regex)) {
+                                element?.classList.add('input-error');
+                                errorElement?.classList.remove('hidden');
+                                isValid = false;
+                            } else {
+                                element?.classList.remove('input-error');
+                                errorElement?.classList.add('hidden');
+                            }
+                        });
+                    }
+
+                    if (document.getElementById('method-earnings')?.checked) {
+                        const assets = document.getElementById('assets');
+                        const assetsError = document.getElementById('assets-error');
+                        if (!assets || !cleanNumericInput(assets.value, /^\d+(\.\d{1,2})?$/)) {
+                            assets?.classList.add('input-error');
+                            assetsError?.classList.remove('hidden');
+                            isValid = false;
+                        } else {
+                            assets?.classList.remove('input-error');
+                            assetsError?.classList.add('hidden');
+                        }
+                    }
+                }
+            } catch (error) {
+                console.error('Validation error:', error);
+                isValid = false;
             }
 
             return isValid;
         }
 
-        document.getElementById('next-btn-1').addEventListener('click', () => {
-            if (validateStep(1)) {
-                currentStep = 2;
-                showStep(currentStep);
+        // Event listeners for navigation buttons
+        ['1', '2', '3', '4', '5'].forEach(step => {
+            const nextBtn = document.getElementById(`next-btn-${step}`);
+            if (nextBtn) {
+                nextBtn.addEventListener('click', () => {
+                    if (validateStep(parseInt(step))) {
+                        currentStep = parseInt(step) + 1;
+                        showStep(currentStep);
+                    }
+                });
             }
         });
 
-        document.getElementById('next-btn-2').addEventListener('click', () => {
-            if (validateStep(2)) {
-                currentStep = 3;
-                showStep(currentStep);
+        ['2', '3', '4', '5', '6'].forEach(step => {
+            const prevBtn = document.getElementById(`prev-btn-${step}`);
+            if (prevBtn) {
+                prevBtn.addEventListener('click', () => {
+                    currentStep = parseInt(step) - 1;
+                    showStep(currentStep);
+                });
             }
-        });
-
-        document.getElementById('next-btn-3').addEventListener('click', () => {
-            if (validateStep(3)) {
-                currentStep = 4;
-                showStep(currentStep);
-            }
-        });
-
-        document.getElementById('next-btn-4').addEventListener('click', () => {
-            if (validateStep(4)) {
-                currentStep = 5;
-                showStep(currentStep);
-            }
-        });
-
-        document.getElementById('next-btn-5').addEventListener('click', () => {
-            if (validateStep(5)) {
-                currentStep = 6;
-                showStep(currentStep);
-            }
-        });
-
-        document.getElementById('prev-btn-2').addEventListener('click', () => {
-            currentStep = 1;
-            showStep(currentStep);
-        });
-
-        document.getElementById('prev-btn-3').addEventListener('click', () => {
-            currentStep = 2;
-            showStep(currentStep);
-        });
-
-        document.getElementById('prev-btn-4').addEventListener('click', () => {
-            currentStep = 3;
-            showStep(currentStep);
-        });
-
-        document.getElementById('prev-btn-5').addEventListener('click', () => {
-            currentStep = 4;
-            showStep(currentStep);
-        });
-
-        document.getElementById('prev-btn-6').addEventListener('click', () => {
-            currentStep = 5;
-            showStep(currentStep);
         });
 
         // Slider value display
         ['scalability', 'marketTrendImpact', 'competitivePositioning', 'marketVolatility', 'operationalEfficiency'].forEach(id => {
             const slider = document.getElementById(id);
             const valueDisplay = document.getElementById(`${id}Value`);
-            slider.addEventListener('input', () => {
-                valueDisplay.textContent = slider.value;
-            });
+            if (slider && valueDisplay) {
+                slider.addEventListener('input', () => {
+                    valueDisplay.textContent = slider.value;
+                });
+            }
         });
 
         // Toggle AI Replacement and IP fields
         window.toggleAIReplacement = function() {
-            const aiReplaceable = document.getElementById('aiReplaceable').value;
-            document.getElementById('aiReplaceCountSection').classList.toggle('hidden', aiReplaceable !== 'yes');
+            const aiReplaceable = document.getElementById('aiReplaceable');
+            if (aiReplaceable) {
+                document.getElementById('aiReplaceCountSection')?.classList.toggle('hidden', aiReplaceable.value !== 'yes');
+            }
         };
 
         window.toggleIPFields = function() {
-            const hasIP = document.getElementById('hasIP').value;
-            document.getElementById('ipValueSection').classList.toggle('hidden', hasIP !== 'yes');
-            document.getElementById('ipUniqueSection').classList.toggle('hidden', hasIP !== 'yes');
+            const hasIP = document.getElementById('hasIP');
+            if (hasIP) {
+                document.getElementById('ipValueSection')?.classList.toggle('hidden', hasIP.value !== 'yes');
+                document.getElementById('ipUniqueSection')?.classList.toggle('hidden', hasIP.value !== 'yes');
+            }
         };
 
         // Valuation calculation
@@ -874,169 +847,151 @@
         window.calculateValuation = function() {
             if (!validateStep(6)) return;
 
-            const methods = Array.from(document.querySelectorAll('input[type="checkbox"]:checked')).map(cb => cb.value);
-            const ownerSalary = parseFloat(document.getElementById('ownerSalary').value.replace(/,/g, '')) || 0;
-            const averageSalary = parseFloat(document.getElementById('averageSalary').value.replace(/,/g, '')) || 0;
-            const employeeBenefits = parseFloat(document.getElementById('employeeBenefits').value.replace(/,/g, '')) || 0;
-            const staffNumber = parseInt(document.getElementById('staffNumber').value) || 0;
-            const expenses = parseFloat(document.getElementById('expenses').value.replace(/,/g, '')) || 0;
-            const debt = parseFloat(document.getElementById('debt').value.replace(/,/g, '')) || 0;
-            const growthRate = parseFloat(document.getElementById('growthRate').value) || 0;
-            const yearsOperating = parseInt(document.getElementById('yearsOperating').value) || 0;
-            const scalability = parseInt(document.getElementById('scalability').value) || 5;
-            const ltv = parseFloat(document.getElementById('ltv').value.replace(/,/g, '')) || 0;
-            const cac = parseFloat(document.getElementById('cac').value.replace(/,/g, '')) || 0;
-            const churnRate = parseFloat(document.getElementById('churnRate').value) || 0;
-            const customerGrowthRate = parseFloat(document.getElementById('customerGrowthRate').value) || 0;
-            const industry = document.getElementById('industry').value || '';
-            const marketTrendImpact = parseInt(document.getElementById('marketTrendImpact').value) || 5;
-            const competitivePositioning = parseInt(document.getElementById('competitivePositioning').value) || 5;
-            const marketVolatility = parseInt(document.getElementById('marketVolatility').value) || 5;
-            const aiReplaceable = document.getElementById('aiReplaceable').value || 'no';
-            const aiReplaceCount = aiReplaceable === 'yes' ? parseInt(document.getElementById('aiReplaceCount').value) || 0 : 0;
-            const hasIP = document.getElementById('hasIP').value || 'no';
-            const ipValue = hasIP === 'yes' ? parseFloat(document.getElementById('ipValue').value.replace(/,/g, '')) || 0 : 0;
-            const ipUnique = hasIP === 'yes' ? document.getElementById('ipUnique').value || 'not-unique' : 'not-unique';
-            const operationalEfficiency = parseInt(document.getElementById('operationalEfficiency').value) || 5;
-            const projectedRevenue = parseFloat(document.getElementById('projectedRevenue').value.replace(/,/g, '')) || 0;
-            const expectedGrowthRate = parseFloat(document.getElementById('expectedGrowthRate').value) || 0;
+            try {
+                const methods = Array.from(document.querySelectorAll('input[type="checkbox"]:checked')).map(cb => cb.value);
+                const ownerSalary = parseFloat(document.getElementById('ownerSalary').value.replace(/,/g, '')) || 0;
+                const averageSalary = parseFloat(document.getElementById('averageSalary').value.replace(/,/g, '')) || 0;
+                const employeeBenefits = parseFloat(document.getElementById('employeeBenefits').value.replace(/,/g, '')) || 0;
+                const staffNumber = parseInt(document.getElementById('staffNumber').value) || 0;
+                const expenses = parseFloat(document.getElementById('expenses').value.replace(/,/g, '')) || 0;
+                const debt = parseFloat(document.getElementById('debt').value.replace(/,/g, '')) || 0;
+                const growthRate = parseFloat(document.getElementById('growthRate').value) || 0;
+                const yearsOperating = parseInt(document.getElementById('yearsOperating').value) || 0;
+                const scalability = parseInt(document.getElementById('scalability').value) || 5;
+                const ltv = parseFloat(document.getElementById('ltv').value.replace(/,/g, '')) || 0;
+                const cac = parseFloat(document.getElementById('cac').value.replace(/,/g, '')) || 0;
+                const churnRate = parseFloat(document.getElementById('churnRate').value) || 0;
+                const customerGrowthRate = parseFloat(document.getElementById('customerGrowthRate').value) || 0;
+                const industry = document.getElementById('industry').value || '';
+                const marketTrendImpact = parseInt(document.getElementById('marketTrendImpact').value) || 5;
+                const competitivePositioning = parseInt(document.getElementById('competitivePositioning').value) || 5;
+                const marketVolatility = parseInt(document.getElementById('marketVolatility').value) || 5;
+                const aiReplaceable = document.getElementById('aiReplaceable').value || 'no';
+                const aiReplaceCount = aiReplaceable === 'yes' ? parseInt(document.getElementById('aiReplaceCount').value) || 0 : 0;
+                const hasIP = document.getElementById('hasIP').value || 'no';
+                const ipValue = hasIP === 'yes' ? parseFloat(document.getElementById('ipValue').value.replace(/,/g, '')) || 0 : 0;
+                const ipUnique = hasIP === 'yes' ? document.getElementById('ipUnique').value || 'not-unique' : 'not-unique';
+                const operationalEfficiency = parseInt(document.getElementById('operationalEfficiency').value) || 5;
+                const projectedRevenue = parseFloat(document.getElementById('projectedRevenue').value.replace(/,/g, '')) || 0;
+                const expectedGrowthRate = parseFloat(document.getElementById('expectedGrowthRate').value) || 0;
 
-            let valuations = {};
-            let baseMultiplier = 3;
-            const highGrowthIndustries = ['Technology', 'Healthcare', 'Finance'];
-            if (highGrowthIndustries.includes(industry)) baseMultiplier += 0.5;
-            if (growthRate > 20) baseMultiplier += 0.5;
-            if (churnRate < 5) baseMultiplier += 0.3;
-            if (marketVolatility > 7) baseMultiplier -= 0.2;
-            if (competitivePositioning > 7) baseMultiplier += 0.4;
-            if (ipUnique === 'unique') baseMultiplier += 0.5;
-            if (aiReplaceCount > staffNumber * 0.5) baseMultiplier -= 0.3;
+                let valuations = {};
+                let baseMultiplier = 3;
+                const highGrowthIndustries = ['Technology', 'Healthcare', 'Finance'];
+                if (highGrowthIndustries.includes(industry)) baseMultiplier += 0.5;
+                if (growthRate > 20) baseMultiplier += 0.5;
+                if (churnRate < 5) baseMultiplier += 0.3;
+                if (marketVolatility > 7) baseMultiplier -= 0.2;
+                if (competitivePositioning > 7) baseMultiplier += 0.4;
+                if (ipUnique === 'unique') baseMultiplier += 0.5;
+                if (aiReplaceCount > staffNumber * 0.5) baseMultiplier -= 0.3;
 
-            if (methods.includes('multiplier')) {
-                valuations.multiplier = projectedRevenue * baseMultiplier;
-            }
-
-            if (methods.includes('income')) {
-                const ltvCacRatio = ltv / (cac || 1);
-                const incomeValuation = projectedRevenue * ltvCacRatio * (1 - churnRate / 100);
-                valuations.income = incomeValuation > 0 ? incomeValuation : 0;
-            }
-
-            if (methods.includes('earnings')) {
-                const assets = parseFloat(document.getElementById('assets').value.replace(/,/g, '')) || 0;
-                const netAssets = assets - debt;
-                const earningsMultiplier = baseMultiplier * (1 + scalability / 10);
-                valuations.earnings = netAssets * earningsMultiplier;
-            }
-
-            if (methods.includes('dcf')) {
-                const cashFlows = [
-                    parseFloat(document.getElementById('cashFlow1').value.replace(/,/g, '')) || 0,
-                    parseFloat(document.getElementById('cashFlow2').value.replace(/,/g, '')) || 0,
-                    parseFloat(document.getElementById('cashFlow3').value.replace(/,/g, '')) || 0,
-                    parseFloat(document.getElementById('cashFlow4').value.replace(/,/g, '')) || 0,
-                    parseFloat(document.getElementById('cashFlow5').value.replace(/,/g, '')) || 0
-                ];
-                const discountRate = parseFloat(document.getElementById('discountRate').value) / 100 || 0.1;
-                const terminalGrowthRate = parseFloat(document.getElementById('terminalGrowthRate').value) / 100 || 0.03;
-                let dcfValue = 0;
-                for (let i = 0; i < cashFlows.length; i++) {
-                    dcfValue += cashFlows[i] / Math.pow(1 + discountRate, i + 1);
+                if (methods.includes('multiplier')) {
+                    valuations.multiplier = projectedRevenue * baseMultiplier;
                 }
-                const terminalValue = cashFlows[cashFlows.length - 1] * (1 + terminalGrowthRate) / (discountRate - terminalGrowthRate);
-                dcfValue += terminalValue / Math.pow(1 + discountRate, cashFlows.length);
-                valuations.dcf = dcfValue > 0 ? dcfValue : 0;
-            }
 
-            const valuationValues = Object.values(valuations).filter(val => val > 0);
-            const averageValuation = valuationValues.length > 0 ? valuationValues.reduce((a, b) => a + b, 0) / valuationValues.length : 0;
+                if (methods.includes('income')) {
+                    const ltvCacRatio = ltv / (cac || 1);
+                    const incomeValuation = projectedRevenue * ltvCacRatio * (1 - churnRate / 100);
+                    valuations.income = incomeValuation > 0 ? incomeValuation : 0;
+                }
 
-            valuationData = {
-                valuations,
-                averageValuation,
-                ltvCacRatio: ltv / (cac || 1),
-                churnRate,
-                growthRate,
-                scalability,
-                competitivePositioning,
-                marketVolatility,
-                operationalEfficiency,
-                projectedRevenue,
-                cashFlows: methods.includes('dcf') ? [
-                    parseFloat(document.getElementById('cashFlow1').value.replace(/,/g, '')) || 0,
-                    parseFloat(document.getElementById('cashFlow2').value.replace(/,/g, '')) || 0,
-                    parseFloat(document.getElementById('cashFlow3').value.replace(/,/g, '')) || 0,
-                    parseFloat(document.getElementById('cashFlow4').value.replace(/,/g, '')) || 0,
-                    parseFloat(document.getElementById('cashFlow5').value.replace(/,/g, '')) || 0
-                ] : []
-            };
+                if (methods.includes('earnings')) {
+                    const assets = parseFloat(document.getElementById('assets').value.replace(/,/g, '')) || 0;
+                    const netAssets = assets - debt;
+                    const earningsMultiplier = baseMultiplier * (1 + scalability / 10);
+                    valuations.earnings = netAssets * earningsMultiplier;
+                }
 
-            document.getElementById('valuationAmount').textContent = `$${Math.round(averageValuation).toLocaleString()}`;
-            document.getElementById('financialMetrics').innerHTML = `
-                <p>LTV/CAC Ratio: ${valuationData.ltvCacRatio.toFixed(2)}</p>
-                <p>Churn Rate: ${churnRate}%</p>
-                <p>Annual Growth Rate: ${growthRate}%</p>
-                <p>Projected Revenue: $${projectedRevenue.toLocaleString()}</p>
-            `;
-            document.getElementById('valuationRanges').innerHTML = Object.entries(valuations).map(([method, value]) => 
-                `<p>${method.charAt(0).toUpperCase() + method.slice(1)}: $${Math.round(value).toLocaleString()}</p>`
-            ).join('');
-            document.getElementById('valuationFactors').innerHTML = `
-                <p>Scalability: ${scalability}/10</p>
-                <p>Competitive Positioning: ${competitivePositioning}/10</p>
-                <p>Market Volatility: ${marketVolatility}/10</p>
-                <p>Operational Efficiency: ${operationalEfficiency}/10</p>
-            `;
-
-            // Show results and charts
-            document.getElementById('valuationResult').classList.remove('hidden');
-            document.getElementById('chartsSection').classList.remove('hidden');
-            steps.forEach(s => s.classList.add('step-hidden'));
-
-            // Render charts
-            const valuationChart = new Chart(document.getElementById('valuationChart'), {
-                type: 'bar',
-                data: {
-                    labels: Object.keys(valuations),
-                    datasets: [{
-                        label: 'Valuation ($)',
-                        data: Object.values(valuations),
-                        backgroundColor: '#38B2AC'
-                    }]
-                },
-                options: {
-                    scales: {
-                        y: { beginAtZero: true }
+                if (methods.includes('dcf')) {
+                    const cashFlows = [
+                        parseFloat(document.getElementById('cashFlow1').value.replace(/,/g, '')) || 0,
+                        parseFloat(document.getElementById('cashFlow2').value.replace(/,/g, '')) || 0,
+                        parseFloat(document.getElementById('cashFlow3').value.replace(/,/g, '')) || 0,
+                        parseFloat(document.getElementById('cashFlow4').value.replace(/,/g, '')) || 0,
+                        parseFloat(document.getElementById('cashFlow5').value.replace(/,/g, '')) || 0
+                    ];
+                    const discountRate = parseFloat(document.getElementById('discountRate').value) / 100 || 0.1;
+                    const terminalGrowthRate = parseFloat(document.getElementById('terminalGrowthRate').value) / 100 || 0.03;
+                    let dcfValue = 0;
+                    for (let i = 0; i < cashFlows.length; i++) {
+                        dcfValue += cashFlows[i] / Math.pow(1 + discountRate, i + 1);
                     }
+                    const terminalValue = cashFlows[cashFlows.length - 1] * (1 + terminalGrowthRate) / (discountRate - terminalGrowthRate);
+                    dcfValue += terminalValue / Math.pow(1 + discountRate, cashFlows.length);
+                    valuations.dcf = dcfValue > 0 ? dcfValue : 0;
                 }
-            });
 
-            const incomeChart = new Chart(document.getElementById('incomeChart'), {
-                type: 'line',
-                data: {
-                    labels: ['Current', 'Projected'],
-                    datasets: [{
-                        label: 'Revenue ($)',
-                        data: [0, projectedRevenue],
-                        borderColor: '#38B2AC',
-                        fill: false
-                    }]
-                },
-                options: {
-                    scales: {
-                        y: { beginAtZero: true }
+                const valuationValues = Object.values(valuations).filter(val => val > 0);
+                const averageValuation = valuationValues.length > 0 ? valuationValues.reduce((a, b) => a + b, 0) / valuationValues.length : 0;
+
+                valuationData = {
+                    valuations,
+                    averageValuation,
+                    ltvCacRatio: ltv / (cac || 1),
+                    churnRate,
+                    growthRate,
+                    scalability,
+                    competitivePositioning,
+                    marketVolatility,
+                    operationalEfficiency,
+                    projectedRevenue,
+                    cashFlows: methods.includes('dcf') ? [
+                        parseFloat(document.getElementById('cashFlow1').value.replace(/,/g, '')) || 0,
+                        parseFloat(document.getElementById('cashFlow2').value.replace(/,/g, '')) || 0,
+                        parseFloat(document.getElementById('cashFlow3').value.replace(/,/g, '')) || 0,
+                        parseFloat(document.getElementById('cashFlow4').value.replace(/,/g, '')) || 0,
+                        parseFloat(document.getElementById('cashFlow5').value.replace(/,/g, '')) || 0
+                    ] : []
+                };
+
+                document.getElementById('valuationAmount').textContent = `$${Math.round(averageValuation).toLocaleString()}`;
+                document.getElementById('financialMetrics').innerHTML = `
+                    <p>LTV/CAC Ratio: ${valuationData.ltvCacRatio.toFixed(2)}</p>
+                    <p>Churn Rate: ${churnRate}%</p>
+                    <p>Annual Growth Rate: ${growthRate}%</p>
+                    <p>Projected Revenue: $${projectedRevenue.toLocaleString()}</p>
+                `;
+                document.getElementById('valuationRanges').innerHTML = Object.entries(valuations).map(([method, value]) => 
+                    `<p>${method.charAt(0).toUpperCase() + method.slice(1)}: $${Math.round(value).toLocaleString()}</p>`
+                ).join('');
+                document.getElementById('valuationFactors').innerHTML = `
+                    <p>Scalability: ${scalability}/10</p>
+                    <p>Competitive Positioning: ${competitivePositioning}/10</p>
+                    <p>Market Volatility: ${marketVolatility}/10</p>
+                    <p>Operational Efficiency: ${operationalEfficiency}/10</p>
+                `;
+
+                // Show results and charts
+                document.getElementById('valuationResult').classList.remove('hidden');
+                document.getElementById('chartsSection').classList.remove('hidden');
+                steps.forEach(s => s.classList.add('step-hidden'));
+
+                // Render charts
+                const valuationChart = new Chart(document.getElementById('valuationChart'), {
+                    type: 'bar',
+                    data: {
+                        labels: Object.keys(valuations),
+                        datasets: [{
+                            label: 'Valuation ($)',
+                            data: Object.values(valuations),
+                            backgroundColor: '#38B2AC'
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            y: { beginAtZero: true }
+                        }
                     }
-                }
-            });
+                });
 
-            if (methods.includes('dcf')) {
-                const dcfChart = new Chart(document.getElementById('dcfChart'), {
+                const incomeChart = new Chart(document.getElementById('incomeChart'), {
                     type: 'line',
                     data: {
-                        labels: ['Year 1', 'Year 2', 'Year 3', 'Year 4', 'Year 5'],
+                        labels: ['Current', 'Projected'],
                         datasets: [{
-                            label: 'Cash Flow ($)',
-                            data: valuationData.cashFlows,
+                            label: 'Revenue ($)',
+                            data: [0, projectedRevenue],
                             borderColor: '#38B2AC',
                             fill: false
                         }]
@@ -1047,89 +1002,127 @@
                         }
                     }
                 });
+
+                if (methods.includes('dcf')) {
+                    const dcfChart = new Chart(document.getElementById('dcfChart'), {
+                        type: 'line',
+                        data: {
+                            labels: ['Year 1', 'Year 2', 'Year 3', 'Year 4', 'Year 5'],
+                            datasets: [{
+                                label: 'Cash Flow ($)',
+                                data: valuationData.cashFlows,
+                                borderColor: '#38B2AC',
+                                fill: false
+                            }]
+                        },
+                        options: {
+                            scales: {
+                                y: { beginAtZero: true }
+                            }
+                        }
+                    });
+                }
+            } catch (error) {
+                console.error('Calculation error:', error);
             }
         };
 
         window.exportResults = function() {
-            const { jsPDF } = window.jspdf;
-            const doc = new jsPDF();
-            doc.text('SaaS Valuation Report', 10, 10);
-            doc.text(`Valuation: ${document.getElementById('valuationAmount').textContent}`, 10, 20);
-            doc.text('Key Financial Metrics:', 10, 30);
-            doc.text(document.getElementById('financialMetrics').innerText, 10, 40);
-            doc.text('Valuation Ranges:', 10, 60);
-            doc.text(document.getElementById('valuationRanges').innerText, 10, 70);
-            doc.text('Valuation Factors:', 10, 90);
-            doc.text(document.getElementById('valuationFactors').innerText, 10, 100);
-            doc.save('SaaS_Valuation_Report.pdf');
+            try {
+                const { jsPDF } = window.jspdf;
+                const doc = new jsPDF();
+                doc.text('SaaS Valuation Report', 10, 10);
+                doc.text(`Valuation: ${document.getElementById('valuationAmount').textContent}`, 10, 20);
+                doc.text('Key Financial Metrics:', 10, 30);
+                doc.text(document.getElementById('financialMetrics').innerText, 10, 40);
+                doc.text('Valuation Ranges:', 10, 60);
+                doc.text(document.getElementById('valuationRanges').innerText, 10, 70);
+                doc.text('Valuation Factors:', 10, 90);
+                doc.text(document.getElementById('valuationFactors').innerText, 10, 100);
+                doc.save('SaaS_Valuation_Report.pdf');
+            } catch (error) {
+                console.error('Export error:', error);
+            }
         };
 
         window.saveProgress = function() {
-            const formData = {
-                methods: Array.from(document.querySelectorAll('input[type="checkbox"]:checked')).map(cb => cb.value),
-                ownerSalary: document.getElementById('ownerSalary').value,
-                averageSalary: document.getElementById('averageSalary').value,
-                employeeBenefits: document.getElementById('employeeBenefits').value,
-                staffNumber: document.getElementById('staffNumber').value,
-                expenses: document.getElementById('expenses').value,
-                debt: document.getElementById('debt').value,
-                growthRate: document.getElementById('growthRate').value,
-                yearsOperating: document.getElementById('yearsOperating').value,
-                scalability: document.getElementById('scalability').value,
-                ltv: document.getElementById('ltv').value,
-                cac: document.getElementById('cac').value,
-                churnRate: document.getElementById('churnRate').value,
-                customerGrowthRate: document.getElementById('customerGrowthRate').value,
-                industry: document.getElementById('industry').value,
-                marketTrendImpact: document.getElementById('marketTrendImpact').value,
-                competitivePositioning: document.getElementById('competitivePositioning').value,
-                marketVolatility: document.getElementById('marketVolatility').value,
-                aiReplaceable: document.getElementById('aiReplaceable').value,
-                aiReplaceCount: document.getElementById('aiReplaceCount').value,
-                hasIP: document.getElementById('hasIP').value,
-                ipValue: document.getElementById('ipValue').value,
-                ipUnique: document.getElementById('ipUnique').value,
-                operationalEfficiency: document.getElementById('operationalEfficiency').value,
-                projectedRevenue: document.getElementById('projectedRevenue').value,
-                expectedGrowthRate: document.getElementById('expectedGrowthRate').value,
-                cashFlow1: document.getElementById('cashFlow1').value,
-                cashFlow2: document.getElementById('cashFlow2').value,
-                cashFlow3: document.getElementById('cashFlow3').value,
-                cashFlow4: document.getElementById('cashFlow4').value,
-                cashFlow5: document.getElementById('cashFlow5').value,
-                discountRate: document.getElementById('discountRate').value,
-                terminalGrowthRate: document.getElementById('terminalGrowthRate').value,
-                assets: document.getElementById('assets').value
-            };
-            localStorage.setItem('valuationFormData', JSON.stringify(formData));
-            alert('Progress saved!');
+            try {
+                const formData = {
+                    methods: Array.from(document.querySelectorAll('input[type="checkbox"]:checked')).map(cb => cb.value),
+                    ownerSalary: document.getElementById('ownerSalary')?.value || '',
+                    averageSalary: document.getElementById('averageSalary')?.value || '',
+                    employeeBenefits: document.getElementById('employeeBenefits')?.value || '',
+                    staffNumber: document.getElementById('staffNumber')?.value || '',
+                    expenses: document.getElementById('expenses')?.value || '',
+                    debt: document.getElementById('debt')?.value || '',
+                    growthRate: document.getElementById('growthRate')?.value || '',
+                    yearsOperating: document.getElementById('yearsOperating')?.value || '',
+                    scalability: document.getElementById('scalability')?.value || '',
+                    ltv: document.getElementById('ltv')?.value || '',
+                    cac: document.getElementById('cac')?.value || '',
+                    churnRate: document.getElementById('churnRate')?.value || '',
+                    customerGrowthRate: document.getElementById('customerGrowthRate')?.value || '',
+                    industry: document.getElementById('industry')?.value || '',
+                    marketTrendImpact: document.getElementById('marketTrendImpact')?.value || '',
+                    competitivePositioning: document.getElementById('competitivePositioning')?.value || '',
+                    marketVolatility: document.getElementById('marketVolatility')?.value || '',
+                    aiReplaceable: document.getElementById('aiReplaceable')?.value || '',
+                    aiReplaceCount: document.getElementById('aiReplaceCount')?.value || '',
+                    hasIP: document.getElementById('hasIP')?.value || '',
+                    ipValue: document.getElementById('ipValue')?.value || '',
+                    ipUnique: document.getElementById('ipUnique')?.value || '',
+                    operationalEfficiency: document.getElementById('operationalEfficiency')?.value || '',
+                    projectedRevenue: document.getElementById('projectedRevenue')?.value || '',
+                    expectedGrowthRate: document.getElementById('expectedGrowthRate')?.value || '',
+                    cashFlow1: document.getElementById('cashFlow1')?.value || '',
+                    cashFlow2: document.getElementById('cashFlow2')?.value || '',
+                    cashFlow3: document.getElementById('cashFlow3')?.value || '',
+                    cashFlow4: document.getElementById('cashFlow4')?.value || '',
+                    cashFlow5: document.getElementById('cashFlow5')?.value || '',
+                    discountRate: document.getElementById('discountRate')?.value || '',
+                    terminalGrowthRate: document.getElementById('terminalGrowthRate')?.value || '',
+                    assets: document.getElementById('assets')?.value || ''
+                };
+                localStorage.setItem('valuationFormData', JSON.stringify(formData));
+                alert('Progress saved!');
+            } catch (error) {
+                console.error('Save progress error:', error);
+            }
         };
 
-        document.getElementById('start-over').addEventListener('click', () => {
-            document.getElementById('valuation-form').reset();
-            document.getElementById('valuationResult').classList.add('hidden');
-            document.getElementById('chartsSection').classList.add('hidden');
-            currentStep = 1;
-            showStep(currentStep);
+        document.getElementById('start-over')?.addEventListener('click', () => {
+            try {
+                document.getElementById('valuation-form').reset();
+                document.getElementById('valuationResult').classList.add('hidden');
+                document.getElementById('chartsSection').classList.add('hidden');
+                currentStep = 1;
+                showStep(currentStep);
+            } catch (error) {
+                console.error('Start over error:', error);
+            }
         });
 
         // Load saved progress
         window.addEventListener('load', () => {
-            const savedData = localStorage.getItem('valuationFormData');
-            if (savedData) {
-                const formData = JSON.parse(savedData);
-                Object.keys(formData).forEach(key => {
-                    const element = document.getElementById(key);
-                    if (element) {
-                        if (element.type === 'checkbox') {
-                            element.checked = formData[key].includes(element.value);
-                        } else {
-                            element.value = formData[key];
+            try {
+                const savedData = localStorage.getItem('valuationFormData');
+                if (savedData) {
+                    const formData = JSON.parse(savedData);
+                    Object.keys(formData).forEach(key => {
+                        const element = document.getElementById(key);
+                        if (element) {
+                            if (element.type === 'checkbox') {
+                                element.checked = formData[key].includes(element.value);
+                            } else {
+                                element.value = formData[key];
+                            }
                         }
-                    }
-                });
-                toggleAIReplacement();
-                toggleIPFields();
+                    });
+                    toggleAIReplacement();
+                    toggleIPFields();
+                }
+            } catch (error) {
+                console.error('Load progress error:', error);
             }
         });
     </script>
