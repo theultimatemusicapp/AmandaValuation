@@ -69,6 +69,10 @@
         .step-visible {
             display: block;
         }
+        .progress-container {
+            max-width: 100%;
+            overflow: hidden;
+        }
     </style>
 </head>
 <body class="font-sans">
@@ -106,7 +110,7 @@
             <a href="#valuation" class="btn-primary text-white font-bold py-3 px-8 rounded-lg">Get Your Valuation Now</a>
         </div>
     </section>
-<!-- Valuation Calculator (Steps 1-3) -->
+<!-- Valuation Calculator (Steps 1-2) -->
     <section id="valuation" class="py-16 bg-gray-50">
         <div class="container mx-auto px-6">
             <div class="text-center mb-12">
@@ -115,9 +119,9 @@
             </div>
             <div id="valuation-form" class="bg-white rounded-xl shadow-lg p-6 max-w-3xl mx-auto">
                 <!-- Progress Bar -->
-                <div class="mb-8">
+                <div class="mb-8 progress-container">
                     <div class="relative pt-1">
-                        <div class="overflow-hidden h-2 mb-4 text-xs flex rounded bg-gray-200">
+                        <div class="overflow-hidden h-2 mb-4 text-xs flex rounded bg-gray-200 w-full">
                             <div id="progress-fill" class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-teal-500" style="width: 16.67%"></div>
                         </div>
                         <p class="text-center text-gray-600">Step <span id="current-step">1</span> of 6</p>
@@ -126,7 +130,10 @@
 
                 <!-- Step 1: Valuation Method -->
                 <div class="step step-visible">
-                    <h3 class="text-xl font-semibold text-gray-800 mb-4">Step 1: Select Valuation Method</h3>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-4">
+                        Step 1: Select Valuation Method
+                        <span data-tooltip="Choose valuation methods to estimate your SaaS company's worth based on different financial perspectives." class="text-teal-500 underline cursor-pointer ml-2">?</span>
+                    </h3>
                     <p class="text-gray-600 mb-4">Choose up to 3 methods for a comprehensive valuation. <span data-tooltip="Select methods based on your business model. Multiplier is best for established SaaS companies, while DCF suits those with predictable cash flows." class="text-teal-500 underline cursor-pointer">Learn more</span></p>
                     <div class="space-y-2">
                         <label class="flex items-center">
@@ -154,7 +161,10 @@
 
                 <!-- Step 2: Financial Information -->
                 <div class="step step-hidden">
-                    <h3 class="text-xl font-semibold text-gray-800 mb-4">Step 2: Financial Information</h3>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-4">
+                        Step 2: Financial Information
+                        <span data-tooltip="Provide key financial metrics to assess your company's revenue, expenses, and operational costs." class="text-teal-500 underline cursor-pointer ml-2">?</span>
+                    </h3>
                     <p class="text-gray-600 mb-4">Provide your financial details to help us calculate your valuation accurately.</p>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
@@ -208,10 +218,12 @@
                         <button id="next-btn-2" class="btn-primary text-white font-bold py-2 px-4 rounded-lg">Next</button>
                     </div>
                 </div>
-
                 <!-- Step 3: Customer Metrics -->
                 <div class="step step-hidden">
-                    <h3 class="text-xl font-semibold text-gray-800 mb-4">Step 3: Customer Metrics</h3>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-4">
+                        Step 3: Customer Metrics
+                        <span data-tooltip="Provide metrics about customer acquisition and retention to evaluate your business's customer value and growth potential." class="text-teal-500 underline cursor-pointer ml-2">?</span>
+                    </h3>
                     <p class="text-gray-600 mb-4">Tell us about your customer acquisition and retention metrics.</p>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
@@ -240,14 +252,13 @@
                         <button id="next-btn-3" class="btn-primary text-white font-bold py-2 px-4 rounded-lg">Next</button>
                     </div>
                 </div>
-            </div>
-        </div>
-    </section>
-    <!-- Valuation Calculator (Steps 4-6, Results, and Charts) -->
-    <!-- Note: This continues inside the <div id="valuation-form"> from Part 2 -->
+
                 <!-- Step 4: Industry Details -->
                 <div class="step step-hidden">
-                    <h3 class="text-xl font-semibold text-gray-800 mb-4">Step 4: Industry Details</h3>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-4">
+                        Step 4: Industry Details
+                        <span data-tooltip="Specify your industry and market dynamics to adjust your valuation based on market conditions and competition." class="text-teal-500 underline cursor-pointer ml-2">?</span>
+                    </h3>
                     <p class="text-gray-600 mb-4">Provide details about your industry and market position.</p>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div class="md:col-span-2">
@@ -295,10 +306,12 @@
                         <button id="next-btn-4" class="btn-primary text-white font-bold py-2 px-4 rounded-lg">Next</button>
                     </div>
                 </div>
-
                 <!-- Step 5: Technology and Intellectual Property -->
                 <div class="step step-hidden">
-                    <h3 class="text-xl font-semibold text-gray-800 mb-4">Step 5: Technology and Intellectual Property</h3>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-4">
+                        Step 5: Technology and Intellectual Property
+                        <span data-tooltip="Share details about your technology stack and intellectual property to assess their impact on your valuation." class="text-teal-500 underline cursor-pointer ml-2">?</span>
+                    </h3>
                     <p class="text-gray-600 mb-4">Tell us about your technology stack and intellectual property.</p>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div class="md:col-span-2">
@@ -352,7 +365,10 @@
 
                 <!-- Step 6: Future Projections -->
                 <div class="step step-hidden">
-                    <h3 class="text-xl font-semibold text-gray-800 mb-4">Step 6: Future Projections</h3>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-4">
+                        Step 6: Future Projections
+                        <span data-tooltip="Provide revenue projections and additional financial data to estimate future business value." class="text-teal-500 underline cursor-pointer ml-2">?</span>
+                    </h3>
                     <p class="text-gray-600 mb-4">Provide your revenue projections and additional details based on your selected valuation methods.</p>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
@@ -424,7 +440,10 @@
 
                 <!-- Results -->
                 <div id="valuationResult" class="mt-8 hidden">
-                    <h3 class="text-xl font-semibold text-gray-800 mb-4">Your SaaS Valuation</h3>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-4">
+                        Your SaaS Valuation
+                        <span data-tooltip="View your calculated valuation based on the selected methods and provided data." class="text-teal-500 underline cursor-pointer ml-2">?</span>
+                    </h3>
                     <p class="text-3xl font-bold text-teal-500 mb-4">Valuation: <span id="valuationAmount">$0</span></p>
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                         <div>
@@ -452,7 +471,10 @@
 
                 <!-- Charts -->
                 <div id="chartsSection" class="mt-8 hidden">
-                    <h3 class="text-xl font-semibold text-gray-800 mb-4">Valuation Insights</h3>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-4">
+                        Valuation Insights
+                        <span data-tooltip="Visualize your valuation results and key metrics through charts for better understanding." class="text-teal-500 underline cursor-pointer ml-2">?</span>
+                    </h3>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
                             <h4 class="text-lg font-semibold text-gray-800 mb-2">Valuation Comparison</h4>
@@ -471,10 +493,13 @@
             </div>
         </div>
     </section>
-  <!-- Call to Action -->
+    <!-- Call to Action -->
     <section class="gradient-bg text-white py-16">
         <div class="container mx-auto px-6 text-center">
-            <h2 class="text-3xl font-bold mb-4">Unlock Advanced Insights with Pro</h2>
+            <h2 class="text-3xl font-bold mb-4">
+                Unlock Advanced Insights with Pro
+                <span data-tooltip="Upgrade to the Pro version for AI-powered analytics and detailed valuation reports." class="text-teal-300 underline cursor-pointer ml-2">?</span>
+            </h2>
             <p class="text-lg mb-8 opacity-90 max-w-2xl mx-auto">Get your free SaaS valuation now and explore the Pro version for AI-powered analytics and detailed reports.</p>
             <a href="/payment.html" class="btn-primary text-white font-bold py-3 px-8 rounded-lg">Try Pro Now</a>
         </div>
@@ -485,7 +510,10 @@
         <div class="container mx-auto px-6">
             <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
                 <div>
-                    <h3 class="text-lg font-bold mb-4">SaaS Valuation App</h3>
+                    <h3 class="text-lg font-bold mb-4">
+                        SaaS Valuation App
+                        <span data-tooltip="Your trusted platform for accurate SaaS business valuations." class="text-teal-400 underline cursor-pointer ml-2">?</span>
+                    </h3>
                     <p class="text-gray-400">Empowering SaaS founders to understand their business worth with AI-driven insights.</p>
                 </div>
                 <div>
@@ -559,7 +587,7 @@
             if (step === 1) {
                 const methods = document.querySelectorAll('input[type="checkbox"]:checked');
                 const methodError = document.getElementById('method-error');
-                if (methods.length < 1 || methods.length > 3) {
+                if (methods.length < 1 || methods.length >frontal lobe 3) {
                     methodError.classList.remove('hidden');
                     isValid = false;
                 } else {
