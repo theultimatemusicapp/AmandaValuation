@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-772JV93TYR"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-772JV93TYR');
+    </script>
+    <link rel="icon" type="image/png" href="favicon.png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Comprehensive Due Diligence Checklist for SaaS businesses to prepare for investor reviews or sales with SaaS Valuation App.">
+    <meta name="keywords" content="SaaS due diligence, business valuation, investor checklist, SaaS metrics, SaaS Valuation App, Mergers and Acquisitions">
+    <title>Due Diligence Checklist - SaaS Valuation App</title>
+    <!-- Tailwind CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <!-- jsPDF -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <style>
+        .gradient-bg {
+            background: linear-gradient(135deg, #38B2AC 0%, #2D3748 100%);
+        }
+        .btn-primary {
+            background-color: #38B2AC;
+            transition: background-color 0.3s ease;
+        }
+        .btn-primary:hover {
+            background-color: #2C7A7B;
+        }
+        .btn-secondary {
+            background-color: #ED8936;
+            color: white;
+            transition: background-color 0.3s ease;
+        }
+        .btn-secondary:hover {
+            background-color: #C05621;
+        }
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        [data-tooltip] {
+            position: relative;
+        }
+        [data-tooltip]:hover:after {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #2D3748;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 12px;
+            white-space: nowrap;
+            z-index: 10;
+        }
+        .checklist-item {
+            transition: background-color 0.2s ease;
+        }
+        .checklist-item:hover {
+            background-color: #F7FAFC;
+        }
+        .checklist-completed {
+            background-color: #E6FFFA;
+            border-left: 4px solid #38B2AC;
+        }
+        .dropdown-content {
+            display: none;
+            background-color: #F9FAFB;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 5px;
+            font-size: 14px;
+            color: #4B5563;
+        }
+        .dropdown-content.show {
+            display: block;
+        }
+    </style>
+</head>
+<body class="font-sans">
+    <!-- Header -->
+    <header class="bg-gray-800 text-white py-4 sticky top-0 z-50">
+        <div class="container mx-auto px-6 flex justify-between items-center">
+            <div class="text-2xl font-bold">
+                <a href="/">SaaS Valuation App</a>
+            </div>
+            <nav class="hidden md:flex space-x-6">
+                <a href="index.html#valuation" class="hover:text-teal-400">Free Self Valuation</a>
+                <a href="index.html#data-room" class="hover:text-teal-400">AI Data Analysis</a>
+                <a href="index.html#pricing" class="hover:text-teal-400">Pricing</a>
+                <a href="blog.html" class="hover:text-teal-400">Resources</a>
+            </nav>
+            <button id="menu-toggle" class="md:hidden focus:outline-none">
+                <i class="fas fa-bars text-2xl"></i>
+            </button>
+        </div>
+        <div id="mobile-menu" class="md:hidden hidden">
+            <nav class="flex flex-col space-y-4 mt-4 px-6">
+                <a href="index.html#valuation" class="hover:text-teal-400">Self Valuation</a>
+                <a href="index.html#data-room" class="hover:text-teal-400">AI Data Room</a>
+                <a href="index.html#pricing" class="hover:text-teal-400">Pricing</a>
+                <a href="blog.html" class="hover:text-teal-400">Resources</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="gradient-bg text-white py-20">
+        <div class="container mx-auto px-6 text-center">
+            <h1 class="text-4xl md:text-5xl font-bold mb-4">Due Diligence Checklist for SaaS Businesses</h1>
+            <p class="text-lg md:text-xl mb-8 opacity-90 max-w-2xl mx-auto">Prepare for investor reviews or business sales with our comprehensive due diligence checklist, tailored for SaaS companies.</p>
+            <div class="flex justify-center space-x-4">
+                <button id="download-checklist" class="btn-primary text-white font-bold py-3 px-8 rounded-lg">Download as PDF</button>
+                <a href="index.html#valuation" class="btn-secondary font-bold py-3 px-8 rounded-lg">Get Your Valuation</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Checklist Section -->
+    <section class="py-16 bg-gray-50">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-gray-800 mb-4">SaaS Due Diligence Checklist</h2>
+                <p class="text-lg text-gray-600 max-w-2xl mx-auto">Use this checklist to ensure you have all necessary documents and information ready for due diligence. Mark items as completed to track your progress and expand for AI-driven insights.</p>
+            </div>
+            <div class="bg-white rounded-xl shadow-lg p-6 max-w-4xl mx-auto">
+                <!-- Financial Documents -->
+                <div class="mb-8">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-4">Financial Documents</h3>
+                    <div class="space-y-2">
+                        <div class="checklist-item p-4 border rounded-lg">
+                            <div class="flex items-center">
+                                <input type="checkbox" class="form-checkbox h-5 w-5 text-teal-500" id="financial-statements">
+                                <label for="financial-statements" class="ml-2 text-gray-600">Financial Statements (Last 3 Years) <span data-tooltip="Include income statements, balance sheets, and cash flow statements." class="text-teal-500 underline cursor-pointer">?</span></label>
+                            </div>
+                            <div class="dropdown-content" id="dropdown-financial-statements">
+                                <p>Comprehensive financial statements provide a transparent view of your SaaS business’s financial health, showcasing revenue trends, profitability, and cash flow stability. Uploading these to our Pro valuation tool enables our AI-driven analytics to generate investor-ready reports, highlighting key metrics like EBITDA and net income to strengthen your valuation for potential buyers or shareholders.</p>
+                            </div>
+                        </div>
+                        <div class="checklist-item p-4 border rounded-lg">
+                            <div class="flex items-center">
+                                <input type="checkbox" class="form-checkbox h-5 w-5 text-teal-500" id="tax-returns">
+                                <label for="tax-returns" class="ml-2 text-gray-600">Tax Returns (Last 3 Years) <span data-tooltip="Ensure all tax filings are up-to-date and accurate." class="text-teal-500 underline cursor-pointer">?</span></label>
+                            </div>
+                            <div class="dropdown-content" id="dropdown-tax-returns">
+                                <p>Tax returns validate your financial integrity and compliance, critical for investor confidence. By uploading these to our Pro platform, our AI-powered engine cross-references tax data with financials to produce a robust, data-driven valuation document, ensuring transparency and trust for investors or acquirers.</p>
+                            </div>
+                        </div>
+                        <div class="checklist-item p-4 border rounded-lg">
+                            <div class="flex items-center">
+                                <input type="checkbox" class="form-checkbox h-5 w-5 text-teal-500" id="mrr-arr">
+                                <label for="mrr-arr" class="ml-2 text-gray-600">MRR and ARR Reports <span data-tooltip="Provide Monthly Recurring Revenue (MRR) and Annual Recurring Revenue (ARR) breakdowns." class="text-teal-500 underline cursor-pointer">?</span></label>
+                            </div>
+                            <div class="dropdown-content" id="dropdown-mrr-arr">
+                                <p>MRR and ARR are cornerstone metrics for SaaS valuations, reflecting predictable revenue streams. Upload these to our Pro version for AI-driven insights that benchmark your recurring revenue against industry standards, creating a compelling, investor-ready valuation report for stakeholders or potential buyers.</p>
+                            </div>
+                        </div>
+                        <div class="checklist-item p-4 border rounded-lg">
+                            <div class="flex items-center">
+                                <input type="checkbox" class="form-checkbox h-5 w-5 text-teal-500" id="churn-rate">
+                                <label for="churn-rate" class="ml-2 text-gray-600">Churn Rate Analysis <span data-tooltip="Include churn rate trends and customer retention metrics." class="text-teal-500 underline cursor-pointer">?</span></label>
+                            </div>
+                            <div class="dropdown-content" id="dropdown-churn-rate">
+                                <p>Churn rate analysis reveals customer retention strength, a key driver of SaaS value. With our Pro plan, uploading churn data allows our AI to assess retention trends, generating actionable insights and a polished valuation report that highlights your business’s stability to investors and buyers.</p>
+                            </div>
+                        </div>
+                        <div class="checklist-item p-4 border rounded-lg">
+                            <div class="flex items-center">
+                                <input type="checkbox" class="form-checkbox h-5 w-5 text-teal-500" id="cac-ltv">
+                                <label for="cac-ltv" class="ml-2 text-gray-600">CAC and LTV Metrics <span data-tooltip="Customer Acquisition Cost (CAC) and Lifetime Value (LTV) ratios." class="text-teal-500 underline cursor-pointer">?</span></label>
+                            </div>
+                            <div class="dropdown-content" id="dropdown-cac-ltv">
+                                <p>LTV:CAC ratios measure your business’s efficiency in acquiring and retaining high-value customers. Upload these metrics to our Pro platform, and our AI-driven analytics will optimize your valuation, producing a data-driven report that showcases your growth potential to investors, buyers, or shareholders.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Legal Documents -->
+                <div class="mb-8">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-4">Legal Documents</h3>
+                    <div class="space-y-2">
+                        <div class="checklist-item p-4 border rounded-lg">
+                            <div class="flex items-center">
+                                <input type="checkbox" class="form-checkbox h-5 w-5 text-teal-500" id="incorporation">
+                                <label for="incorporation" class="ml-2 text-gray-600">Articles of Incorporation <span data-tooltip="Provide documentation of your company's legal formation." class="text-teal-500 underline cursor-pointer">?</span></label>
+                            </div>
+                            <div class="dropdown-content" id="dropdown-incorporation">
+                                <p>Articles of Incorporation establish your legal entity status, critical for due diligence. Uploading these to our Pro valuation tool allows our AI to verify your corporate structure, enhancing the credibility of your investor-ready valuation report for stakeholders or acquirers.</p>
+                            </div>
+                        </div>
+                        <div class="checklist-item p-4 border rounded-lg">
+                            <div class="flex items-center">
+                                <input type="checkbox" class="form-checkbox h-5 w-5 text-teal-500" id="cap-table">
+                                <label for="cap-table" class="ml-2 text-gray-600">Capitalization Table <span data-tooltip="Detail ownership structure, including equity and options." class="text-teal-500 underline cursor-pointer">?</span></label>
+                            </div>
+                            <div class="dropdown-content" id="dropdown-cap-table">
+                                <p>A capitalization table clarifies ownership and equity distribution, a must for investor trust. Upload it to our Pro platform, and our AI-powered analytics will integrate this data into a comprehensive valuation report, showcasing your business’s structure to potential buyers or shareholders.</p>
+                            </div>
+                        </div>
+                        <div class="checklist-item p-4 border rounded-lg">
+                            <div class="flex items-center">
+                                <input type="checkbox" class="form-checkbox h-5 w-5 text-teal-500" id="contracts">
+                                <label for="contracts" class="ml-2 text-gray-600">Customer and Vendor Contracts <span data-tooltip="Include key agreements with customers and suppliers." class="text-teal-500 underline cursor-pointer">?</span></label>
+                            </div>
+                            <div class="dropdown-content" id="dropdown-contracts">
+                                <p>Key contracts demonstrate your business’s operational stability and revenue reliability. With our Pro plan, upload these to leverage AI-driven insights, generating a polished valuation document that highlights contractual strengths for investors or acquirers.</p>
+                            </div>
+                        </div>
+                        <div class="checklist-item p-4 border rounded-lg">
+                            <div class="flex items-center">
+                                <input type="checkbox" class="form-checkbox h-5 w-5 text-teal-500" id="ip-rights">
+                                <label for="ip-rights" class="ml-2 text-gray-600">Intellectual Property Documentation <span data-tooltip="List patents, trademarks, and copyrights owned by the company." class="text-teal-500 underline cursor-pointer">?</span></label>
+                            </div>
+                            <div class="dropdown-content" id="dropdown-ip-rights">
+                                <p>IP documentation validates your unique assets, boosting valuation. Upload these to our Pro platform, and our AI will quantify their impact, creating a data-driven, investor-ready report that emphasizes your competitive edge for buyers or shareholders.</p>
+                            </div>
+                        </div>
+                        <div class="checklist-item p-4 border rounded-lg">
+                            <div class="flex items-center">
+                                <input type="checkbox" class="form-checkbox h-5 w-5 text-teal-500" id="compliance">
+                                <label for="compliance" class="ml-2 text-gray-600">Compliance Records <span data-tooltip="Include regulatory compliance documents, e.g., GDPR, CCPA." class="text-teal-500 underline cursor-pointer">?</span></label>
+                            </div>
+                            <div class="dropdown-content" id="dropdown-compliance">
+                                <p>Compliance records ensure regulatory adherence, critical for investor confidence. Upload these to our Pro tool, and our AI-driven engine will integrate compliance data into a robust valuation report, enhancing trust for investors, buyers, or stakeholders.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Operational Details -->
+                <div class="mb-8">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-4">Operational Details</h3>
+                    <div class="space-y-2">
+                        <div class="checklist-item p-4 border rounded-lg">
+                            <div class="flex items-center">
+                                <input type="checkbox" class="form-checkbox h-5 w-5 text-teal-500" id="org-chart">
+                                <label for="org-chart" class="ml-2 text-gray-600">Organizational Chart <span data-tooltip="Provide a diagram of your team structure and key personnel." class="text-teal-500 underline cursor-pointer">?</span></label>
+                            </div>
+                            <div class="dropdown-content" id="dropdown-org-chart">
+                                <p>An organizational chart showcases your team’s structure and leadership strength. Upload it to our Pro platform for AI-powered analysis, generating a valuation report that highlights operational efficiency for investors or potential acquirers.</p>
+                            </div>
+                        </div>
+                        <div class="checklist-item p-4 border rounded-lg">
+                            <div class="flex items-center">
+                                <input type="checkbox" class="form-checkbox h-5 w-5 text-teal-500" id="tech-stack">
+                                <label for="tech-stack" class="ml-2 text-gray-600">Technology Stack Overview <span data-tooltip="Detail the software, platforms, and tools used in your SaaS." class="text-teal-500 underline cursor-pointer">?</span></label>
+                            </div>
+                            <div class="dropdown-content" id="dropdown-tech-stack">
+                                <p>Your tech stack reflects scalability and innovation. Upload this to our Pro plan, and our AI-driven analytics will evaluate its impact, producing a cutting-edge valuation report that positions your SaaS as a tech leader for buyers or shareholders.</p>
+                            </div>
+                        </div>
+                        <div class="checklist-item p-4 border rounded-lg">
+                            <div class="flex items-center">
+                                <input type="checkbox" class="form-checkbox h-5 w-5 text-teal-500" id="sop">
+                                <label for="sop" class="ml-2 text-gray-600">Standard Operating Procedures <span data-tooltip="Include key operational workflows and processes." class="text-teal-500 underline cursor-pointer">?</span></label>
+                            </div>
+                            <div class="dropdown-content" id="dropdown-sop">
+                                <p>SOPs demonstrate operational excellence and scalability. Upload them to our Pro platform, where our AI will analyze processes to create a compelling, investor-ready valuation document that underscores your business’s efficiency for stakeholders.</p>
+                            </div>
+                        </div>
+                        <div class="checklist-item p-4 border rounded-lg">
+                            <div class="flex items-center">
+                                <input type="checkbox" class="form-checkbox h-5 w-5 text-teal-500" id="security">
+                                <label for="security" class="ml-2 text-gray-600">Data Security Policies <span data-tooltip="Document cybersecurity measures and data protection policies." class="text-teal-500 underline cursor-pointer">?</span></label>
+                            </div>
+                            <div class="dropdown-content" id="dropdown-security">
+                                <p>Robust security policies enhance investor trust in your data protection. Upload these to our Pro tool, and our AI-driven insights will integrate them into a valuation report, showcasing your commitment to security for buyers or investors.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Customer and Market Insights -->
+                <div class="mb-8">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-4">Customer and Market Insights</h3>
+                    <div class="space-y-2">
+                        <div class="checklist-item p-4 border rounded-lg">
+                            <div class="flex items-center">
+                                <input type="checkbox" class="form-checkbox h-5 w-5 text-teal-500" id="customer-segment">
+                                <label for="customer-segment" class="ml-2 text-gray-600">Customer Segmentation Analysis <span data-tooltip="Provide insights into your target customer demographics and behaviors." class="text-teal-500 underline cursor-pointer">?</span></label>
+                            </div>
+                            <div class="dropdown-content" id="dropdown-customer-segment">
+                                <p>Customer segmentation reveals your market fit and growth potential. Upload this to our Pro platform, and our AI will analyze demographics to create a data-driven valuation report, positioning your SaaS as a market leader for investors or buyers.</p>
+                            </div>
+                        </div>
+                        <div class="checklist-item p-4 border rounded-lg">
+                            <div class="flex items-center">
+                                <input type="checkbox" class="form-checkbox h-5 w-5 text-teal-500" id="market-analysis">
+                                <label for="market-analysis" class="ml-2 text-gray-600">Market and Competitive Analysis <span data-tooltip="Include market size, trends, and competitive positioning." class="text-teal-500 underline cursor-pointer">?</span></label>
+                            </div>
+                            <div class="dropdown-content" id="dropdown-market-analysis">
+                                <p>Market analysis highlights your competitive edge and growth opportunities. Upload it to our Pro tool, and our AI-powered engine will benchmark your position, generating an investor-ready valuation report that captivates buyers or shareholders.</p>
+                            </div>
+                        </div>
+                        <div class="checklist-item p-4 border rounded-lg">
+                            <div class="flex items-center">
+                                <input type="checkbox" class="form-checkbox h-5 w-5 text-teal-500" id="customer-feedback">
+                                <label for="customer-feedback" class="ml-2 text-gray-600">Customer Feedback and NPS <span data-tooltip="Provide Net Promoter Score (NPS) and customer satisfaction data." class="text-teal-500 underline cursor-pointer">?</span></label>
+                            </div>
+                            <div class="dropdown-content" id="dropdown-customer-feedback">
+                                <p>Customer feedback and NPS showcase user satisfaction and loyalty. Upload these to our Pro platform for AI-driven insights, creating a compelling valuation document that highlights customer advocacy for investors or potential acquirers.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Growth and Projections -->
+                <div class="mb-8">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-4">Growth and Projections</h3>
+                    <div class="space-y-2">
+                        <div class="checklist-item p-4 border rounded-lg">
+                            <div class="flex items-center">
+                                <input type="checkbox" class="form-checkbox h-5 w-5 text-teal-500" id="growth-strategy">
+                                <label for="growth-strategy" class="ml-2 text-gray-600">Growth Strategy Plan <span data-tooltip="Detail your strategies for scaling and market expansion." class="text-teal-500 underline cursor-pointer">?</span></label>
+                            </div>
+                            <div class="dropdown-content" id="dropdown-growth-strategy">
+                                <p>A growth strategy plan outlines your path to scale and dominate your market. Upload it to our Pro platform, and our AI will evaluate its feasibility, producing a data-driven valuation report that excites investors or buyers with your growth potential.</p>
+                            </div>
+                        </div>
+                        <div class="checklist-item p-4 border rounded-lg">
+                            <div class="flex items-center">
+                                <input type="checkbox" class="form-checkbox h-5 w-5 text-teal-500" id="revenue-projections">
+                                <label for="revenue-projections" class="ml-2 text-gray-600">Revenue and Cash Flow Projections <span data-tooltip="Provide 3-5 year financial forecasts." class="text-teal-500 underline cursor-pointer">?</span></label>
+                            </div>
+                            <div class="dropdown-content" id="dropdown-revenue-projections">
+                                <p>Revenue and cash flow projections signal your business’s future value. Upload these to our Pro tool, and our AI-powered analytics will refine your forecasts, creating an investor-ready valuation report that drives confidence for buyers or shareholders.</p>
+                            </div>
+                        </div>
+                        <div class="checklist-item p-4 border rounded-lg">
+                            <div class="flex items-center">
+                                <input type="checkbox" class="form-checkbox h-5 w-5 text-teal-500" id="risk-assessment">
+                                <label for="risk-assessment" class="ml-2 text-gray-600">Risk Assessment Report <span data-tooltip="Identify potential risks and mitigation strategies." class="text-teal-500 underline cursor-pointer">?</span></label>
+                            </div>
+                            <div class="dropdown-content" id="dropdown-risk-assessment">
+                                <p>A risk assessment report demonstrates proactive risk management. Upload it to our Pro platform, and our AI will analyze risks, generating a robust valuation document that reassures investors and buyers of your strategic foresight.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex justify-between mt-6">
+                    <button id="save-progress" class="btn-secondary font-bold py-2 px-4 rounded-lg">Save Progress</button>
+                    <button id="clear-checklist" class="btn-secondary font-bold py-2 px-4 rounded-lg">Clear Checklist</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Call to Action -->
+    <section class="gradient-bg text-white py-16">
+        <div class="container mx-auto px-6 text-center">
+            <h2 class="text-3xl font-bold mb-4">Ready to Streamline Your Due Diligence?</h2>
+            <p class="text-lg mb-8 opacity-90 max-w-2xl mx-auto">Use our AI-powered data room to securely manage and share your due diligence documents with investors.</p>
+            <a href="index.html#data-room" class="btn-primary text-white font-bold py-3 px-8 rounded-lg">Explore AI Data Room</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-8">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <h3 class="text-lg font-bold mb-4">SaaS Valuation App</h3>
+                    <p class="text-gray-400">Empowering SaaS founders to understand their business worth with AI-driven insights.</p>
+                </div>
+                <div>
+                    <h3 class="text-lg font-bold mb-4">Product</h3>
+                    <ul class="space-y-2">
+                        <li><a href="index.html#valuation" class="text-gray-400 hover:text-teal-400">Self Valuation</a></li>
+                        <li><a href="index.html#data-room" class="text-gray-400 hover:text-teal-400">AI Data Room</a></li>
+                        <li><a href="index.html#pricing" class="text-gray-400 hover:text-teal-400">Pricing</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-lg font-bold mb-4">Resources</h3>
+                    <ul class="space-y-2">
+                        <li><a href="blog.html" class="text-gray-400 hover:text-teal-400">Blog</a></li>
+                        <li><a href="valuation-guide.html" class="text-gray-400 hover:text-teal-400">Valuation Guide</a></li>
+                        <li><a href="due-diligence-checklist.html" class="text-gray-400 hover:text-teal-400">Due Diligence Checklist</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-lg font-bold mb-4">Legal</h3>
+                    <ul class="space-y-2">
+                        <li><a href="privacy-policy.html" class="text-gray-400 hover:text-teal-400">Privacy Policy</a></li>
+                        <li><a href="terms-and-conditions.html" class="text-gray-400 hover:text-teal-400">Terms and Conditions</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-700 mt-8 pt-6 text-center">
+                <p class="text-gray-400">© 2025 SaaS Valuation App. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        // Mobile menu toggle
+        document.getElementById('menu-toggle').addEventListener('click', () => {
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Checklist functionality
+        const checkboxes = document.querySelectorAll('.form-checkbox');
+        checkboxes.forEach(checkbox => {
+            checkbox.addEventListener('change', () => {
+                const checklistItem = checkbox.closest('.checklist-item');
+                const dropdown = checklistItem.querySelector('.dropdown-content');
+                checklistItem.classList.toggle('checklist-completed', checkbox.checked);
+                dropdown.classList.toggle('show', checkbox.checked);
+            });
+        });
+
+        // Save progress
+        document.getElementById('save-progress').addEventListener('click', () => {
+            const checklistData = {};
+            checkboxes.forEach(checkbox => {
+                checklistData[checkbox.id] = checkbox.checked;
+            });
+            localStorage.setItem('checklistProgress', JSON.stringify(checklistData));
+            alert('Checklist progress saved!');
+        });
+
+        // Load saved progress
+        window.onload = function() {
+            const savedData = localStorage.getItem('checklistProgress');
+            if (savedData) {
+                const checklistData = JSON.parse(savedData);
+                checkboxes.forEach(checkbox => {
+                    checkbox.checked = checklistData[checkbox.id] || false;
+                    const checklistItem = checkbox.closest('.checklist-item');
+                    const dropdown = checklistItem.querySelector('.dropdown-content');
+                    checklistItem.classList.toggle('checklist-completed', checkbox.checked);
+                    dropdown.classList.toggle('show', checkbox.checked);
+                });
+            }
+        };
+
+        // Clear checklist
+        document.getElementById('clear-checklist').addEventListener('click', () => {
+            localStorage.removeItem('checklistProgress');
+            checkboxes.forEach(checkbox => {
+                checkbox.checked = false;
+                const checklistItem = checkbox.closest('.checklist-item');
+                const dropdown = checklistItem.querySelector('.dropdown-content');
+                checklistItem.classList.remove('checklist-completed');
+                dropdown.classList.remove('show');
+            });
+            alert('Checklist cleared!');
+        });
+
+        // Export to PDF
+        document.getElementById('download-checklist').addEventListener('click', async () => {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+
+            doc.setFontSize(18);
+            doc.setTextColor(255, 255, 255);
+            doc.setFillColor(56, 178, 172);
+            doc.rect(0, 0, 210, 40, 'F');
+            doc.text('SaaS Due Diligence Checklist', 105, 25, { align: 'center' });
+
+            let yPosition = 50;
+            const sections = [
+                { title: 'Financial Documents', items: [
+                    { id: 'financial-statements', label: 'Financial Statements (Last 3 Years)', tooltip: 'Include income statements, balance sheets, and cash flow statements.', description: 'Comprehensive financial statements provide a transparent view of your SaaS business’s financial health, showcasing revenue trends, profitability, and cash flow stability. Uploading these to our Pro valuation tool enables our AI-driven analytics to generate investor-ready reports, highlighting key metrics like EBITDA and net income to strengthen your valuation for potential buyers or shareholders.' },
+                    { id: 'tax-returns', label: 'Tax Returns (Last 3 Years)', tooltip: 'Ensure all tax filings are up-to-date and accurate.', description: 'Tax returns validate your financial integrity and compliance, critical for investor confidence. By uploading these to our Pro platform, our AI-powered engine cross-references tax data with financials to produce a robust, data-driven valuation document, ensuring transparency and trust for investors or acquirers.' },
+                    { id: 'mrr-arr', label: 'MRR and ARR Reports', tooltip: 'Provide Monthly Recurring Revenue (MRR) and Annual Recurring Revenue (ARR) breakdowns.', description: 'MRR and ARR are cornerstone metrics for SaaS valuations, reflecting predictable revenue streams. Upload these to our Pro version for AI-driven insights that benchmark your recurring revenue against industry standards, creating a compelling, investor-ready valuation report for stakeholders or potential buyers.' },
+                    { id: 'churn-rate', label: 'Churn Rate Analysis', tooltip: 'Include churn rate trends and customer retention metrics.', description: 'Churn rate analysis reveals customer retention strength, a key driver of SaaS value. With our Pro plan, uploading churn data allows our AI to assess retention trends, generating actionable insights and a polished valuation report that highlights your business’s stability to investors and buyers.' },
+                    { id: 'cac-ltv', label: 'CAC and LTV Metrics', tooltip: 'Customer Acquisition Cost (CAC) and Lifetime Value (LTV) ratios.', description: 'LTV:CAC ratios measure your business’s efficiency in acquiring and retaining high-value customers. Upload these metrics to our Pro platform, and our AI-driven analytics will optimize your valuation, producing a data-driven report that showcases your growth potential to investors, buyers, or shareholders.' }
+                ]},
+                { title: 'Legal Documents', items: [
+                    { id: 'incorporation', label: 'Articles of Incorporation', tooltip: 'Provide documentation of your company’s legal formation.', description: 'Articles of Incorporation establish your legal entity status, critical for due diligence. Uploading these to our Pro valuation tool allows our AI to verify your corporate structure, enhancing the credibility of your investor-ready valuation report for stakeholders or acquirers.' },
+                    { id: 'cap-table', label: 'Capitalization Table', tooltip: 'Detail ownership structure, including equity and options.', description: 'A capitalization table clarifies ownership and equity distribution, a must for investor trust. Upload it to our Pro platform, and our AI-powered analytics will integrate this data into a comprehensive valuation report, showcasing your business’s structure to potential buyers or shareholders.' },
+                    { id: 'contracts', label: 'Customer and Vendor Contracts', tooltip: 'Include key agreements with customers and suppliers.', description: 'Key contracts demonstrate your business’s operational stability and revenue reliability. With our Pro plan, upload these to leverage AI-driven insights, generating a polished valuation document that highlights contractual strengths for investors or acquirers.' },
+                    { id: 'ip-rights', label: 'Intellectual Property Documentation', tooltip: 'List patents, trademarks, and copyrights owned by the company.', description: 'IP documentation validates your unique assets, boosting valuation. Upload these to our Pro platform, and our AI will quantify their impact, creating a data-driven, investor-ready report that emphasizes your competitive edge for buyers or shareholders.' },
+                    { id: 'compliance', label: 'Compliance Records', tooltip: 'Include regulatory compliance documents, e.g., GDPR, CCPA.', description: 'Compliance records ensure regulatory adherence, critical for investor confidence. Upload these to our Pro tool, and our AI-driven engine will integrate compliance data into a robust valuation report, enhancing trust for investors, buyers, or stakeholders.' }
+                ]},
+                { title: 'Operational Details', items: [
+                    { id: 'org-chart', label: 'Organizational Chart', tooltip: 'Provide a diagram of your team structure and key personnel.', description: 'An organizational chart showcases your team’s structure and leadership strength. Upload it to our Pro platform for AI-powered analysis, generating a valuation report that highlights operational efficiency for investors or potential acquirers.' },
+                    { id: 'tech-stack', label: 'Technology Stack Overview', tooltip: 'Detail the software, platforms, and tools used in your SaaS.', description: 'Your tech stack reflects scalability and innovation. Upload this to our Pro plan, and our AI-driven analytics will evaluate its impact, producing a cutting-edge valuation report that positions your SaaS as a tech leader for buyers or shareholders.' },
+                    { id: 'sop', label: 'Standard Operating Procedures', tooltip: 'Include key operational workflows and processes.', description: 'SOPs demonstrate operational excellence and scalability. Upload them to our Pro platform, where our AI will analyze processes to create a compelling, investor-ready valuation document that underscores your business’s efficiency for stakeholders.' },
+                    { id: 'security', label: 'Data Security Policies', tooltip: 'Document cybersecurity measures and data protection policies.', description: 'Robust security policies enhance investor trust in your data protection. Upload these to our Pro tool, and our AI-driven insights will integrate them into a valuation report, showcasing your commitment to security for buyers or investors.' }
+                ]},
+                { title: 'Customer and Market Insights', items: [
+                    { id: 'customer-segment', label: 'Customer Segmentation Analysis', tooltip: 'Provide insights into your target customer demographics and behaviors.', description: 'Customer segmentation reveals your market fit and growth potential. Upload this to our Pro platform, and our AI will analyze demographics to create a data-driven valuation report, positioning your SaaS as a market leader for investors or buyers.' },
+                    { id: 'market-analysis', label: 'Market and Competitive Analysis', tooltip: 'Include market size, trends, and competitive positioning.', description: 'Market analysis highlights your competitive edge and growth opportunities. Upload it to our Pro tool, and our AI-powered engine will benchmark your position, generating an investor-ready valuation report that captivates buyers or shareholders.' },
+                    { id: 'customer-feedback', label: 'Customer Feedback and NPS', tooltip: 'Provide Net Promoter Score (NPS) and customer satisfaction data.', description: 'Customer feedback and NPS showcase user satisfaction and loyalty. Upload these to our Pro platform for AI-driven insights, creating a compelling valuation document that highlights customer advocacy for investors or potential acquirers.' }
+                ]},
+                { title: 'Growth and Projections', items: [
+                    { id: 'growth-strategy', label: 'Growth Strategy Plan', tooltip: 'Detail your strategies for scaling and market expansion.', description: 'A growth strategy plan outlines your path to scale and dominate your market. Upload it to our Pro platform, and our AI will evaluate its feasibility, producing a data-driven valuation report that excites investors or buyers with your growth potential.' },
+                    { id: 'revenue-projections', label: 'Revenue and Cash Flow Projections', tooltip: 'Provide 3-5 year financial forecasts.', description: 'Revenue and cash flow projections signal your business’s future value. Upload these to our Pro tool, and our AI-powered analytics will refine your forecasts, creating an investor-ready valuation report that drives confidence for buyers or shareholders.' },
+                    { id: 'risk-assessment', label: 'Risk Assessment Report', tooltip: 'Identify potential risks and mitigation strategies.', description: 'A risk assessment report demonstrates proactive risk management. Upload it to our Pro platform, and our AI will analyze risks, generating a robust valuation document that reassures investors and buyers of your strategic foresight.' }
+                ]}
+            ];
+
+            doc.setFontSize(12);
+            doc.setTextColor(0, 0, 0);
+            sections.forEach(section => {
+                doc.setFontSize(14);
+                doc.setTextColor(56, 178, 172);
+                doc.text(section.title, 20, yPosition);
+                yPosition += 5;
+                doc.setLineWidth(0.5);
+                doc.setDrawColor(56, 178, 172);
+                doc.line(20, yPosition, 190, yPosition);
+                yPosition += 10;
+
+                doc.setFontSize(12);
+                doc.setTextColor(0, 0, 0);
+                section.items.forEach(item => {
+                    const isChecked = document.getElementById(item.id).checked ? '[X]' : '[ ]';
+                    doc.text(`${isChecked} ${item.label}`, 20, yPosition);
+                    yPosition += 6;
+                    const tooltipLines = doc.splitTextToSize(item.tooltip, 170);
+                    tooltipLines.forEach(line => {
+                        doc.setFontSize(10);
+                        doc.setTextColor(100, 100, 100);
+                        doc.text(`  - ${line}`, 25, yPosition);
+                        yPosition += 5;
+                    });
+                    if (document.getElementById(item.id).checked) {
+                        const descriptionLines = doc.splitTextToSize(item.description, 170);
+                        descriptionLines.forEach(line => {
+                            doc.setFontSize(10);
+                            doc.setTextColor(100, 100, 100);
+                            doc.text(`  - ${line}`, 25, yPosition);
+                            yPosition += 5;
+                        });
+                    }
+                    doc.setFontSize(12);
+                    doc.setTextColor(0, 0, 0);
+                    yPosition += 5;
+                    if (yPosition > 260) {
+                        doc.addPage();
+                        yPosition = 20;
+                    }
+                });
+                yPosition += 10;
+                if (yPosition > 260) {
+                    doc.addPage();
+                    yPosition = 20;
+                }
+            });
+
+            doc.setFontSize(14);
+            doc.setTextColor(56, 178, 172);
+            doc.text('Contact Information', 20, yPosition);
+            yPosition += 5;
+            doc.line(20, yPosition, 190, yPosition);
+            yPosition += 10;
+            doc.setFontSize(12);
+            doc.setTextColor(0, 0, 0);
+            doc.text('Email: support@saasvaluation.app', 20, yPosition);
+            yPosition += 6;
+            doc.text('Website: SaaSValuation.app', 20, yPosition);
+            yPosition += 10;
+
+            doc.setFontSize(14);
+            doc.setTextColor(56, 178, 172);
+            doc.text('Disclaimer', 20, yPosition);
+            yPosition += 5;
+            doc.line(20, yPosition, 190, yPosition);
+            yPosition += 10;
+            doc.setFontSize(10);
+            doc.setTextColor(0, 0, 0);
+            const disclaimerText = 'This due diligence checklist is for informational purposes only and does not constitute legal or financial advice. Ensure all documents are verified by qualified professionals before presenting to investors or buyers. SaaS Valuation App is not liable for decisions made using this checklist.';
+            const disclaimerLines = doc.splitTextToSize(disclaimerText, 170);
+            disclaimerLines.forEach(line => {
+                doc.text(line, 20, yPosition);
+                yPosition += 5;
+            });
+
+            const pageCount = doc.internal.getNumberOfPages();
+            for (let i = 1; i <= pageCount; i++) {
+                doc.setPage(i);
+                doc.setFontSize(10);
+                doc.setTextColor(128, 128, 128);
+                doc.text(`Page ${i} of ${pageCount}`, 190, 287, { align: 'right' });
+            }
+
+            doc.save('SaaS_Due_Diligence_Checklist.pdf');
+        });
+    </script>
+</body>
+</html>
