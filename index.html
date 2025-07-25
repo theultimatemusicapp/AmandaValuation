@@ -10,9 +10,13 @@
 
   gtag('config', 'G-772JV93TYR');
 </script>
-    <link rel="icon" type="image/png" href="/favicon.png" sizes="32x32">
-    <meta name="apple-mobile-web-app-title" content="SaaS Val" />
-    <link rel="manifest" href="site.webmanifest">
+    <link rel="icon" type="image/png" href="favicon.png">
+<link rel="icon" type="image/png" href="/http://saasvaluation.app/faivcon.png/favicon-96x96.png" sizes="96x96" />
+<link rel="icon" type="image/svg+xml" href="/http://saasvaluation.app/faivcon.png/favicon.svg" />
+<link rel="shortcut icon" href="/http://saasvaluation.app/faivcon.png/favicon.ico" />
+<link rel="apple-touch-icon" sizes="180x180" href="/http://saasvaluation.app/faivcon.png/apple-touch-icon.png" />
+<meta name="apple-mobile-web-app-title" content="SaaS Val" />
+<link rel="manifest" href="/http://saasvaluation.app/faivcon.png/site.webmanifest" />
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="A FREE SaaS Valuation App, AI market trends, and small business sales with SaaS Valuation App.">
@@ -32,7 +36,6 @@
         }
         .btn-primary {
             background-color: #38B2AC;
-            color: #1A202C;
             transition: background-color 0.3s ease;
         }
         .btn-primary:hover {
@@ -40,7 +43,7 @@
         }
         .btn-secondary {
             background-color: #ED8936;
-            color: #1A202C;
+            color: white;
             transition: background-color 0.3s ease;
         }
         .btn-secondary:hover {
@@ -130,11 +133,11 @@
                 <a href="#data-room" class="hover:text-teal-400">AI Data Analysis</a>
                 <a href="#pricing" class="hover:text-teal-400">Pricing</a>
             <a href="blog.html">Resources</a> </nav>
-            <button id="menu-toggle" class="md:hidden focus:outline-none" aria-label="Toggle mobile menu" aria-expanded="false">
+            <button id="menu-toggle" class="md:hidden focus:outline-none">
                 <i class="fas fa-bars text-2xl"></i>
             </button>
         </div>
-        <div id="mobile-menu" class="md:hidden hidden" aria-hidden="true">
+        <div id="mobile-menu" class="md:hidden hidden">
             <nav class="flex flex-col space-y-4 mt-4 px-6">
                 <a href="#valuation" class="hover:text-teal-400">Self Valuation</a>
                 <a href="#data-room" class="hover:text-teal-400">AI Data Room</a>
@@ -149,48 +152,52 @@
         <div class="container mx-auto px-6 text-center">
             <h1 class="text-4xl md:text-5xl font-bold mb-4">Understand Your SaaS Business Worth in Minutes</h1>
             <p class="text-lg md:text-xl mb-8 opacity-90 max-w-2xl mx-auto">SaaS Valuation App helps founders like you get an accurate valuation of your business using advanced AI tools—no financial expertise needed.</p>
-            <div class="mb-8 max-w-md mx-auto">
-                <h2 class="text-2xl font-semibold mb-4">Quick Valuation Preview</h2>
-                <div class="bg-white bg-opacity-10 rounded-lg p-6 backdrop-filter blur-10">
-                    <div class="mb-4">
-                        <label for="quickRevenue" class="block text-white mb-2">Projected Revenue ($/year)</label>
-                        <input type="text" id="quickRevenue" class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-500" placeholder="e.g., 500,000">
-                        <p id="quickRevenue-error" class="text-red-300 text-sm mt-1 hidden">Please enter a valid number.</p>
+            <div class="mb-8">
+                <h2 class="text-2xl font-semibold mb-2">Valuation Dashboard</h2>
+                <div class="dashboard-card">
+                    <div class="flex justify-between items-center mb-4">
+                        <span class="text-sm">Estimated Value Range</span>
+                        <span class="text-lg font-bold">$1.2M - $1.8M</span>
                     </div>
-                    <div class="mb-4">
-                        <label for="quickIndustry" class="block text-white mb-2">Industry</label>
-                        <select id="quickIndustry" class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-500">
-                            <option value="">Select an industry</option>
-                            <option value="Technology">Technology</option>
-                            <option value="Healthcare">Healthcare</option>
-                            <option value="Finance">Finance</option>
-                            <option value="Other">Other</option>
-                        </select>
-                        <p id="quickIndustry-error" class="text-red-300 text-sm mt-1 hidden">Please select an industry.</p>
+                    <div class="value-bar">
+                        <div class="value-fill" style="width: 60%;"></div>
                     </div>
-                    <button onclick="calculateQuickValuation()" class="btn-primary font-bold py-2 px-4 rounded-lg w-full">Get Quick Estimate</button>
-                    <p id="quickValuationResult" class="text-lg font-semibold mt-4 hidden">Estimated Value: <span id="quickValuationAmount">$0 - $0</span></p>
+                    <div class="flex justify-between mt-4">
+                        <div class="metric-box">
+                            <p class="text-sm">Revenue Growth</p>
+                            <p class="text-lg font-semibold">32%</p>
+                            <p class="text-xs text-green-300">+8% from last year</p>
+                        </div>
+                        <div class="metric-box">
+                            <p class="text-sm">Profit Margin</p>
+                            <p class="text-lg font-semibold">18%</p>
+                            <p class="text-xs text-green-300">+3% from last year</p>
+                        </div>
+                    </div>
+                    <div class="mt-4 text-center text-sm">
+                        <span class="indicator" style="background: #EF4444;"></span>
+                        <span class="indicator" style="background: #FBBF24;"></span>
+                        <span class="indicator" style="background: #48BB78;"></span>
+                        Your business is in the Top 30% of SaaS Companies
+                    </div>
                 </div>
             </div>
             <div class="flex justify-center space-x-4">
-                <a href="#valuation" class="btn-primary font-bold py-3 px-8 rounded-lg" aria-label="Get Your Detailed Valuation">Get Your Valuation</a>
-                <a href="#demo" class="btn-secondary font-bold py-3 px-8 rounded-lg" aria-label="Watch Demo Video">Watch Demo</a>
+                <a href="#valuation" class="btn-primary text-white font-bold py-3 px-8 rounded-lg">Get Your Valuation</a>
+                <a href="#demo" class="btn-secondary font-bold py-3 px-8 rounded-lg">Watch Demo</a>
             </div>
         </div>
     </section>
 
     <!-- Demo Modal -->
-    <div id="demo-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50" aria-hidden="true">
-        <div class="bg-white rounded-lg p-8 max-w-2xl w-full relative">
-            <button id="close-modal" class="absolute top-4 right-4 text-gray-600 hover:text-gray-800 focus:outline-none focus:ring-2 focus:ring-teal-500" aria-label="Close demo video modal" onkeydown="handleModalKeydown(event)">
+    <div id="demo-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50">
+        <div class="bg-white rounded-lg p-6 max-w-2xl w-full relative">
+            <button id="close-modal" class="absolute top-4 right-4 text-gray-600 hover:text-gray-800">
                 <i class="fas fa-times text-2xl"></i>
             </button>
-            <h2 class="text-2xl font-bold mb-4 text-gray-800">See SaaS Valuation App in Action</h2>
+            <h2 class="text-2xl font-bold mb-4">See SaaS Valuation App in Action</h2>
             <div class="relative" style="padding-bottom: 56.25%;">
-                <iframe id="demo-video" class="absolute top-0 left-0 w-full h-full max-w-full max-h-full" src="https://www.youtube.com/embed/BlZHei56NQY" frameborder="0" allowfullscreen title="SaaS Valuation App Demo Video"></iframe>
-                <div id="video-fallback" class="absolute top-0 left-0 w-full h-full flex items-center justify-center bg-gray-200 text-gray-600 hidden">
-                    Video unavailable. <a href="https://www.youtube.com/watch?v=BlZHei56NQY" class="underline ml-1" target="_blank" rel="noopener noreferrer">Watch on YouTube</a>
-                </div>
+                <iframe id="demo-video" class="absolute top-0 left-0 w-full h-full" src="https://www.youtube.com/embed/BlZHei56NQY" frameborder="0" allowfullscreen></iframe>
             </div>
         </div>
     </div>
@@ -270,7 +277,7 @@
                     </div>
                     <p id="method-error" class="text-red-500 text-sm mt-2 hidden">Please select 1 to 3 methods.</p>
                     <div class="mt-6 flex justify-end">
-                        <button id="next-btn-1" class="btn-primary font-bold py-2 px-4 rounded-lg">Next</button>
+                        <button id="next-btn-1" class="btn-primary text-white font-bold py-2 px-4 rounded-lg">Next</button>
                     </div>
                 </div>
 
@@ -321,13 +328,13 @@
                         </div>
                         <div class="md:col-span-2">
                             <label for="scalability" class="block text-gray-600 mb-1">Scalability (1-10) <span data-tooltip="Rate how easily your business can scale operations (e.g., adding customers without significant cost increases)." class="text-teal-500 underline cursor-pointer">?</span></label>
-                            <input type="range" id="scalability" min="1" max="10" value="5" class="w-full" onkeydown="handleSliderKeydown(event)">
+                            <input type="range" id="scalability" min="1" max="10" value="5" class="w-full">
                             <p class="text-gray-600">Score: <span id="scalabilityValue">5</span></p>
                         </div>
                     </div>
                     <div class="mt-6 flex justify-between">
                         <button id="prev-btn-2" class="btn-secondary font-bold py-2 px-4 rounded-lg">Previous</button>
-                        <button id="next-btn-2" class="btn-primary font-bold py-2 px-4 rounded-lg">Next</button>
+                        <button id="next-btn-2" class="btn-primary text-white font-bold py-2 px-4 rounded-lg">Next</button>
                     </div>
                 </div>
 
@@ -359,7 +366,7 @@
                     </div>
                     <div class="mt-6 flex justify-between">
                         <button id="prev-btn-3" class="btn-secondary font-bold py-2 px-4 rounded-lg">Previous</button>
-                        <button id="next-btn-3" class="btn-primary font-bold py-2 px-4 rounded-lg">Next</button>
+                        <button id="next-btn-3" class="btn-primary text-white font-bold py-2 px-4 rounded-lg">Next</button>
                     </div>
                 </div>
 
@@ -410,7 +417,7 @@
                     </div>
                     <div class="mt-6 flex justify-between">
                         <button id="prev-btn-4" class="btn-secondary font-bold py-2 px-4 rounded-lg">Previous</button>
-                        <button id="next-btn-4" class="btn-primary font-bold py-2 px-4 rounded-lg">Next</button>
+                        <button id="next-btn-4" class="btn-primary text-white font-bold py-2 px-4 rounded-lg">Next</button>
                     </div>
                 </div>
 
@@ -464,7 +471,7 @@
                     </div>
                     <div class="mt-6 flex justify-between">
                         <button id="prev-btn-5" class="btn-secondary font-bold py-2 px-4 rounded-lg">Previous</button>
-                        <button id="next-btn-5" class="btn-primary font-bold py-2 px-4 rounded-lg">Next</button>
+                        <button id="next-btn-5" class="btn-primary text-white font-bold py-2 px-4 rounded-lg">Next</button>
                     </div>
                 </div>
 
@@ -536,7 +543,7 @@
                     </div>
                     <div class="mt-6 flex justify-between">
                         <button id="prev-btn-6" class="btn-secondary font-bold py-2 px-4 rounded-lg">Previous</button>
-                        <button onclick="calculateValuation()" class="btn-primary font-bold py-2 px-4 rounded-lg">Calculate Valuation</button>
+                        <button onclick="calculateValuation()" class="btn-primary text-white font-bold py-2 px-4 rounded-lg">Calculate Valuation</button>
                     </div>
                 </div>
 
@@ -559,7 +566,7 @@
                         </div>
                     </div>
                     <div class="mt-6 flex space-x-4">
-                        <button onclick="exportResults()" class="btn-primary font-bold py-2 px-4 rounded-lg">Export as PDF</button>
+                        <button onclick="exportResults()" class="btn-primary text-white font-bold py-2 px-4 rounded-lg">Export as PDF</button>
                         <button onclick="saveProgress()" class="btn-secondary font-bold py-2 px-4 rounded-lg">Save Progress</button>
                         <button id="start-over" class="btn-secondary font-bold py-2 px-4 rounded-lg">Start Over</button>
                     </div>
@@ -617,7 +624,7 @@
                 </div>
             </div>
             <div class="text-center mt-12">
-                <a href="payment.html" class="btn-primary font-bold py-3 px-8 rounded-lg">Ready to go Pro?</a><ahref
+                <a href="payment.html" class="btn-primary text-white font-bold py-3 px-8 rounded-lg">Ready to go Pro?</a><ahref
             </div>
         </div>
     </section>
@@ -639,7 +646,7 @@
                     <li>Standard Support</li>
                       <li>&nbsp;</li>
                 </ul>
-                  <a href="#signup" class="btn-primary font-bold py-2 px-6 rounded-lg">Get Started</a>
+                  <a href="#signup" class="btn-primary text-white font-bold py-2 px-6 rounded-lg">Get Started</a>
                 </div>
               <div class="bg-white rounded-xl shadow-lg p-6 text-center border-2 border-teal-500 relative">
                     <span class="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-teal-500 text-white text-sm font-semibold py-1 px-3 rounded-full">Most Popular</span>
@@ -651,7 +658,7 @@
                       <li>Priority Support</li>
                       <li>AI Insights</li>
                 </ul>
-                  <a href="payment.html" class="btn-primary font-bold py-2 px-6 rounded-lg">Choose Pro</a>
+                  <a href="payment.html" class="btn-primary text-white font-bold py-2 px-6 rounded-lg">Choose Pro</a>
                 </div>
               <div class="bg-white rounded-xl shadow-lg p-6 text-center">
                     <h3 class="text-2xl font-bold text-gray-800 mb-4">Enterprise</h3>
@@ -665,29 +672,6 @@
                   <a href="#contact" class="btn-secondary font-bold py-2 px-6 rounded-lg">Contact Sale</a>
                 </div>
             </div>
-        </div>
-    </section>
-
-    <!-- Contact Form for Enterprise -->
-    <section id="contact" class="py-16 bg-gray-50">
-        <div class="container mx-auto px-4">
-            <div class="text-center mb-12">
-                <h2 class="text-3xl font-bold text-gray-800 mb-4">Contact Us</h2>
-                <p class="text-lg text-gray-600 max-w-2xl mx-auto">Reach out for Enterprise plans or support inquiries.</p>
-            </div>
-            <form class="max-w-lg mx-auto">
-                <div class="mb-4">
-                    <label for="contactEmail" class="block text-gray-600 mb-1">Your Email</label>
-                    <input type="email" id="contactEmail" class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-500" placeholder="e.g., you@example.com" aria-describedby="contactEmail-error">
-                    <p id="contactEmail-error" class="text-red-500 text-sm mt-1 hidden">Please enter a valid email.</p>
-                </div>
-                <div class="mb-4">
-                    <label for="contactMessage" class="block text-gray-600 mb-1">Your Message</label>
-                    <textarea id="contactMessage" class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-500" placeholder="Tell us about your needs..." rows="4" aria-describedby="contactMessage-error"></textarea>
-                    <p id="contactMessage-error" class="text-red-500 text-sm mt-1 hidden">Please enter a message.</p>
-                </div>
-                <button type="submit" class="btn-primary font-bold py-2 px-4 rounded-lg w-full" aria-label="Send contact message">Send</button>
-            </form>
         </div>
     </section>
 
@@ -734,7 +718,7 @@
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                 <div class="testimonial-card bg-white rounded-xl shadow-lg p-6">
                     <div class="flex items-center mb-4">
-                        <img src="emily.jpg" alt="Photo of Emily Carter" class="w-12 h-12 rounded-full mr-4" loading="lazy">
+                        <img src="emily.jpg" alt="Photo of Emily Carter" class="w-12 h-12 rounded-full mr-4">
                         <div>
                             <h3 class="text-lg font-semibold text-gray-800">Emily Carter</h3>
                             <p class="text-sm text-gray-500">Founder, TechTrend Innovations</p>
@@ -751,7 +735,7 @@
                 </div>
                 <div class="testimonial-card bg-white rounded-xl shadow-lg p-6">
                     <div class="flex items-center mb-4">
-                        <img src="michael.jpg" alt="Photo of Michael Brown" class="w-12 h-12 rounded-full mr-4" loading="lazy">
+                        <img src="michael.jpg" alt="Photo of Michael Brown" class="w-12 h-12 rounded-full mr-4">
                         <div>
                             <h3 class="text-lg font-semibold text-gray-800">Michael Brown</h3>
                             <p class="text-sm text-gray-500">CEO, CloudSync Solutions</p>
@@ -768,7 +752,7 @@
                 </div>
                 <div class="testimonial-card bg-white rounded-xl shadow-lg p-6">
                     <div class="flex items-center mb-4">
-                        <img src="sarah.jpg" alt="Photo of Sarah Lee" class="w-12 h-12 rounded-full mr-4" loading="lazy">
+                        <img src="sarah.jpg" alt="Photo of Sarah Lee" class="w-12 h-12 rounded-full mr-4">
                         <div>
                             <h3 class="text-lg font-semibold text-gray-800">Sarah Lee</h3>
                             <p class="text-sm text-gray-500">Founder, DataDriven Labs</p>
@@ -791,7 +775,7 @@
         <div class="container mx-auto px-6 text-center">
             <h2 class="text-3xl font-bold mb-4">Ready to Discover Your SaaS Value?</h2>
             <p class="text-lg mb-8 opacity-90 max-w-2xl mx-auto">Join thousands of founders who trust SaaS Valuation App to understand their business worth and grow smarter.</p>
-            <a href="#valuation" class="btn-primary font-bold py-3 px-8 rounded-lg">Get Started Now</a>
+            <a href="#valuation" class="btn-primary text-white font-bold py-3 px-8 rounded-lg">Get Started Now</a>
         </div>
     </section>
 
@@ -835,38 +819,20 @@
 
     <!-- JavaScript -->
     <script>
-        function handleModalKeydown(event) {
-            if (event.key === 'Enter' || event.key === ' ') {
-                document.getElementById('close-modal').click();
-            }
-        }
-
-        function handleSliderKeydown(event) {
-            if (event.key === 'Enter' || event.key === ' ') {
-                event.target.dispatchEvent(new Event('input'));
-            }
-        }
-
         // Mobile menu toggle
         document.getElementById('menu-toggle').addEventListener('click', () => {
             const mobileMenu = document.getElementById('mobile-menu');
             mobileMenu.classList.toggle('hidden');
-            mobileMenu.setAttribute('aria-hidden', mobileMenu.classList.contains('hidden'));
-            document.getElementById('menu-toggle').setAttribute('aria-expanded', !mobileMenu.classList.contains('hidden'));
         });
 
         // Demo modal
         document.querySelector('a[href="#demo"]').addEventListener('click', (e) => {
             e.preventDefault();
-            const modal = document.getElementById('demo-modal');
-            modal.classList.remove('hidden');
-            modal.setAttribute('aria-hidden', 'false');
+            document.getElementById('demo-modal').classList.remove('hidden');
         });
 
         document.getElementById('close-modal').addEventListener('click', () => {
-            const modal = document.getElementById('demo-modal');
-            modal.classList.add('hidden');
-            modal.setAttribute('aria-hidden', 'true');
+            document.getElementById('demo-modal').classList.add('hidden');
             document.getElementById('demo-video').src = document.getElementById('demo-video').src;
         });
 
@@ -895,8 +861,8 @@
 
             // Helper function to clean and validate numeric input
             function cleanNumericInput(value, regex, allowEmpty = false) {
-                // Remove commas, spaces and trim whitespace
-                const cleanedValue = value.replace(/[, ]/g, '').trim();
+                // Remove commas and trim whitespace
+                const cleanedValue = value.replace(/,/g, '').trim();
                 if (allowEmpty && cleanedValue === '') return true;
                 return regex.test(cleanedValue) && cleanedValue !== '';
             }
@@ -1102,25 +1068,6 @@
             }
 
             return isValid;
-        }
-
-        function calculateQuickValuation() {
-            const revenue = document.getElementById('quickRevenue').value;
-            const industry = document.getElementById('quickIndustry').value;
-            const revenueError = document.getElementById('quickRevenue-error');
-            const industryError = document.getElementById('quickIndustry-error');
-            const result = document.getElementById('quickValuationResult');
-            const amount = document.getElementById('quickValuationAmount');
-            revenueError.classList.toggle('hidden', cleanNumericInput(revenue, /^\d+(\.\d{1,2})?$/));
-            industryError.classList.toggle('hidden', industry !== '');
-            if (cleanNumericInput(revenue, /^\d+(\.\d{1,2})?$/) && industry !== '') {
-                const multiplier = { 'Technology': 3, 'Healthcare': 4, 'Finance': 3.5, 'Other': 2.5 }[industry] || 2;
-                const value = parseFloat(revenue.replace(/[, ]/g, '')) * multiplier;
-                amount.textContent = `$${Math.round(value * 0.9).toLocaleString()} - $${Math.round(value * 1.1).toLocaleString()}`;
-                result.classList.remove('hidden');
-            } else {
-                result.classList.add('hidden');
-            }
         }
 
         document.getElementById('next-btn-1').addEventListener('click', () => {
