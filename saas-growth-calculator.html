@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Project your SaaS business growth with our free calculator. Estimate revenue and customer trends over time.">
+    <meta name="keywords" content="SaaS growth calculator, revenue projection, customer growth, SaaS metrics, SaaS Valuation App">
+    <title>SaaS Growth Calculator - SaaS Valuation App</title>
+    <!-- Tailwind CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- jsPDF -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <style>
+        .gradient-bg {
+            background: linear-gradient(135deg, #38B2AC 0%, #2D3748 100%);
+        }
+        .btn-primary {
+            background-color: #38B2AC;
+            transition: background-color 0.3s ease;
+        }
+        .btn-primary:hover {
+            background-color: #2C7A7B;
+        }
+        .btn-secondary {
+            background-color: #ED8936;
+            color: white;
+            transition: background-color 0.3s ease;
+        }
+        .btn-secondary:hover {
+            background-color: #C05621;
+        }
+        .input-error {
+            border-color: #E53E3E !important;
+            box-shadow: 0 0 0 2px rgba(229, 62, 62, 0.2) !important;
+        }
+        [data-tooltip] {
+            position: relative;
+        }
+        [data-tooltip]:hover:after {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #2D3748;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 12px;
+            white-space: nowrap;
+            z-index: 10;
+        }
+    </style>
+</head>
+<body class="font-sans">
+    <!-- Header -->
+    <header class="bg-gray-800 text-white py-4 sticky top-0 z-50">
+        <div class="container mx-auto px-6 flex justify-between items-center">
+            <div class="text-2xl font-bold">
+                <a href="/">SaaS Valuation App</a>
+            </div>
+            <nav class="hidden md:flex space-x-6">
+                <a href="/#valuation" class="hover:text-teal-400">Free Self Valuation</a>
+                <a href="/#data-room" class="hover:text-teal-400">AI Data Analysis</a>
+                <a href="/#pricing" class="hover:text-teal-400">Pricing</a>
+                <a href="/blog.html" class="hover:text-teal-400">Resources</a>
+            </nav>
+            <button id="menu-toggle" class="md:hidden focus:outline-none">
+                <i class="fas fa-bars text-2xl"></i>
+            </button>
+        </div>
+        <div id="mobile-menu" class="md:hidden hidden">
+            <nav class="flex flex-col space-y-4 mt-4 px-6">
+                <a href="/#valuation" class="hover:text-teal-400">Self Valuation</a>
+                <a href="/#data-room" class="hover:text-teal-400">AI Data Room</a>
+                <a href="/#pricing" class="hover:text-teal-400">Pricing</a>
+                <a href="/blog.html" class="hover:text-teal-400">Resources</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="gradient-bg text-white py-20">
+        <div class="container mx-auto px-6 text-center">
+            <h1 class="text-4xl md:text-5xl font-bold mb-4">SaaS Growth Calculator</h1>
+            <p class="text-lg md:text-xl mb-8 opacity-90 max-w-2xl mx-auto">Enter your SaaS metrics to project future revenue and customer growth, and visualize trends over time.</p>
+            <a href="#calculator" class="btn-primary text-white font-bold py-3 px-8 rounded-lg">Get Started</a>
+        </div>
+    </section>
+
+    <!-- Growth Calculator Section -->
+    <section id="calculator" class="py-16 bg-gray-50">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-gray-800 mb-4">Free SaaS Growth Calculator</h2>
+                <p class="text-lg text-gray-600 max-w-2xl mx-auto">Input your current metrics to forecast revenue and customer growth. Export your projections as a PDF.</p>
+            </div>
+            <div class="bg-white rounded-xl shadow-lg p-6 max-w-3xl mx-auto">
+                <!-- Input Form -->
+                <div id="calculator-form">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-4">Your SaaS Metrics</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label for="currentMRR" class="block text-gray-600 mb-1">Current MRR ($) <span data-tooltip="Monthly Recurring Revenue: Total monthly subscription revenue." class="text-teal-500 underline cursor-pointer">?</span></label>
+                            <input type="text" id="currentMRR" class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-500" placeholder="e.g., 10000">
+                            <p id="currentMRR-error" class="text-red-500 text-sm mt-1 hidden">Enter a valid number (e.g., 10000.00).</p>
+                        </div>
+                        <div>
+                            <label for="growthRate" class="block text-gray-600 mb-1">Annual Growth Rate (%) <span data-tooltip="Expected annual revenue growth percentage." class="text-teal-500 underline cursor-pointer">?</span></label>
+                            <input type="number" id="growthRate" class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-500" placeholder="e.g., 20">
+                            <p id="growthRate-error" class="text-red-500 text-sm mt-1 hidden">Enter a percentage (0-100).</p>
+                        </div>
+                        <div>
+                            <label for="churnRate" class="block text-gray-600 mb-1">Annual Churn Rate (%) <span data-tooltip="Percentage of customers lost annually." class="text-teal-500 underline cursor-pointer">?</span></label>
+                            <input type="number" id="churnRate" class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-500" placeholder="e.g., 5">
+                            <p id="churnRate-error" class="text-red-500 text-sm mt-1 hidden">Enter a percentage (0-100).</p>
+                        </div>
+                        <div>
+                            <label for="projectionYears" class="block text-gray-600 mb-1">Projection Period (Years) <span data-tooltip="Years to project growth." class="text-teal-500 underline cursor-pointer">?</span></label>
+                            <input type="number" id="projectionYears" class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-500" placeholder="e.g., 5" min="1" max="10">
+                            <p id="projectionYears-error" class="text-red-500 text-sm mt-1 hidden">Enter a number between 1 and 10.</p>
+                        </div>
+                        <div>
+                            <label for="currentCustomers" class="block text-gray-600 mb-1">Current Customers <span data-tooltip="Total active paying customers." class="text-teal-500 underline cursor-pointer">?</span></label>
+                            <input type="number" id="currentCustomers" class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-500" placeholder="e.g., 100">
+                            <p id="currentCustomers-error" class="text-red-500 text-sm mt-1 hidden">Enter a valid number.</p>
+                        </div>
+                    </div>
+                    <div class="mt-6 flex justify-end">
+                        <button onclick="calculateGrowth()" class="btn-primary text-white font-bold py-2 px-4 rounded-lg">Calculate</button>
+                    </div>
+                </div>
+
+                <!-- Results -->
+                <div id="growthResult" class="mt-8 hidden">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-4">Growth Projections</h3>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-gray-600">
+                            <thead>
+                                <tr class="bg-teal-500 text-white">
+                                    <th class="p-2">Year</th>
+                                    <th class="p-2">MRR ($)</th>
+                                    <th class="p-2">ARR ($)</th>
+                                    <th class="p-2">Customers</th>
+                                </tr>
+                            </thead>
+                            <tbody id="growthTable"></tbody>
+                        </table>
+                    </div>
+                    <div class="mt-6">
+                        <h4 class="text-lg font-semibold text-gray-800 mb-2">Growth Trends</h4>
+                        <canvas id="growthChart"></canvas>
+                    </div>
+                    <div class="mt-6 flex space-x-4">
+                        <button onclick="exportGrowthResults()" class="btn-primary text-white font-bold py-2 px-4 rounded-lg">Export PDF</button>
+                        <button onclick="resetCalculator()" class="btn-secondary font-bold py-2 px-4 rounded-lg">Reset</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-8">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <h3 class="text-lg font-bold mb-4">SaaS Valuation App</h3>
+                    <p class="text-gray-400">Empowering SaaS founders with AI-driven insights to understand their business value.</p>
+                </div>
+                <div>
+                    <h3 class="text-lg font-bold mb-4">Product</h3>
+                    <ul class="space-y-2">
+                        <li><a href="/#valuation" class="text-gray-400 hover:text-teal-400">Self Valuation</a></li>
+                        <li><a href="/#data-room" class="text-gray-400 hover:text-teal-400">AI Data Room</a></li>
+                        <li><a href="/#pricing" class="text-gray-400 hover:text-teal-400">Pricing</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-lg font-bold mb-4">Resources</h3>
+                    <ul class="space-y-2">
+                        <li><a href="/blog.html" class="text-gray-400 hover:text-teal-400">Blog</a></li>
+                        <li><a href="/valuation-guide.html" class="text-gray-400 hover:text-teal-400">Valuation Guide</a></li>
+                        <li><a href="/due-diligence-checklist.html" class="text-gray-400 hover:text-teal-400">Due Diligence Checklist</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-lg font-bold mb-4">Legal</h3>
+                    <ul class="space-y-2">
+                        <li><a href="/privacy-policy.html" class="text-gray-400 hover:text-teal-400">Privacy Policy</a></li>
+                        <li><a href="/terms-and-conditions.html" class="text-gray-400 hover:text-teal-400">Terms and Conditions</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-700 mt-8 pt-6 text-center">
+                <p class="text-gray-400">© 2025 SaaS Valuation App. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        // Mobile menu toggle
+        document.getElementById('menu-toggle').addEventListener('click', () => {
+            document.getElementById('mobile-menu').classList.toggle('hidden');
+        });
+
+        // Input validation
+        function validateInputs() {
+            let isValid = true;
+            const inputs = [
+                { id: 'currentMRR', error: 'currentMRR-error', regex: /^\d+(\.\d{1,2})?$/, allowEmpty: false },
+                { id: 'growthRate', error: 'growthRate-error', regex: /^(100|[0-9]{1,2})$/, allowEmpty: false },
+                { id: 'churnRate', error: 'churnRate-error', regex: /^(100|[0-9]{1,2})$/, allowEmpty: false },
+                { id: 'projectionYears', error: 'projectionYears-error', regex: /^[1-9]|10$/, allowEmpty: false },
+                { id: 'currentCustomers', error: 'currentCustomers-error', regex: /^\d+$/, allowEmpty: false }
+            ];
+
+            inputs.forEach(input => {
+                const element = document.getElementById(input.id);
+                const errorElement = document.getElementById(input.error);
+                const value = element.value.replace(/,/g, '').trim();
+                if (!input.regex.test(value) || (value === '' && !input.allowEmpty)) {
+                    element.classList.add('input-error');
+                    errorElement.classList.remove('hidden');
+                    isValid = false;
+                } else {
+                    element.classList.remove('input-error');
+                    errorElement.classList.add('hidden');
+                }
+            });
+
+            return isValid;
+        }
+
+        let growthData = {};
+
+        // Calculate growth projections
+        window.calculateGrowth = function() {
+            if (!validateInputs()) return;
+
+            const currentMRR = parseFloat(document.getElementById('currentMRR').value.replace(/,/g, '')) || 0;
+            const growthRate = parseFloat(document.getElementById('growthRate').value) / 100 || 0;
+            const churnRate = parseFloat(document.getElementById('churnRate').value) / 100 || 0;
+            const projectionYears = parseInt(document.getElementById('projectionYears').value) || 1;
+            const currentCustomers = parseInt(document.getElementById('currentCustomers').value) || 0;
+
+            let projections = [];
+            let currentMRRValue = currentMRR;
+            let currentCustomerCount = currentCustomers;
+
+            for (let year = 0; year <= projectionYears; year++) {
+                const arr = currentMRRValue * 12;
+                projections.push({
+                    year: year,
+                    mrr: Math.round(currentMRRValue),
+                    arr: Math.round(arr),
+                    customers: Math.round(currentCustomerCount)
+                });
+                currentMRRValue *= (1 + growthRate) * (1 - churnRate);
+                currentCustomerCount *= (1 + growthRate) * (1 - churnRate);
+            }
+
+            growthData = { projections };
+
+            // Populate table
+            const growthTable = document.getElementById('growthTable');
+            growthTable.innerHTML = '';
+            projections.forEach(proj => {
+                growthTable.innerHTML += `
+                    <tr>
+                        <td class="p-2">${proj.year === 0 ? 'Current' : `Year ${proj.year}`}</td>
+                        <td class="p-2">$${proj.mrr.toLocaleString()}</td>
+                        <td class="p-2">$${proj.arr.toLocaleString()}</td>
+                        <td class="p-2">${proj.customers.toLocaleString()}</td>
+                    </tr>
+                `;
+            });
+
+            // Show results
+            document.getElementById('growthResult').classList.remove('hidden');
+            document.getElementById('calculator-form').classList.add('hidden');
+
+            // Render chart
+            const growthChart = new Chart(document.getElementById('growthChart'), {
+                type: 'line',
+                data: {
+                    labels: projections.map(p => p.year === 0 ? 'Current' : `Year ${p.year}`),
+                    datasets: [
+                        {
+                            label: 'MRR ($)',
+                            data: projections.map(p => p.mrr),
+                            borderColor: 'rgba(56, 178, 172, 1)',
+                            backgroundColor: 'rgba(56, 178, 172, 0.2)',
+                            fill: true,
+                            tension: 0.1
+                        },
+                        {
+                            label: 'Customers',
+                            data: projections.map(p => p.customers),
+                            borderColor: 'rgba(237, 137, 54, 1)',
+                            backgroundColor: 'rgba(237, 137, 54, 0.2)',
+                            fill: true,
+                            tension: 0.1,
+                            yAxisID: 'y1'
+                        }
+                    ]
+                },
+                options: {
+                    scales: {
+                        y: { beginAtZero: true, title: { display: true, text: 'MRR ($)' } },
+                        y1: { beginAtZero: true, position: 'right', title: { display: true, text: 'Customers' }, grid: { drawOnChartArea: false } }
+                    },
+                    plugins: { title: { display: true, text: 'Growth Projections' } }
+                }
+            });
+        };
+
+        // Export results as PDF
+        window.exportGrowthResults = function() {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+
+            // Header
+            doc.setFontSize(18);
+            doc.setTextColor(255, 255, 255);
+            doc.setFillColor(56, 178, 172);
+            doc.rect(0, 0, 210, 40, 'F');
+            doc.text('SaaS Growth Projection Report', 105, 25, { align: 'center' });
+
+            // Content
+            doc.setFontSize(12);
+            doc.setTextColor(0, 0, 0);
+            let yPosition = 50;
+
+            doc.setFontSize(14);
+            doc.setTextColor(56, 178, 172);
+            doc.text('Input Metrics', 20, yPosition);
+            yPosition += 5;
+            doc.setLineWidth(0.5);
+            doc.setDrawColor(56, 178, 172);
+            doc.line(20, yPosition, 190, yPosition);
+            yPosition += 10;
+
+            doc.setFontSize(12);
+            doc.setTextColor(0, 0, 0);
+            doc.text(`Current MRR: $${parseFloat(document.getElementById('currentMRR').value.replace(/,/g, '')).toLocaleString()}`, 20, yPosition);
+            yPosition += 6;
+            doc.text(`Annual Growth Rate: ${document.getElementById('growthRate').value}%`, 20, yPosition);
+            yPosition += 6;
+            doc.text(`Annual Churn Rate: ${document.getElementById('churnRate').value}%`, 20, yPosition);
+            yPosition += 6;
+            doc.text(`Current Customers: ${parseInt(document.getElementById('currentCustomers').value).toLocaleString()}`, 20, yPosition);
+            yPosition += 6;
+            doc.text(`Projection Period: ${document.getElementById('projectionYears').value} years`, 20, yPosition);
+            yPosition += 10;
+
+            // Table
+            doc.setFontSize(14);
+            doc.setTextColor(56, 178, 172);
+            doc.text('Projection Table', 20, yPosition);
+            yPosition += 5;
+            doc.line(20, yPosition, 190, yPosition);
+            yPosition += 10;
+
+            doc.setFontSize(10);
+            doc.setTextColor(0, 0, 0);
+            doc.text('Year', 20, yPosition);
+            doc.text('MRR ($)', 60, yPosition);
+            doc.text('ARR ($)', 100, yPosition);
+            doc.text('Customers', 140, yPosition);
+            yPosition += 5;
+            doc.line(20, yPosition, 190, yPosition);
+            yPosition += 5;
+
+            growthData.projections.forEach(proj => {
+                doc.text(proj.year === 0 ? 'Current' : `Year ${proj.year}`, 20, yPosition);
+                doc.text(`$${proj.mrr.toLocaleString()}`, 60, yPosition);
+                doc.text(`$${proj.arr.toLocaleString()}`, 100, yPosition);
+                doc.text(proj.customers.toLocaleString(), 140, yPosition);
+                yPosition += 6;
+            });
+
+            // Chart
+            yPosition += 10;
+            const growthCanvas = document.getElementById('growthChart');
+            const growthImg = growthCanvas.toDataURL('image/png');
+            doc.addImage(growthImg, 'PNG', 20, yPosition, 170, 80);
+            yPosition += 90;
+
+            // Footer
+            doc.setFontSize(10);
+            doc.setTextColor(128, 128, 128);
+            doc.text('Generated by SaaS Valuation App | support@saasvaluation.app', 105, 287, { align: 'center' });
+
+            doc.save('SaaS_Growth_Projection_Report.pdf');
+        };
+
+        // Reset calculator
+        window.resetCalculator = function() {
+            document.getElementById('calculator-form').reset();
+            document.getElementById('growthResult').classList.add('hidden');
+            document.getElementById('calculator-form').classList.remove('hidden');
+            document.getElementById('growthTable').innerHTML = '';
+            const canvas = document.getElementById('growthChart');
+            const ctx = canvas.getContext('2d');
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+        };
+    </script>
+</body>
+</html>
