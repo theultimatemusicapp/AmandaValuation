@@ -1,12 +1,20 @@
+function setFieldState(field, valid) {
+  field.classList.toggle('border-green-500', valid);
+  field.classList.toggle('border-red-500', !valid);
+}
+
 export function validateStep1() {
-  const methods = document.querySelectorAll('input[type="checkbox"]:checked');
+  const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+  const checked = document.querySelectorAll('input[type="checkbox"]:checked');
   const error = document.getElementById('method-error');
-  if (methods.length < 1 || methods.length > 3) {
-    error.classList.remove('hidden');
-    return false;
-  }
-  error.classList.add('hidden');
-  return true;
+  const valid = checked.length >= 1 && checked.length <= 3;
+
+  error.classList.toggle('hidden', valid);
+  checkboxes.forEach(cb => setFieldState(cb, cb.checked));
+  const next = document.getElementById('next-btn-1');
+  if (next) next.disabled = !valid;
+
+  return valid;
 }
 
 export function validateStep2() {
@@ -15,14 +23,14 @@ export function validateStep2() {
   inputs.forEach(id => {
     const input = document.getElementById(id);
     const error = document.getElementById(`${id}-error`);
-    if (!input.value || input.value < 0 || (id === 'gross-margin' && input.value > 100)) {
-      error.classList.remove('hidden');
-      valid = false;
-    } else {
-      error.classList.add('hidden');
-    }
+    const fieldValid = !!input.value && !(input.value < 0) && !(id === 'gross-margin' && input.value > 100);
+    error.classList.toggle('hidden', fieldValid);
+    setFieldState(input, fieldValid);
+    if (!fieldValid) valid = false;
   });
   document.getElementById('financial-error').classList.toggle('hidden', valid);
+  const next = document.getElementById('next-btn-2');
+  if (next) next.disabled = !valid;
   return valid;
 }
 
@@ -32,15 +40,15 @@ export function validateStep3() {
   inputs.forEach(id => {
     const input = document.getElementById(id);
     const error = document.getElementById(`${id}-error`);
-    if (!input.value || input.value < 0 || input.value > 100) {
-      error.classList.remove('hidden');
-      valid = false;
-    } else {
-      error.classList.add('hidden');
-    }
+    const fieldValid = !!input.value && !(input.value < 0) && !(input.value > 100);
+    error.classList.toggle('hidden', fieldValid);
+    setFieldState(input, fieldValid);
+    if (!fieldValid) valid = false;
   });
   document.getElementById('growth-churn-error').classList.toggle('hidden', valid);
-  return true;
+  const next = document.getElementById('next-btn-3');
+  if (next) next.disabled = !valid;
+  return valid;
 }
 
 export function validateStep4() {
@@ -49,16 +57,18 @@ export function validateStep4() {
   inputs.forEach(id => {
     const input = document.getElementById(id);
     const error = document.getElementById(`${id}-error`);
-    if (!input.value || (['active-customers', 'monthly-active-users'].includes(id) && input.value < 0) ||
-        (id === 'retention-rate' && (input.value < 0 || input.value > 100)) ||
-        (id === 'nps' && (input.value < -100 || input.value > 100))) {
-      error.classList.remove('hidden');
-      valid = false;
-    } else {
-      error.classList.add('hidden');
-    }
+    const fieldValid = !!input.value && !(
+      (['active-customers', 'monthly-active-users'].includes(id) && input.value < 0) ||
+      (id === 'retention-rate' && (input.value < 0 || input.value > 100)) ||
+      (id === 'nps' && (input.value < -100 || input.value > 100))
+    );
+    error.classList.toggle('hidden', fieldValid);
+    setFieldState(input, fieldValid);
+    if (!fieldValid) valid = false;
   });
   document.getElementById('customer-market-error').classList.toggle('hidden', valid);
+  const next = document.getElementById('next-btn-4');
+  if (next) next.disabled = !valid;
   return valid;
 }
 
@@ -68,14 +78,14 @@ export function validateStep5() {
   inputs.forEach(id => {
     const input = document.getElementById(id);
     const error = document.getElementById(`${id}-error`);
-    if (!input.value) {
-      error.classList.remove('hidden');
-      valid = false;
-    } else {
-      error.classList.add('hidden');
-    }
+    const fieldValid = !!input.value;
+    error.classList.toggle('hidden', fieldValid);
+    setFieldState(input, fieldValid);
+    if (!fieldValid) valid = false;
   });
   document.getElementById('product-tech-error').classList.toggle('hidden', valid);
+  const next = document.getElementById('next-btn-5');
+  if (next) next.disabled = !valid;
   return valid;
 }
 
@@ -85,18 +95,20 @@ export function validateStep6() {
   inputs.forEach(id => {
     const input = document.getElementById(id);
     const error = document.getElementById(`${id}-error`);
-    if (!input.value || (['fte', 'key-staff', 'support-tickets'].includes(id) && input.value < 0) ||
-        (id === 'turnover-rate' && (input.value < 0 || input.value > 100)) ||
-        (id === 'eng-sales-ratio' && input.value < 0) ||
-        (id === 'support-rating' && (input.value < 1 || input.value > 10)) ||
-        (id === 'headcount-growth' && (input.value < -100 || input.value > 100))) {
-      error.classList.remove('hidden');
-      valid = false;
-    } else {
-      error.classList.add('hidden');
-    }
+    const fieldValid = !!input.value && !(
+      (['fte', 'key-staff', 'support-tickets'].includes(id) && input.value < 0) ||
+      (id === 'turnover-rate' && (input.value < 0 || input.value > 100)) ||
+      (id === 'eng-sales-ratio' && input.value < 0) ||
+      (id === 'support-rating' && (input.value < 1 || input.value > 10)) ||
+      (id === 'headcount-growth' && (input.value < -100 || input.value > 100))
+    );
+    error.classList.toggle('hidden', fieldValid);
+    setFieldState(input, fieldValid);
+    if (!fieldValid) valid = false;
   });
   document.getElementById('team-ops-error').classList.toggle('hidden', valid);
+  const next = document.getElementById('next-btn-6');
+  if (next) next.disabled = !valid;
   return valid;
 }
 
@@ -106,13 +118,68 @@ export function validateStep7() {
   inputs.forEach(id => {
     const input = document.getElementById(id);
     const error = document.getElementById(`${id}-error`);
-    if (!input.value || (['contract-length', 'contract-value', 'debt-level'].includes(id) && input.value < 0)) {
-      error.classList.remove('hidden');
-      valid = false;
-    } else {
-      error.classList.add('hidden');
-    }
+    const fieldValid = !!input.value && !(
+      ['contract-length', 'contract-value', 'debt-level'].includes(id) && input.value < 0
+    );
+    error.classList.toggle('hidden', fieldValid);
+    setFieldState(input, fieldValid);
+    if (!fieldValid) valid = false;
   });
   document.getElementById('legal-risk-error').classList.toggle('hidden', valid);
+  const next = document.getElementById('next-btn-7');
+  if (next) next.disabled = !valid;
   return valid;
+}
+
+export function setupValidationListeners() {
+  for (let i = 1; i <= 7; i++) {
+    const next = document.getElementById(`next-btn-${i}`);
+    if (next) next.disabled = true;
+  }
+
+  document.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+    cb.addEventListener('change', validateStep1);
+  });
+
+  ['arr', 'mrr', 'ltv', 'cac', 'gross-margin', 'net-profit', 'burn-rate', 'runway']
+    .forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.addEventListener('input', validateStep2);
+    });
+
+  ['revenue-growth-yoy', 'revenue-growth-mom', 'customer-churn', 'revenue-churn']
+    .forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.addEventListener('input', validateStep3);
+    });
+
+  ['active-customers', 'monthly-active-users', 'retention-rate', 'nps', 'customer-segment', 'buyer-type']
+    .forEach(id => {
+      const el = document.getElementById(id);
+      if (!el) return;
+      const evt = el.tagName.toLowerCase() === 'select' ? 'change' : 'input';
+      el.addEventListener(evt, validateStep4);
+    });
+
+  ['product-market-fit', 'proprietary-tech', 'code-quality', 'scalable-infrastructure', 'feature-release-frequency', 'security-compliance']
+    .forEach(id => {
+      const el = document.getElementById(id);
+      if (!el) return;
+      const evt = el.tagName.toLowerCase() === 'select' ? 'change' : 'input';
+      el.addEventListener(evt, validateStep5);
+    });
+
+  ['fte', 'key-staff', 'turnover-rate', 'eng-sales-ratio', 'support-tickets', 'support-rating', 'headcount-growth']
+    .forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.addEventListener('input', validateStep6);
+    });
+
+  ['legal-entity', 'ip-ownership', 'contract-length', 'contract-value', 'vendor-lockin', 'legal-issues', 'data-privacy', 'cyber-insurance', 'debt-level']
+    .forEach(id => {
+      const el = document.getElementById(id);
+      if (!el) return;
+      const evt = el.tagName.toLowerCase() === 'select' ? 'change' : 'input';
+      el.addEventListener(evt, validateStep7);
+    });
 }
