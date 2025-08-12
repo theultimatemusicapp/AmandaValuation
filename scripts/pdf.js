@@ -5,6 +5,7 @@ export function setupPDF(data) {
   button.onclick = async () => {
     try {
       const { jsPDF } = window.jspdf;
+      await import('https://cdn.jsdelivr.net/npm/jspdf-autotable@3.5.31/dist/jspdf.plugin.autotable.min.js');
       const domPurifyModule = await import('https://cdn.jsdelivr.net/npm/dompurify@3.0.5/dist/purify.min.js');
       const DOMPurify = domPurifyModule.default;
       const sanitizeText = (str) => DOMPurify.sanitize(String(str));
@@ -38,6 +39,7 @@ export function setupPDF(data) {
       };
 
       const doc = new jsPDF();
+      doc.setFont('helvetica');
       const pageWidth = doc.internal.pageSize.getWidth();
       const margin = 15;
       let yPos = margin;
@@ -48,6 +50,7 @@ export function setupPDF(data) {
         doc.setFontSize(12);
         doc.setTextColor(255, 255, 255);
         doc.text('The SaaS Valuation App™', margin, 10);
+        doc.setTextColor(0, 0, 0);
       };
 
       // Cover Page
@@ -73,7 +76,8 @@ export function setupPDF(data) {
       doc.text(`Confidence: ${Math.round(sanitizedData.confidence)}%`, margin + 5, yPos);
       yPos += 15;
       doc.setFontSize(10);
-      doc.text('Generated on May 09, 2025', margin, yPos);
+      const today = new Date().toLocaleDateString();
+      doc.text(`Generated on ${today}`, margin, yPos);
 
       // Valuation Details Page
       doc.addPage();
@@ -152,22 +156,15 @@ export function setupPDF(data) {
         { label: 'NPS', value: sanitizedData.nps, insight: sanitizedData.nps > 50 ? 'Satisfied customers.' : 'Enhance customer experience.' },
         { label: 'Debt Level', value: `$${sanitizedData.debtLevel.toLocaleString()}`, insight: sanitizedData.debtLevel < 100000 ? 'Low financial risk.' : 'Reduce debt.' }
       ];
-      metrics.forEach(m => {
-        doc.setFontSize(12);
-        doc.setFillColor(240, 240, 240);
-        doc.rect(margin, yPos, pageWidth - 2 * margin, 15, 'F');
-        doc.setDrawColor(251, 191, 36);
-        doc.rect(margin, yPos, pageWidth - 2 * margin, 15);
-        doc.text(`${m.label}: ${m.value}`, margin + 5, yPos + 5);
-        doc.setFontSize(10);
-        doc.text(m.insight, margin + 5, yPos + 12);
-        yPos += 20;
-        if (yPos > 250) {
-          doc.addPage();
-          addHeader();
-          yPos = 25;
-        }
+      doc.autoTable({
+        head: [['Label', 'Value', 'Insight']],
+        body: metrics.map(m => [m.label, m.value, m.insight]),
+        startY: yPos,
+        theme: 'striped',
+        styles: { fillColor: [240, 240, 240], textColor: [0, 0, 0] },
+        headStyles: { fillColor: [56, 178, 172] }
       });
+      yPos = doc.lastAutoTable.finalY + 10;
 
       // Graphs Pages
       const graphs = [
@@ -183,15 +180,19 @@ export function setupPDF(data) {
           yPos = 25;
         }
         const canvas = document.getElementById(graph.id);
-        const imgData = canvas.toDataURL('image/png');
+        if (!canvas) {
+          console.warn(`Canvas with id ${graph.id} not found`);
+          return;
+        }
+        const imgData = canvas.toDataURL('image/jpeg', 0.8);
         doc.setFontSize(14);
         doc.text(graph.title, margin, yPos);
         yPos += 8;
         doc.setFontSize(10);
         doc.text(graph.desc, margin, yPos);
         yPos += 8;
-        doc.addImage(imgData, 'PNG', margin, yPos, 80, 50);
-        yPos += 60;
+        doc.addImage(imgData, 'JPEG', margin, yPos, 120, 75);
+        yPos += 85;
       });
 
       // About & Disclaimer Page
@@ -218,8 +219,14 @@ export function setupPDF(data) {
       doc.setFontSize(10);
       const disclaimerText = 'This valuation is an estimate based on user-provided data and standard methods. It is not financial advice. Consult a professional advisor for business decisions. The SaaS Valuation App™ is not liable for actions taken based on this report. Accuracy depends on the correctness of your inputs.';
       doc.text(doc.splitTextToSize(disclaimerText, pageWidth - 2 * margin), margin, yPos);
+      const pageCount = doc.getNumberOfPages();
+      for (let i = 1; i <= pageCount; i++) {
+        doc.setPage(i);
+        doc.setFontSize(10);
+        doc.text(`Page ${i}`, doc.internal.pageSize.getWidth() - margin, doc.internal.pageSize.getHeight() - 10, { align: 'right' });
+      }
 
-      doc.save('saas_valuation_report.pdf');
+      await doc.save('saas_valuation_report.pdf', { returnPromise: true });
     } catch (error) {
       console.error('Error generating PDF:', error);
       alert('An error occurred while generating the PDF. Please try again.');
