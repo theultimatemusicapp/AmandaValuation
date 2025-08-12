@@ -28,146 +28,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap">
+    <link rel="stylesheet" href="styles/pro-valuation.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <style>
-    body,
-    h1,
-    h2,
-    h3,
-    h4,
-    h5,
-    h6 {
-      font-family: 'Inter', sans-serif;
-    }
-    .gradient-bg {
-      background: linear-gradient(135deg, #38b2ac 0%, #2d3748 100%);
-    }
-    .btn-primary {
-      @apply bg-teal-500 text-white font-bold py-2 px-4 rounded-lg transition-colors duration-300;
-    }
-    .btn-primary:hover {
-      @apply bg-teal-600;
-    }
-    .btn-secondary {
-      @apply bg-yellow-500 text-white font-bold py-2 px-4 rounded-lg transition-colors duration-300;
-    }
-    .btn-secondary:hover {
-      @apply bg-yellow-600;
-    }
-    .valuation-box {
-      max-width: 900px;
-      margin: 0 auto;
-      background-color: #f9fafb;
-      border: 2px solid #d1d5db;
-      border-radius: 1rem;
-      padding: 1rem;
-      box-shadow: 0 4px 10px rgb(0 0 0 / 0.05);
-    }
-    [data-tooltip]:hover:after {
-      content: attr(data-tooltip);
-      position: absolute;
-      bottom: 100%;
-      left: 50%;
-      transform: translateX(-50%);
-      background-color: #2D3748;
-      color: white;
-      padding: 4px 8px;
-      border-radius: 4px;
-      font-size: 12px;
-      white-space: nowrap;
-      z-index: 10;
-    }
-    .feature-card {
-      @apply bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300;
-    }
-    .feature-icon {
-      @apply text-teal-500 text-3xl mb-4;
-    }
-    .nav-link {
-      @apply hover:text-teal-400 transition-colors duration-300;
-    }
-    .mobile-nav-link {
-      @apply block py-2 hover:text-teal-400 transition-colors duration-300;
-    }
-  
-    .gradient-bg {
-      background: linear-gradient(135deg, #38b2ac 0%, #2d3748 100%);
-    }
-    .btn-primary {
-      @apply bg-teal-500 text-white font-bold py-2 px-4 rounded-lg transition-colors duration-300;
-    }
-    .btn-primary:hover {
-      @apply bg-teal-600;
-    }
-    .btn-secondary {
-      @apply bg-yellow-500 text-white font-bold py-2 px-4 rounded-lg transition-colors duration-300;
-    }
-    .btn-secondary:hover {
-      @apply bg-yellow-600;
-    }
-    .step-hidden {
-      display: none;
-    }
-    .step-visible {
-      display: block;
-    }
-    [data-tooltip]:hover:after {
-      content: attr(data-tooltip);
-      position: absolute;
-      bottom: 100%;
-      left: 50%;
-      transform: translateX(-50%);
-      background-color: #2D3748;
-      color: white;
-      padding: 4px 8px;
-      border-radius: 4px;
-      font-size: 12px;
-      white-space: nowrap;
-      z-index: 10;
-    }
-    .valuation-box {
-      max-width: 900px;
-      margin: 0 auto;
-      background-color: #f9fafb;
-      border: 2px solid #d1d5db;
-      border-radius: 1rem;
-      padding: 1rem;
-      box-shadow: 0 4px 10px rgb(0 0 0 / 0.05);
-    }
-    .explanation-section {
-      margin-top: 1.5rem;
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 1rem;
-    }
-    .explanation-box {
-      background: #e5e7eb;
-      border: 1px solid #d1d5db;
-      border-radius: 0.5rem;
-      padding: 0.75rem;
-      font-size: 0.85rem;
-      color: #374151;
-    }
-    .explanation-box h4 {
-      font-weight: bold;
-      margin-bottom: 0.25rem;
-      font-size: 0.9rem;
-    }
-    .explanation-box p {
-      margin-bottom: 0.25rem;
-      line-height: 1.2;
-    }
-    input:focus, select:focus {
-      outline: 2px solid #38b2ac;
-      outline-offset: 2px;
-    }
-    @media (max-width: 768px) {
-      .explanation-section {
-        grid-template-columns: 1fr;
-      }
-    }
-  </style>
 </head>
 	  <!-- HEADER -->
   <header class="bg-gray-800 text-white py-3 sticky top-0 z-50 shadow-lg">
@@ -391,7 +254,7 @@
         <div class="mb-6">
           <div class="relative pt-1">
             <div class="overflow-hidden h-1.5 mb-2 text-xs flex rounded bg-gray-200">
-              <div id="progress-fill" class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-teal-500" style="width: 14.29%"></div>
+              <div id="progress-fill" class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-teal-500"></div>
             </div>
             <p class="text-center text-gray-600 text-sm">
               Step <span id="current-step">1</span> of 7
