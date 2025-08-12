@@ -6,7 +6,7 @@ export async function calculateValuation(deps = {}) {
     if (deps.Chart) {
       Chart = deps.Chart;
     } else {
-      const chartModule = await import('https://cdn.jsdelivr.net/npm/chart.js');
+      const chartModule = await import('./vendor/chart.js');
       Chart = chartModule.default || chartModule.Chart || window.Chart;
     }
     if (!Chart) throw new Error('Chart.js not available');
