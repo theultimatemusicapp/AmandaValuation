@@ -32,7 +32,9 @@ export function setupPDF(data) {
         activeCustomers: sanitizeNumber(data.activeCustomers),
         mau: sanitizeNumber(data.mau),
         debtLevel: sanitizeNumber(data.debtLevel),
-        multiplier: sanitizeNumber(data.multiplier)
+        multiplier: sanitizeNumber(data.multiplier),
+        discountRate: sanitizeNumber(data.discountRate),
+        ruleOf40: sanitizeNumber(data.ruleOf40)
       };
 
       const doc = new jsPDF();
@@ -116,7 +118,7 @@ export function setupPDF(data) {
           yPos += 5;
           doc.text('Means: Balances growth and profit for investors.', margin + 5, yPos);
         } else if (v.method === 'DCF') {
-          doc.text(`Why: Discounts cash flow ($${Math.round(sanitizedData.netProfit * 1.2).toLocaleString()}) at 10%, factoring risks.`, margin + 5, yPos);
+          doc.text(`Why: Discounts cash flow ($${Math.round(sanitizedData.netProfit * 1.2).toLocaleString()}) at ${(sanitizedData.discountRate * 100).toFixed(2)}%, factoring risks.`, margin + 5, yPos);
           yPos += 5;
           doc.text(`Improve: Extend runway (${sanitizedData.runway} months) or reduce risks (e.g., legal: ${sanitizedData.legalIssues}).`, margin +5, yPos);
           yPos += 5;

@@ -26,40 +26,74 @@ export async function calculateValuation() {
     const activeCustomers = parseFloat(document.getElementById('active-customers').value) || 0;
     const mau = parseFloat(document.getElementById('monthly-active-users').value) || 0;
     const debtLevel = parseFloat(document.getElementById('debt-level').value) || 0;
+    const customMultiplier = parseFloat(document.getElementById('custom-multiplier').value) || null;
+    const discountRateInput = parseFloat(document.getElementById('discount-rate').value) || null;
+    const discountRate = discountRateInput ? discountRateInput / 100 : 0.1;
+
+    const netProfitMargin = arr > 0 ? (netProfit / arr) * 100 : 0;
+    const ruleOf40 = growthYoy + netProfitMargin;
 
     let valuations = [];
-    let multiplier = 5;
+    let warnings = [];
+    let multiplier = customMultiplier || 5;
     if (growthYoy > 20) multiplier += 2;
     if (customerChurn < 5) multiplier += 1;
     if (retentionRate > 80) multiplier += 1;
     if (nps > 50) multiplier += 0.5;
     if (legalIssues !== 'none') multiplier -= 1;
     if (ipOwnership === 'fully-owned') multiplier += 0.5;
+    if (ruleOf40 >= 40) multiplier += 1;
+    else multiplier -= 1;
+    multiplier = Math.max(multiplier, 1);
 
     if (methods.includes('multiplier')) {
-      const valuation = arr * multiplier;
-      valuations.push({ method: 'Revenue Multiplier', value: valuation });
+      if (arr <= 0) {
+        warnings.push('ARR must be greater than 0 for Revenue Multiplier method.');
+      } else {
+        const valuation = arr * multiplier;
+        valuations.push({ method: 'Revenue Multiplier', value: valuation });
+      }
     }
     if (methods.includes('income')) {
-      const profitMultiplier = multiplier - 1;
-      const valuation = netProfit * profitMultiplier;
-      valuations.push({ method: 'Income-Based', value: valuation });
+      if (netProfit <= 0) {
+        warnings.push('Net profit should be positive for Income-Based method.');
+      } else {
+        const profitMultiplier = multiplier - 1;
+        const valuation = netProfit * profitMultiplier;
+        valuations.push({ method: 'Income-Based', value: valuation });
+      }
     }
     if (methods.includes('earnings')) {
-      const valuation = (arr * 0.6 + netProfit * 0.4) * multiplier;
-      valuations.push({ method: 'Earnings-Based', value: valuation });
+      if (arr <= 0 || netProfit <= 0) {
+        warnings.push('Earnings-Based method requires positive ARR and net profit.');
+      } else {
+        const valuation = (arr * 0.6 + netProfit * 0.4) * multiplier;
+        valuations.push({ method: 'Earnings-Based', value: valuation });
+      }
     }
     if (methods.includes('dcf')) {
       const cashFlow = netProfit * 1.2;
-      const discountRate = 0.1;
-      const valuation = cashFlow / discountRate;
-      valuations.push({ method: 'DCF', value: valuation });
+      if (discountRate <= 0) {
+        warnings.push('Discount rate must be greater than 0 for DCF method.');
+      } else {
+        const valuation = cashFlow / discountRate;
+        valuations.push({ method: 'DCF', value: valuation });
+      }
     }
 
-    const avgValuation = valuations.reduce((sum, v) => sum + v.value, 0) / valuations.length;
+    const avgValuation = valuations.length ? valuations.reduce((sum, v) => sum + v.value, 0) / valuations.length : 0;
     const rangeLow = avgValuation * 0.9;
     const rangeHigh = avgValuation * 1.1;
     const confidence = Math.min(95, 60 + (methods.length * 10) + (growthYoy > 20 ? 10 : 0) + (customerChurn < 5 ? 10 : 0));
+
+    const warningEl = document.getElementById('valuation-warnings');
+    if (warnings.length) {
+      warningEl.innerHTML = warnings.map(w => `<p>${w}</p>`).join('');
+      warningEl.classList.remove('hidden');
+    } else {
+      warningEl.classList.add('hidden');
+      warningEl.innerHTML = '';
+    }
 
     document.getElementById('valuation-amount').textContent = `$${Math.round(avgValuation).toLocaleString()}`;
     document.getElementById('valuation-range').textContent = `$${Math.round(rangeLow).toLocaleString()} - $${Math.round(rangeHigh).toLocaleString()}`;
@@ -153,7 +187,9 @@ export async function calculateValuation() {
       activeCustomers,
       mau,
       debtLevel,
-      multiplier
+      multiplier,
+      discountRate,
+      ruleOf40
     });
   } catch (error) {
     console.error('Error calculating valuation:', error);
