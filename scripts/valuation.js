@@ -1,13 +1,26 @@
 import { setupPDF as setupPDFDefault } from './pdf.js';
 
 export async function calculateValuation(deps = {}) {
+  let Chart;
   try {
-    const Chart = deps.Chart || (await import('https://cdn.jsdelivr.net/npm/chart.js')).default;
-    const { jsPDF } =
-      deps.jspdf ||
-      (await import('https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.es.min.js'));
+    Chart = deps.Chart || (await import('./vendor/chart.js')).default;
+  } catch (error) {
+    console.error('Failed to load Chart.js:', error);
+    alert('Unable to load chart library. Please refresh and try again.');
+    return;
+  }
+  let jsPDF;
+  try {
+    const jspdfModule = deps.jspdf || (await import('./vendor/jspdf.es.min.js'));
+    jsPDF = jspdfModule.jsPDF;
     window.jspdf = { jsPDF };
+  } catch (error) {
+    console.error('Failed to load jsPDF:', error);
+    alert('Unable to load PDF library. Please refresh and try again.');
+    return;
+  }
 
+  try {
     const methods = Array.from(document.querySelectorAll('input[type="checkbox"]:checked')).map(input => input.value);
     const arr = parseFloat(document.getElementById('arr').value) || 0;
     const netProfit = parseFloat(document.getElementById('net-profit').value) || 0;

@@ -4,10 +4,27 @@ export function setupPDF(data) {
 
   button.onclick = async () => {
     try {
-      const { jsPDF } = window.jspdf;
-      await import('https://cdn.jsdelivr.net/npm/jspdf-autotable@3.5.31/dist/jspdf.plugin.autotable.js?module');
-      const domPurifyModule = await import('https://cdn.jsdelivr.net/npm/dompurify@3.0.5/dist/purify.es.min.js');
-      const DOMPurify = domPurifyModule.default || domPurifyModule;
+      const { jsPDF } = window.jspdf || {};
+      if (!jsPDF) {
+        alert('PDF library not loaded. Please generate a valuation first.');
+        return;
+      }
+      try {
+        await import('./vendor/jspdf.plugin.autotable.js');
+      } catch (error) {
+        console.error('Failed to load jsPDF autotable plugin:', error);
+        alert('Failed to load table plugin. Please refresh and try again.');
+        return;
+      }
+      let DOMPurify;
+      try {
+        const domPurifyModule = await import('./vendor/purify.es.min.js');
+        DOMPurify = domPurifyModule.default || domPurifyModule;
+      } catch (error) {
+        console.error('Failed to load DOMPurify:', error);
+        alert('Failed to load sanitization library. Please refresh and try again.');
+        return;
+      }
       const sanitizeText = (str) => DOMPurify.sanitize(String(str));
       const sanitizeNumber = (num) => parseFloat(num) || 0;
       const sanitizedData = {
