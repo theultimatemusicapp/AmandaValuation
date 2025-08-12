@@ -2,7 +2,9 @@ export function initNavigation(validation, calculateValuation) {
   const steps = document.querySelectorAll('.step');
   const progressFill = document.getElementById('progress-fill');
   const currentStepDisplay = document.getElementById('current-step');
-  const totalSteps = 7;
+  const totalStepsDisplay = document.getElementById('total-steps');
+  const totalSteps = steps.length;
+  if (totalStepsDisplay) totalStepsDisplay.textContent = totalSteps;
   let currentStep = 1;
 
   function updateProgress() {
@@ -56,7 +58,7 @@ export function initNavigation(validation, calculateValuation) {
     });
   });
 
-  for (let i = 1; i <= 7; i++) {
+  for (let i = 1; i < totalSteps; i++) {
     const nextBtn = document.getElementById(`next-btn-${i}`);
     const prevBtn = document.getElementById(`prev-btn-${i}`);
     if (nextBtn) {
@@ -64,7 +66,7 @@ export function initNavigation(validation, calculateValuation) {
         const validate = validation[`validateStep${i}`];
         if (!validate || validate()) {
           showStep(i + 1);
-          if (i === 7) calculateValuation();
+          if (i === totalSteps - 1) calculateValuation();
         }
       });
     }
