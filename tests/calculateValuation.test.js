@@ -68,4 +68,12 @@ describe('calculateValuation', () => {
     await calculateValuation({ Chart: ChartMock, jspdf: {}, setupPDF });
     expect(document.getElementById('valuation-warnings').innerHTML).toContain('Discount rate cannot be negative.');
   });
+
+  test('populates DOM even when chart rendering fails', async () => {
+    await calculateValuation({ Chart: {}, jspdf: {}, setupPDF });
+    expect(document.getElementById('valuation-amount').textContent).toBe('$11,000,000');
+    expect(document.getElementById('valuation-range').textContent).toBe('$9,900,000 - $12,100,000');
+    expect(document.getElementById('confidence-score').textContent).toBe('90%');
+    expect(setupPDF).toHaveBeenCalled();
+  });
 });

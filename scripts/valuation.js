@@ -1,20 +1,6 @@
 import { setupPDF as setupPDFDefault } from './pdf.js';
 
 export async function calculateValuation(deps = {}) {
-  let Chart;
-  try {
-    if (deps.Chart) {
-      Chart = deps.Chart;
-    } else {
-      const chartModule = await import('./vendor/chart.js');
-      Chart = chartModule.default || chartModule.Chart || window.Chart;
-    }
-    if (!Chart) throw new Error('Chart.js not available');
-  } catch (error) {
-    console.error('Failed to load Chart.js:', error);
-    alert('Unable to load chart library. Please refresh and try again.');
-    return;
-  }
   let jsPDF;
   try {
     const jspdfModule = deps.jspdf || (await import('./vendor/jspdf.es.min.js'));
@@ -122,81 +108,94 @@ export async function calculateValuation(deps = {}) {
     document.getElementById('confidence-score').textContent = `${Math.round(confidence)}%`;
 
     // Charts
-    const valuationCanvas = document.getElementById('valuation-chart');
-    valuationCanvas.width = 800;
-    valuationCanvas.height = 500;
-    new Chart(valuationCanvas, {
-      type: 'bar',
-      data: {
-        labels: valuations.map(v => v.method),
-        datasets: [{
-          label: 'Valuation ($)',
-          data: valuations.map(v => v.value),
-          backgroundColor: 'rgba(56, 178, 172, 0.6)',
-        }]
-      },
-      options: { scales: { y: { beginAtZero: true } } }
-    });
+    try {
+      let Chart;
+      if (deps.Chart) {
+        Chart = deps.Chart;
+      } else {
+        const chartModule = await import('./vendor/chart.js');
+        Chart = chartModule.default || chartModule.Chart || window.Chart;
+      }
+      if (!Chart) throw new Error('Chart.js not available');
 
-    const financialCanvas = document.getElementById('financial-chart');
-    financialCanvas.width = 800;
-    financialCanvas.height = 500;
-    new Chart(financialCanvas, {
-      type: 'bar',
-      data: {
-        labels: ['ARR', 'Net Profit', 'LTV', 'CAC'],
-        datasets: [{
-          label: 'Financial Metrics ($)',
-          data: [arr, netProfit, ltv, cac],
-          backgroundColor: ['rgba(56, 178, 172, 0.6)', 'rgba(251, 191, 36, 0.6)', 'rgba(45, 55, 72, 0.6)', 'rgba(255, 99, 132, 0.6)'],
-        }]
-      },
-      options: { scales: { y: { beginAtZero: true } } }
-    });
+      const valuationCanvas = document.getElementById('valuation-chart');
+      valuationCanvas.width = 800;
+      valuationCanvas.height = 500;
+      new Chart(valuationCanvas, {
+        type: 'bar',
+        data: {
+          labels: valuations.map(v => v.method),
+          datasets: [{
+            label: 'Valuation ($)',
+            data: valuations.map(v => v.value),
+            backgroundColor: 'rgba(56, 178, 172, 0.6)',
+          }]
+        },
+        options: { scales: { y: { beginAtZero: true } } }
+      });
 
-    const growthChurnCanvas = document.getElementById('growth-churn-chart');
-    growthChurnCanvas.width = 800;
-    growthChurnCanvas.height = 500;
-    new Chart(growthChurnCanvas, {
-      type: 'bar',
-      data: {
-        labels: ['YoY Growth', 'MoM Growth', 'Customer Churn', 'Revenue Churn'],
-        datasets: [{
-          label: 'Percentage (%)',
-          data: [
-            growthYoy,
-            parseFloat(document.getElementById('revenue-growth-mom').value) || 0,
-            customerChurn,
-            parseFloat(document.getElementById('revenue-churn').value) || 0
-          ],
-          backgroundColor: ['rgba(56, 178, 172, 0.6)', 'rgba(251, 191, 36, 0.6)', 'rgba(255, 99, 132, 0.6)', 'rgba(45, 55, 72, 0.6)'],
-        }]
-      },
-      options: { scales: { y: { beginAtZero: true, max: 100 } } }
-    });
+      const financialCanvas = document.getElementById('financial-chart');
+      financialCanvas.width = 800;
+      financialCanvas.height = 500;
+      new Chart(financialCanvas, {
+        type: 'bar',
+        data: {
+          labels: ['ARR', 'Net Profit', 'LTV', 'CAC'],
+          datasets: [{
+            label: 'Financial Metrics ($)',
+            data: [arr, netProfit, ltv, cac],
+            backgroundColor: ['rgba(56, 178, 172, 0.6)', 'rgba(251, 191, 36, 0.6)', 'rgba(45, 55, 72, 0.6)', 'rgba(255, 99, 132, 0.6)'],
+          }]
+        },
+        options: { scales: { y: { beginAtZero: true } } }
+      });
 
-    const riskCanvas = document.getElementById('risk-chart');
-    riskCanvas.width = 800;
-    riskCanvas.height = 500;
-    new Chart(riskCanvas, {
-      type: 'radar',
-      data: {
-        labels: ['Legal Issues', 'IP Ownership', 'Data Privacy', 'Debt Level'],
-        datasets: [{
-          label: 'Risk Score (0-10)',
-          data: [
-            legalIssues === 'none' ? 2 : legalIssues === 'minor' ? 5 : 8,
-            ipOwnership === 'fully-owned' ? 2 : ipOwnership === 'partial' ? 5 : 8,
-            document.getElementById('data-privacy').value === 'full' ? 2 : document.getElementById('data-privacy').value === 'partial' ? 5 : 8,
-            debtLevel < 100000 ? 2 : 5
-          ],
-          backgroundColor: 'rgba(255, 99, 132, 0.2)',
-          borderColor: 'rgba(255, 99, 132, 1)',
-          pointBackgroundColor: 'rgba(255, 99, 132, 1)',
-        }]
-      },
-      options: { scales: { r: { min: 0, max: 10 } } }
-    });
+      const growthChurnCanvas = document.getElementById('growth-churn-chart');
+      growthChurnCanvas.width = 800;
+      growthChurnCanvas.height = 500;
+      new Chart(growthChurnCanvas, {
+        type: 'bar',
+        data: {
+          labels: ['YoY Growth', 'MoM Growth', 'Customer Churn', 'Revenue Churn'],
+          datasets: [{
+            label: 'Percentage (%)',
+            data: [
+              growthYoy,
+              parseFloat(document.getElementById('revenue-growth-mom').value) || 0,
+              customerChurn,
+              parseFloat(document.getElementById('revenue-churn').value) || 0
+            ],
+            backgroundColor: ['rgba(56, 178, 172, 0.6)', 'rgba(251, 191, 36, 0.6)', 'rgba(255, 99, 132, 0.6)', 'rgba(45, 55, 72, 0.6)'],
+          }]
+        },
+        options: { scales: { y: { beginAtZero: true, max: 100 } } }
+      });
+
+      const riskCanvas = document.getElementById('risk-chart');
+      riskCanvas.width = 800;
+      riskCanvas.height = 500;
+      new Chart(riskCanvas, {
+        type: 'radar',
+        data: {
+          labels: ['Legal Issues', 'IP Ownership', 'Data Privacy', 'Debt Level'],
+          datasets: [{
+            label: 'Risk Score (0-10)',
+            data: [
+              legalIssues === 'none' ? 2 : legalIssues === 'minor' ? 5 : 8,
+              ipOwnership === 'fully-owned' ? 2 : ipOwnership === 'partial' ? 5 : 8,
+              document.getElementById('data-privacy').value === 'full' ? 2 : document.getElementById('data-privacy').value === 'partial' ? 5 : 8,
+              debtLevel < 100000 ? 2 : 5
+            ],
+            backgroundColor: 'rgba(255, 99, 132, 0.2)',
+            borderColor: 'rgba(255, 99, 132, 1)',
+            pointBackgroundColor: 'rgba(255, 99, 132, 1)',
+          }]
+        },
+        options: { scales: { r: { min: 0, max: 10 } } }
+      });
+    } catch (error) {
+      console.error('Failed to render charts:', error);
+    }
 
     const setupPDF = deps.setupPDF || setupPDFDefault;
     setupPDF({
