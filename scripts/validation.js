@@ -18,12 +18,20 @@ export function validateStep1() {
 }
 
 export function validateStep2() {
-  const inputs = ['arr', 'mrr', 'ltv', 'cac', 'gross-margin', 'net-profit', 'burn-rate', 'runway'];
+  const inputs = ['arr', 'mrr', 'ltv', 'cac', 'gross-margin', 'net-profit', 'burn-rate', 'runway', 'custom-multiplier', 'discount-rate'];
+  const optional = ['custom-multiplier', 'discount-rate'];
   let valid = true;
   inputs.forEach(id => {
     const input = document.getElementById(id);
+    if (!input) return;
     const error = document.getElementById(`${id}-error`);
-    const fieldValid = !!input.value && !(input.value < 0) && !(id === 'gross-margin' && input.value > 100);
+    const value = input.value;
+    let fieldValid;
+    if (optional.includes(id)) {
+      fieldValid = value === '' || (!(value < 0) && !(id === 'discount-rate' && value > 100));
+    } else {
+      fieldValid = !!value && !((value < 0 && id !== 'net-profit') || (id === 'gross-margin' && value > 100));
+    }
     error.classList.toggle('hidden', fieldValid);
     setFieldState(input, fieldValid);
     if (!fieldValid) valid = false;
@@ -141,7 +149,7 @@ export function setupValidationListeners() {
     cb.addEventListener('change', validateStep1);
   });
 
-  ['arr', 'mrr', 'ltv', 'cac', 'gross-margin', 'net-profit', 'burn-rate', 'runway']
+  ['arr', 'mrr', 'ltv', 'cac', 'gross-margin', 'net-profit', 'burn-rate', 'runway', 'custom-multiplier', 'discount-rate']
     .forEach(id => {
       const el = document.getElementById(id);
       if (el) el.addEventListener('input', validateStep2);

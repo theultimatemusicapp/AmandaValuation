@@ -360,7 +360,7 @@
               </div>
               <div>
                 <label for="net-profit" class="block font-medium text-gray-700 mb-1">Net Profit / EBITDA ($)</label>
-                <input type="number" id="net-profit" min="0" step="1000" placeholder="e.g., 200000" class="w-full p-2 border rounded focus:ring focus:ring-teal-400" required aria-required="true" aria-describedby="net-profit-error" />
+                <input type="number" id="net-profit" step="1000" placeholder="e.g., 200000" class="w-full p-2 border rounded focus:ring focus:ring-teal-400" required aria-required="true" aria-describedby="net-profit-error" />
                 <p id="net-profit-error" class="text-red-500 text-sm mt-1 hidden" role="alert">Please enter a valid number.</p>
               </div>
               <div>
@@ -372,6 +372,16 @@
                 <label for="runway" class="block font-medium text-gray-700 mb-1">Runway (Months)</label>
                 <input type="number" id="runway" min="0" step="1" placeholder="e.g., 12" class="w-full p-2 border rounded focus:ring focus:ring-teal-400" required aria-required="true" aria-describedby="runway-error" />
                 <p id="runway-error" class="text-red-500 text-sm mt-1 hidden" role="alert">Please enter a valid number.</p>
+              </div>
+              <div>
+                <label for="custom-multiplier" class="block font-medium text-gray-700 mb-1">Custom Revenue Multiplier (optional)</label>
+                <input type="number" id="custom-multiplier" min="0" step="0.1" placeholder="e.g., 5" class="w-full p-2 border rounded focus:ring focus:ring-teal-400" aria-describedby="custom-multiplier-error" />
+                <p id="custom-multiplier-error" class="text-red-500 text-sm mt-1 hidden" role="alert">Please enter a valid number.</p>
+              </div>
+              <div>
+                <label for="discount-rate" class="block font-medium text-gray-700 mb-1">Discount Rate (%)</label>
+                <input type="number" id="discount-rate" min="0" max="100" step="0.1" placeholder="e.g., 10" class="w-full p-2 border rounded focus:ring focus:ring-teal-400" aria-describedby="discount-rate-error" />
+                <p id="discount-rate-error" class="text-red-500 text-sm mt-1 hidden" role="alert">Please enter a value between 0 and 100.</p>
               </div>
               <p id="financial-error" class="text-red-500 text-sm mt-2 hidden" role="alert">Please fill all financial fields correctly.</p>
               <div class="mt-4 flex justify-between">
@@ -1014,6 +1024,7 @@
 
             <!-- Valuation Display -->
             <div id="valuation-results" class="text-center mb-6">
+              <div id="valuation-warnings" class="text-red-500 text-sm hidden mb-2"></div>
               <p class="text-2xl font-bold text-teal-600" id="valuation-amount">$0</p>
               <p class="text-gray-600 text-sm mt-2">Estimated Valuation Range: <span id="valuation-range">$0 - $0</span></p>
               <p class="text-gray-600 text-sm">Confidence Score: <span id="confidence-score">0%</span></p>
