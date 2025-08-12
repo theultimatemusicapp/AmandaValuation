@@ -98,7 +98,10 @@ export async function calculateValuation(deps = {}) {
     document.getElementById('confidence-score').textContent = `${Math.round(confidence)}%`;
 
     // Charts
-    new Chart(document.getElementById('valuation-chart'), {
+    const valuationCanvas = document.getElementById('valuation-chart');
+    valuationCanvas.width = 800;
+    valuationCanvas.height = 500;
+    new Chart(valuationCanvas, {
       type: 'bar',
       data: {
         labels: valuations.map(v => v.method),
@@ -111,7 +114,10 @@ export async function calculateValuation(deps = {}) {
       options: { scales: { y: { beginAtZero: true } } }
     });
 
-    new Chart(document.getElementById('financial-chart'), {
+    const financialCanvas = document.getElementById('financial-chart');
+    financialCanvas.width = 800;
+    financialCanvas.height = 500;
+    new Chart(financialCanvas, {
       type: 'bar',
       data: {
         labels: ['ARR', 'Net Profit', 'LTV', 'CAC'],
@@ -124,7 +130,10 @@ export async function calculateValuation(deps = {}) {
       options: { scales: { y: { beginAtZero: true } } }
     });
 
-    new Chart(document.getElementById('growth-churn-chart'), {
+    const growthChurnCanvas = document.getElementById('growth-churn-chart');
+    growthChurnCanvas.width = 800;
+    growthChurnCanvas.height = 500;
+    new Chart(growthChurnCanvas, {
       type: 'bar',
       data: {
         labels: ['YoY Growth', 'MoM Growth', 'Customer Churn', 'Revenue Churn'],
@@ -142,7 +151,10 @@ export async function calculateValuation(deps = {}) {
       options: { scales: { y: { beginAtZero: true, max: 100 } } }
     });
 
-    new Chart(document.getElementById('risk-chart'), {
+    const riskCanvas = document.getElementById('risk-chart');
+    riskCanvas.width = 800;
+    riskCanvas.height = 500;
+    new Chart(riskCanvas, {
       type: 'radar',
       data: {
         labels: ['Legal Issues', 'IP Ownership', 'Data Privacy', 'Debt Level'],
