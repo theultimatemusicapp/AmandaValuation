@@ -5,9 +5,9 @@ export function setupPDF(data) {
   button.onclick = async () => {
     try {
       const { jsPDF } = window.jspdf;
-      await import('https://cdn.jsdelivr.net/npm/jspdf-autotable@3.5.31/dist/jspdf.plugin.autotable.min.js');
-      const domPurifyModule = await import('https://cdn.jsdelivr.net/npm/dompurify@3.0.5/dist/purify.min.js');
-      const DOMPurify = domPurifyModule.default;
+      await import('https://cdn.jsdelivr.net/npm/jspdf-autotable@3.5.31/dist/jspdf.plugin.autotable.js?module');
+      const domPurifyModule = await import('https://cdn.jsdelivr.net/npm/dompurify@3.0.5/dist/purify.es.min.js');
+      const DOMPurify = domPurifyModule.default || domPurifyModule;
       const sanitizeText = (str) => DOMPurify.sanitize(String(str));
       const sanitizeNumber = (num) => parseFloat(num) || 0;
       const sanitizedData = {
@@ -156,15 +156,20 @@ export function setupPDF(data) {
         { label: 'NPS', value: sanitizedData.nps, insight: sanitizedData.nps > 50 ? 'Satisfied customers.' : 'Enhance customer experience.' },
         { label: 'Debt Level', value: `$${sanitizedData.debtLevel.toLocaleString()}`, insight: sanitizedData.debtLevel < 100000 ? 'Low financial risk.' : 'Reduce debt.' }
       ];
-      doc.autoTable({
-        head: [['Label', 'Value', 'Insight']],
-        body: metrics.map(m => [m.label, m.value, m.insight]),
-        startY: yPos,
-        theme: 'striped',
-        styles: { fillColor: [240, 240, 240], textColor: [0, 0, 0] },
-        headStyles: { fillColor: [56, 178, 172] }
-      });
-      yPos = doc.lastAutoTable.finalY + 10;
+      if (typeof doc.autoTable === 'function') {
+        doc.autoTable({
+          head: [['Label', 'Value', 'Insight']],
+          body: metrics.map(m => [m.label, m.value, m.insight]),
+          startY: yPos,
+          theme: 'striped',
+          styles: { fillColor: [240, 240, 240], textColor: [0, 0, 0] },
+          headStyles: { fillColor: [56, 178, 172] }
+        });
+        yPos = doc.lastAutoTable.finalY + 10;
+      } else {
+        console.warn('autoTable plugin not loaded');
+        yPos += 10;
+      }
 
       // Graphs Pages
       const graphs = [

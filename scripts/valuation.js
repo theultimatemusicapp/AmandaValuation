@@ -3,8 +3,10 @@ import { setupPDF as setupPDFDefault } from './pdf.js';
 export async function calculateValuation(deps = {}) {
   try {
     const Chart = deps.Chart || (await import('https://cdn.jsdelivr.net/npm/chart.js')).default;
-    const jspdf = deps.jspdf || (await import('https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js'));
-    window.jspdf = jspdf;
+    const { jsPDF } =
+      deps.jspdf ||
+      (await import('https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.es.min.js'));
+    window.jspdf = { jsPDF };
 
     const methods = Array.from(document.querySelectorAll('input[type="checkbox"]:checked')).map(input => input.value);
     const arr = parseFloat(document.getElementById('arr').value) || 0;
