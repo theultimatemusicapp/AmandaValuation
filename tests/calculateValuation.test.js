@@ -51,4 +51,21 @@ describe('calculateValuation', () => {
     expect(document.getElementById('confidence-score').textContent).toBe('90%');
     expect(setupPDF).toHaveBeenCalled();
   });
+
+  test('warns when discount rate is zero', async () => {
+    const dcfCheckbox = document.createElement('input');
+    dcfCheckbox.type = 'checkbox';
+    dcfCheckbox.value = 'dcf';
+    dcfCheckbox.checked = true;
+    document.body.appendChild(dcfCheckbox);
+    document.getElementById('discount-rate').value = '0';
+    await calculateValuation({ Chart: ChartMock, jspdf: {}, setupPDF });
+    expect(document.getElementById('valuation-warnings').innerHTML).toContain('Discount rate must be greater than 0 for DCF method.');
+  });
+
+  test('shows message for negative discount rate', async () => {
+    document.getElementById('discount-rate').value = '-5';
+    await calculateValuation({ Chart: ChartMock, jspdf: {}, setupPDF });
+    expect(document.getElementById('valuation-warnings').innerHTML).toContain('Discount rate cannot be negative.');
+  });
 });
