@@ -3,12 +3,16 @@ export function initNavigation(validation, calculateValuation) {
   const progressFill = document.getElementById('progress-fill');
   const currentStepDisplay = document.getElementById('current-step');
   const totalStepsDisplay = document.getElementById('total-steps');
+  const stepAnnounce = document.getElementById('step-announce');
+  const stepDots = document.querySelectorAll('#stepper .step-dot');
+  const menuToggle = document.getElementById('menu-toggle');
+  const mobileMenu = document.getElementById('mobile-menu');
   const totalSteps = steps.length;
   if (totalStepsDisplay) totalStepsDisplay.textContent = totalSteps;
   let currentStep = 1;
 
   function updateProgress() {
-    const progress = (currentStep / totalSteps) * 100;
+    const progress = ((currentStep - 1) / (totalSteps - 1)) * 100;
     progressFill.style.width = `${progress}%`;
     progressFill.setAttribute('aria-valuenow', currentStep);
     progressFill.setAttribute('aria-valuemin', 1);
@@ -23,14 +27,19 @@ export function initNavigation(validation, calculateValuation) {
     });
     currentStep = stepNumber;
     updateProgress();
+    stepDots.forEach((dot, idx) => {
+      if (idx + 1 === stepNumber) dot.setAttribute('aria-current', 'step');
+      else dot.removeAttribute('aria-current');
+    });
+    if (stepAnnounce) stepAnnounce.textContent = `Step ${currentStep} of ${totalSteps}`;
+    document.getElementById(`step-${currentStep}`)?.querySelector('h3')?.focus();
   }
 
-  document.getElementById('menu-toggle').addEventListener('click', () => {
-    const menu = document.getElementById('mobile-menu');
-    menu.classList.toggle('hidden');
-    const icon = document.getElementById('menu-toggle').querySelector('i');
-    icon.classList.toggle('fa-bars');
-    icon.classList.toggle('fa-times');
+  menuToggle.addEventListener('click', () => {
+    const open = menuToggle.getAttribute('aria-expanded') === 'true';
+    menuToggle.setAttribute('aria-expanded', String(!open));
+    mobileMenu.hidden = open;
+    (!open ? mobileMenu.querySelector('a') : menuToggle).focus();
   });
 
   document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -42,17 +51,12 @@ export function initNavigation(validation, calculateValuation) {
 
       const targetElement = document.querySelector(targetId);
       if (targetElement) {
-        window.scrollTo({
-          top: targetElement.offsetTop - 80,
-          behavior: 'smooth'
-        });
+        targetElement.scrollIntoView({ behavior: 'smooth' });
 
-        const mobileMenu = document.getElementById('mobile-menu');
-        if (!mobileMenu.classList.contains('hidden')) {
-          mobileMenu.classList.add('hidden');
-          const icon = document.getElementById('menu-toggle').querySelector('i');
-          icon.classList.remove('fa-times');
-          icon.classList.add('fa-bars');
+        if (!mobileMenu.hidden) {
+          mobileMenu.hidden = true;
+          menuToggle.setAttribute('aria-expanded', 'false');
+          menuToggle.focus();
         }
       }
     });

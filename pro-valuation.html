@@ -16,7 +16,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>SaaS Pro Valuation - Comprehensive Business Evaluation</title>
   <meta name="description" content="Access our advanced SaaS valuation tool for a detailed business assessment." />
-  <meta name="keywords" content="SaaS valuation tool, financial analysis, business evaluation" />
   <link rel="icon" type="image/png" href="favicon.png" />
 <link rel="icon" type="image/png" href="favicon-96x96.png" sizes="96x96" />
 <link rel="icon" type="image/svg+xml" href="favicon.svg" />
@@ -25,16 +24,38 @@
 <meta name="apple-mobile-web-app-title" content="SaaS Val" />
 <link rel="manifest" href="site.webmanifest" />
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap">
+    <link rel="canonical" href="https://saasvaluation.app/pro-valuation">
+    <meta property="og:title" content="SaaS Pro Valuation – Accurate, Investor-Ready Reports">
+    <meta property="og:description" content="Get a data-driven valuation range in minutes. PDF report included.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://saasvaluation.app/pro-valuation">
+    <meta name="twitter:card" content="summary_large_image">
+    <script type="application/ld+json">
+    {
+      "@context":"https://schema.org",
+      "@type":"SoftwareApplication",
+      "name":"SaaSVal Pro Valuation",
+      "applicationCategory":"BusinessApplication",
+      "operatingSystem":"Web",
+      "offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},
+      "publisher":{"@type":"Organization","name":"SaaSVal"}
+    }
+    </script>
     <link rel="stylesheet" href="styles/pro-valuation.css">
 </head>
-	  <!-- HEADER -->
+<body class="font-inter antialiased">
+          <!-- HEADER -->
   <header class="bg-gray-800 text-white py-3 sticky top-0 z-50 shadow-lg">
     <div class="container mx-auto px-4 flex justify-between items-center">
       <div class="flex items-center">
-        <i class="fas fa-chart-line text-teal-400 mr-2 text-xl"></i>
+        <svg class="w-6 h-6 text-teal-400 mr-2" aria-hidden="true" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+          <path d="M18.375 2.25C17.3395 2.25 16.5 3.08947 16.5 4.125V19.875C16.5 20.9105 17.3395 21.75 18.375 21.75H19.125C20.1605 21.75 21 20.9105 21 19.875V4.125C21 3.08947 20.1605 2.25 19.125 2.25H18.375Z"/>
+          <path d="M9.75 8.625C9.75 7.58947 10.5895 6.75 11.625 6.75H12.375C13.4105 6.75 14.25 7.58947 14.25 8.625V19.875C14.25 20.9105 13.4105 21.75 12.375 21.75H11.625C10.5895 21.75 9.75 20.9105 9.75 19.875V8.625Z"/>
+          <path d="M3 13.125C3 12.0895 3.83947 11.25 4.875 11.25H5.625C6.66053 11.25 7.5 12.0895 7.5 13.125V19.875C7.5 20.9105 6.66053 21.75 5.625 21.75H4.875C3.83947 21.75 3 20.9105 3 19.875V13.125Z"/>
+        </svg>
         <a href="index.html" class="text-xl font-bold" aria-label="SaaS Valuation App Home">
           SaaS<span class="text-teal-400">Val</span>
         </a>
@@ -42,23 +63,24 @@
       <nav class="hidden md:flex space-x-6" aria-label="Main navigation">
         <a href="index.html">Free Valuation</a> <a href="pro-valuation.html#features">Features</a> <a href="pro-valuation.html#how-it-works">How It Works</a> <a href="saas-growth-calculator.html" class="nav-link">Growth Calculator</a> <a href="blog.html" class="nav-link">Resources</a>
       </nav>
-      <button id="menu-toggle" class="md:hidden focus:outline-none" aria-label="Toggle Menu">
-        <i class="fas fa-bars text-xl"></i>
+      <button id="menu-toggle" class="md:hidden focus:outline-none" aria-controls="mobile-menu" aria-expanded="false">
+        <svg class="w-6 h-6" aria-hidden="true" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M3.75 6.75H20.25M3.75 12H20.25M3.75 17.25H20.25" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <span class="sr-only">Open menu</span>
       </button>
     </div>
-    <div id="mobile-menu" class="md:hidden hidden px-4 pb-4 bg-gray-700" aria-label="Mobile navigation">
-      <nav class="flex flex-col space-y-2 mt-3">
-        <a href="#valuation" class="mobile-nav-link">Valuation</a>
-        <a href="#features" class="mobile-nav-link">Features</a>
-        <a href="#how-it-works" class="mobile-nav-link">How It Works</a>
-        <a href="saas-growth-calculator.html" class="mobile-nav-link">Growth Calculator</a>
-        <a href="blog.html" class="mobile-nav-link">Resources</a>
-      </nav>
-    </div>
+    <nav id="mobile-menu" hidden class="md:hidden px-4 pb-4 bg-gray-700" aria-label="Mobile navigation">
+      <a href="#pro-valuation" class="mobile-nav-link">Valuation</a>
+      <a href="#features" class="mobile-nav-link">Features</a>
+      <a href="#how-it-works" class="mobile-nav-link">How It Works</a>
+      <a href="saas-growth-calculator.html" class="mobile-nav-link">Growth Calculator</a>
+      <a href="blog.html" class="mobile-nav-link">Resources</a>
+    </nav>
   </header>
-
+  <main id="top">
   <!-- HERO SECTION -->
-  <section class="gradient-bg text-white py-20">
+  <section class="gradient-bg text-white py-20 scroll-mt-24">
     <div class="container mx-auto px-4 text-center max-w-4xl">
       <h1 class="text-4xl md:text-5xl font-bold mb-6 leading-tight">
         Professional SaaS Business Valuation <br>
@@ -68,18 +90,22 @@
         Get an accurate, data-driven valuation of your SaaS business with our comprehensive evaluation tool.
       </p>
       <div class="flex flex-col sm:flex-row justify-center gap-4">
-        <a href="#valuation" class="btn-primary px-8 py-3 text-lg">
-          <i class="fas fa-calculator mr-2"></i> Start Valuation
+        <a href="#pro-valuation" class="btn-primary px-8 py-3 text-lg">
+          <svg class="w-5 h-5 mr-2 inline-block" aria-hidden="true" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M6.32022 1.82741C8.18374 1.61114 10.079 1.5 12 1.5C13.921 1.5 15.8163 1.61114 17.6798 1.82741C19.1772 2.00119 20.25 3.28722 20.25 4.75699V19.5C20.25 21.1569 18.9069 22.5 17.25 22.5H6.75C5.09315 22.5 3.75 21.1569 3.75 19.5V4.75699C3.75 3.28722 4.82283 2.00119 6.32022 1.82741ZM7.5 6.75C7.5 6.33579 7.83579 6 8.25 6H15.75C16.1642 6 16.5 6.33579 16.5 6.75V7.5C16.5 7.91421 16.1642 8.25 15.75 8.25H8.25C7.83579 8.25 7.5 7.91421 7.5 7.5V6.75Z"/>
+          </svg>Start Valuation
         </a>
         <a href="#how-it-works" class="bg-white text-gray-800 font-bold py-3 px-8 rounded-lg transition-colors duration-300 hover:bg-gray-100 text-lg">
-          <i class="fas fa-play-circle mr-2"></i> How It Works
+          <svg class="w-5 h-5 mr-2 inline-block" aria-hidden="true" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M2.25 12C2.25 6.61522 6.61522 2.25 12 2.25C17.3848 2.25 21.75 6.61522 21.75 12C21.75 17.3848 17.3848 21.75 12 21.75C6.61522 21.75 2.25 17.3848 2.25 12ZM16.2742 11.0166C17.0457 11.4452 17.0457 12.5548 16.2742 12.9835L10.6713 16.0962C9.9215 16.5127 9 15.9705 9 15.1127V8.88736C9 8.02957 9.9215 7.48735 10.6713 7.90393L16.2742 11.0166Z"/>
+          </svg>How It Works
         </a>
       </div>
     </div>
   </section>
 
   <!-- FEATURES SECTION -->
-  <section id="features" class="py-16 bg-white">
+  <section id="features" class="py-16 bg-white scroll-mt-24">
     <div class="container mx-auto px-4">
       <div class="text-center mb-12">
         <h2 class="text-3xl font-bold text-gray-800 mb-4">Why Choose Our Valuation Tool</h2>
@@ -91,27 +117,38 @@
       <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
         <div class="feature-card">
           <div class="feature-icon">
-            <i class="fas fa-chart-pie"></i>
+            <svg class="w-8 h-8" aria-hidden="true" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd" clip-rule="evenodd" d="M2.25 13.5C2.25 8.94365 5.94365 5.25 10.5 5.25C10.9142 5.25 11.25 5.58579 11.25 6V12.75H18C18.4142 12.75 18.75 13.0858 18.75 13.5C18.75 18.0563 15.0563 21.75 10.5 21.75C5.94365 21.75 2.25 18.0563 2.25 13.5Z"/>
+              <path fill-rule="evenodd" clip-rule="evenodd" d="M12.75 3C12.75 2.58579 13.0858 2.25 13.5 2.25C18.0563 2.25 21.75 5.94365 21.75 10.5C21.75 10.9142 21.4142 11.25 21 11.25H13.5C13.0858 11.25 12.75 10.9142 12.75 10.5V3Z"/>
+            </svg>
           </div>
           <h3 class="text-xl font-bold text-gray-800 mb-3">Multiple Valuation Methods</h3>
           <p class="text-gray-600">
             We use revenue multipliers, income-based, earnings-based, and DCF methods to provide a comprehensive valuation range.
           </p>
         </div>
-        
+
         <div class="feature-card">
           <div class="feature-icon">
-            <i class="fas fa-database"></i>
+            <svg class="w-8 h-8" aria-hidden="true" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+              <path d="M21 6.375C21 9.06739 16.9706 11.25 12 11.25C7.02944 11.25 3 9.06739 3 6.375C3 3.68261 7.02944 1.5 12 1.5C16.9706 1.5 21 3.68261 21 6.375Z"/>
+              <path d="M12 12.75C14.6852 12.75 17.1905 12.1637 19.0784 11.1411C19.7684 10.7673 20.4248 10.3043 20.9747 9.75674C20.9915 9.87831 21 10.0011 21 10.125C21 12.8174 16.9706 15 12 15C7.02944 15 3 12.8174 3 10.125C3 10.0011 3.00853 9.8783 3.02529 9.75674C3.57523 10.3043 4.23162 10.7673 4.92161 11.1411C6.80949 12.1637 9.31481 12.75 12 12.75Z"/>
+              <path d="M12 16.5C14.6852 16.5 17.1905 15.9137 19.0784 14.8911C19.7684 14.5173 20.4248 14.0543 20.9747 13.5067C20.9915 13.6283 21 13.7511 21 13.875C21 16.5674 16.9706 18.75 12 18.75C7.02944 18.75 3 16.5674 3 13.875C3 13.7511 3.00853 13.6283 3.02529 13.5067C3.57523 14.0543 4.23162 14.5173 4.92161 14.8911C6.80949 15.9137 9.31481 16.5 12 16.5Z"/>
+              <path d="M12 20.25C14.6852 20.25 17.1905 19.6637 19.0784 18.6411C19.7684 18.2673 20.4248 17.8043 20.9747 17.2567C20.9915 17.3783 21 17.5011 21 17.625C21 20.3174 16.9706 22.5 12 22.5C7.02944 22.5 3 20.3174 3 17.625C3 17.5011 3.00853 17.3783 3.02529 17.2567C3.57523 17.8043 4.23162 18.2673 4.92161 18.6411C6.80949 19.6637 9.31481 20.25 12 20.25Z"/>
+            </svg>
           </div>
           <h3 class="text-xl font-bold text-gray-800 mb-3">Data-Driven Insights</h3>
           <p class="text-gray-600">
             Our algorithms analyze 50+ metrics from your business to calculate the most accurate valuation possible.
           </p>
         </div>
-        
+
         <div class="feature-card">
           <div class="feature-icon">
-            <i class="fas fa-file-pdf"></i>
+            <svg class="w-8 h-8" aria-hidden="true" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd" clip-rule="evenodd" d="M5.625 1.5C4.58947 1.5 3.75 2.33947 3.75 3.375V20.625C3.75 21.6605 4.58947 22.5 5.625 22.5H18.375C19.4105 22.5 20.25 21.6605 20.25 20.625V12.75C20.25 10.6789 18.5711 9 16.5 9H14.625C13.5895 9 12.75 8.16053 12.75 7.125V5.25C12.75 3.17893 11.0711 1.5 9 1.5H5.625ZM7.5 15C7.5 14.5858 7.83579 14.25 8.25 14.25H15.75C16.1642 14.25 16.5 14.5858 16.5 15C16.5 15.4142 16.1642 15.75 15.75 15.75H8.25C7.83579 15.75 7.5 15.4142 7.5 15ZM8.25 17.25C7.83579 17.25 7.5 17.5858 7.5 18C7.5 18.4142 7.83579 18.75 8.25 18.75H12C12.4142 18.75 12.75 18.4142 12.75 18C12.75 17.5858 12.4142 17.25 12 17.25H8.25Z"/>
+              <path d="M12.9712 1.8159C13.768 2.73648 14.25 3.93695 14.25 5.25V7.125C14.25 7.33211 14.4179 7.5 14.625 7.5H16.5C17.8131 7.5 19.0135 7.98204 19.9341 8.77881C19.0462 5.37988 16.3701 2.70377 12.9712 1.8159Z"/>
+            </svg>
           </div>
           <h3 class="text-xl font-bold text-gray-800 mb-3">Professional Reports</h3>
           <p class="text-gray-600">
@@ -123,7 +160,7 @@
   </section>
 
   <!-- HOW IT WORKS SECTION -->
-  <section id="how-it-works" class="py-16 bg-gray-50">
+  <section id="how-it-works" class="py-16 bg-gray-50 scroll-mt-24">
     <div class="container mx-auto px-4">
       <div class="text-center mb-12">
         <h2 class="text-3xl font-bold text-gray-800 mb-4">How Our Valuation Works</h2>
@@ -239,7 +276,7 @@
   </section>
 	
 	    <!-- PRO VALUATION FORM -->
-    <section id="pro-valuation" class="py-12 bg-gray-50">
+    <section id="pro-valuation" class="py-12 bg-gray-50 scroll-mt-24">
       <div class="container mx-auto px-4 max-w-3xl">
         <div class="text-center mb-8">
           <h2 class="text-2xl font-bold text-gray-800 mb-2">Pro Valuation Tool</h2>
@@ -249,6 +286,19 @@
         </div>
 
         <!-- Progress Bar -->
+        <nav aria-label="Progress" class="mb-4">
+          <ol id="stepper" class="flex items-center justify-center gap-3 text-sm">
+            <li class="step-dot" data-step="1" aria-current="step"><span>1</span><span class="sr-only"> Select Methods</span></li>
+            <li class="step-dot" data-step="2"><span>2</span><span class="sr-only"> Financials</span></li>
+            <li class="step-dot" data-step="3"><span>3</span><span class="sr-only"> Growth &amp; Churn</span></li>
+            <li class="step-dot" data-step="4"><span>4</span><span class="sr-only"> Customers</span></li>
+            <li class="step-dot" data-step="5"><span>5</span><span class="sr-only"> Product</span></li>
+            <li class="step-dot" data-step="6"><span>6</span><span class="sr-only"> Team &amp; Ops</span></li>
+            <li class="step-dot" data-step="7"><span>7</span><span class="sr-only"> Legal</span></li>
+            <li class="step-dot" data-step="8"><span>8</span><span class="sr-only"> Results</span></li>
+          </ol>
+        </nav>
+        <p id="step-announce" class="sr-only" aria-live="polite"></p>
         <div class="mb-6">
           <div class="relative pt-1">
             <div class="overflow-hidden h-1.5 mb-2 text-xs flex rounded bg-gray-200">
@@ -263,12 +313,15 @@
         <div class="valuation-box">
           <!-- PART 2: Steps 1–3 (~500 lines) -->
           <!-- Step 1: Select Valuation Methods -->
-          <div id="step-1" class="step step-visible" data-step="1">
-            <h3 class="text-lg font-semibold text-gray-800 mb-4">Step 1: Select Valuation Methods</h3>
+          <section id="step-1" class="step step-visible" data-step="1" aria-labelledby="step-1-title">
+            <h3 id="step-1-title" tabindex="-1" class="text-lg font-semibold text-gray-800 mb-4">Step 1: Select Valuation Methods</h3>
             <p class="text-gray-600 mb-4 text-sm">
               Choose up to 3 valuation methods for your SaaS business.
-              <span data-tooltip="Select methods matching your business model." class="text-teal-500 underline cursor-pointer">Learn more</span>
             </p>
+            <details class="mt-4 rounded-lg bg-gray-50 p-4">
+              <summary class="cursor-pointer font-medium text-gray-800">Why these metrics matter</summary>
+              <p class="mt-3 text-gray-600 text-sm">Select methods matching your business model.</p>
+            </details>
             <div class="space-y-3">
               <label class="flex items-center">
                 <input type="checkbox" id="method-multiplier" value="multiplier" class="form-checkbox h-5 w-5 text-teal-500" aria-label="Revenue Multiplier" />
@@ -323,15 +376,18 @@
             <div class="mt-4 flex justify-end">
               <button id="next-btn-1" class="btn-primary" aria-label="Proceed to next step">Next</button>
             </div>
-          </div>
+          </section>
 
           <!-- Step 2: Financial Metrics -->
-          <div id="step-2" class="step step-hidden" data-step="2">
-            <h3 class="text-lg font-semibold text-gray-800 mb-4">Step 2: Financial Metrics</h3>
+          <section id="step-2" class="step step-hidden" data-step="2" aria-labelledby="step-2-title">
+            <h3 id="step-2-title" tabindex="-1" class="text-lg font-semibold text-gray-800 mb-4">Step 2: Financial Metrics</h3>
             <p class="text-gray-600 mb-4 text-sm">
               Enter key financial figures for your business.
-              <span data-tooltip="Use latest financial statements." class="text-teal-500 underline cursor-pointer">Learn more</span>
             </p>
+            <details class="mt-4 rounded-lg bg-gray-50 p-4">
+              <summary class="cursor-pointer font-medium text-gray-800">Why these metrics matter</summary>
+              <p class="mt-3 text-gray-600 text-sm">Use latest financial statements.</p>
+            </details>
             <div class="space-y-3">
               <div>
                 <label for="arr" class="block font-medium text-gray-700 mb-1">Annual Recurring Revenue (ARR) ($)</label>
@@ -447,15 +503,18 @@
                 <p><strong>Source:</strong> Cash balance ÷ burn rate.</p>
               </div>
             </div>
-          </div>
+          </section>
 
           <!-- Step 3: Growth & Churn Rates -->
-          <div id="step-3" class="step step-hidden" data-step="3">
-            <h3 class="text-lg font-semibold text-gray-800 mb-4">Step 3: Growth and Churn Rates</h3>
+          <section id="step-3" class="step step-hidden" data-step="3" aria-labelledby="step-3-title">
+            <h3 id="step-3-title" tabindex="-1" class="text-lg font-semibold text-gray-800 mb-4">Step 3: Growth and Churn Rates</h3>
             <p class="text-gray-600 mb-4 text-sm">
               Enter revenue growth and churn metrics.
-              <span data-tooltip="These impact valuation multipliers." class="text-teal-500 underline cursor-pointer">Learn more</span>
             </p>
+            <details class="mt-4 rounded-lg bg-gray-50 p-4">
+              <summary class="cursor-pointer font-medium text-gray-800">Why these metrics matter</summary>
+              <p class="mt-3 text-gray-600 text-sm">These impact valuation multipliers.</p>
+            </details>
             <div class="space-y-3">
               <div>
                 <label for="revenue-growth-yoy" class="block font-medium text-gray-700 mb-1">Revenue Growth (YoY %)</label>
@@ -513,15 +572,18 @@
                 <p><strong>Source:</strong> Billing tools (e.g., Chargebee).</p>
               </div>
             </div>
-          </div>
+          </section>
 <!-- PART 3: Steps 4–7 (~500 lines) -->
           <!-- Step 4: Customer & Market Metrics -->
-          <div id="step-4" class="step step-hidden" data-step="4">
-            <h3 class="text-lg font-semibold text-gray-800 mb-4">Step 4: Customer & Market Metrics</h3>
+          <section id="step-4" class="step step-hidden" data-step="4" aria-labelledby="step-4-title">
+            <h3 id="step-4-title" tabindex="-1" class="text-lg font-semibold text-gray-800 mb-4">Step 4: Customer &amp; Market Metrics</h3>
             <p class="text-gray-600 mb-4 text-sm">
               Provide customer and market details.
-              <span data-tooltip="These adjust valuation risk." class="text-teal-500 underline cursor-pointer">Learn more</span>
             </p>
+            <details class="mt-4 rounded-lg bg-gray-50 p-4">
+              <summary class="cursor-pointer font-medium text-gray-800">Why these metrics matter</summary>
+              <p class="mt-3 text-gray-600 text-sm">These adjust valuation risk.</p>
+            </details>
             <div class="space-y-3">
               <div>
                 <label for="active-customers" class="block font-medium text-gray-700 mb-1">Active Customers</label>
@@ -615,15 +677,18 @@
                 <p><strong>Source:</strong> Industry research or advisors.</p>
               </div>
             </div>
-          </div>
+          </section>
 
           <!-- Step 5: Product & Technology -->
-          <div id="step-5" class="step step-hidden" data-step="5">
-            <h3 class="text-lg font-semibold text-gray-800 mb-4">Step 5: Product & Technology</h3>
+          <section id="step-5" class="step step-hidden" data-step="5" aria-labelledby="step-5-title">
+            <h3 id="step-5-title" tabindex="-1" class="text-lg font-semibold text-gray-800 mb-4">Step 5: Product &amp; Technology</h3>
             <p class="text-gray-600 mb-4 text-sm">
               Detail your product and tech maturity.
-              <span data-tooltip="Tech strength impacts valuation." class="text-teal-500 underline cursor-pointer">Learn more</span>
             </p>
+            <details class="mt-4 rounded-lg bg-gray-50 p-4">
+              <summary class="cursor-pointer font-medium text-gray-800">Why these metrics matter</summary>
+              <p class="mt-3 text-gray-600 text-sm">Tech strength impacts valuation.</p>
+            </details>
             <div class="space-y-3">
               <div>
                 <label for="product-market-fit" class="block font-medium text-gray-700 mb-1">Product-Market Fit</label>
@@ -739,15 +804,18 @@
                 <p><strong>Source:</strong> Legal team or audits.</p>
               </div>
             </div>
-          </div>
+          </section>
 
           <!-- Step 6: Team & Operations -->
-          <div id="step-6" class="step step-hidden" data-step="6">
-            <h3 class="text-lg font-semibold text-gray-800 mb-4">Step 6: Team & Operations</h3>
+          <section id="step-6" class="step step-hidden" data-step="6" aria-labelledby="step-6-title">
+            <h3 id="step-6-title" tabindex="-1" class="text-lg font-semibold text-gray-800 mb-4">Step 6: Team &amp; Operations</h3>
             <p class="text-gray-600 mb-4 text-sm">
               Share team and operational details.
-              <span data-tooltip="Strong teams boost valuation." class="text-teal-500 underline cursor-pointer">Learn more</span>
             </p>
+            <details class="mt-4 rounded-lg bg-gray-50 p-4">
+              <summary class="cursor-pointer font-medium text-gray-800">Why these metrics matter</summary>
+              <p class="mt-3 text-gray-600 text-sm">Strong teams boost valuation.</p>
+            </details>
             <div class="space-y-3">
               <div>
                 <label for="fte" class="block font-medium text-gray-700 mb-1">Full-Time Employees</label>
@@ -841,15 +909,18 @@
                 <p><strong>Source:</strong> HR records comparison.</p>
               </div>
             </div>
-          </div>
+          </section>
 
           <!-- Step 7: Legal, Contracts & Risk -->
-          <div id="step-7" class="step step-hidden" data-step="7">
-            <h3 class="text-lg font-semibold text-gray-800 mb-4">Step 7: Legal, Contracts & Risk</h3>
+          <section id="step-7" class="step step-hidden" data-step="7" aria-labelledby="step-7-title">
+            <h3 id="step-7-title" tabindex="-1" class="text-lg font-semibold text-gray-800 mb-4">Step 7: Legal, Contracts &amp; Risk</h3>
             <p class="text-gray-600 mb-4 text-sm">
               Provide legal and risk details.
-              <span data-tooltip="Legal issues can lower valuation." class="text-teal-500 underline cursor-pointer">Learn more</span>
             </p>
+            <details class="mt-4 rounded-lg bg-gray-50 p-4">
+              <summary class="cursor-pointer font-medium text-gray-800">Why these metrics matter</summary>
+              <p class="mt-3 text-gray-600 text-sm">Legal issues can lower valuation.</p>
+            </details>
             <div class="space-y-3">
               <div>
                 <label for="legal-entity" class="block font-medium text-gray-700 mb-1">Legal Entity Type</label>
@@ -997,15 +1068,18 @@
                 <p><strong>Source:</strong> Financial statements.</p>
               </div>
             </div>
-          </div>
+          </section>
 <!-- PART 4: Results, Footer, JavaScript with Enhanced PDF (~500 lines) -->
           <!-- Results Section -->
-          <div id="results" class="step step-hidden" data-step="8">
-            <h3 class="text-lg font-semibold text-gray-800 mb-4">Valuation Results</h3>
+          <section id="step-8" class="step step-hidden" data-step="8" aria-labelledby="step-8-title">
+            <h3 id="step-8-title" tabindex="-1" class="text-lg font-semibold text-gray-800 mb-4">Valuation Results</h3>
             <p class="text-gray-600 mb-4 text-sm">
               Your SaaS business valuation based on provided data.
-              <span data-tooltip="Download as PDF for sharing." class="text-teal-500 underline cursor-pointer">Learn more</span>
             </p>
+            <details class="mt-4 rounded-lg bg-gray-50 p-4">
+              <summary class="cursor-pointer font-medium text-gray-800">Why these metrics matter</summary>
+              <p class="mt-3 text-gray-600 text-sm">Download as PDF for sharing.</p>
+            </details>
 
             <!-- Valuation Methodology Explanation -->
             <div class="mb-6 p-4 bg-gray-100 rounded-lg">
@@ -1054,7 +1128,7 @@
             <div class="text-center">
               <button id="download-report" class="btn-primary" aria-label="Download valuation report as PDF">Download Report</button>
             </div>
-          </div>
+          </section>
         </div>
       </div>
     </section>
@@ -1072,21 +1146,12 @@
       
       <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
         <div class="bg-white p-6 rounded-lg shadow-md">
-          <div class="flex items-center mb-4">
-            <div class="text-yellow-400 mr-2">
-              <i class="fas fa-star"></i>
-              <i class="fas fa-star"></i>
-              <i class="fas fa-star"></i>
-              <i class="fas fa-star"></i>
-              <i class="fas fa-star"></i>
-            </div>
-          </div>
           <p class="text-gray-600 mb-4">
             "This valuation tool helped us secure funding by providing an investor-ready report that justified our asking price."
           </p>
           <div class="flex items-center">
             <div class="bg-gray-200 rounded-full w-10 h-10 flex items-center justify-center mr-3">
-              <i class="fas fa-user text-gray-500"></i>
+              <svg class="w-5 h-5 text-gray-500" aria-hidden="true" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M7.49996 6C7.49996 3.51472 9.51468 1.5 12 1.5C14.4852 1.5 16.5 3.51472 16.5 6C16.5 8.48528 14.4852 10.5 12 10.5C9.51468 10.5 7.49996 8.48528 7.49996 6Z"/><path fill-rule="evenodd" clip-rule="evenodd" d="M3.75121 20.1053C3.82855 15.6156 7.49195 12 12 12C16.5081 12 20.1716 15.6157 20.2487 20.1056C20.2538 20.4034 20.0823 20.676 19.8116 20.8002C17.4327 21.8918 14.7865 22.5 12.0003 22.5C9.21382 22.5 6.5674 21.8917 4.18829 20.7999C3.91762 20.6757 3.74608 20.4031 3.75121 20.1053Z"/></svg>
             </div>
             <div>
               <h4 class="font-bold text-gray-800">Sarah K.</h4>
@@ -1096,21 +1161,12 @@
         </div>
         
         <div class="bg-white p-6 rounded-lg shadow-md">
-          <div class="flex items-center mb-4">
-            <div class="text-yellow-400 mr-2">
-              <i class="fas fa-star"></i>
-              <i class="fas fa-star"></i>
-              <i class="fas fa-star"></i>
-              <i class="fas fa-star"></i>
-              <i class="fas fa-star"></i>
-            </div>
-          </div>
           <p class="text-gray-600 mb-4">
             "The most comprehensive SaaS valuation tool I've found. The PDF report was exactly what we needed for our acquisition talks."
           </p>
           <div class="flex items-center">
             <div class="bg-gray-200 rounded-full w-10 h-10 flex items-center justify-center mr-3">
-              <i class="fas fa-user text-gray-500"></i>
+              <svg class="w-5 h-5 text-gray-500" aria-hidden="true" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M7.49996 6C7.49996 3.51472 9.51468 1.5 12 1.5C14.4852 1.5 16.5 3.51472 16.5 6C16.5 8.48528 14.4852 10.5 12 10.5C9.51468 10.5 7.49996 8.48528 7.49996 6Z"/><path fill-rule="evenodd" clip-rule="evenodd" d="M3.75121 20.1053C3.82855 15.6156 7.49195 12 12 12C16.5081 12 20.1716 15.6157 20.2487 20.1056C20.2538 20.4034 20.0823 20.676 19.8116 20.8002C17.4327 21.8918 14.7865 22.5 12.0003 22.5C9.21382 22.5 6.5674 21.8917 4.18829 20.7999C3.91762 20.6757 3.74608 20.4031 3.75121 20.1053Z"/></svg>
             </div>
             <div>
               <h4 class="font-bold text-gray-800">Michael T.</h4>
@@ -1120,21 +1176,12 @@
         </div>
         
         <div class="bg-white p-6 rounded-lg shadow-md">
-          <div class="flex items-center mb-4">
-            <div class="text-yellow-400 mr-2">
-              <i class="fas fa-star"></i>
-              <i class="fas fa-star"></i>
-              <i class="fas fa-star"></i>
-              <i class="fas fa-star"></i>
-              <i class="fas fa-star-half-alt"></i>
-            </div>
-          </div>
           <p class="text-gray-600 mb-4">
             "As a VC, I recommend this tool to all our portfolio companies. It provides a realistic valuation range based on actual metrics."
           </p>
           <div class="flex items-center">
             <div class="bg-gray-200 rounded-full w-10 h-10 flex items-center justify-center mr-3">
-              <i class="fas fa-user text-gray-500"></i>
+              <svg class="w-5 h-5 text-gray-500" aria-hidden="true" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M7.49996 6C7.49996 3.51472 9.51468 1.5 12 1.5C14.4852 1.5 16.5 3.51472 16.5 6C16.5 8.48528 14.4852 10.5 12 10.5C9.51468 10.5 7.49996 8.48528 7.49996 6Z"/><path fill-rule="evenodd" clip-rule="evenodd" d="M3.75121 20.1053C3.82855 15.6156 7.49195 12 12 12C16.5081 12 20.1716 15.6157 20.2487 20.1056C20.2538 20.4034 20.0823 20.676 19.8116 20.8002C17.4327 21.8918 14.7865 22.5 12.0003 22.5C9.21382 22.5 6.5674 21.8917 4.18829 20.7999C3.91762 20.6757 3.74608 20.4031 3.75121 20.1053Z"/></svg>
             </div>
             <div>
               <h4 class="font-bold text-gray-800">David L.</h4>
@@ -1153,8 +1200,9 @@
       <p class="text-xl opacity-90 mb-8 max-w-2xl mx-auto">
         Get started with our comprehensive valuation tool today - it's free and takes less than 10 minutes.
       </p>
-      <a href="#valuation" class="btn-primary px-8 py-3 text-lg inline-block">
-        <i class="fas fa-rocket mr-2"></i> Start Valuation Now
+      <a href="#pro-valuation" class="btn-primary px-8 py-3 text-lg inline-block">
+        <svg class="w-5 h-5 mr-2 inline-block" aria-hidden="true" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M9.315 7.58365C12.1956 3.88296 16.6946 1.50021 21.75 1.5C21.9489 1.49999 22.1397 1.57901 22.2803 1.71966C22.421 1.86031 22.5 2.05108 22.5 2.25C22.5 7.30564 20.1173 11.805 16.4165 14.6859C16.4715 15.0329 16.5 15.3883 16.5 15.75C16.5 19.4779 13.4779 22.5 9.75 22.5C9.33579 22.5 9 22.1642 9 21.75V17.6185C8.99075 17.6118 8.98163 17.6049 8.97264 17.5978C8.02063 16.8429 7.15799 15.9803 6.40312 15.0282C6.39577 15.019 6.38866 15.0096 6.38179 15H2.25C1.83579 15 1.5 14.6642 1.5 14.25C1.5 10.5221 4.52208 7.5 8.25 7.5C8.61198 7.5 8.96772 7.52856 9.315 7.58365ZM15 6.75C13.7574 6.75 12.75 7.75736 12.75 9C12.75 10.2426 13.7574 11.25 15 11.25C16.2426 11.25 17.25 10.2426 17.25 9C17.25 7.75736 16.2426 6.75 15 6.75Z"/><path d="M5.26036 17.2418C5.59237 16.9942 5.66074 16.5242 5.41306 16.1922C5.16539 15.8602 4.69546 15.7918 4.36345 16.0395C3.08209 16.9954 2.25 18.5256 2.25 20.2499C2.25 20.5255 2.27129 20.7966 2.31246 21.0615C2.36259 21.3842 2.61574 21.6373 2.93842 21.6875C3.20336 21.7286 3.47445 21.7499 3.75 21.7499C5.47434 21.7499 7.00452 20.9178 7.9604 19.6365C8.20808 19.3045 8.13971 18.8345 7.8077 18.5869C7.47569 18.3392 7.00576 18.4075 6.75809 18.7396C6.07313 19.6577 4.98081 20.2499 3.75 20.2499C3.75 19.0191 4.34218 17.9268 5.26036 17.2418Z"/></svg>
+        Start Valuation Now
       </a>
     </div>
   </section>
@@ -1165,6 +1213,7 @@
         <h2 class="text-3xl font-bold text-gray-800 mb-4">Get SaaS Growth Insights</h2>
         <p class="text-lg text-gray-600 mb-8 max-w-xl mx-auto">Join our newsletter for exclusive tips, valuation strategies, and updates to grow your SaaS business.</p>
         <form action="https://formspree.io/f/mjkowkld" method="POST" class="flex flex-col md:flex-row justify-center items-center gap-4 max-w-lg mx-auto">
+            <input type="text" name="_honey" class="hidden" tabindex="-1" autocomplete="off">
             <div class="w-full md:w-auto flex-1">
                 <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Your Email</label>
                 <input type="email" name="email" id="email" class="w-full border rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-teal-500" placeholder="Enter your email" required aria-required="true">
@@ -1172,14 +1221,20 @@
             </div>
             <button type="submit" class="btn-primary text-white font-bold py-3 px-6 rounded-lg">Get SaaS Growth Insights</button>
         </form>
+        <p class="text-sm text-gray-500 mt-4">No spam. Unsubscribe anytime.</p>
     </div>
 </section>
+  </main>
   <footer class="bg-gray-800 text-white py-8">
     <div class="container mx-auto px-4">
       <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
         <div>
           <div class="flex items-center mb-4">
-            <i class="fas fa-chart-line text-teal-400 mr-2 text-xl"></i>
+            <svg class="w-6 h-6 text-teal-400 mr-2" aria-hidden="true" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+              <path d="M18.375 2.25C17.3395 2.25 16.5 3.08947 16.5 4.125V19.875C16.5 20.9105 17.3395 21.75 18.375 21.75H19.125C20.1605 21.75 21 20.9105 21 19.875V4.125C21 3.08947 20.1605 2.25 19.125 2.25H18.375Z"/>
+              <path d="M9.75 8.625C9.75 7.58947 10.5895 6.75 11.625 6.75H12.375C13.4105 6.75 14.25 7.58947 14.25 8.625V19.875C14.25 20.9105 13.4105 21.75 12.375 21.75H11.625C10.5895 21.75 9.75 20.9105 9.75 19.875V8.625Z"/>
+              <path d="M3 13.125C3 12.0895 3.83947 11.25 4.875 11.25H5.625C6.66053 11.25 7.5 12.0895 7.5 13.125V19.875C7.5 20.9105 6.66053 21.75 5.625 21.75H4.875C3.83947 21.75 3 20.9105 3 19.875V13.125Z"/>
+            </svg>
             <span class="text-xl font-bold">SaaS<span class="text-teal-400">Val</span></span>
           </div>
           <p class="text-gray-400">
@@ -1190,7 +1245,7 @@
         <div>
           <h3 class="text-lg font-bold mb-4">Quick Links</h3>
           <ul class="space-y-2">
-            <li><a href="#valuation" class="text-gray-400 hover:text-teal-400 transition-colors duration-300">Valuation Tool</a></li>
+            <li><a href="#pro-valuation" class="text-gray-400 hover:text-teal-400 transition-colors duration-300">Valuation Tool</a></li>
             <li><a href="#features" class="text-gray-400 hover:text-teal-400 transition-colors duration-300">Features</a></li>
             <li><a href="#how-it-works" class="text-gray-400 hover:text-teal-400 transition-colors duration-300">How It Works</a></li>
             <li><a href="blog.html" class="text-gray-400 hover:text-teal-400 transition-colors duration-300">Resources</a></li>
@@ -1210,14 +1265,14 @@
         <div>
           <h3 class="text-lg font-bold mb-4">Connect</h3>
           <div class="flex space-x-4 mb-4">
-            <a href="#" class="text-gray-400 hover:text-teal-400 transition-colors duration-300 text-xl">
-              <i class="fab fa-twitter"></i>
+            <a href="#" class="text-gray-400 hover:text-teal-400 transition-colors duration-300" aria-label="Twitter">
+              <svg class="w-5 h-5" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg"><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"/></svg>
             </a>
-            <a href="#" class="text-gray-400 hover:text-teal-400 transition-colors duration-300 text-xl">
-              <i class="fab fa-linkedin"></i>
+            <a href="#" class="text-gray-400 hover:text-teal-400 transition-colors duration-300" aria-label="LinkedIn">
+              <svg class="w-5 h-5" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg>
             </a>
-            <a href="#" class="text-gray-400 hover:text-teal-400 transition-colors duration-300 text-xl">
-              <i class="fab fa-facebook"></i>
+            <a href="#" class="text-gray-400 hover:text-teal-400 transition-colors duration-300" aria-label="Facebook">
+              <svg class="w-5 h-5" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
             </a>
           </div>
           <p class="text-gray-400">
