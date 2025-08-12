@@ -1,6 +1,12 @@
 import { setupPDF } from './pdf.js';
 
-export function calculateValuation() {
+export async function calculateValuation() {
+  const [{ default: Chart }, jspdf] = await Promise.all([
+    import('https://cdn.jsdelivr.net/npm/chart.js'),
+    import('https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js')
+  ]);
+  window.jspdf = jspdf;
+
   const methods = Array.from(document.querySelectorAll('input[type="checkbox"]:checked')).map(input => input.value);
   const arr = parseFloat(document.getElementById('arr').value) || 0;
   const netProfit = parseFloat(document.getElementById('net-profit').value) || 0;
