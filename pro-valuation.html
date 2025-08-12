@@ -252,7 +252,7 @@
         <div class="mb-6">
           <div class="relative pt-1">
             <div class="overflow-hidden h-1.5 mb-2 text-xs flex rounded bg-gray-200">
-              <div id="progress-fill" class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-teal-500"></div>
+              <div id="progress-fill" class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-teal-500" role="progressbar" aria-valuemin="1" aria-valuemax="7" aria-valuenow="1"></div>
             </div>
             <p class="text-center text-gray-600 text-sm">
               Step <span id="current-step">1</span> of 7
@@ -335,42 +335,42 @@
             <div class="space-y-3">
               <div>
                 <label for="arr" class="block font-medium text-gray-700 mb-1">Annual Recurring Revenue (ARR) ($)</label>
-                <input type="number" id="arr" min="0" step="1000" placeholder="e.g., 500000" class="w-full p-2 border rounded focus:ring focus:ring-teal-400" required aria-describedby="arr-error" />
+                <input type="number" id="arr" min="0" step="1000" placeholder="e.g., 500000" class="w-full p-2 border rounded focus:ring focus:ring-teal-400" required aria-required="true" aria-describedby="arr-error" />
                 <p id="arr-error" class="text-red-500 text-sm mt-1 hidden" role="alert">Please enter a valid number.</p>
               </div>
               <div>
                 <label for="mrr" class="block font-medium text-gray-700 mb-1">Monthly Recurring Revenue (MRR) ($)</label>
-                <input type="number" id="mrr" min="0" step="100" placeholder="e.g., 41667" class="w-full p-2 border rounded focus:ring focus:ring-teal-400" required aria-describedby="mrr-error" />
+                <input type="number" id="mrr" min="0" step="100" placeholder="e.g., 41667" class="w-full p-2 border rounded focus:ring focus:ring-teal-400" required aria-required="true" aria-describedby="mrr-error" />
                 <p id="mrr-error" class="text-red-500 text-sm mt-1 hidden" role="alert">Please enter a valid number.</p>
               </div>
               <div>
                 <label for="ltv" class="block font-medium text-gray-700 mb-1">Customer Lifetime Value (LTV) ($)</label>
-                <input type="number" id="ltv" min="0" step="100" placeholder="e.g., 2000" class="w-full p-2 border rounded focus:ring focus:ring-teal-400" required aria-describedby="ltv-error" />
+                <input type="number" id="ltv" min="0" step="100" placeholder="e.g., 2000" class="w-full p-2 border rounded focus:ring focus:ring-teal-400" required aria-required="true" aria-describedby="ltv-error" />
                 <p id="ltv-error" class="text-red-500 text-sm mt-1 hidden" role="alert">Please enter a valid number.</p>
               </div>
               <div>
                 <label for="cac" class="block font-medium text-gray-700 mb-1">Customer Acquisition Cost (CAC) ($)</label>
-                <input type="number" id="cac" min="0" step="10" placeholder="e.g., 500" class="w-full p-2 border rounded focus:ring focus:ring-teal-400" required aria-describedby="cac-error" />
+                <input type="number" id="cac" min="0" step="10" placeholder="e.g., 500" class="w-full p-2 border rounded focus:ring focus:ring-teal-400" required aria-required="true" aria-describedby="cac-error" />
                 <p id="cac-error" class="text-red-500 text-sm mt-1 hidden" role="alert">Please enter a valid number.</p>
               </div>
               <div>
                 <label for="gross-margin" class="block font-medium text-gray-700 mb-1">Gross Margin (%)</label>
-                <input type="number" id="gross-margin" min="0" max="100" step="0.1" placeholder="e.g., 75" class="w-full p-2 border rounded focus:ring focus:ring-teal-400" required aria-describedby="gross-margin-error" />
+                <input type="number" id="gross-margin" min="0" max="100" step="0.1" placeholder="e.g., 75" class="w-full p-2 border rounded focus:ring focus:ring-teal-400" required aria-required="true" aria-describedby="gross-margin-error" />
                 <p id="gross-margin-error" class="text-red-500 text-sm mt-1 hidden" role="alert">Please enter a value between 0 and 100.</p>
               </div>
               <div>
                 <label for="net-profit" class="block font-medium text-gray-700 mb-1">Net Profit / EBITDA ($)</label>
-                <input type="number" id="net-profit" min="0" step="1000" placeholder="e.g., 200000" class="w-full p-2 border rounded focus:ring focus:ring-teal-400" required aria-describedby="net-profit-error" />
+                <input type="number" id="net-profit" min="0" step="1000" placeholder="e.g., 200000" class="w-full p-2 border rounded focus:ring focus:ring-teal-400" required aria-required="true" aria-describedby="net-profit-error" />
                 <p id="net-profit-error" class="text-red-500 text-sm mt-1 hidden" role="alert">Please enter a valid number.</p>
               </div>
               <div>
                 <label for="burn-rate" class="block font-medium text-gray-700 mb-1">Monthly Burn Rate ($)</label>
-                <input type="number" id="burn-rate" min="0" step="1000" placeholder="e.g., 25000" class="w-full p-2 border rounded focus:ring focus:ring-teal-400" required aria-describedby="burn-rate-error" />
+                <input type="number" id="burn-rate" min="0" step="1000" placeholder="e.g., 25000" class="w-full p-2 border rounded focus:ring focus:ring-teal-400" required aria-required="true" aria-describedby="burn-rate-error" />
                 <p id="burn-rate-error" class="text-red-500 text-sm mt-1 hidden" role="alert">Please enter a valid number.</p>
               </div>
               <div>
                 <label for="runway" class="block font-medium text-gray-700 mb-1">Runway (Months)</label>
-                <input type="number" id="runway" min="0" step="1" placeholder="e.g., 12" class="w-full p-2 border rounded focus:ring focus:ring-teal-400" required aria-describedby="runway-error" />
+                <input type="number" id="runway" min="0" step="1" placeholder="e.g., 12" class="w-full p-2 border rounded focus:ring focus:ring-teal-400" required aria-required="true" aria-describedby="runway-error" />
                 <p id="runway-error" class="text-red-500 text-sm mt-1 hidden" role="alert">Please enter a valid number.</p>
               </div>
               <p id="financial-error" class="text-red-500 text-sm mt-2 hidden" role="alert">Please fill all financial fields correctly.</p>
@@ -449,22 +449,22 @@
             <div class="space-y-3">
               <div>
                 <label for="revenue-growth-yoy" class="block font-medium text-gray-700 mb-1">Revenue Growth (YoY %)</label>
-                <input type="number" id="revenue-growth-yoy" min="0" max="100" step="0.1" placeholder="e.g., 20" class="w-full p-2 border rounded focus:ring focus:ring-teal-400" required aria-describedby="revenue-growth-yoy-error" />
+                <input type="number" id="revenue-growth-yoy" min="0" max="100" step="0.1" placeholder="e.g., 20" class="w-full p-2 border rounded focus:ring focus:ring-teal-400" required aria-required="true" aria-describedby="revenue-growth-yoy-error" />
                 <p id="revenue-growth-yoy-error" class="text-red-500 text-sm mt-1 hidden" role="alert">Please enter a value between 0 and 100.</p>
               </div>
               <div>
                 <label for="revenue-growth-mom" class="block font-medium text-gray-700 mb-1">Revenue Growth (MoM %)</label>
-                <input type="number" id="revenue-growth-mom" min="0" max="100" step="0.1" placeholder="e.g., 3" class="w-full p-2 border rounded focus:ring focus:ring-teal-400" required aria-describedby="revenue-growth-mom-error" />
+                <input type="number" id="revenue-growth-mom" min="0" max="100" step="0.1" placeholder="e.g., 3" class="w-full p-2 border rounded focus:ring focus:ring-teal-400" required aria-required="true" aria-describedby="revenue-growth-mom-error" />
                 <p id="revenue-growth-mom-error" class="text-red-500 text-sm mt-1 hidden" role="alert">Please enter a value between 0 and 100.</p>
               </div>
               <div>
                 <label for="customer-churn" class="block font-medium text-gray-700 mb-1">Customer Churn Rate (%)</label>
-                <input type="number" id="customer-churn" min="0" max="100" step="0.1" placeholder="e.g., 5" class="w-full p-2 border rounded focus:ring focus:ring-teal-400" required aria-describedby="customer-churn-error" />
+                <input type="number" id="customer-churn" min="0" max="100" step="0.1" placeholder="e.g., 5" class="w-full p-2 border rounded focus:ring focus:ring-teal-400" required aria-required="true" aria-describedby="customer-churn-error" />
                 <p id="customer-churn-error" class="text-red-500 text-sm mt-1 hidden" role="alert">Please enter a value between 0 and 100.</p>
               </div>
               <div>
                 <label for="revenue-churn" class="block font-medium text-gray-700 mb-1">Revenue Churn Rate (%)</label>
-                <input type="number" id="revenue-churn" min="0" max="100" step="0.1" placeholder="e.g., 4" class="w-full p-2 border rounded focus:ring focus:ring-teal-400" required aria-describedby="revenue-churn-error" />
+                <input type="number" id="revenue-churn" min="0" max="100" step="0.1" placeholder="e.g., 4" class="w-full p-2 border rounded focus:ring focus:ring-teal-400" required aria-required="true" aria-describedby="revenue-churn-error" />
                 <p id="revenue-churn-error" class="text-red-500 text-sm mt-1 hidden" role="alert">Please enter a value between 0 and 100.</p>
               </div>
               <p id="growth-churn-error" class="text-red-500 text-sm mt-2 hidden" role="alert">Please enter valid growth and churn percentages.</p>
@@ -515,27 +515,27 @@
             <div class="space-y-3">
               <div>
                 <label for="active-customers" class="block font-medium text-gray-700 mb-1">Active Customers</label>
-                <input type="number" id="active-customers" min="0" step="1" placeholder="e.g., 1500" class="w-full p-2 border rounded focus:ring focus:ring-teal-400" required aria-describedby="active-customers-error" />
+                <input type="number" id="active-customers" min="0" step="1" placeholder="e.g., 1500" class="w-full p-2 border rounded focus:ring focus:ring-teal-400" required aria-required="true" aria-describedby="active-customers-error" />
                 <p id="active-customers-error" class="text-red-500 text-sm mt-1 hidden" role="alert">Please enter a valid number.</p>
               </div>
               <div>
                 <label for="monthly-active-users" class="block font-medium text-gray-700 mb-1">Monthly Active Users (MAU)</label>
-                <input type="number" id="monthly-active-users" min="0" step="1" placeholder="e.g., 2000" class="w-full p-2 border rounded focus:ring focus:ring-teal-400" required aria-describedby="monthly-active-users-error" />
+                <input type="number" id="monthly-active-users" min="0" step="1" placeholder="e.g., 2000" class="w-full p-2 border rounded focus:ring focus:ring-teal-400" required aria-required="true" aria-describedby="monthly-active-users-error" />
                 <p id="monthly-active-users-error" class="text-red-500 text-sm mt-1 hidden" role="alert">Please enter a valid number.</p>
               </div>
               <div>
                 <label for="retention-rate" class="block font-medium text-gray-700 mb-1">Retention Rate (%)</label>
-                <input type="number" id="retention-rate" min="0" max="100" step="0.1" placeholder="e.g., 85" class="w-full p-2 border rounded focus:ring focus:ring-teal-400" required aria-describedby="retention-rate-error" />
+                <input type="number" id="retention-rate" min="0" max="100" step="0.1" placeholder="e.g., 85" class="w-full p-2 border rounded focus:ring focus:ring-teal-400" required aria-required="true" aria-describedby="retention-rate-error" />
                 <p id="retention-rate-error" class="text-red-500 text-sm mt-1 hidden" role="alert">Please enter a value between 0 and 100.</p>
               </div>
               <div>
                 <label for="nps" class="block font-medium text-gray-700 mb-1">Net Promoter Score (NPS)</label>
-                <input type="number" id="nps" min="-100" max="100" step="1" placeholder="e.g., 70" class="w-full p-2 border rounded focus:ring focus:ring-teal-400" required aria-describedby="nps-error" />
+                <input type="number" id="nps" min="-100" max="100" step="1" placeholder="e.g., 70" class="w-full p-2 border rounded focus:ring focus:ring-teal-400" required aria-required="true" aria-describedby="nps-error" />
                 <p id="nps-error" class="text-red-500 text-sm mt-1 hidden" role="alert">Please enter a value between -100 and 100.</p>
               </div>
               <div>
                 <label for="customer-segment" class="block font-medium text-gray-700 mb-1">Customer Segment</label>
-                <select id="customer-segment" class="w-full p-2 border rounded focus:ring focus:ring-teal-400" required aria-describedby="customer-segment-error">
+                <select id="customer-segment" class="w-full p-2 border rounded focus:ring focus:ring-teal-400" required aria-required="true" aria-describedby="customer-segment-error">
                   <option value="" disabled selected>Select one</option>
                   <option value="small-business">Small Businesses</option>
                   <option value="mid-market">Mid-Market</option>
@@ -546,7 +546,7 @@
               </div>
               <div>
                 <label for="buyer-type" class="block font-medium text-gray-700 mb-1">Buyer Type / Exit Potential</label>
-                <select id="buyer-type" class="w-full p-2 border rounded focus:ring focus:ring-teal-400" required aria-describedby="buyer-type-error">
+                <select id="buyer-type" class="w-full p-2 border rounded focus:ring focus:ring-teal-400" required aria-required="true" aria-describedby="buyer-type-error">
                   <option value="" disabled selected>Select one</option>
                   <option value="investors">Investors</option>
                   <option value="competitors">Competitors</option>
@@ -617,7 +617,7 @@
             <div class="space-y-3">
               <div>
                 <label for="product-market-fit" class="block font-medium text-gray-700 mb-1">Product-Market Fit</label>
-                <select id="product-market-fit" class="w-full p-2 border rounded focus:ring focus:ring-teal-400" required aria-describedby="product-market-fit-error">
+                <select id="product-market-fit" class="w-full p-2 border rounded focus:ring focus:ring-teal-400" required aria-required="true" aria-describedby="product-market-fit-error">
                   <option value="" disabled selected>Select option</option>
                   <option value="none">None</option>
                   <option value="early">Early Signs</option>
@@ -628,7 +628,7 @@
               </div>
               <div>
                 <label for="proprietary-tech" class="block font-medium text-gray-700 mb-1">Proprietary Technology / IP</label>
-                <select id="proprietary-tech" class="w-full p-2 border rounded focus:ring focus:ring-teal-400" required aria-describedby="proprietary-tech-error">
+                <select id="proprietary-tech" class="w-full p-2 border rounded focus:ring focus:ring-teal-400" required aria-required="true" aria-describedby="proprietary-tech-error">
                   <option value="" disabled selected>Select option</option>
                   <option value="none">No</option>
                   <option value="patents">Patents Held</option>
@@ -639,7 +639,7 @@
               </div>
               <div>
                 <label for="code-quality" class="block font-medium text-gray-700 mb-1">Code Quality Reviewed</label>
-                <select id="code-quality" class="w-full p-2 border rounded focus:ring focus:ring-teal-400" required aria-describedby="code-quality-error">
+                <select id="code-quality" class="w-full p-2 border rounded focus:ring focus:ring-teal-400" required aria-required="true" aria-describedby="code-quality-error">
                   <option value="" disabled selected>Select option</option>
                   <option value="no-review">No Review</option>
                   <option value="internal-review">Internal Review</option>
@@ -649,7 +649,7 @@
               </div>
               <div>
                 <label for="scalable-infrastructure" class="block font-medium text-gray-700 mb-1">Scalable Infrastructure</label>
-                <select id="scalable-infrastructure" class="w-full p-2 border rounded focus:ring focus:ring-teal-400" required aria-describedby="scalable-infrastructure-error">
+                <select id="scalable-infrastructure" class="w-full p-2 border rounded focus:ring focus:ring-teal-400" required aria-required="true" aria-describedby="scalable-infrastructure-error">
                   <option value="" disabled selected>Select option</option>
                   <option value="no">No</option>
                   <option value="partial">Partial</option>
@@ -659,7 +659,7 @@
               </div>
               <div>
                 <label for="feature-release-frequency" class="block font-medium text-gray-700 mb-1">Feature Release Frequency</label>
-                <select id="feature-release-frequency" class="w-full p-2 border rounded focus:ring focus:ring-teal-400" required aria-describedby="feature-release-frequency-error">
+                <select id="feature-release-frequency" class="w-full p-2 border rounded focus:ring focus:ring-teal-400" required aria-required="true" aria-describedby="feature-release-frequency-error">
                   <option value="" disabled selected>Select frequency</option>
                   <option value="rarely">Rarely</option>
                   <option value="monthly">Monthly</option>
@@ -670,7 +670,7 @@
               </div>
               <div>
                 <label for="security-compliance" class="block font-medium text-gray-700 mb-1">Security Compliance</label>
-                <select id="security-compliance" class="w-full p-2 border rounded focus:ring focus:ring-teal-400" required aria-describedby="security-compliance-error">
+                <select id="security-compliance" class="w-full p-2 border rounded focus:ring focus:ring-teal-400" required aria-required="true" aria-describedby="security-compliance-error">
                   <option value="" disabled selected>Select status</option>
                   <option value="none">None</option>
                   <option value="gdpr">GDPR</option>
@@ -741,37 +741,37 @@
             <div class="space-y-3">
               <div>
                 <label for="fte" class="block font-medium text-gray-700 mb-1">Full-Time Employees</label>
-                <input type="number" id="fte" min="0" step="1" placeholder="e.g., 25" class="w-full p-2 border rounded focus:ring focus:ring-teal-400" required aria-describedby="fte-error" />
+                <input type="number" id="fte" min="0" step="1" placeholder="e.g., 25" class="w-full p-2 border rounded focus:ring focus:ring-teal-400" required aria-required="true" aria-describedby="fte-error" />
                 <p id="fte-error" class="text-red-500 text-sm mt-1 hidden" role="alert">Please enter a valid number.</p>
               </div>
               <div>
                 <label for="key-staff" class="block font-medium text-gray-700 mb-1">Founders / Key Staff</label>
-                <input type="number" id="key-staff" min="0" step="1" placeholder="e.g., 3" class="w-full p-2 border rounded focus:ring focus:ring-teal-400" required aria-describedby="key-staff-error" />
+                <input type="number" id="key-staff" min="0" step="1" placeholder="e.g., 3" class="w-full p-2 border rounded focus:ring focus:ring-teal-400" required aria-required="true" aria-describedby="key-staff-error" />
                 <p id="key-staff-error" class="text-red-500 text-sm mt-1 hidden" role="alert">Please enter a valid number.</p>
               </div>
               <div>
                 <label for="turnover-rate" class="block font-medium text-gray-700 mb-1">Staff Turnover Rate (%)</label>
-                <input type="number" id="turnover-rate" min="0" max="100" step="0.1" placeholder="e.g., 5" class="w-full p-2 border rounded focus:ring focus:ring-teal-400" required aria-describedby="turnover-rate-error" />
+                <input type="number" id="turnover-rate" min="0" max="100" step="0.1" placeholder="e.g., 5" class="w-full p-2 border rounded focus:ring focus:ring-teal-400" required aria-required="true" aria-describedby="turnover-rate-error" />
                 <p id="turnover-rate-error" class="text-red-500 text-sm mt-1 hidden" role="alert">Please enter a value between 0 and 100.</p>
               </div>
               <div>
                 <label for="eng-sales-ratio" class="block font-medium text-gray-700 mb-1">Engineering to Sales Ratio</label>
-                <input type="number" id="eng-sales-ratio" min="0" step="0.01" placeholder="e.g., 2.5" class="w-full p-2 border rounded focus:ring focus:ring-teal-400" required aria-describedby="eng-sales-ratio-error" />
+                <input type="number" id="eng-sales-ratio" min="0" step="0.01" placeholder="e.g., 2.5" class="w-full p-2 border rounded focus:ring focus:ring-teal-400" required aria-required="true" aria-describedby="eng-sales-ratio-error" />
                 <p id="eng-sales-ratio-error" class="text-red-500 text-sm mt-1 hidden" role="alert">Please enter a valid number.</p>
               </div>
               <div>
                 <label for="support-tickets" class="block font-medium text-gray-700 mb-1">Support Tickets per Month</label>
-                <input type="number" id="support-tickets" min="0" step="1" placeholder="e.g., 100" class="w-full p-2 border rounded focus:ring focus:ring-teal-400" required aria-describedby="support-tickets-error" />
+                <input type="number" id="support-tickets" min="0" step="1" placeholder="e.g., 100" class="w-full p-2 border rounded focus:ring focus:ring-teal-400" required aria-required="true" aria-describedby="support-tickets-error" />
                 <p id="support-tickets-error" class="text-red-500 text-sm mt-1 hidden" role="alert">Please enter a valid number.</p>
               </div>
               <div>
                 <label for="support-rating" class="block font-medium text-gray-700 mb-1">Customer Support Rating (1-10)</label>
-                <input type="number" id="support-rating" min="1" max="10" step="1" placeholder="e.g., 8" class="w-full p-2 border rounded focus:ring focus:ring-teal-400" required aria-describedby="support-rating-error" />
+                <input type="number" id="support-rating" min="1" max="10" step="1" placeholder="e.g., 8" class="w-full p-2 border rounded focus:ring focus:ring-teal-400" required aria-required="true" aria-describedby="support-rating-error" />
                 <p id="support-rating-error" class="text-red-500 text-sm mt-1 hidden" role="alert">Please enter a value between 1 and 10.</p>
               </div>
               <div>
                 <label for="headcount-growth" class="block font-medium text-gray-700 mb-1">Headcount Growth Rate (%)</label>
-                <input type="number" id="headcount-growth" min="-100" max="100" step="0.1" placeholder="e.g., 20" class="w-full p-2 border rounded focus:ring focus:ring-teal-400" required aria-describedby="headcount-growth-error" />
+                <input type="number" id="headcount-growth" min="-100" max="100" step="0.1" placeholder="e.g., 20" class="w-full p-2 border rounded focus:ring focus:ring-teal-400" required aria-required="true" aria-describedby="headcount-growth-error" />
                 <p id="headcount-growth-error" class="text-red-500 text-sm mt-1 hidden" role="alert">Please enter a value between -100 and 100.</p>
               </div>
               <p id="team-ops-error" class="text-red-500 text-sm mt-2 hidden" role="alert">Please fill all fields correctly.</p>
@@ -843,7 +843,7 @@
             <div class="space-y-3">
               <div>
                 <label for="legal-entity" class="block font-medium text-gray-700 mb-1">Legal Entity Type</label>
-                <select id="legal-entity" class="w-full p-2 border rounded focus:ring focus:ring-teal-400" required aria-describedby="legal-entity-error">
+                <select id="legal-entity" class="w-full p-2 border rounded focus:ring focus:ring-teal-400" required aria-required="true" aria-describedby="legal-entity-error">
                   <option value="" disabled selected>Select type</option>
                   <option value="llc">LLC</option>
                   <option value="c-corp">C-Corp</option>
@@ -854,7 +854,7 @@
               </div>
               <div>
                 <label for="ip-ownership" class="block font-medium text-gray-700 mb-1">IP Ownership Status</label>
-                <select id="ip-ownership" class="w-full p-2 border rounded focus:ring focus:ring-teal-400" required aria-describedby="ip-ownership-error">
+                <select id="ip-ownership" class="w-full p-2 border rounded focus:ring focus:ring-teal-400" required aria-required="true" aria-describedby="ip-ownership-error">
                   <option value="" disabled selected>Select status</option>
                   <option value="fully-owned">Fully Owned</option>
                   <option value="partial">Partially Owned</option>
@@ -864,17 +864,17 @@
               </div>
               <div>
                 <label for="contract-length" class="block font-medium text-gray-700 mb-1">Average Customer Contract Length (Months)</label>
-                <input type="number" id="contract-length" min="0" step="1" placeholder="e.g., 12" class="w-full p-2 border rounded focus:ring focus:ring-teal-400" required aria-describedby="contract-length-error" />
+                <input type="number" id="contract-length" min="0" step="1" placeholder="e.g., 12" class="w-full p-2 border rounded focus:ring focus:ring-teal-400" required aria-required="true" aria-describedby="contract-length-error" />
                 <p id="contract-length-error" class="text-red-500 text-sm mt-1 hidden" role="alert">Please enter a valid number.</p>
               </div>
               <div>
                 <label for="contract-value" class="block font-medium text-gray-700 mb-1">Average Contract Value (ACV) ($)</label>
-                <input type="number" id="contract-value" min="0" step="100" placeholder="e.g., 12000" class="w-full p-2 border rounded focus:ring focus:ring-teal-400" required aria-describedby="contract-value-error" />
+                <input type="number" id="contract-value" min="0" step="100" placeholder="e.g., 12000" class="w-full p-2 border rounded focus:ring focus:ring-teal-400" required aria-required="true" aria-describedby="contract-value-error" />
                 <p id="contract-value-error" class="text-red-500 text-sm mt-1 hidden" role="alert">Please enter a valid number.</p>
               </div>
               <div>
                 <label for="vendor-lockin" class="block font-medium text-gray-700 mb-1">Vendor Lock-In</label>
-                <select id="vendor-lockin" class="w-full p-2 border rounded focus:ring focus:ring-teal-400" required aria-describedby="vendor-lockin-error">
+                <select id="vendor-lockin" class="w-full p-2 border rounded focus:ring focus:ring-teal-400" required aria-required="true" aria-describedby="vendor-lockin-error">
                   <option value="" disabled selected>Select level</option>
                   <option value="none">None</option>
                   <option value="moderate">Moderate</option>
@@ -884,7 +884,7 @@
               </div>
               <div>
                 <label for="legal-issues" class="block font-medium text-gray-700 mb-1">Pending Legal Issues</label>
-                <select id="legal-issues" class="w-full p-2 border rounded focus:ring focus:ring-teal-400" required aria-describedby="legal-issues-error">
+                <select id="legal-issues" class="w-full p-2 border rounded focus:ring focus:ring-teal-400" required aria-required="true" aria-describedby="legal-issues-error">
                   <option value="" disabled selected>Select status</option>
                   <option value="none">None</option>
                   <option value="minor">Minor</option>
@@ -894,7 +894,7 @@
               </div>
               <div>
                 <label for="data-privacy" class="block font-medium text-gray-700 mb-1">Data Privacy Compliance</label>
-                <select id="data-privacy" class="w-full p-2 border rounded focus:ring focus:ring-teal-400" required aria-describedby="data-privacy-error">
+                <select id="data-privacy" class="w-full p-2 border rounded focus:ring focus:ring-teal-400" required aria-required="true" aria-describedby="data-privacy-error">
                   <option value="" disabled selected>Select status</option>
                   <option value="full">Fully Compliant</option>
                   <option value="partial">Partially Compliant</option>
@@ -904,7 +904,7 @@
               </div>
               <div>
                 <label for="cyber-insurance" class="block font-medium text-gray-700 mb-1">Cybersecurity Insurance</label>
-                <select id="cyber-insurance" class="w-full p-2 border rounded focus:ring focus:ring-teal-400" required aria-describedby="cyber-insurance-error">
+                <select id="cyber-insurance" class="w-full p-2 border rounded focus:ring focus:ring-teal-400" required aria-required="true" aria-describedby="cyber-insurance-error">
                   <option value="" disabled selected>Select status</option>
                   <option value="yes">Yes</option>
                   <option value="no">No</option>
@@ -913,7 +913,7 @@
               </div>
               <div>
                 <label for="debt-level" class="block font-medium text-gray-700 mb-1">Debt Level ($)</label>
-                <input type="number" id="debt-level" min="0" step="1000" placeholder="e.g., 50000" class="w-full p-2 border rounded focus:ring focus:ring-teal-400" required aria-describedby="debt-level-error" />
+                <input type="number" id="debt-level" min="0" step="1000" placeholder="e.g., 50000" class="w-full p-2 border rounded focus:ring focus:ring-teal-400" required aria-required="true" aria-describedby="debt-level-error" />
                 <p id="debt-level-error" class="text-red-500 text-sm mt-1 hidden" role="alert">Please enter a valid number.</p>
               </div>
               <p id="legal-risk-error" class="text-red-500 text-sm mt-2 hidden" role="alert">Please complete all fields.</p>
@@ -1023,19 +1023,19 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
               <div class="bg-white p-4 rounded-lg shadow">
                 <h4 class="text-md font-semibold text-gray-800 mb-2">Valuation by Method</h4>
-                <canvas id="valuation-chart"></canvas>
+                <canvas id="valuation-chart" aria-label="Valuation by method chart"></canvas>
               </div>
               <div class="bg-white p-4 rounded-lg shadow">
                 <h4 class="text-md font-semibold text-gray-800 mb-2">Financial Metrics Impact</h4>
-                <canvas id="financial-chart"></canvas>
+                <canvas id="financial-chart" aria-label="Financial metrics impact chart"></canvas>
               </div>
               <div class="bg-white p-4 rounded-lg shadow">
                 <h4 class="text-md font-semibold text-gray-800 mb-2">Growth vs. Churn</h4>
-                <canvas id="growth-churn-chart"></canvas>
+                <canvas id="growth-churn-chart" aria-label="Growth versus churn chart"></canvas>
               </div>
               <div class="bg-white p-4 rounded-lg shadow">
                 <h4 class="text-md font-semibold text-gray-800 mb-2">Risk Factors</h4>
-                <canvas id="risk-chart"></canvas>
+                <canvas id="risk-chart" aria-label="Risk factors chart"></canvas>
               </div>
             </div>
 
@@ -1155,8 +1155,8 @@
         <p class="text-lg text-gray-600 mb-8 max-w-xl mx-auto">Join our newsletter for exclusive tips, valuation strategies, and updates to grow your SaaS business.</p>
         <form action="https://formspree.io/f/mjkowkld" method="POST" class="flex flex-col md:flex-row justify-center items-center gap-4 max-w-lg mx-auto">
             <div class="w-full md:w-auto flex-1">
-                <label for="email" class="sr-only">Your Email</label>
-                <input type="email" name="email" id="email" class="w-full border rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-teal-500" placeholder="Enter your email" required>
+                <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Your Email</label>
+                <input type="email" name="email" id="email" class="w-full border rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-teal-500" placeholder="Enter your email" required aria-required="true">
                 <p id="email-error" class="text-red-500 text-sm mt-1 hidden">Please enter a valid email address.</p>
             </div>
             <button type="submit" class="btn-primary text-white font-bold py-3 px-6 rounded-lg">Get SaaS Growth Insights</button>
