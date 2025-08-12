@@ -1,11 +1,9 @@
-import { setupPDF } from './pdf.js';
+import { setupPDF as setupPDFDefault } from './pdf.js';
 
-export async function calculateValuation() {
+export async function calculateValuation(deps = {}) {
   try {
-    const [{ default: Chart }, jspdf] = await Promise.all([
-      import('https://cdn.jsdelivr.net/npm/chart.js'),
-      import('https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js')
-    ]);
+    const Chart = deps.Chart || (await import('https://cdn.jsdelivr.net/npm/chart.js')).default;
+    const jspdf = deps.jspdf || (await import('https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js'));
     window.jspdf = jspdf;
 
     const methods = Array.from(document.querySelectorAll('input[type="checkbox"]:checked')).map(input => input.value);
@@ -164,6 +162,7 @@ export async function calculateValuation() {
       options: { scales: { r: { min: 0, max: 10 } } }
     });
 
+    const setupPDF = deps.setupPDF || setupPDFDefault;
     setupPDF({
       valuations,
       avgValuation,

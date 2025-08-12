@@ -1,0 +1,26 @@
+{
+  "name": "amandavaluation",
+  "version": "1.0.0",
+  "description": "SaaS valuation tool",
+  "scripts": {
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
+    "e2e": "playwright test"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "type": "module",
+  "jest": {
+    "testEnvironment": "jsdom",
+    "testMatch": [
+      "**/tests/**/*.test.js"
+    ]
+  },
+  "devDependencies": {
+    "@jest/globals": "^30.0.5",
+    "@playwright/test": "^1.54.2",
+    "http-server": "^14.1.1",
+    "jest": "^30.0.5",
+    "jest-environment-jsdom": "^30.0.5"
+  }
+}
