@@ -2,11 +2,15 @@ export function initNavigation(validation, calculateValuation) {
   const steps = document.querySelectorAll('.step');
   const progressFill = document.getElementById('progress-fill');
   const currentStepDisplay = document.getElementById('current-step');
+  const totalSteps = 7;
   let currentStep = 1;
 
   function updateProgress() {
-    const progress = (currentStep / 7) * 100;
+    const progress = (currentStep / totalSteps) * 100;
     progressFill.style.width = `${progress}%`;
+    progressFill.setAttribute('aria-valuenow', currentStep);
+    progressFill.setAttribute('aria-valuemin', 1);
+    progressFill.setAttribute('aria-valuemax', totalSteps);
     currentStepDisplay.textContent = currentStep;
   }
 
