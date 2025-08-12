@@ -39,16 +39,19 @@ export async function calculateValuation(deps = {}) {
     const activeCustomers = parseFloat(document.getElementById('active-customers').value) || 0;
     const mau = parseFloat(document.getElementById('monthly-active-users').value) || 0;
     const debtLevel = parseFloat(document.getElementById('debt-level').value) || 0;
-    const customMultiplier = parseFloat(document.getElementById('custom-multiplier').value) || null;
-    const discountRateInput = parseFloat(document.getElementById('discount-rate').value) || null;
-    const discountRate = discountRateInput ? discountRateInput / 100 : 0.1;
+    const customMultiplier = parseFloat(document.getElementById('custom-multiplier').value);
+    const discountRateInput = parseFloat(document.getElementById('discount-rate').value);
+    const discountRate = !isNaN(discountRateInput) ? discountRateInput / 100 : 0.1;
 
     const netProfitMargin = arr > 0 ? (netProfit / arr) * 100 : 0;
     const ruleOf40 = growthYoy + netProfitMargin;
 
     let valuations = [];
     let warnings = [];
-    let multiplier = customMultiplier || 5;
+    let multiplier = !isNaN(customMultiplier) ? customMultiplier : 5;
+    if (!isNaN(discountRateInput) && discountRateInput < 0) {
+      warnings.push('Discount rate cannot be negative.');
+    }
     if (growthYoy > 20) multiplier += 2;
     if (customerChurn < 5) multiplier += 1;
     if (retentionRate > 80) multiplier += 1;
