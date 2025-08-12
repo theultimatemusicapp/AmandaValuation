@@ -3,7 +3,13 @@ import { setupPDF as setupPDFDefault } from './pdf.js';
 export async function calculateValuation(deps = {}) {
   let Chart;
   try {
-    Chart = deps.Chart || (await import('./vendor/chart.js')).default;
+    if (deps.Chart) {
+      Chart = deps.Chart;
+    } else {
+      const chartModule = await import('https://cdn.jsdelivr.net/npm/chart.js');
+      Chart = chartModule.default || chartModule.Chart || window.Chart;
+    }
+    if (!Chart) throw new Error('Chart.js not available');
   } catch (error) {
     console.error('Failed to load Chart.js:', error);
     alert('Unable to load chart library. Please refresh and try again.');
