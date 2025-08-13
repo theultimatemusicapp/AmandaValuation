@@ -123,13 +123,19 @@ export async function calculateValuation(deps = {}) {
     // Charts
     try {
       let Chart;
+      let registerables;
       if (deps.Chart) {
-        Chart = deps.Chart.default || deps.Chart;
+        Chart = deps.Chart.default || deps.Chart.Chart || deps.Chart;
+        registerables = deps.Chart.registerables;
       } else {
         const chartModule = await import('./vendor/chart.js');
         Chart = chartModule.default || chartModule.Chart || window.Chart;
+        registerables = chartModule.registerables;
       }
       if (typeof Chart !== 'function') throw new Error('Chart.js not available');
+      if (registerables && typeof Chart.register === 'function') {
+        Chart.register(...registerables);
+      }
 
       const valuationCanvas = document.getElementById('valuation-chart');
       valuationCanvas.width = 800;
@@ -221,6 +227,8 @@ export async function calculateValuation(deps = {}) {
         arr,
         netProfit,
         growthYoy,
+        revenueGrowthMom,
+        revenueChurn,
         customerChurn,
         retentionRate,
         nps,

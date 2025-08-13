@@ -36,6 +36,8 @@ export function setupPDF(data) {
         arr: sanitizeNumber(data.arr),
         netProfit: sanitizeNumber(data.netProfit),
         growthYoy: sanitizeNumber(data.growthYoy),
+        revenueGrowthMom: sanitizeNumber(data.revenueGrowthMom),
+        revenueChurn: sanitizeNumber(data.revenueChurn),
         customerChurn: sanitizeNumber(data.customerChurn),
         retentionRate: sanitizeNumber(data.retentionRate),
         nps: sanitizeNumber(data.nps),
@@ -149,6 +151,52 @@ export function setupPDF(data) {
         }
         yPos += 10;
       });
+
+      // Input Summary Page
+      doc.addPage();
+      addHeader();
+      yPos = 25;
+      doc.setFontSize(16);
+      doc.text('Input Summary', margin, yPos);
+      yPos += 10;
+      const inputs = [
+        ['ARR', `$${sanitizedData.arr.toLocaleString()}`],
+        ['MRR', `$${sanitizedData.mrr.toLocaleString()}`],
+        ['Net Profit', `$${sanitizedData.netProfit.toLocaleString()}`],
+        ['YoY Growth', `${sanitizedData.growthYoy}%`],
+        ['MoM Growth', `${sanitizedData.revenueGrowthMom}%`],
+        ['Customer Churn', `${sanitizedData.customerChurn}%`],
+        ['Revenue Churn', `${sanitizedData.revenueChurn}%`],
+        ['Retention Rate', `${sanitizedData.retentionRate}%`],
+        ['NPS', sanitizedData.nps],
+        ['Gross Margin', `${sanitizedData.grossMargin}%`],
+        ['CAC', `$${sanitizedData.cac.toLocaleString()}`],
+        ['LTV', `$${sanitizedData.ltv.toLocaleString()}`],
+        ['Burn Rate', `$${sanitizedData.burnRate.toLocaleString()}`],
+        ['Runway', `${sanitizedData.runway} months`],
+        ['Active Customers', sanitizedData.activeCustomers],
+        ['MAU', sanitizedData.mau],
+        ['Debt Level', `$${sanitizedData.debtLevel.toLocaleString()}`],
+        ['Legal Issues', sanitizedData.legalIssues],
+        ['IP Ownership', sanitizedData.ipOwnership],
+        ['Multiplier', sanitizedData.multiplier],
+        ['Discount Rate', `${(sanitizedData.discountRate * 100).toFixed(2)}%`],
+        ['Rule of 40', sanitizedData.ruleOf40]
+      ];
+      if (typeof doc.autoTable === 'function') {
+        doc.autoTable({
+          head: [['Metric', 'Value']],
+          body: inputs,
+          startY: yPos,
+          theme: 'striped',
+          styles: { fillColor: [240, 240, 240], textColor: [0, 0, 0] },
+          headStyles: { fillColor: [56, 178, 172] }
+        });
+        yPos = doc.lastAutoTable.finalY + 10;
+      } else {
+        console.warn('autoTable plugin not loaded');
+        yPos += 10;
+      }
 
       // Metrics Overview Page
       doc.addPage();
