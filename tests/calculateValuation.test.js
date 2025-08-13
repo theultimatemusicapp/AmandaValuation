@@ -42,10 +42,11 @@ describe('calculateValuation', () => {
       <canvas id="risk-chart"></canvas>
       <button id="download-report"></button>
     `;
+    setupPDF.mockClear();
   });
 
   test('computes valuation and updates DOM', async () => {
-    await calculateValuation({ Chart: ChartMock, jspdf: {}, setupPDF });
+    await calculateValuation({ Chart: ChartMock, jspdf: { jsPDF: jest.fn() }, setupPDF });
     expect(document.getElementById('valuation-amount').textContent).toBe('$11,000,000');
     expect(document.getElementById('valuation-range').textContent).toBe('$9,900,000 - $12,100,000');
     expect(document.getElementById('confidence-score').textContent).toBe('90%');
@@ -59,21 +60,28 @@ describe('calculateValuation', () => {
     dcfCheckbox.checked = true;
     document.body.appendChild(dcfCheckbox);
     document.getElementById('discount-rate').value = '0';
-    await calculateValuation({ Chart: ChartMock, jspdf: {}, setupPDF });
+    await calculateValuation({ Chart: ChartMock, jspdf: { jsPDF: jest.fn() }, setupPDF });
     expect(document.getElementById('valuation-warnings').innerHTML).toContain('Discount rate must be greater than 0 for DCF method.');
   });
 
   test('shows message for negative discount rate', async () => {
     document.getElementById('discount-rate').value = '-5';
-    await calculateValuation({ Chart: ChartMock, jspdf: {}, setupPDF });
+    await calculateValuation({ Chart: ChartMock, jspdf: { jsPDF: jest.fn() }, setupPDF });
     expect(document.getElementById('valuation-warnings').innerHTML).toContain('Discount rate cannot be negative.');
   });
 
   test('populates DOM even when chart rendering fails', async () => {
-    await calculateValuation({ Chart: {}, jspdf: {}, setupPDF });
+    await calculateValuation({ Chart: {}, jspdf: { jsPDF: jest.fn() }, setupPDF });
     expect(document.getElementById('valuation-amount').textContent).toBe('$11,000,000');
     expect(document.getElementById('valuation-range').textContent).toBe('$9,900,000 - $12,100,000');
     expect(document.getElementById('confidence-score').textContent).toBe('90%');
     expect(setupPDF).toHaveBeenCalled();
+  });
+  test('disables download when jsPDF fails to load', async () => {
+    window.alert = jest.fn();
+    await calculateValuation({ Chart: ChartMock, jspdf: {}, setupPDF });
+    expect(document.getElementById('valuation-amount').textContent).toBe('$11,000,000');
+    expect(document.getElementById('download-report').disabled).toBe(true);
+    expect(setupPDF).not.toHaveBeenCalled();
   });
 });

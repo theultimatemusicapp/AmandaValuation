@@ -2,14 +2,18 @@ import { setupPDF as setupPDFDefault } from './pdf.js';
 
 export async function calculateValuation(deps = {}) {
   let jsPDF;
+  let pdfEnabled = true;
   try {
     const jspdfModule = deps.jspdf || (await import('./vendor/jspdf.es.min.js'));
-    jsPDF = jspdfModule.jsPDF;
+    jsPDF = jspdfModule.jsPDF || jspdfModule.default;
+    if (!jsPDF) throw new Error('jsPDF not available');
     window.jspdf = { jsPDF };
   } catch (error) {
     console.error('Failed to load jsPDF:', error);
-    alert('Unable to load PDF library. Please refresh and try again.');
-    return;
+    alert('Unable to load PDF library. PDF download disabled.');
+    pdfEnabled = false;
+    const downloadBtn = document.getElementById('download-report');
+    if (downloadBtn) downloadBtn.disabled = true;
   }
 
   try {
@@ -200,33 +204,35 @@ export async function calculateValuation(deps = {}) {
     }
 
     const setupPDF = deps.setupPDF || setupPDFDefault;
-    setupPDF({
-      valuations,
-      avgValuation,
-      rangeLow,
-      rangeHigh,
-      confidence,
-      arr,
-      netProfit,
-      growthYoy,
-      customerChurn,
-      retentionRate,
-      nps,
-      legalIssues,
-      ipOwnership,
-      mrr,
-      ltv,
-      cac,
-      grossMargin,
-      burnRate,
-      runway,
-      activeCustomers,
-      mau,
-      debtLevel,
-      multiplier,
-      discountRate,
-      ruleOf40
-    });
+    if (pdfEnabled) {
+      setupPDF({
+        valuations,
+        avgValuation,
+        rangeLow,
+        rangeHigh,
+        confidence,
+        arr,
+        netProfit,
+        growthYoy,
+        customerChurn,
+        retentionRate,
+        nps,
+        legalIssues,
+        ipOwnership,
+        mrr,
+        ltv,
+        cac,
+        grossMargin,
+        burnRate,
+        runway,
+        activeCustomers,
+        mau,
+        debtLevel,
+        multiplier,
+        discountRate,
+        ruleOf40
+      });
+    }
   } catch (error) {
     console.error('Error calculating valuation:', error);
     alert('An error occurred while calculating valuation. Please try again.');
