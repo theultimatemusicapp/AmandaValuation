@@ -84,4 +84,12 @@ describe('calculateValuation', () => {
     expect(document.getElementById('download-report').disabled).toBe(true);
     expect(setupPDF).not.toHaveBeenCalled();
   });
+
+  test('uses existing window.jspdf if available', async () => {
+    const globalJspdf = { jsPDF: jest.fn() };
+    window.jspdf = globalJspdf;
+    await calculateValuation({ Chart: ChartMock, setupPDF });
+    expect(window.jspdf).toBe(globalJspdf);
+    expect(setupPDF).toHaveBeenCalled();
+  });
 });

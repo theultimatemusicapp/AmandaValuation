@@ -4,10 +4,17 @@ export async function calculateValuation(deps = {}) {
   let jsPDF;
   let pdfEnabled = true;
   try {
-    const jspdfModule = deps.jspdf || (await import('./vendor/jspdf.es.min.js'));
+    let jspdfModule;
+    if (deps.jspdf) {
+      jspdfModule = deps.jspdf;
+    } else if (window.jspdf && (window.jspdf.jsPDF || window.jspdf.default)) {
+      jspdfModule = window.jspdf;
+    } else {
+      jspdfModule = await import('./vendor/jspdf.es.min.js');
+    }
     jsPDF = jspdfModule.jsPDF || jspdfModule.default;
     if (!jsPDF) throw new Error('jsPDF not available');
-    window.jspdf = { jsPDF };
+    if (!window.jspdf) window.jspdf = { jsPDF };
   } catch (error) {
     console.error('Failed to load jsPDF:', error);
     alert('Unable to load PDF library. PDF download disabled.');
