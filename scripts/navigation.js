@@ -32,15 +32,19 @@ export function initNavigation(validation, calculateValuation) {
       else dot.removeAttribute('aria-current');
     });
     if (stepAnnounce) stepAnnounce.textContent = `Step ${currentStep} of ${totalSteps}`;
-    document.getElementById(`step-${currentStep}`)?.querySelector('h3')?.focus();
+    const stepElement = document.getElementById(`step-${currentStep}`);
+    const focusElement = stepElement?.querySelector('h3') || stepElement;
+    focusElement?.focus();
   }
 
-  menuToggle.addEventListener('click', () => {
-    const open = menuToggle.getAttribute('aria-expanded') === 'true';
-    menuToggle.setAttribute('aria-expanded', String(!open));
-    mobileMenu.hidden = open;
-    (!open ? mobileMenu.querySelector('a') : menuToggle).focus();
-  });
+  if (menuToggle && mobileMenu) {
+    menuToggle.addEventListener('click', () => {
+      const open = menuToggle.getAttribute('aria-expanded') === 'true';
+      menuToggle.setAttribute('aria-expanded', String(!open));
+      mobileMenu.hidden = open;
+      (!open ? mobileMenu.querySelector('a') : menuToggle).focus();
+    });
+  }
 
   document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
@@ -68,7 +72,11 @@ export function initNavigation(validation, calculateValuation) {
     if (nextBtn) {
       nextBtn.addEventListener('click', () => {
         const validate = validation[`validateStep${i}`];
-        if (!validate || validate()) {
+        if (!validate) {
+          console.error(`Validation function for step ${i} not found`);
+          return;
+        }
+        if (validate()) {
           showStep(i + 1);
           if (i === totalSteps - 1) calculateValuation();
         }

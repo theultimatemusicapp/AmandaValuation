@@ -23,14 +23,19 @@ export function validateStep2() {
   let valid = true;
   inputs.forEach(id => {
     const input = document.getElementById(id);
-    if (!input) return;
+    if (!input) {
+      console.warn(`Input #${id} not found`);
+      return;
+    }
     const error = document.getElementById(`${id}-error`);
-    const value = input.value;
+    const value = input.value.trim();
+    const num = parseFloat(value);
+    const isNumeric = value !== '' && !isNaN(num);
     let fieldValid;
     if (optional.includes(id)) {
-      fieldValid = value === '' || (!(value < 0) && !(id === 'discount-rate' && value > 100));
+      fieldValid = value === '' || (isNumeric && !(num < 0) && !(id === 'discount-rate' && num > 100));
     } else {
-      fieldValid = !!value && !((value < 0 && id !== 'net-profit') || (id === 'gross-margin' && value > 100));
+      fieldValid = isNumeric && !!value && !((num < 0 && id !== 'net-profit') || (id === 'gross-margin' && num > 100));
     }
     error.classList.toggle('hidden', fieldValid);
     setFieldState(input, fieldValid);
@@ -47,8 +52,15 @@ export function validateStep3() {
   let valid = true;
   inputs.forEach(id => {
     const input = document.getElementById(id);
+    if (!input) {
+      console.warn(`Input #${id} not found`);
+      return;
+    }
     const error = document.getElementById(`${id}-error`);
-    const fieldValid = !!input.value && !(input.value < 0) && !(input.value > 100);
+    const value = input.value.trim();
+    const num = parseFloat(value);
+    const isNumeric = value !== '' && !isNaN(num);
+    const fieldValid = isNumeric && num >= 0 && num <= 100;
     error.classList.toggle('hidden', fieldValid);
     setFieldState(input, fieldValid);
     if (!fieldValid) valid = false;
@@ -64,12 +76,25 @@ export function validateStep4() {
   let valid = true;
   inputs.forEach(id => {
     const input = document.getElementById(id);
+    if (!input) {
+      console.warn(`Input #${id} not found`);
+      return;
+    }
     const error = document.getElementById(`${id}-error`);
-    const fieldValid = !!input.value && !(
-      (['active-customers', 'monthly-active-users'].includes(id) && input.value < 0) ||
-      (id === 'retention-rate' && (input.value < 0 || input.value > 100)) ||
-      (id === 'nps' && (input.value < -100 || input.value > 100))
-    );
+    const value = input.value.trim();
+    const numericFields = ['active-customers', 'monthly-active-users', 'retention-rate', 'nps'];
+    let fieldValid;
+    if (numericFields.includes(id)) {
+      const num = parseFloat(value);
+      const isNumeric = value !== '' && !isNaN(num);
+      fieldValid = isNumeric && !(
+        (['active-customers', 'monthly-active-users'].includes(id) && num < 0) ||
+        (id === 'retention-rate' && (num < 0 || num > 100)) ||
+        (id === 'nps' && (num < -100 || num > 100))
+      );
+    } else {
+      fieldValid = !!value;
+    }
     error.classList.toggle('hidden', fieldValid);
     setFieldState(input, fieldValid);
     if (!fieldValid) valid = false;
@@ -85,6 +110,10 @@ export function validateStep5() {
   let valid = true;
   inputs.forEach(id => {
     const input = document.getElementById(id);
+    if (!input) {
+      console.warn(`Input #${id} not found`);
+      return;
+    }
     const error = document.getElementById(`${id}-error`);
     const fieldValid = !!input.value;
     error.classList.toggle('hidden', fieldValid);
@@ -102,13 +131,20 @@ export function validateStep6() {
   let valid = true;
   inputs.forEach(id => {
     const input = document.getElementById(id);
+    if (!input) {
+      console.warn(`Input #${id} not found`);
+      return;
+    }
     const error = document.getElementById(`${id}-error`);
-    const fieldValid = !!input.value && !(
-      (['fte', 'key-staff', 'support-tickets'].includes(id) && input.value < 0) ||
-      (id === 'turnover-rate' && (input.value < 0 || input.value > 100)) ||
-      (id === 'eng-sales-ratio' && input.value < 0) ||
-      (id === 'support-rating' && (input.value < 1 || input.value > 10)) ||
-      (id === 'headcount-growth' && (input.value < -100 || input.value > 100))
+    const value = input.value.trim();
+    const num = parseFloat(value);
+    const isNumeric = value !== '' && !isNaN(num);
+    const fieldValid = isNumeric && !(
+      (['fte', 'key-staff', 'support-tickets'].includes(id) && num < 0) ||
+      (id === 'turnover-rate' && (num < 0 || num > 100)) ||
+      (id === 'eng-sales-ratio' && num < 0) ||
+      (id === 'support-rating' && (num < 1 || num > 10)) ||
+      (id === 'headcount-growth' && (num < -100 || num > 100))
     );
     error.classList.toggle('hidden', fieldValid);
     setFieldState(input, fieldValid);
@@ -125,10 +161,21 @@ export function validateStep7() {
   let valid = true;
   inputs.forEach(id => {
     const input = document.getElementById(id);
+    if (!input) {
+      console.warn(`Input #${id} not found`);
+      return;
+    }
     const error = document.getElementById(`${id}-error`);
-    const fieldValid = !!input.value && !(
-      ['contract-length', 'contract-value', 'debt-level'].includes(id) && input.value < 0
-    );
+    const value = input.value.trim();
+    const numericFields = ['contract-length', 'contract-value', 'debt-level'];
+    let fieldValid;
+    if (numericFields.includes(id)) {
+      const num = parseFloat(value);
+      const isNumeric = value !== '' && !isNaN(num);
+      fieldValid = isNumeric && !(num < 0);
+    } else {
+      fieldValid = !!value;
+    }
     error.classList.toggle('hidden', fieldValid);
     setFieldState(input, fieldValid);
     if (!fieldValid) valid = false;
