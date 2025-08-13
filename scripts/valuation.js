@@ -17,7 +17,9 @@ export async function calculateValuation(deps = {}) {
     const arr = parseFloat(document.getElementById('arr').value) || 0;
     const netProfit = parseFloat(document.getElementById('net-profit').value) || 0;
     const growthYoy = parseFloat(document.getElementById('revenue-growth-yoy').value) || 0;
+    const revenueGrowthMom = parseFloat(document.getElementById('revenue-growth-mom').value) || 0;
     const customerChurn = parseFloat(document.getElementById('customer-churn').value) || 0;
+    const revenueChurn = parseFloat(document.getElementById('revenue-churn').value) || 0;
     const retentionRate = parseFloat(document.getElementById('retention-rate').value) || 0;
     const nps = parseFloat(document.getElementById('nps').value) || 0;
     const legalIssues = document.getElementById('legal-issues').value;
@@ -111,12 +113,12 @@ export async function calculateValuation(deps = {}) {
     try {
       let Chart;
       if (deps.Chart) {
-        Chart = deps.Chart;
+        Chart = deps.Chart.default || deps.Chart;
       } else {
         const chartModule = await import('./vendor/chart.js');
         Chart = chartModule.default || chartModule.Chart || window.Chart;
       }
-      if (!Chart) throw new Error('Chart.js not available');
+      if (typeof Chart !== 'function') throw new Error('Chart.js not available');
 
       const valuationCanvas = document.getElementById('valuation-chart');
       valuationCanvas.width = 800;
@@ -161,9 +163,9 @@ export async function calculateValuation(deps = {}) {
             label: 'Percentage (%)',
             data: [
               growthYoy,
-              parseFloat(document.getElementById('revenue-growth-mom').value) || 0,
+              revenueGrowthMom,
               customerChurn,
-              parseFloat(document.getElementById('revenue-churn').value) || 0
+              revenueChurn
             ],
             backgroundColor: ['rgba(56, 178, 172, 0.6)', 'rgba(251, 191, 36, 0.6)', 'rgba(255, 99, 132, 0.6)', 'rgba(45, 55, 72, 0.6)'],
           }]
