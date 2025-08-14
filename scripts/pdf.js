@@ -205,26 +205,98 @@ export function setupPDF(data) {
       doc.setFontSize(16);
       doc.text('Key Metrics Overview', margin, yPos);
       yPos += 10;
+      // Each metric now includes an "importance" explanation to show why it matters.
       const metrics = [
-        { label: 'ARR', value: `$${sanitizedData.arr.toLocaleString()}`, insight: sanitizedData.arr > 1000000 ? 'Strong revenue base.' : 'Grow revenue to boost value.' },
-        { label: 'MRR', value: `$${sanitizedData.mrr.toLocaleString()}`, insight: sanitizedData.mrr > 100000 ? 'Stable monthly income.' : 'Increase subscriptions.' },
-        { label: 'LTV', value: `$${sanitizedData.ltv.toLocaleString()}`, insight: sanitizedData.ltv > 3 * sanitizedData.cac ? 'High customer value.' : 'Extend customer lifetime.' },
-        { label: 'CAC', value: `$${sanitizedData.cac.toLocaleString()}`, insight: sanitizedData.cac < sanitizedData.ltv / 3 ? 'Efficient acquisition.' : 'Lower acquisition costs.' },
-        { label: 'Gross Margin', value: `${sanitizedData.grossMargin}%`, insight: sanitizedData.grossMargin > 70 ? 'Efficient operations.' : 'Optimize costs.' },
-        { label: 'Net Profit', value: `$${sanitizedData.netProfit.toLocaleString()}`, insight: sanitizedData.netProfit > 0 ? 'Profitable business.' : 'Focus on profitability.' },
-        { label: 'Burn Rate', value: `$${sanitizedData.burnRate.toLocaleString()}`, insight: sanitizedData.burnRate < sanitizedData.mrr ? 'Sustainable spending.' : 'Reduce expenses.' },
-        { label: 'Runway', value: `${sanitizedData.runway} months`, insight: sanitizedData.runway > 12 ? 'Long-term stability.' : 'Secure funding.'},
-        { label: 'YoY Growth', value: `${sanitizedData.growthYoy}%`, insight: sanitizedData.growthYoy > 20 ? 'Strong growth.' : 'Accelerate revenue growth.' },
-        { label: 'Customer Churn', value: `${sanitizedData.customerChurn}%`, insight: sanitizedData.customerChurn < 5 ? 'Loyal customers.' : 'Improve retention.' },
-        { label: 'Active Customers', value: sanitizedData.activeCustomers, insight: sanitizedData.activeCustomers > 1000 ? 'Large customer base.' : 'Expand customer pool.' },
-        { label: 'MAU', value: sanitizedData.mau, insight: sanitizedData.mau > 1000 ? 'High engagement.' : 'Increase user activity.' },
-        { label: 'NPS', value: sanitizedData.nps, insight: sanitizedData.nps > 50 ? 'Satisfied customers.' : 'Enhance customer experience.' },
-        { label: 'Debt Level', value: `$${sanitizedData.debtLevel.toLocaleString()}`, insight: sanitizedData.debtLevel < 100000 ? 'Low financial risk.' : 'Reduce debt.' }
+        {
+          label: 'ARR',
+          value: `$${sanitizedData.arr.toLocaleString()}`,
+          importance: 'Shows recurring revenue baseline.',
+          insight: sanitizedData.arr > 1000000 ? 'Strong revenue base.' : 'Grow revenue to boost value.'
+        },
+        {
+          label: 'MRR',
+          value: `$${sanitizedData.mrr.toLocaleString()}`,
+          importance: 'Highlights monthly revenue consistency.',
+          insight: sanitizedData.mrr > 100000 ? 'Stable monthly income.' : 'Increase subscriptions.'
+        },
+        {
+          label: 'LTV',
+          value: `$${sanitizedData.ltv.toLocaleString()}`,
+          importance: 'Indicates lifetime revenue per customer.',
+          insight: sanitizedData.ltv > 3 * sanitizedData.cac ? 'High customer value.' : 'Extend customer lifetime.'
+        },
+        {
+          label: 'CAC',
+          value: `$${sanitizedData.cac.toLocaleString()}`,
+          importance: 'Reveals cost to acquire customers.',
+          insight: sanitizedData.cac < sanitizedData.ltv / 3 ? 'Efficient acquisition.' : 'Lower acquisition costs.'
+        },
+        {
+          label: 'Gross Margin',
+          value: `${sanitizedData.grossMargin}%`,
+          importance: 'Reflects operational efficiency.',
+          insight: sanitizedData.grossMargin > 70 ? 'Efficient operations.' : 'Optimize costs.'
+        },
+        {
+          label: 'Net Profit',
+          value: `$${sanitizedData.netProfit.toLocaleString()}`,
+          importance: 'Measures profitability.',
+          insight: sanitizedData.netProfit > 0 ? 'Profitable business.' : 'Focus on profitability.'
+        },
+        {
+          label: 'Burn Rate',
+          value: `$${sanitizedData.burnRate.toLocaleString()}`,
+          importance: 'Tracks cash consumption rate.',
+          insight: sanitizedData.burnRate < sanitizedData.mrr ? 'Sustainable spending.' : 'Reduce expenses.'
+        },
+        {
+          label: 'Runway',
+          value: `${sanitizedData.runway} months`,
+          importance: 'Estimates months before cash runs out.',
+          insight: sanitizedData.runway > 12 ? 'Long-term stability.' : 'Secure funding.'
+        },
+        {
+          label: 'YoY Growth',
+          value: `${sanitizedData.growthYoy}%`,
+          importance: 'Shows annual revenue momentum.',
+          insight: sanitizedData.growthYoy > 20 ? 'Strong growth.' : 'Accelerate revenue growth.'
+        },
+        {
+          label: 'Customer Churn',
+          value: `${sanitizedData.customerChurn}%`,
+          importance: 'Captures customer loss rate.',
+          insight: sanitizedData.customerChurn < 5 ? 'Loyal customers.' : 'Improve retention.'
+        },
+        {
+          label: 'Active Customers',
+          value: sanitizedData.activeCustomers,
+          importance: 'Signals market traction.',
+          insight: sanitizedData.activeCustomers > 1000 ? 'Large customer base.' : 'Expand customer pool.'
+        },
+        {
+          label: 'MAU',
+          value: sanitizedData.mau,
+          importance: 'Measures user engagement.',
+          insight: sanitizedData.mau > 1000 ? 'High engagement.' : 'Increase user activity.'
+        },
+        {
+          label: 'NPS',
+          value: sanitizedData.nps,
+          importance: 'Gauges customer satisfaction.',
+          insight: sanitizedData.nps > 50 ? 'Satisfied customers.' : 'Enhance customer experience.'
+        },
+        {
+          label: 'Debt Level',
+          value: `$${sanitizedData.debtLevel.toLocaleString()}`,
+          importance: 'Assesses financial risk.',
+          insight: sanitizedData.debtLevel < 100000 ? 'Low financial risk.' : 'Reduce debt.'
+        }
       ];
       if (typeof doc.autoTable === 'function') {
         doc.autoTable({
-          head: [['Label', 'Value', 'Insight']],
-          body: metrics.map(m => [m.label, m.value, m.insight]),
+          head: [['Label', 'Value', 'Importance', 'Insight']],
+          // Output four columns so readers understand each metric's role and takeaway
+          body: metrics.map(m => [m.label, m.value, m.importance, m.insight]),
           startY: yPos,
           theme: 'striped',
           styles: { fillColor: [240, 240, 240], textColor: [0, 0, 0] },
