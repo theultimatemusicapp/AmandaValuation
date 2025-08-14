@@ -10,7 +10,7 @@ class ChartMock {
 const setupPDF = jest.fn();
 
 jest.unstable_mockModule('../scripts/vendor/chart.js', () => ({
-  default: ChartMock,
+  Chart: ChartMock,
   registerables: []
 }));
 
