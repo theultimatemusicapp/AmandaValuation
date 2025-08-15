@@ -43,6 +43,10 @@ export async function calculateValuation(deps = {}) {
     const grossMargin = parseFloat(document.getElementById('gross-margin').value) || 0;
     const burnRate = parseFloat(document.getElementById('burn-rate').value) || 0;
     const runway = parseFloat(document.getElementById('runway').value) || 0;
+    const ownerSalary = parseFloat(document.getElementById('owner-salary')?.value) || 0;
+    const averageSalary = parseFloat(document.getElementById('average-salary')?.value) || 0;
+    const employeeBenefits = parseFloat(document.getElementById('employee-benefits')?.value) || 0;
+    const yearsOperating = parseInt(document.getElementById('years-operating')?.value) || 0;
     const businessTypeSelect = document.getElementById('business-type');
     const baseMultiplier = businessTypeSelect ? parseFloat(businessTypeSelect.value) || 5 : 5;
     const businessType = businessTypeSelect ? businessTypeSelect.options[businessTypeSelect.selectedIndex]?.dataset.name || '' : '';
@@ -251,6 +255,10 @@ export async function calculateValuation(deps = {}) {
         grossMargin,
         burnRate,
         runway,
+        ownerSalary,
+        averageSalary,
+        employeeBenefits,
+        yearsOperating,
         businessType,
         baseMultiplier,
         activeCustomers,

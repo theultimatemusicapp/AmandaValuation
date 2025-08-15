@@ -18,7 +18,7 @@ export function validateStep1() {
 }
 
 export function validateStep2() {
-  const inputs = ['arr', 'mrr', 'ltv', 'cac', 'gross-margin', 'net-profit', 'burn-rate', 'runway', 'custom-multiplier', 'discount-rate'];
+  const inputs = ['arr', 'mrr', 'ltv', 'cac', 'gross-margin', 'net-profit', 'burn-rate', 'runway', 'owner-salary', 'average-salary', 'employee-benefits', 'years-operating', 'custom-multiplier', 'discount-rate'];
   const optional = ['custom-multiplier', 'discount-rate'];
   let valid = true;
   inputs.forEach(id => {
@@ -204,7 +204,7 @@ export function setupValidationListeners() {
     cb.addEventListener('change', validateStep1);
   });
 
-  ['arr', 'mrr', 'ltv', 'cac', 'gross-margin', 'net-profit', 'burn-rate', 'runway', 'custom-multiplier', 'discount-rate']
+  ['arr', 'mrr', 'ltv', 'cac', 'gross-margin', 'net-profit', 'burn-rate', 'runway', 'owner-salary', 'average-salary', 'employee-benefits', 'years-operating', 'custom-multiplier', 'discount-rate']
     .forEach(id => {
       const el = document.getElementById(id);
       if (el) el.addEventListener('input', validateStep2);
