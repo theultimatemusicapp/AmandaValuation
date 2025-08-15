@@ -17,6 +17,7 @@ test('multi-step form generates PDF', async ({ page }) => {
   await page.fill('#net-profit', '200000');
   await page.fill('#burn-rate', '50000');
   await page.fill('#runway', '18');
+  await page.selectOption('#business-type', '5');
   await page.click('#next-btn-2');
   // Step 3
   await page.fill('#revenue-growth-yoy', '30');

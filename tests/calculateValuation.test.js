@@ -34,14 +34,35 @@ describe('calculateValuation', () => {
       <input id="gross-margin" value="80" />
       <input id="burn-rate" value="50000" />
       <input id="runway" value="18" />
+      <select id="business-type"><option value="5" data-name="Project Management" selected>Project Management</option></select>
       <input id="active-customers" value="2000" />
       <input id="monthly-active-users" value="5000" />
+      <select id="customer-segment"><option value="smb" selected>SMB</option></select>
+      <select id="buyer-type"><option value="investors" selected>Investors</option></select>
+      <select id="product-market-fit"><option value="strong" selected>Strong</option></select>
+      <select id="proprietary-tech"><option value="yes" selected>Yes</option></select>
+      <select id="code-quality"><option value="good" selected>Good</option></select>
+      <select id="scalable-infrastructure"><option value="yes" selected>Yes</option></select>
+      <select id="feature-release-frequency"><option value="monthly" selected>Monthly</option></select>
+      <select id="security-compliance"><option value="full" selected>Full</option></select>
+      <input id="fte" value="10" />
+      <input id="key-staff" value="5" />
+      <input id="turnover-rate" value="5" />
+      <input id="eng-sales-ratio" value="1" />
+      <input id="support-tickets" value="10" />
+      <input id="support-rating" value="8" />
+      <input id="headcount-growth" value="10" />
+      <select id="legal-entity"><option value="llc" selected>LLC</option></select>
+      <input id="contract-length" value="12" />
+      <input id="contract-value" value="1000" />
+      <select id="vendor-lockin"><option value="none" selected>None</option></select>
+      <select id="data-privacy"><option value="full" selected>Full</option></select>
+      <select id="cyber-insurance"><option value="yes" selected>Yes</option></select>
       <input id="debt-level" value="50000" />
       <input id="custom-multiplier" value="" />
       <input id="discount-rate" value="" />
       <input id="revenue-growth-mom" value="5" />
       <input id="revenue-churn" value="3" />
-      <select id="data-privacy"><option value="full" selected>Full</option></select>
       <div id="valuation-warnings" class="hidden"></div>
       <div id="valuation-amount"></div>
       <div id="valuation-range"></div>
