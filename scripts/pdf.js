@@ -10,8 +10,8 @@ export function setupPDF(data) {
         return;
       }
       try {
-        const { default: autoTable } = await import('./vendor/jspdf.plugin.autotable.js');
-        autoTable(jsPDF);
+        const { applyPlugin } = await import('./vendor/jspdf.plugin.autotable.js');
+        applyPlugin(jsPDF);
       } catch (error) {
         console.error('Failed to load jsPDF autotable plugin:', error);
         alert('Failed to load table plugin. Please refresh and try again.');
