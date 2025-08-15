@@ -18,7 +18,7 @@ describe('validation steps', () => {
   });
 
   test('validateStep2', () => {
-    const ids = ['arr','mrr','ltv','cac','gross-margin','net-profit','burn-rate','runway','custom-multiplier','discount-rate'];
+    const ids = ['arr','mrr','ltv','cac','gross-margin','net-profit','burn-rate','runway','owner-salary','average-salary','employee-benefits','years-operating','custom-multiplier','discount-rate'];
     document.body.innerHTML = ids.map(id => `
         <input id="${id}" value="10" />
         <p id="${id}-error" class="hidden"></p>

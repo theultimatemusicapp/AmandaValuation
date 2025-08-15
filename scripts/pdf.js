@@ -50,6 +50,10 @@ export function setupPDF(data) {
         grossMargin: sanitizeNumber(data.grossMargin),
         burnRate: sanitizeNumber(data.burnRate),
         runway: sanitizeNumber(data.runway),
+        ownerSalary: sanitizeNumber(data.ownerSalary),
+        averageSalary: sanitizeNumber(data.averageSalary),
+        employeeBenefits: sanitizeNumber(data.employeeBenefits),
+        yearsOperating: sanitizeNumber(data.yearsOperating),
         businessType: sanitizeText(data.businessType),
         baseMultiplier: sanitizeNumber(data.baseMultiplier),
         activeCustomers: sanitizeNumber(data.activeCustomers),
@@ -202,6 +206,10 @@ export function setupPDF(data) {
         ['LTV', `$${sanitizedData.ltv.toLocaleString()}`],
         ['Burn Rate', `$${sanitizedData.burnRate.toLocaleString()}`],
         ['Runway', `${sanitizedData.runway} months`],
+        ['Owner Salary', `$${sanitizedData.ownerSalary.toLocaleString()}`],
+        ['Average Employee Salary', `$${sanitizedData.averageSalary.toLocaleString()}`],
+        ['Employee Benefits', `$${sanitizedData.employeeBenefits.toLocaleString()}`],
+        ['Years in Operation', sanitizedData.yearsOperating],
         ['Active Customers', sanitizedData.activeCustomers],
         ['MAU', sanitizedData.mau],
         ['Customer Segment', sanitizedData.customerSegment],
@@ -302,6 +310,30 @@ export function setupPDF(data) {
           value: `${sanitizedData.runway} months`,
           importance: 'Estimates months before cash runs out.',
           insight: sanitizedData.runway > 12 ? 'Long-term stability.' : 'Secure funding.'
+        },
+        {
+          label: 'Owner Salary',
+          value: `$${sanitizedData.ownerSalary.toLocaleString()}`,
+          importance: 'Shows owner compensation excluded from profit.',
+          insight: sanitizedData.ownerSalary > 0 ? 'Track SDE adjustments.' : 'Enter salary for clarity.'
+        },
+        {
+          label: 'Average Employee Salary',
+          value: `$${sanitizedData.averageSalary.toLocaleString()}`,
+          importance: 'Highlights staff cost structure.',
+          insight: sanitizedData.averageSalary > 0 ? 'Competitive pay scale.' : 'Benchmark salaries.'
+        },
+        {
+          label: 'Employee Benefits',
+          value: `$${sanitizedData.employeeBenefits.toLocaleString()}`,
+          importance: 'Captures non-salary compensation.',
+          insight: sanitizedData.employeeBenefits > 0 ? 'Include in cost planning.' : 'Track benefit spend.'
+        },
+        {
+          label: 'Years in Operation',
+          value: sanitizedData.yearsOperating,
+          importance: 'Indicates business maturity.',
+          insight: sanitizedData.yearsOperating >= 2 ? 'Established track record.' : 'Early-stage risk.'
         },
         {
           label: 'YoY Growth',
