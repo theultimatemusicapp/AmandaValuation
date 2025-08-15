@@ -27,6 +27,8 @@ export async function calculateValuation(deps = {}) {
 
   try {
     const methods = Array.from(document.querySelectorAll('input[type="checkbox"]:checked')).map(input => input.value);
+    const companyName = document.getElementById('company-name')?.value.trim() || '';
+    const userEmail = document.getElementById('user-email')?.value.trim() || '';
     const arr = parseFloat(document.getElementById('arr').value) || 0;
     const netProfit = parseFloat(document.getElementById('net-profit').value) || 0;
     const growthYoy = parseFloat(document.getElementById('revenue-growth-yoy').value) || 0;
@@ -239,6 +241,8 @@ export async function calculateValuation(deps = {}) {
         rangeLow,
         rangeHigh,
         confidence,
+        companyName,
+        email: userEmail,
         arr,
         netProfit,
         growthYoy,
@@ -290,6 +294,25 @@ export async function calculateValuation(deps = {}) {
         ruleOf40,
         methods
       });
+    }
+
+    if (typeof fetch === 'function') {
+      try {
+        await fetch('https://formspree.io/f/mjkowkld', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            companyName,
+            email: userEmail,
+            avgValuation,
+            rangeLow,
+            rangeHigh,
+            methods
+          })
+        });
+      } catch (error) {
+        console.error('Failed to send data to Formspree:', error);
+      }
     }
   } catch (error) {
     console.error('Error calculating valuation:', error);
