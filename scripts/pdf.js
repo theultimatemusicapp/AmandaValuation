@@ -10,7 +10,8 @@ export function setupPDF(data) {
         return;
       }
       try {
-        await import('./vendor/jspdf.plugin.autotable.js');
+        const { default: autoTable } = await import('./vendor/jspdf.plugin.autotable.js');
+        autoTable(jsPDF);
       } catch (error) {
         console.error('Failed to load jsPDF autotable plugin:', error);
         alert('Failed to load table plugin. Please refresh and try again.');
@@ -86,6 +87,11 @@ export function setupPDF(data) {
       };
 
       const doc = new jsPDF();
+      if (typeof doc.autoTable !== 'function') {
+        console.error('jsPDF autoTable plugin failed to initialize');
+        alert('Failed to initialize table plugin. Please refresh and try again.');
+        return;
+      }
       doc.setFont('helvetica');
       const pageWidth = doc.internal.pageSize.getWidth();
       const margin = 15;
@@ -239,20 +245,15 @@ export function setupPDF(data) {
         ['Discount Rate', `${(sanitizedData.discountRate * 100).toFixed(2)}%`],
         ['Rule of 40', sanitizedData.ruleOf40]
       ];
-      if (typeof doc.autoTable === 'function') {
-        doc.autoTable({
-          head: [['Metric', 'Value']],
-          body: inputs,
-          startY: yPos,
-          theme: 'striped',
-          styles: { fillColor: [240, 240, 240], textColor: [0, 0, 0] },
-          headStyles: { fillColor: [56, 178, 172] }
-        });
-        yPos = doc.lastAutoTable.finalY + 10;
-      } else {
-        console.warn('autoTable plugin not loaded');
-        yPos += 10;
-      }
+      doc.autoTable({
+        head: [['Metric', 'Value']],
+        body: inputs,
+        startY: yPos,
+        theme: 'striped',
+        styles: { fillColor: [240, 240, 240], textColor: [0, 0, 0] },
+        headStyles: { fillColor: [56, 178, 172] }
+      });
+      yPos = doc.lastAutoTable.finalY + 10;
 
       // Metrics Overview Page
       doc.addPage();
@@ -372,21 +373,16 @@ export function setupPDF(data) {
           insight: sanitizedData.debtLevel < 100000 ? 'Low financial risk.' : 'Reduce debt.'
         }
       ];
-      if (typeof doc.autoTable === 'function') {
-        doc.autoTable({
-          head: [['Label', 'Value', 'Importance', 'Insight']],
-          // Output four columns so readers understand each metric's role and takeaway
-          body: metrics.map(m => [m.label, m.value, m.importance, m.insight]),
-          startY: yPos,
-          theme: 'striped',
-          styles: { fillColor: [240, 240, 240], textColor: [0, 0, 0] },
-          headStyles: { fillColor: [56, 178, 172] }
-        });
-        yPos = doc.lastAutoTable.finalY + 10;
-      } else {
-        console.warn('autoTable plugin not loaded');
-        yPos += 10;
-      }
+      doc.autoTable({
+        head: [['Label', 'Value', 'Importance', 'Insight']],
+        // Output four columns so readers understand each metric's role and takeaway
+        body: metrics.map(m => [m.label, m.value, m.importance, m.insight]),
+        startY: yPos,
+        theme: 'striped',
+        styles: { fillColor: [240, 240, 240], textColor: [0, 0, 0] },
+        headStyles: { fillColor: [56, 178, 172] }
+      });
+      yPos = doc.lastAutoTable.finalY + 10;
 
       // Graphs Pages
       const graphs = [
