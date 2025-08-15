@@ -43,8 +43,32 @@ export async function calculateValuation(deps = {}) {
     const grossMargin = parseFloat(document.getElementById('gross-margin').value) || 0;
     const burnRate = parseFloat(document.getElementById('burn-rate').value) || 0;
     const runway = parseFloat(document.getElementById('runway').value) || 0;
+    const businessTypeSelect = document.getElementById('business-type');
+    const baseMultiplier = businessTypeSelect ? parseFloat(businessTypeSelect.value) || 5 : 5;
+    const businessType = businessTypeSelect ? businessTypeSelect.options[businessTypeSelect.selectedIndex]?.dataset.name || '' : '';
     const activeCustomers = parseFloat(document.getElementById('active-customers').value) || 0;
     const mau = parseFloat(document.getElementById('monthly-active-users').value) || 0;
+    const customerSegment = document.getElementById('customer-segment').value;
+    const buyerType = document.getElementById('buyer-type').value;
+    const productMarketFit = document.getElementById('product-market-fit').value;
+    const proprietaryTech = document.getElementById('proprietary-tech').value;
+    const codeQuality = document.getElementById('code-quality').value;
+    const scalableInfrastructure = document.getElementById('scalable-infrastructure').value;
+    const featureReleaseFrequency = document.getElementById('feature-release-frequency').value;
+    const securityCompliance = document.getElementById('security-compliance').value;
+    const fte = parseFloat(document.getElementById('fte').value) || 0;
+    const keyStaff = parseFloat(document.getElementById('key-staff').value) || 0;
+    const turnoverRate = parseFloat(document.getElementById('turnover-rate').value) || 0;
+    const engSalesRatio = parseFloat(document.getElementById('eng-sales-ratio').value) || 0;
+    const supportTickets = parseFloat(document.getElementById('support-tickets').value) || 0;
+    const supportRating = parseFloat(document.getElementById('support-rating').value) || 0;
+    const headcountGrowth = parseFloat(document.getElementById('headcount-growth').value) || 0;
+    const legalEntity = document.getElementById('legal-entity').value;
+    const contractLength = parseFloat(document.getElementById('contract-length').value) || 0;
+    const contractValue = parseFloat(document.getElementById('contract-value').value) || 0;
+    const vendorLockin = document.getElementById('vendor-lockin').value;
+    const dataPrivacy = document.getElementById('data-privacy').value;
+    const cyberInsurance = document.getElementById('cyber-insurance').value;
     const debtLevel = parseFloat(document.getElementById('debt-level').value) || 0;
     const customMultiplier = parseFloat(document.getElementById('custom-multiplier').value);
     const discountRateInput = parseFloat(document.getElementById('discount-rate').value);
@@ -55,7 +79,7 @@ export async function calculateValuation(deps = {}) {
 
     let valuations = [];
     let warnings = [];
-    let multiplier = !isNaN(customMultiplier) ? customMultiplier : 5;
+    let multiplier = !isNaN(customMultiplier) ? customMultiplier : baseMultiplier;
     if (!isNaN(discountRateInput) && discountRateInput < 0) {
       warnings.push('Discount rate cannot be negative.');
     }
@@ -227,12 +251,36 @@ export async function calculateValuation(deps = {}) {
         grossMargin,
         burnRate,
         runway,
+        businessType,
+        baseMultiplier,
         activeCustomers,
         mau,
+        customerSegment,
+        buyerType,
+        productMarketFit,
+        proprietaryTech,
+        codeQuality,
+        scalableInfrastructure,
+        featureReleaseFrequency,
+        securityCompliance,
+        fte,
+        keyStaff,
+        turnoverRate,
+        engSalesRatio,
+        supportTickets,
+        supportRating,
+        headcountGrowth,
+        legalEntity,
+        contractLength,
+        contractValue,
+        vendorLockin,
+        dataPrivacy,
+        cyberInsurance,
         debtLevel,
         multiplier,
         discountRate,
-        ruleOf40
+        ruleOf40,
+        methods
       });
     }
   } catch (error) {

@@ -22,7 +22,7 @@ describe('validation steps', () => {
     document.body.innerHTML = ids.map(id => `
         <input id="${id}" value="10" />
         <p id="${id}-error" class="hidden"></p>
-    `).join('') + '<p id="financial-error" class="hidden"></p><button id="next-btn-2"></button>';
+    `).join('') + '<select id="business-type"><option value="5" selected>Type</option></select><p id="business-type-error" class="hidden"></p><p id="financial-error" class="hidden"></p><button id="next-btn-2"></button>';
     expect(validateStep2()).toBe(true);
     document.getElementById('arr').value = '';
     expect(validateStep2()).toBe(false);

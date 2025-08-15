@@ -41,6 +41,14 @@ export function validateStep2() {
     setFieldState(input, fieldValid);
     if (!fieldValid) valid = false;
   });
+  const businessType = document.getElementById('business-type');
+  if (businessType) {
+    const fieldValid = businessType.value !== '';
+    const error = document.getElementById('business-type-error');
+    if (error) error.classList.toggle('hidden', fieldValid);
+    setFieldState(businessType, fieldValid);
+    if (!fieldValid) valid = false;
+  }
   document.getElementById('financial-error').classList.toggle('hidden', valid);
   const next = document.getElementById('next-btn-2');
   if (next) next.disabled = !valid;
@@ -201,6 +209,8 @@ export function setupValidationListeners() {
       const el = document.getElementById(id);
       if (el) el.addEventListener('input', validateStep2);
     });
+  const businessTypeEl = document.getElementById('business-type');
+  if (businessTypeEl) businessTypeEl.addEventListener('change', validateStep2);
 
   ['revenue-growth-yoy', 'revenue-growth-mom', 'customer-churn', 'revenue-churn']
     .forEach(id => {
