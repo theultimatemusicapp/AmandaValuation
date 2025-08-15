@@ -35,6 +35,8 @@ export function setupPDF(data) {
         rangeLow: sanitizeNumber(data.rangeLow),
         rangeHigh: sanitizeNumber(data.rangeHigh),
         confidence: sanitizeNumber(data.confidence),
+        companyName: sanitizeText(data.companyName),
+        email: sanitizeText(data.email),
         arr: sanitizeNumber(data.arr),
         netProfit: sanitizeNumber(data.netProfit),
         growthYoy: sanitizeNumber(data.growthYoy),
@@ -118,9 +120,13 @@ export function setupPDF(data) {
       yPos += 15;
       doc.setFontSize(12);
       doc.setFillColor(240, 240, 240);
-      doc.rect(margin, yPos, pageWidth - 2 * margin, 40, 'F');
+      doc.rect(margin, yPos, pageWidth - 2 * margin, 60, 'F');
       doc.setDrawColor(251, 191, 36);
-      doc.rect(margin, yPos, pageWidth - 2 * margin, 40);
+      doc.rect(margin, yPos, pageWidth - 2 * margin, 60);
+      yPos += 10;
+      doc.text(`Company: ${sanitizedData.companyName}`, margin + 5, yPos);
+      yPos += 10;
+      doc.text(`Email: ${sanitizedData.email}`, margin + 5, yPos);
       yPos += 10;
       doc.text(`Valuation: $${Math.round(sanitizedData.avgValuation).toLocaleString()}`, margin + 5, yPos);
       yPos += 10;
