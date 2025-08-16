@@ -376,8 +376,7 @@
                 couponSuccess.classList.remove('hidden');
                 paymentContainer.classList.add('hidden');
                 paymentStatus.classList.add('hidden');
-                localStorage.setItem('paymentConfirmed', 'true');
-                localStorage.setItem('couponToken', data.token);
+                document.cookie = `token=${data.token}; path=/`;
                 setTimeout(() => {
                     window.location.href = 'pro-valuation.html';
                 }, 2000);
@@ -394,10 +393,14 @@
                 paymentStatus.textContent = 'Payment successful! Redirecting to Pro Valuation...';
                 paymentStatus.classList.remove('hidden');
                 document.getElementById('coupon-success').classList.add('hidden');
-                localStorage.setItem('paymentConfirmed', 'true');
-                setTimeout(() => {
-                    window.location.href = 'pro-valuation.html';
-                }, 2000);
+                fetch('/api/create-token', { method: 'POST' })
+                    .then(res => res.json())
+                    .then(data => {
+                        document.cookie = `token=${data.token}; path=/`;
+                        setTimeout(() => {
+                            window.location.href = 'pro-valuation.html';
+                        }, 2000);
+                    });
             }
         });
     </script>
