@@ -78,7 +78,21 @@ export function initNavigation(validation, calculateValuation) {
         }
         if (validate()) {
           showStep(i + 1);
-          if (i === totalSteps - 1) calculateValuation();
+          if (i === totalSteps - 1) {
+            const loading = document.getElementById('loading-indicator');
+            const results = document.getElementById('results-section');
+            if (loading && results) {
+              loading.classList.remove('hidden');
+              results.classList.add('hidden');
+              setTimeout(async () => {
+                await calculateValuation();
+                loading.classList.add('hidden');
+                results.classList.remove('hidden');
+              }, 3000);
+            } else {
+              calculateValuation();
+            }
+          }
         }
       });
     }

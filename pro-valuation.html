@@ -319,8 +319,37 @@
               Choose up to 3 valuation methods for your SaaS business.
             </p>
             <details class="mt-4 rounded-lg bg-gray-50 p-4">
-              <summary class="cursor-pointer font-medium text-gray-800">Why these metrics matter</summary>
-              <p class="mt-3 text-gray-600 text-sm">Select methods matching your business model.</p>
+              <summary class="cursor-pointer font-medium text-gray-800">What do these methods mean?</summary>
+              <div class="explanation-section">
+                <div class="explanation-box">
+                  <h4>Revenue Multiplier</h4>
+                  <p><strong>What:</strong> Multiplies your annual revenue (ARR) by a factor (e.g., 5-8).</p>
+                  <p><strong>Why:</strong> Ideal for stable SaaS revenue, showing investor value.</p>
+                  <p><strong>Scenario:</strong> $1M ARR with a 6x multiplier = $6M valuation.</p>
+                  <p><strong>Source:</strong> ARR from Stripe; multipliers from industry reports.</p>
+                </div>
+                <div class="explanation-box">
+                  <h4>Income-Based</h4>
+                  <p><strong>What:</strong> Multiplies net profit by a factor (e.g., 4-7).</p>
+                  <p><strong>Why:</strong> Highlights profitability for cash-generating businesses.</p>
+                  <p><strong>Scenario:</strong> $200K profit with a 5x multiplier = $1M valuation.</p>
+                  <p><strong>Source:</strong> Net profit from QuickBooks; multipliers from advisors.</p>
+                </div>
+                <div class="explanation-box">
+                  <h4>Earnings-Based</h4>
+                  <p><strong>What:</strong> Combines ARR and profit, adjusted for growth.</p>
+                  <p><strong>Why:</strong> Balances revenue and profit for growing SaaS.</p>
+                  <p><strong>Scenario:</strong> $1M ARR, $200K profit = $1.5M valuation.</p>
+                  <p><strong>Source:</strong> ARR/profit from reports; retention from CRM.</p>
+                </div>
+                <div class="explanation-box">
+                  <h4>Discounted Cash Flow (DCF)</h4>
+                  <p><strong>What:</strong> Discounts future cash flows to present value.</p>
+                  <p><strong>Why:</strong> Best for long-term growth potential.</p>
+                  <p><strong>Scenario:</strong> $1M ARR, 20% growth = $3M valuation.</p>
+                  <p><strong>Source:</strong> Projections from LivePlan; discount rates from analysts.</p>
+                </div>
+              </div>
             </details>
             <div class="mb-4">
               <label for="company-name" class="block text-sm font-medium text-gray-700 mb-1">Company Name</label>
@@ -351,36 +380,6 @@
                 Please select 1 to 3 valuation methods.
               </p>
             </div>
-            <div class="explanation-section">
-              <div class="explanation-box">
-                <h4>Revenue Multiplier</h4>
-                <p><strong>What:</strong> Multiplies your annual revenue (ARR) by a factor (e.g., 5-8).</p>
-                <p><strong>Why:</strong> Ideal for stable SaaS revenue, showing investor value.</p>
-                <p><strong>Scenario:</strong> $1M ARR with a 6x multiplier = $6M valuation.</p>
-                <p><strong>Source:</strong> ARR from Stripe; multipliers from industry reports.</p>
-              </div>
-              <div class="explanation-box">
-                <h4>Income-Based</h4>
-                <p><strong>What:</strong> Multiplies net profit by a factor (e.g., 4-7).</p>
-                <p><strong>Why:</strong> Highlights profitability for cash-generating businesses.</p>
-                <p><strong>Scenario:</strong> $200K profit with a 5x multiplier = $1M valuation.</p>
-                <p><strong>Source:</strong> Net profit from QuickBooks; multipliers from advisors.</p>
-              </div>
-              <div class="explanation-box">
-                <h4>Earnings-Based</h4>
-                <p><strong>What:</strong> Combines ARR and profit, adjusted for growth.</p>
-                <p><strong>Why:</strong> Balances revenue and profit for growing SaaS.</p>
-                <p><strong>Scenario:</strong> $1M ARR, $200K profit = $1.5M valuation.</p>
-                <p><strong>Source:</strong> ARR/profit from reports; retention from CRM.</p>
-              </div>
-              <div class="explanation-box">
-                <h4>Discounted Cash Flow (DCF)</h4>
-                <p><strong>What:</strong> Discounts future cash flows to present value.</p>
-                <p><strong>Why:</strong> Best for long-term growth potential.</p>
-                <p><strong>Scenario:</strong> $1M ARR, 20% growth = $3M valuation.</p>
-                <p><strong>Source:</strong> Projections from LivePlan; discount rates from analysts.</p>
-              </div>
-            </div>
             <div class="mt-4 flex justify-end">
               <button id="next-btn-1" class="btn-primary" aria-label="Proceed to next step">Next</button>
             </div>
@@ -392,10 +391,68 @@
             <p class="text-gray-600 mb-4 text-sm">
               Enter key financial figures for your business.
             </p>
-            <details class="mt-4 rounded-lg bg-gray-50 p-4">
-              <summary class="cursor-pointer font-medium text-gray-800">Why these metrics matter</summary>
-              <p class="mt-3 text-gray-600 text-sm">Use latest financial statements.</p>
-            </details>
+              <details class="mt-4 rounded-lg bg-gray-50 p-4">
+                <summary class="cursor-pointer font-medium text-gray-800">Why these metrics matter</summary>
+                <p class="mt-3 text-gray-600 text-sm">Use latest financial statements.</p>
+                <div class="explanation-section">
+                  <div class="explanation-box">
+                    <h4>Annual Recurring Revenue (ARR)</h4>
+                    <p><strong>What:</strong> Yearly subscription revenue.</p>
+                    <p><strong>Why:</strong> Shows revenue stability, key for valuation.</p>
+                    <p><strong>Scenario:</strong> 1,000 customers at $100/month = $1.2M ARR.</p>
+                    <p><strong>Source:</strong> Billing systems (e.g., Stripe).</p>
+                  </div>
+                  <div class="explanation-box">
+                    <h4>Monthly Recurring Revenue (MRR)</h4>
+                    <p><strong>What:</strong> Monthly subscription revenue.</p>
+                    <p><strong>Why:</strong> Tracks short-term revenue trends.</p>
+                    <p><strong>Scenario:</strong> 500 customers at $200/month = $100K MRR.</p>
+                    <p><strong>Source:</strong> Payment processors (e.g., PayPal).</p>
+                  </div>
+                  <div class="explanation-box">
+                    <h4>Customer Lifetime Value (LTV)</h4>
+                    <p><strong>What:</strong> Total revenue per customer over time.</p>
+                    <p><strong>Why:</strong> High LTV boosts business value.</p>
+                    <p><strong>Scenario:</strong> $50/month for 4 years = $2,400 LTV.</p>
+                    <p><strong>Source:</strong> CRM (e.g., Salesforce).</p>
+                  </div>
+                  <div class="explanation-box">
+                    <h4>Customer Acquisition Cost (CAC)</h4>
+                    <p><strong>What:</strong> Cost to gain a new customer.</p>
+                    <p><strong>Why:</strong> Low CAC improves profitability.</p>
+                    <p><strong>Scenario:</strong> $10K ads for 20 customers = $500 CAC.</p>
+                    <p><strong>Source:</strong> Ad platforms (e.g., Google Ads).</p>
+                  </div>
+                  <div class="explanation-box">
+                    <h4>Gross Margin</h4>
+                    <p><strong>What:</strong> Revenue after direct costs (%).</p>
+                    <p><strong>Why:</strong> High margins show efficiency.</p>
+                    <p><strong>Scenario:</strong> $100K revenue, $25K costs = 75% margin.</p>
+                    <p><strong>Source:</strong> Income statement (e.g., QuickBooks).</p>
+                  </div>
+                  <div class="explanation-box">
+                    <h4>Net Profit / EBITDA</h4>
+                    <p><strong>What:</strong> Revenue after all expenses.</p>
+                    <p><strong>Why:</strong> High profit signals financial health.</p>
+                    <p><strong>Scenario:</strong> $1M revenue, $800K expenses = $200K profit.</p>
+                    <p><strong>Source:</strong> Profit/loss statement.</p>
+                  </div>
+                  <div class="explanation-box">
+                    <h4>Monthly Burn Rate</h4>
+                    <p><strong>What:</strong> Monthly cash loss.</p>
+                    <p><strong>Why:</strong> Low burn rate reassures investors.</p>
+                    <p><strong>Scenario:</strong> $50K spend, $25K revenue = $25K burn.</p>
+                    <p><strong>Source:</strong> Financial reports.</p>
+                  </div>
+                  <div class="explanation-box">
+                    <h4>Runway</h4>
+                    <p><strong>What:</strong> Months until cash runs out.</p>
+                    <p><strong>Why:</strong> Longer runway boosts sustainability.</p>
+                    <p><strong>Scenario:</strong> $300K cash, $25K burn = 12 months.</p>
+                    <p><strong>Source:</strong> Cash balance ÷ burn rate.</p>
+                  </div>
+                </div>
+              </details>
             <div class="space-y-3">
               <div>
                 <label for="arr" class="block font-medium text-gray-700 mb-1">Annual Recurring Revenue (ARR) ($)</label>
@@ -500,64 +557,6 @@
                 <button id="next-btn-2" class="btn-primary" aria-label="Proceed to next step">Next</button>
               </div>
             </div>
-            <div class="explanation-section">
-              <div class="explanation-box">
-                <h4>Annual Recurring Revenue (ARR)</h4>
-                <p><strong>What:</strong> Yearly subscription revenue.</p>
-                <p><strong>Why:</strong> Shows revenue stability, key for valuation.</p>
-                <p><strong>Scenario:</strong> 1,000 customers at $100/month = $1.2M ARR.</p>
-                <p><strong>Source:</strong> Billing systems (e.g., Stripe).</p>
-              </div>
-              <div class="explanation-box">
-                <h4>Monthly Recurring Revenue (MRR)</h4>
-                <p><strong>What:</strong> Monthly subscription revenue.</p>
-                <p><strong>Why:</strong> Tracks short-term revenue trends.</p>
-                <p><strong>Scenario:</strong> 500 customers at $200/month = $100K MRR.</p>
-                <p><strong>Source:</strong> Payment processors (e.g., PayPal).</p>
-              </div>
-              <div class="explanation-box">
-                <h4>Customer Lifetime Value (LTV)</h4>
-                <p><strong>What:</strong> Total revenue per customer over time.</p>
-                <p><strong>Why:</strong> High LTV boosts business value.</p>
-                <p><strong>Scenario:</strong> $50/month for 4 years = $2,400 LTV.</p>
-                <p><strong>Source:</strong> CRM (e.g., Salesforce).</p>
-              </div>
-              <div class="explanation-box">
-                <h4>Customer Acquisition Cost (CAC)</h4>
-                <p><strong>What:</strong> Cost to gain a new customer.</p>
-                <p><strong>Why:</strong> Low CAC improves profitability.</p>
-                <p><strong>Scenario:</strong> $10K ads for 20 customers = $500 CAC.</p>
-                <p><strong>Source:</strong> Ad platforms (e.g., Google Ads).</p>
-              </div>
-              <div class="explanation-box">
-                <h4>Gross Margin</h4>
-                <p><strong>What:</strong> Revenue after direct costs (%).</p>
-                <p><strong>Why:</strong> High margins show efficiency.</p>
-                <p><strong>Scenario:</strong> $100K revenue, $25K costs = 75% margin.</p>
-                <p><strong>Source:</strong> Income statement (e.g., QuickBooks).</p>
-              </div>
-              <div class="explanation-box">
-                <h4>Net Profit / EBITDA</h4>
-                <p><strong>What:</strong> Revenue after all expenses.</p>
-                <p><strong>Why:</strong> High profit signals financial health.</p>
-                <p><strong>Scenario:</strong> $1M revenue, $800K expenses = $200K profit.</p>
-                <p><strong>Source:</strong> Profit/loss statement.</p>
-              </div>
-              <div class="explanation-box">
-                <h4>Monthly Burn Rate</h4>
-                <p><strong>What:</strong> Monthly cash loss.</p>
-                <p><strong>Why:</strong> Low burn rate reassures investors.</p>
-                <p><strong>Scenario:</strong> $50K spend, $25K revenue = $25K burn.</p>
-                <p><strong>Source:</strong> Financial reports.</p>
-              </div>
-              <div class="explanation-box">
-                <h4>Runway</h4>
-                <p><strong>What:</strong> Months until cash runs out.</p>
-                <p><strong>Why:</strong> Longer runway boosts sustainability.</p>
-                <p><strong>Scenario:</strong> $300K cash, $25K burn = 12 months.</p>
-                <p><strong>Source:</strong> Cash balance ÷ burn rate.</p>
-              </div>
-            </div>
           </section>
 
           <!-- Step 3: Growth & Churn Rates -->
@@ -566,10 +565,40 @@
             <p class="text-gray-600 mb-4 text-sm">
               Enter revenue growth and churn metrics.
             </p>
-            <details class="mt-4 rounded-lg bg-gray-50 p-4">
-              <summary class="cursor-pointer font-medium text-gray-800">Why these metrics matter</summary>
-              <p class="mt-3 text-gray-600 text-sm">These impact valuation multipliers.</p>
-            </details>
+              <details class="mt-4 rounded-lg bg-gray-50 p-4">
+                <summary class="cursor-pointer font-medium text-gray-800">Why these metrics matter</summary>
+                <p class="mt-3 text-gray-600 text-sm">These impact valuation multipliers.</p>
+                <div class="explanation-section">
+                  <div class="explanation-box">
+                    <h4>Revenue Growth (YoY)</h4>
+                    <p><strong>What:</strong> Annual revenue growth percentage.</p>
+                    <p><strong>Why:</strong> High growth signals expansion potential.</p>
+                    <p><strong>Scenario:</strong> $1M to $1.2M revenue = 20% YoY growth.</p>
+                    <p><strong>Source:</strong> Financial reports (e.g., QuickBooks).</p>
+                  </div>
+                  <div class="explanation-box">
+                    <h4>Revenue Growth (MoM)</h4>
+                    <p><strong>What:</strong> Monthly revenue growth percentage.</p>
+                    <p><strong>Why:</strong> Shows short-term growth trends.</p>
+                    <p><strong>Scenario:</strong> $100K to $103K revenue = 3% MoM growth.</p>
+                    <p><strong>Source:</strong> Billing systems (e.g., Stripe).</p>
+                  </div>
+                  <div class="explanation-box">
+                    <h4>Customer Churn Rate</h4>
+                    <p><strong>What:</strong> Percentage of customers leaving monthly.</p>
+                    <p><strong>Why:</strong> Low churn boosts revenue stability.</p>
+                    <p><strong>Scenario:</strong> 50 of 1,000 customers leave = 5% churn.</p>
+                    <p><strong>Source:</strong> CRM (e.g., Salesforce).</p>
+                  </div>
+                  <div class="explanation-box">
+                    <h4>Revenue Churn Rate</h4>
+                    <p><strong>What:</strong> Percentage of revenue lost monthly.</p>
+                    <p><strong>Why:</strong> Low revenue churn supports valuation.</p>
+                    <p><strong>Scenario:</strong> $4K lost of $100K MRR = 4% churn.</p>
+                    <p><strong>Source:</strong> Billing tools (e.g., Chargebee).</p>
+                  </div>
+                </div>
+              </details>
             <div class="space-y-3">
               <div>
                 <label for="revenue-growth-yoy" class="block font-medium text-gray-700 mb-1">Revenue Growth (YoY %)</label>
@@ -597,36 +626,6 @@
                 <button id="next-btn-3" class="btn-primary" aria-label="Proceed to next step">Next</button>
               </div>
             </div>
-            <div class="explanation-section">
-              <div class="explanation-box">
-                <h4>Revenue Growth (YoY)</h4>
-                <p><strong>What:</strong> Annual revenue growth percentage.</p>
-                <p><strong>Why:</strong> High growth signals expansion potential.</p>
-                <p><strong>Scenario:</strong> $1M to $1.2M revenue = 20% YoY growth.</p>
-                <p><strong>Source:</strong> Financial reports (e.g., QuickBooks).</p>
-              </div>
-              <div class="explanation-box">
-                <h4>Revenue Growth (MoM)</h4>
-                <p><strong>What:</strong> Monthly revenue growth percentage.</p>
-                <p><strong>Why:</strong> Shows short-term growth trends.</p>
-                <p><strong>Scenario:</strong> $100K to $103K revenue = 3% MoM growth.</p>
-                <p><strong>Source:</strong> Billing systems (e.g., Stripe).</p>
-              </div>
-              <div class="explanation-box">
-                <h4>Customer Churn Rate</h4>
-                <p><strong>What:</strong> Percentage of customers leaving monthly.</p>
-                <p><strong>Why:</strong> Low churn boosts revenue stability.</p>
-                <p><strong>Scenario:</strong> 50 of 1,000 customers leave = 5% churn.</p>
-                <p><strong>Source:</strong> CRM (e.g., Salesforce).</p>
-              </div>
-              <div class="explanation-box">
-                <h4>Revenue Churn Rate</h4>
-                <p><strong>What:</strong> Percentage of revenue lost monthly.</p>
-                <p><strong>Why:</strong> Low revenue churn supports valuation.</p>
-                <p><strong>Scenario:</strong> $4K lost of $100K MRR = 4% churn.</p>
-                <p><strong>Source:</strong> Billing tools (e.g., Chargebee).</p>
-              </div>
-            </div>
           </section>
 <!-- PART 3: Steps 4–7 (~500 lines) -->
           <!-- Step 4: Customer & Market Metrics -->
@@ -638,6 +637,50 @@
             <details class="mt-4 rounded-lg bg-gray-50 p-4">
               <summary class="cursor-pointer font-medium text-gray-800">Why these metrics matter</summary>
               <p class="mt-3 text-gray-600 text-sm">These adjust valuation risk.</p>
+              <div class="explanation-section">
+                <div class="explanation-box">
+                  <h4>Active Customers</h4>
+                  <p><strong>What:</strong> Number of paying customers.</p>
+                  <p><strong>Why:</strong> More customers increase revenue.</p>
+                  <p><strong>Scenario:</strong> 1,500 customers = strong base.</p>
+                  <p><strong>Source:</strong> Subscription tools (e.g., Stripe).</p>
+                </div>
+                <div class="explanation-box">
+                  <h4>Monthly Active Users (MAU)</h4>
+                  <p><strong>What:</strong> Users engaging monthly.</p>
+                  <p><strong>Why:</strong> High MAU shows product popularity.</p>
+                  <p><strong>Scenario:</strong> 2,000 MAU = strong engagement.</p>
+                  <p><strong>Source:</strong> Analytics (e.g., Google Analytics).</p>
+                </div>
+                <div class="explanation-box">
+                  <h4>Retention Rate</h4>
+                  <p><strong>What:</strong> Percentage of customers staying.</p>
+                  <p><strong>Why:</strong> High retention boosts stability.</p>
+                  <p><strong>Scenario:</strong> 85% retention = loyal customers.</p>
+                  <p><strong>Source:</strong> CRM (e.g., HubSpot).</p>
+                </div>
+                <div class="explanation-box">
+                  <h4>Net Promoter Score (NPS)</h4>
+                  <p><strong>What:</strong> Likelihood of customer referrals (-100 to 100).</p>
+                  <p><strong>Why:</strong> High NPS indicates satisfaction.</p>
+                  <p><strong>Scenario:</strong> NPS 70 = happy customers.</p>
+                  <p><strong>Source:</strong> Surveys (e.g., SurveyMonkey).</p>
+                </div>
+                <div class="explanation-box">
+                  <h4>Customer Segment</h4>
+                  <p><strong>What:</strong> Main customer type (e.g., enterprise).</p>
+                  <p><strong>Why:</strong> Impacts growth and risk.</p>
+                  <p><strong>Scenario:</strong> Enterprise = high-value deals.</p>
+                  <p><strong>Source:</strong> CRM customer data.</p>
+                </div>
+                <div class="explanation-box">
+                  <h4>Buyer Type / Exit Potential</h4>
+                  <p><strong>What:</strong> Likely buyers (e.g., competitors).</p>
+                  <p><strong>Why:</strong> Influences valuation estimates.</p>
+                  <p><strong>Scenario:</strong> Competitors may pay premium.</p>
+                  <p><strong>Source:</strong> Industry research or advisors.</p>
+                </div>
+              </div>
             </details>
             <div class="space-y-3">
               <div>
@@ -688,50 +731,6 @@
                 <button id="next-btn-4" class="btn-primary" aria-label="Proceed to next step">Next</button>
               </div>
             </div>
-            <div class="explanation-section">
-              <div class="explanation-box">
-                <h4>Active Customers</h4>
-                <p><strong>What:</strong> Number of paying customers.</p>
-                <p><strong>Why:</strong> More customers increase revenue.</p>
-                <p><strong>Scenario:</strong> 1,500 customers = strong base.</p>
-                <p><strong>Source:</strong> Subscription tools (e.g., Stripe).</p>
-              </div>
-              <div class="explanation-box">
-                <h4>Monthly Active Users (MAU)</h4>
-                <p><strong>What:</strong> Users engaging monthly.</p>
-                <p><strong>Why:</strong> High MAU shows product popularity.</p>
-                <p><strong>Scenario:</strong> 2,000 MAU = strong engagement.</p>
-                <p><strong>Source:</strong> Analytics (e.g., Google Analytics).</p>
-              </div>
-              <div class="explanation-box">
-                <h4>Retention Rate</h4>
-                <p><strong>What:</strong> Percentage of customers staying.</p>
-                <p><strong>Why:</strong> High retention boosts stability.</p>
-                <p><strong>Scenario:</strong> 85% retention = loyal customers.</p>
-                <p><strong>Source:</strong> CRM (e.g., HubSpot).</p>
-              </div>
-              <div class="explanation-box">
-                <h4>Net Promoter Score (NPS)</h4>
-                <p><strong>What:</strong> Likelihood of customer referrals (-100 to 100).</p>
-                <p><strong>Why:</strong> High NPS indicates satisfaction.</p>
-                <p><strong>Scenario:</strong> NPS 70 = happy customers.</p>
-                <p><strong>Source:</strong> Surveys (e.g., SurveyMonkey).</p>
-              </div>
-              <div class="explanation-box">
-                <h4>Customer Segment</h4>
-                <p><strong>What:</strong> Main customer type (e.g., enterprise).</p>
-                <p><strong>Why:</strong> Impacts growth and risk.</p>
-                <p><strong>Scenario:</strong> Enterprise = high-value deals.</p>
-                <p><strong>Source:</strong> CRM customer data.</p>
-              </div>
-              <div class="explanation-box">
-                <h4>Buyer Type / Exit Potential</h4>
-                <p><strong>What:</strong> Likely buyers (e.g., competitors).</p>
-                <p><strong>Why:</strong> Influences valuation estimates.</p>
-                <p><strong>Scenario:</strong> Competitors may pay premium.</p>
-                <p><strong>Source:</strong> Industry research or advisors.</p>
-              </div>
-            </div>
           </section>
 
           <!-- Step 5: Product & Technology -->
@@ -743,6 +742,50 @@
             <details class="mt-4 rounded-lg bg-gray-50 p-4">
               <summary class="cursor-pointer font-medium text-gray-800">Why these metrics matter</summary>
               <p class="mt-3 text-gray-600 text-sm">Tech strength impacts valuation.</p>
+              <div class="explanation-section">
+                <div class="explanation-box">
+                  <h4>Product-Market Fit</h4>
+                  <p><strong>What:</strong> How well product meets customer needs.</p>
+                  <p><strong>Why:</strong> Strong fit drives growth.</p>
+                  <p><strong>Scenario:</strong> High usage = strong fit.</p>
+                  <p><strong>Source:</strong> Feedback (e.g., Mixpanel).</p>
+                </div>
+                <div class="explanation-box">
+                  <h4>Proprietary Technology / IP</h4>
+                  <p><strong>What:</strong> Unique, protected technology.</p>
+                  <p><strong>Why:</strong> Hard-to-copy tech boosts value.</p>
+                  <p><strong>Scenario:</strong> Patented algorithm = higher valuation.</p>
+                  <p><strong>Source:</strong> Legal team or patent records.</p>
+                </div>
+                <div class="explanation-box">
+                  <h4>Code Quality Reviewed</h4>
+                  <p><strong>What:</strong> Clean, reliable code.</p>
+                  <p><strong>Why:</strong> Reduces maintenance risks.</p>
+                  <p><strong>Scenario:</strong> External audit = buyer confidence.</p>
+                  <p><strong>Source:</strong> Tech team or auditors.</p>
+                </div>
+                <div class="explanation-box">
+                  <h4>Scalable Infrastructure</h4>
+                  <p><strong>What:</strong> Tech that handles growth.</p>
+                  <p><strong>Why:</strong> Supports expansion without issues.</p>
+                  <p><strong>Scenario:</strong> 10x user capacity = scalable.</p>
+                  <p><strong>Source:</strong> Cloud provider (e.g., AWS).</p>
+                </div>
+                <div class="explanation-box">
+                  <h4>Feature Release Frequency</h4>
+                  <p><strong>What:</strong> How often new features launch.</p>
+                  <p><strong>Why:</strong> Shows innovation pace.</p>
+                  <p><strong>Scenario:</strong> Weekly releases = active dev.</p>
+                  <p><strong>Source:</strong> Dev logs (e.g., Jira).</p>
+                </div>
+                <div class="explanation-box">
+                  <h4>Security Compliance</h4>
+                  <p><strong>What:</strong> Adherence to data security laws.</p>
+                  <p><strong>Why:</strong> Reduces legal risks.</p>
+                  <p><strong>Scenario:</strong> GDPR compliance = trust.</p>
+                  <p><strong>Source:</strong> Legal team or audits.</p>
+                </div>
+              </div>
             </details>
             <div class="space-y-3">
               <div>
@@ -815,50 +858,6 @@
                 <button id="next-btn-5" class="btn-primary" aria-label="Proceed to next step">Next</button>
               </div>
             </div>
-            <div class="explanation-section">
-              <div class="explanation-box">
-                <h4>Product-Market Fit</h4>
-                <p><strong>What:</strong> How well product meets customer needs.</p>
-                <p><strong>Why:</strong> Strong fit drives growth.</p>
-                <p><strong>Scenario:</strong> High usage = strong fit.</p>
-                <p><strong>Source:</strong> Feedback (e.g., Mixpanel).</p>
-              </div>
-              <div class="explanation-box">
-                <h4>Proprietary Technology / IP</h4>
-                <p><strong>What:</strong> Unique, protected technology.</p>
-                <p><strong>Why:</strong> Hard-to-copy tech boosts value.</p>
-                <p><strong>Scenario:</strong> Patented algorithm = higher valuation.</p>
-                <p><strong>Source:</strong> Legal team or patent records.</p>
-              </div>
-              <div class="explanation-box">
-                <h4>Code Quality Reviewed</h4>
-                <p><strong>What:</strong> Clean, reliable code.</p>
-                <p><strong>Why:</strong> Reduces maintenance risks.</p>
-                <p><strong>Scenario:</strong> External audit = buyer confidence.</p>
-                <p><strong>Source:</strong> Tech team or auditors.</p>
-              </div>
-              <div class="explanation-box">
-                <h4>Scalable Infrastructure</h4>
-                <p><strong>What:</strong> Tech that handles growth.</p>
-                <p><strong>Why:</strong> Supports expansion without issues.</p>
-                <p><strong>Scenario:</strong> 10x user capacity = scalable.</p>
-                <p><strong>Source:</strong> Cloud provider (e.g., AWS).</p>
-              </div>
-              <div class="explanation-box">
-                <h4>Feature Release Frequency</h4>
-                <p><strong>What:</strong> How often new features launch.</p>
-                <p><strong>Why:</strong> Shows innovation pace.</p>
-                <p><strong>Scenario:</strong> Weekly releases = active dev.</p>
-                <p><strong>Source:</strong> Dev logs (e.g., Jira).</p>
-              </div>
-              <div class="explanation-box">
-                <h4>Security Compliance</h4>
-                <p><strong>What:</strong> Adherence to data security laws.</p>
-                <p><strong>Why:</strong> Reduces legal risks.</p>
-                <p><strong>Scenario:</strong> GDPR compliance = trust.</p>
-                <p><strong>Source:</strong> Legal team or audits.</p>
-              </div>
-            </div>
           </section>
 
           <!-- Step 6: Team & Operations -->
@@ -867,10 +866,61 @@
             <p class="text-gray-600 mb-4 text-sm">
               Share team and operational details.
             </p>
-            <details class="mt-4 rounded-lg bg-gray-50 p-4">
-              <summary class="cursor-pointer font-medium text-gray-800">Why these metrics matter</summary>
-              <p class="mt-3 text-gray-600 text-sm">Strong teams boost valuation.</p>
-            </details>
+              <details class="mt-4 rounded-lg bg-gray-50 p-4">
+                <summary class="cursor-pointer font-medium text-gray-800">Why these metrics matter</summary>
+                <p class="mt-3 text-gray-600 text-sm">Strong teams boost valuation.</p>
+                <div class="explanation-section">
+                  <div class="explanation-box">
+                    <h4>Full-Time Employees</h4>
+                    <p><strong>What:</strong> Number of full-time staff.</p>
+                    <p><strong>Why:</strong> Shows operational capacity.</p>
+                    <p><strong>Scenario:</strong> 25 employees = robust team.</p>
+                    <p><strong>Source:</strong> HR records (e.g., Gusto).</p>
+                  </div>
+                  <div class="explanation-box">
+                    <h4>Founders / Key Staff</h4>
+                    <p><strong>What:</strong> Critical leadership count.</p>
+                    <p><strong>Why:</strong> Strong leaders boost confidence.</p>
+                    <p><strong>Scenario:</strong> 3 founders = committed team.</p>
+                    <p><strong>Source:</strong> Org chart or records.</p>
+                  </div>
+                  <div class="explanation-box">
+                    <h4>Staff Turnover Rate</h4>
+                    <p><strong>What:</strong> Annual employee departure (%).</p>
+                    <p><strong>Why:</strong> Low turnover signals stability.</p>
+                    <p><strong>Scenario:</strong> 5% turnover = stable team.</p>
+                    <p><strong>Source:</strong> HR or payroll data.</p>
+                  </div>
+                  <div class="explanation-box">
+                    <h4>Engineering to Sales Ratio</h4>
+                    <p><strong>What:</strong> Engineers vs. salespeople ratio.</p>
+                    <p><strong>Why:</strong> Balances dev and sales efficiency.</p>
+                    <p><strong>Scenario:</strong> 2.5:1 = tech-focused.</p>
+                    <p><strong>Source:</strong> HR team records.</p>
+                  </div>
+                  <div class="explanation-box">
+                    <h4>Support Tickets per Month</h4>
+                    <p><strong>What:</strong> Monthly customer support requests.</p>
+                    <p><strong>Why:</strong> Fewer tickets = reliable product.</p>
+                    <p><strong>Scenario:</strong> 100 tickets = moderate load.</p>
+                    <p><strong>Source:</strong> Support tools (e.g., Zendesk).</p>
+                  </div>
+                  <div class="explanation-box">
+                    <h4>Customer Support Rating</h4>
+                    <p><strong>What:</strong> Customer rating of support (1-10).</p>
+                    <p><strong>Why:</strong> High ratings show satisfaction.</p>
+                    <p><strong>Scenario:</strong> 8/10 = strong support.</p>
+                    <p><strong>Source:</strong> Support surveys.</p>
+                  </div>
+                  <div class="explanation-box">
+                    <h4>Headcount Growth Rate</h4>
+                    <p><strong>What:</strong> Annual staff growth (%).</p>
+                    <p><strong>Why:</strong> Moderate growth shows ambition.</p>
+                    <p><strong>Scenario:</strong> 20% growth = expanding team.</p>
+                    <p><strong>Source:</strong> HR records comparison.</p>
+                  </div>
+                </div>
+              </details>
             <div class="space-y-3">
               <div>
                 <label for="fte" class="block font-medium text-gray-700 mb-1">Full-Time Employees</label>
@@ -913,57 +963,6 @@
                 <button id="next-btn-6" class="btn-primary" aria-label="Proceed to next step">Next</button>
               </div>
             </div>
-            <div class="explanation-section">
-              <div class="explanation-box">
-                <h4>Full-Time Employees</h4>
-                <p><strong>What:</strong> Number of full-time staff.</p>
-                <p><strong>Why:</strong> Shows operational capacity.</p>
-                <p><strong>Scenario:</strong> 25 employees = robust team.</p>
-                <p><strong>Source:</strong> HR records (e.g., Gusto).</p>
-              </div>
-              <div class="explanation-box">
-                <h4>Founders / Key Staff</h4>
-                <p><strong>What:</strong> Critical leadership count.</p>
-                <p><strong>Why:</strong> Strong leaders boost confidence.</p>
-                <p><strong>Scenario:</strong> 3 founders = committed team.</p>
-                <p><strong>Source:</strong> Org chart or records.</p>
-              </div>
-              <div class="explanation-box">
-                <h4>Staff Turnover Rate</h4>
-                <p><strong>What:</strong> Annual employee departure (%).</p>
-                <p><strong>Why:</strong> Low turnover signals stability.</p>
-                <p><strong>Scenario:</strong> 5% turnover = stable team.</p>
-                <p><strong>Source:</strong> HR or payroll data.</p>
-              </div>
-              <div class="explanation-box">
-                <h4>Engineering to Sales Ratio</h4>
-                <p><strong>What:</strong> Engineers vs. salespeople ratio.</p>
-                <p><strong>Why:</strong> Balances dev and sales efficiency.</p>
-                <p><strong>Scenario:</strong> 2.5:1 = tech-focused.</p>
-                <p><strong>Source:</strong> HR team records.</p>
-              </div>
-              <div class="explanation-box">
-                <h4>Support Tickets per Month</h4>
-                <p><strong>What:</strong> Monthly customer support requests.</p>
-                <p><strong>Why:</strong> Fewer tickets = reliable product.</p>
-                <p><strong>Scenario:</strong> 100 tickets = moderate load.</p>
-                <p><strong>Source:</strong> Support tools (e.g., Zendesk).</p>
-              </div>
-              <div class="explanation-box">
-                <h4>Customer Support Rating</h4>
-                <p><strong>What:</strong> Customer rating of support (1-10).</p>
-                <p><strong>Why:</strong> High ratings show satisfaction.</p>
-                <p><strong>Scenario:</strong> 8/10 = strong support.</p>
-                <p><strong>Source:</strong> Support surveys.</p>
-              </div>
-              <div class="explanation-box">
-                <h4>Headcount Growth Rate</h4>
-                <p><strong>What:</strong> Annual staff growth (%).</p>
-                <p><strong>Why:</strong> Moderate growth shows ambition.</p>
-                <p><strong>Scenario:</strong> 20% growth = expanding team.</p>
-                <p><strong>Source:</strong> HR records comparison.</p>
-              </div>
-            </div>
           </section>
 
           <!-- Step 7: Legal, Contracts & Risk -->
@@ -972,10 +971,75 @@
             <p class="text-gray-600 mb-4 text-sm">
               Provide legal and risk details.
             </p>
-            <details class="mt-4 rounded-lg bg-gray-50 p-4">
-              <summary class="cursor-pointer font-medium text-gray-800">Why these metrics matter</summary>
-              <p class="mt-3 text-gray-600 text-sm">Legal issues can lower valuation.</p>
-            </details>
+              <details class="mt-4 rounded-lg bg-gray-50 p-4">
+                <summary class="cursor-pointer font-medium text-gray-800">Why these metrics matter</summary>
+                <p class="mt-3 text-gray-600 text-sm">Legal issues can lower valuation.</p>
+                <div class="explanation-section">
+                  <div class="explanation-box">
+                    <h4>Legal Entity Type</h4>
+                    <p><strong>What:</strong> Business structure (e.g., LLC).</p>
+                    <p><strong>Why:</strong> Impacts tax and liability.</p>
+                    <p><strong>Scenario:</strong> C-Corp = investor-friendly.</p>
+                    <p><strong>Source:</strong> Incorporation documents.</p>
+                  </div>
+                  <div class="explanation-box">
+                    <h4>IP Ownership Status</h4>
+                    <p><strong>What:</strong> Who owns intellectual property.</p>
+                    <p><strong>Why:</strong> Full ownership boosts value.</p>
+                    <p><strong>Scenario:</strong> Fully owned = no disputes.</p>
+                    <p><strong>Source:</strong> Legal agreements.</p>
+                  </div>
+                  <div class="explanation-box">
+                    <h4>Average Customer Contract Length</h4>
+                    <p><strong>What:</strong> Typical contract duration.</p>
+                    <p><strong>Why:</strong> Longer contracts = stable revenue.</p>
+                    <p><strong>Scenario:</strong> 12 months = predictable cash flow.</p>
+                    <p><strong>Source:</strong> CRM or contracts.</p>
+                  </div>
+                  <div class="explanation-box">
+                    <h4>Average Contract Value (ACV)</h4>
+                    <p><strong>What:</strong> Yearly contract revenue.</p>
+                    <p><strong>Why:</strong> Higher ACV = more value.</p>
+                    <p><strong>Scenario:</strong> $12K ACV = strong deals.</p>
+                    <p><strong>Source:</strong> Billing systems.</p>
+                  </div>
+                  <div class="explanation-box">
+                    <h4>Vendor Lock-In</h4>
+                    <p><strong>What:</strong> Customer reliance on your product.</p>
+                    <p><strong>Why:</strong> High lock-in reduces churn.</p>
+                    <p><strong>Scenario:</strong> High = sticky product.</p>
+                    <p><strong>Source:</strong> Customer feedback or CRM.</p>
+                  </div>
+                  <div class="explanation-box">
+                    <h4>Pending Legal Issues</h4>
+                    <p><strong>What:</strong> Ongoing lawsuits or disputes.</p>
+                    <p><strong>Why:</strong> Issues lower valuation.</p>
+                    <p><strong>Scenario:</strong> None = clean record.</p>
+                    <p><strong>Source:</strong> Legal team.</p>
+                  </div>
+                  <div class="explanation-box">
+                    <h4>Data Privacy Compliance</h4>
+                    <p><strong>What:</strong> Adherence to privacy laws.</p>
+                    <p><strong>Why:</strong> Compliance reduces risks.</p>
+                    <p><strong>Scenario:</strong> GDPR-compliant = safe.</p>
+                    <p><strong>Source:</strong> Legal audits.</p>
+                  </div>
+                  <div class="explanation-box">
+                    <h4>Cybersecurity Insurance</h4>
+                    <p><strong>What:</strong> Insurance for cyber risks.</p>
+                    <p><strong>Why:</strong> Mitigates data breach costs.</p>
+                    <p><strong>Scenario:</strong> Yes = risk-prepared.</p>
+                    <p><strong>Source:</strong> Insurance policy.</p>
+                  </div>
+                  <div class="explanation-box">
+                    <h4>Debt Level</h4>
+                    <p><strong>What:</strong> Outstanding business debt.</p>
+                    <p><strong>Why:</strong> High debt lowers valuation.</p>
+                    <p><strong>Scenario:</strong> $50K debt = manageable.</p>
+                    <p><strong>Source:</strong> Financial statements.</p>
+                  </div>
+                </div>
+              </details>
             <div class="space-y-3">
               <div>
                 <label for="legal-entity" class="block font-medium text-gray-700 mb-1">Legal Entity Type</label>
@@ -1058,71 +1122,6 @@
                 <button id="next-btn-7" class="btn-primary" aria-label="View Results">View Results</button>
               </div>
             </div>
-            <div class="explanation-section">
-              <div class="explanation-box">
-                <h4>Legal Entity Type</h4>
-                <p><strong>What:</strong> Business structure (e.g., LLC).</p>
-                <p><strong>Why:</strong> Impacts tax and liability.</p>
-                <p><strong>Scenario:</strong> C-Corp = investor-friendly.</p>
-                <p><strong>Source:</strong> Incorporation documents.</p>
-              </div>
-              <div class="explanation-box">
-                <h4>IP Ownership Status</h4>
-                <p><strong>What:</strong> Who owns intellectual property.</p>
-                <p><strong>Why:</strong> Full ownership boosts value.</p>
-                <p><strong>Scenario:</strong> Fully owned = no disputes.</p>
-                <p><strong>Source:</strong> Legal agreements.</p>
-              </div>
-              <div class="explanation-box">
-                <h4>Average Customer Contract Length</h4>
-                <p><strong>What:</strong> Typical contract duration.</p>
-                <p><strong>Why:</strong> Longer contracts = stable revenue.</p>
-                <p><strong>Scenario:</strong> 12 months = predictable cash flow.</p>
-                <p><strong>Source:</strong> CRM or contracts.</p>
-              </div>
-              <div class="explanation-box">
-                <h4>Average Contract Value (ACV)</h4>
-                <p><strong>What:</strong> Yearly contract revenue.</p>
-                <p><strong>Why:</strong> Higher ACV = more value.</p>
-                <p><strong>Scenario:</strong> $12K ACV = strong deals.</p>
-                <p><strong>Source:</strong> Billing systems.</p>
-              </div>
-              <div class="explanation-box">
-                <h4>Vendor Lock-In</h4>
-                <p><strong>What:</strong> Customer reliance on your product.</p>
-                <p><strong>Why:</strong> High lock-in reduces churn.</p>
-                <p><strong>Scenario:</strong> High = sticky product.</p>
-                <p><strong>Source:</strong> Customer feedback or CRM.</p>
-              </div>
-              <div class="explanation-box">
-                <h4>Pending Legal Issues</h4>
-                <p><strong>What:</strong> Ongoing lawsuits or disputes.</p>
-                <p><strong>Why:</strong> Issues lower valuation.</p>
-                <p><strong>Scenario:</strong> None = clean record.</p>
-                <p><strong>Source:</strong> Legal team.</p>
-              </div>
-              <div class="explanation-box">
-                <h4>Data Privacy Compliance</h4>
-                <p><strong>What:</strong> Adherence to privacy laws.</p>
-                <p><strong>Why:</strong> Compliance reduces risks.</p>
-                <p><strong>Scenario:</strong> GDPR-compliant = safe.</p>
-                <p><strong>Source:</strong> Legal audits.</p>
-              </div>
-              <div class="explanation-box">
-                <h4>Cybersecurity Insurance</h4>
-                <p><strong>What:</strong> Insurance for cyber risks.</p>
-                <p><strong>Why:</strong> Mitigates data breach costs.</p>
-                <p><strong>Scenario:</strong> Yes = risk-prepared.</p>
-                <p><strong>Source:</strong> Insurance policy.</p>
-              </div>
-              <div class="explanation-box">
-                <h4>Debt Level</h4>
-                <p><strong>What:</strong> Outstanding business debt.</p>
-                <p><strong>Why:</strong> High debt lowers valuation.</p>
-                <p><strong>Scenario:</strong> $50K debt = manageable.</p>
-                <p><strong>Source:</strong> Financial statements.</p>
-              </div>
-            </div>
           </section>
 <!-- PART 4: Results, Footer, JavaScript with Enhanced PDF (~500 lines) -->
           <!-- Results Section -->
@@ -1131,59 +1130,68 @@
             <p class="text-gray-600 mb-4 text-sm">
               Your SaaS business valuation based on provided data.
             </p>
-            <details class="mt-4 rounded-lg bg-gray-50 p-4">
-              <summary class="cursor-pointer font-medium text-gray-800">Why these metrics matter</summary>
-              <p class="mt-3 text-gray-600 text-sm">Download as PDF for sharing.</p>
-            </details>
+              <details class="mt-4 rounded-lg bg-gray-50 p-4">
+                <summary class="cursor-pointer font-medium text-gray-800">Why these metrics matter</summary>
+                <p class="mt-3 text-gray-600 text-sm">Download as PDF for sharing.</p>
+              </details>
 
-            <!-- Valuation Methodology Explanation -->
-            <div class="mb-6 p-4 bg-gray-100 rounded-lg">
-              <h4 class="text-md font-semibold text-gray-800 mb-2">Valuation Methodology</h4>
-              <p class="text-gray-600 text-sm">
-                Your valuation is calculated using the selected methods:
-                <ul class="list-disc pl-5">
-                  <li><strong>Revenue Multiplier</strong>: Multiplies ARR by 5–8x, adjusted for growth rates and churn.</li>
-                  <li><strong>Income-Based</strong>: Multiplies net profit by 4–7x, factoring in gross margins and runway.</li>
-                  <li><strong>Earnings-Based</strong>: Combines ARR and profit, weighted by customer retention and NPS.</li>
-                  <li><strong>DCF</strong>: Discounts future cash flows, adjusted for risk factors like legal issues or IP ownership.</li>
-                </ul>
-                Inputs like revenue growth, customer metrics, and risk factors (e.g., debt, compliance) fine-tune multipliers and risk adjustments to ensure a balanced estimate.
-              </p>
-            </div>
+              <div id="loading-indicator" class="hidden text-center mb-6">
+                <div class="w-full bg-gray-200 rounded-full h-4">
+                  <div class="bg-teal-500 h-4 progress-bar"></div>
+                </div>
+                <p class="text-gray-600 text-sm mt-2">Analyzing data...</p>
+              </div>
 
-            <!-- Valuation Display -->
-            <div id="valuation-results" class="text-center mb-6">
-              <div id="valuation-warnings" class="text-red-500 text-sm hidden mb-2"></div>
-              <p class="text-2xl font-bold text-teal-600" id="valuation-amount">$0</p>
-              <p class="text-gray-600 text-sm mt-2">Estimated Valuation Range: <span id="valuation-range">$0 - $0</span></p>
-              <p class="text-gray-600 text-sm">Confidence Score: <span id="confidence-score">0%</span></p>
-            </div>
+              <div id="results-section" class="hidden">
+                <!-- Valuation Methodology Explanation -->
+                <div class="mb-6 p-4 bg-gray-100 rounded-lg">
+                  <h4 class="text-md font-semibold text-gray-800 mb-2">Valuation Methodology</h4>
+                  <p class="text-gray-600 text-sm">
+                    Your valuation is calculated using the selected methods:
+                    <ul class="list-disc pl-5">
+                      <li><strong>Revenue Multiplier</strong>: Multiplies ARR by 5–8x, adjusted for growth rates and churn.</li>
+                      <li><strong>Income-Based</strong>: Multiplies net profit by 4–7x, factoring in gross margins and runway.</li>
+                      <li><strong>Earnings-Based</strong>: Combines ARR and profit, weighted by customer retention and NPS.</li>
+                      <li><strong>DCF</strong>: Discounts future cash flows, adjusted for risk factors like legal issues or IP ownership.</li>
+                    </ul>
+                    Inputs like revenue growth, customer metrics, and risk factors (e.g., debt, compliance) fine-tune multipliers and risk adjustments to ensure a balanced estimate.
+                  </p>
+                </div>
 
-            <!-- Graphs -->
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-              <div class="bg-white p-4 rounded-lg shadow">
-                <h4 class="text-md font-semibold text-gray-800 mb-2">Valuation by Method</h4>
-                <canvas id="valuation-chart" aria-label="Valuation by method chart"></canvas>
-              </div>
-              <div class="bg-white p-4 rounded-lg shadow">
-                <h4 class="text-md font-semibold text-gray-800 mb-2">Financial Metrics Impact</h4>
-                <canvas id="financial-chart" aria-label="Financial metrics impact chart"></canvas>
-              </div>
-              <div class="bg-white p-4 rounded-lg shadow">
-                <h4 class="text-md font-semibold text-gray-800 mb-2">Growth vs. Churn</h4>
-                <canvas id="growth-churn-chart" aria-label="Growth versus churn chart"></canvas>
-              </div>
-              <div class="bg-white p-4 rounded-lg shadow">
-                <h4 class="text-md font-semibold text-gray-800 mb-2">Risk Factors</h4>
-                <canvas id="risk-chart" aria-label="Risk factors chart"></canvas>
-              </div>
-            </div>
+                <!-- Valuation Display -->
+                <div id="valuation-results" class="text-center mb-6">
+                  <div id="valuation-warnings" class="text-red-500 text-sm hidden mb-2"></div>
+                  <p class="text-2xl font-bold text-teal-600" id="valuation-amount">$0</p>
+                  <p class="text-gray-600 text-sm mt-2">Estimated Valuation Range: <span id="valuation-range">$0 - $0</span></p>
+                  <p class="text-gray-600 text-sm">Confidence Score: <span id="confidence-score">0%</span></p>
+                </div>
 
-            <!-- Download Report -->
-            <div class="text-center">
-              <button id="download-report" class="btn-primary" aria-label="Download valuation report as PDF">Download Report</button>
-            </div>
-          </section>
+                <!-- Graphs -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                  <div class="bg-white p-4 rounded-lg shadow">
+                    <h4 class="text-md font-semibold text-gray-800 mb-2">Valuation by Method</h4>
+                    <canvas id="valuation-chart" aria-label="Valuation by method chart"></canvas>
+                  </div>
+                  <div class="bg-white p-4 rounded-lg shadow">
+                    <h4 class="text-md font-semibold text-gray-800 mb-2">Financial Metrics Impact</h4>
+                    <canvas id="financial-chart" aria-label="Financial metrics impact chart"></canvas>
+                  </div>
+                  <div class="bg-white p-4 rounded-lg shadow">
+                    <h4 class="text-md font-semibold text-gray-800 mb-2">Growth vs. Churn</h4>
+                    <canvas id="growth-churn-chart" aria-label="Growth versus churn chart"></canvas>
+                  </div>
+                  <div class="bg-white p-4 rounded-lg shadow">
+                    <h4 class="text-md font-semibold text-gray-800 mb-2">Risk Factors</h4>
+                    <canvas id="risk-chart" aria-label="Risk factors chart"></canvas>
+                  </div>
+                </div>
+
+                <!-- Download Report -->
+                <div class="text-center">
+                  <button id="download-report" class="btn-primary" aria-label="Download valuation report as PDF">Download Report</button>
+                </div>
+              </div>
+            </section>
         </div>
       </div>
     </section>
