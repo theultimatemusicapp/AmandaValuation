@@ -355,23 +355,33 @@
         });
 
         // Coupon code validation
-        document.getElementById('apply-coupon').addEventListener('click', () => {
+        document.getElementById('apply-coupon').addEventListener('click', async () => {
             const couponInput = document.getElementById('coupon-code').value.trim();
             const couponError = document.getElementById('coupon-error');
             const couponSuccess = document.getElementById('coupon-success');
             const paymentContainer = document.getElementById('payment-container');
             const paymentStatus = document.getElementById('payment-status');
 
-            if (couponInput === 'freeval05') {
+            try {
+                const response = await fetch('/api/validate-coupon', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ coupon: couponInput })
+                });
+
+                if (!response.ok) throw new Error('Invalid coupon');
+                const data = await response.json();
+
                 couponError.classList.add('hidden');
                 couponSuccess.classList.remove('hidden');
                 paymentContainer.classList.add('hidden');
                 paymentStatus.classList.add('hidden');
                 localStorage.setItem('paymentConfirmed', 'true');
+                localStorage.setItem('couponToken', data.token);
                 setTimeout(() => {
                     window.location.href = 'pro-valuation.html';
                 }, 2000);
-            } else {
+            } catch (err) {
                 couponError.classList.remove('hidden');
                 couponSuccess.classList.add('hidden');
             }
