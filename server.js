@@ -8,7 +8,7 @@ const __dirname = path.dirname(__filename);
 
 const app = express();
 const PORT = process.env.PORT || 3000;
-const COUPON_CODE = process.env.COUPON_CODE || '';
+const COUPON_CODE = process.env.COUPON_CODE || 'freeval05';
 const JWT_SECRET = process.env.JWT_SECRET || 'secret';
 
 app.use(express.json());
