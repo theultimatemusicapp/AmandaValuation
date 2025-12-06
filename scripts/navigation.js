@@ -7,6 +7,9 @@ export function initNavigation(validation, calculateValuation) {
   const stepDots = document.querySelectorAll('#stepper .step-dot');
   const menuToggle = document.getElementById('menu-toggle');
   const mobileMenu = document.getElementById('mobile-menu');
+  const navLinks = document.querySelectorAll('.nav-link[data-section]');
+  const stickyCta = document.getElementById('sticky-cta');
+  const heroSection = document.getElementById('hero');
   const totalSteps = steps.length;
   if (totalStepsDisplay) totalStepsDisplay.textContent = totalSteps;
   let currentStep = 1;
@@ -65,6 +68,41 @@ export function initNavigation(validation, calculateValuation) {
       }
     });
   });
+
+  if (navLinks.length) {
+    const sectionObserver = new IntersectionObserver(
+      entries => {
+        entries.forEach(entry => {
+          const id = `#${entry.target.id}`;
+          navLinks.forEach(link => {
+            if (link.dataset.section === id && entry.isIntersecting) {
+              link.classList.add('nav-link-active');
+            } else if (link.dataset.section === id) {
+              link.classList.remove('nav-link-active');
+            }
+          });
+        });
+      },
+      { threshold: 0.4 }
+    );
+
+    navLinks.forEach(link => {
+      const section = document.querySelector(link.dataset.section);
+      if (section) sectionObserver.observe(section);
+    });
+  }
+
+  if (stickyCta && heroSection) {
+    const ctaObserver = new IntersectionObserver(
+      entries => {
+        entries.forEach(entry => {
+          stickyCta.classList.toggle('is-visible', !entry.isIntersecting);
+        });
+      },
+      { threshold: 0.2 }
+    );
+    ctaObserver.observe(heroSection);
+  }
 
   for (let i = 1; i < totalSteps; i++) {
     const nextBtn = document.getElementById(`next-btn-${i}`);
