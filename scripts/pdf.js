@@ -88,7 +88,12 @@ export function setupPDF(data) {
         ruleOf40: sanitizeNumber(data.ruleOf40)
       };
 
-      const doc = new jsPDF();
+      const doc = new jsPDF({ compress: true });
+      doc.setProperties({
+        title: 'SaaS Valuation Report',
+        subject: 'Investor-ready valuation summary',
+        creator: 'The SaaS Valuation App™'
+      });
       if (typeof doc.autoTable !== 'function') {
         console.error('jsPDF autoTable plugin failed to initialize');
         alert('Failed to initialize table plugin. Please refresh and try again.');
@@ -96,109 +101,124 @@ export function setupPDF(data) {
       }
       doc.setFont('helvetica');
       const pageWidth = doc.internal.pageSize.getWidth();
+      const pageHeight = doc.internal.pageSize.getHeight();
       const margin = 15;
-      let yPos = margin;
+      const palette = {
+        brand: [56, 178, 172],
+        ink: [35, 48, 65],
+        slate: [100, 116, 139],
+        amber: [251, 191, 36],
+        soft: [246, 247, 249]
+      };
 
-      const addHeader = () => {
-        doc.setFillColor(56, 178, 172);
-        doc.rect(0, 0, pageWidth, 15, 'F');
+      const drawHeader = (title) => {
+        doc.setFillColor(...palette.brand);
+        doc.rect(0, 0, pageWidth, 18, 'F');
         doc.setFontSize(12);
         doc.setTextColor(255, 255, 255);
-        doc.text('The SaaS Valuation App™', margin, 10);
-        doc.setTextColor(0, 0, 0);
+        doc.text('The SaaS Valuation App™', margin, 11);
+        if (title) {
+          doc.setFontSize(10);
+          doc.text(title, pageWidth - margin, 11, { align: 'right' });
+        }
+        doc.setTextColor(...palette.ink);
+      };
+
+      const addPage = (title) => {
+        if (doc.getNumberOfPages() > 0) doc.addPage();
+        drawHeader(title);
+        return 28;
+      };
+
+      const sectionTitle = (text, y) => {
+        doc.setFontSize(16);
+        doc.setTextColor(...palette.ink);
+        doc.text(text, margin, y);
+        return y + 8;
+      };
+
+      const sectionSubtitle = (text, y) => {
+        doc.setFontSize(10);
+        doc.setTextColor(...palette.slate);
+        doc.text(text, margin, y);
+        doc.setTextColor(...palette.ink);
+        return y + 6;
+      };
+
+      const statBand = (label, value, x, y, width, color = palette.brand) => {
+        const height = 20;
+        doc.setFillColor(...color);
+        doc.roundedRect(x, y, width, height, 3, 3, 'F');
+        doc.setTextColor(255, 255, 255);
+        doc.setFontSize(9);
+        doc.text(label.toUpperCase(), x + 4, y + 8);
+        doc.setFontSize(12);
+        doc.text(value, x + 4, y + 16);
+        doc.setTextColor(...palette.ink);
+        return y + height + 4;
       };
 
       // Cover Page
-      addHeader();
-      yPos = 25;
+      drawHeader('Valuation Summary');
+      let yPos = 32;
       doc.setFontSize(20);
-      doc.setTextColor(0, 0, 0);
-      doc.text('The SaaS Valuation App™', margin, yPos);
+      doc.text('SaaS Valuation Report', margin, yPos);
       yPos += 10;
-      doc.setFontSize(16);
-      doc.text('The Official Valuation Score with Real Metrics', margin, yPos);
-      yPos += 15;
       doc.setFontSize(12);
-      doc.setFillColor(240, 240, 240);
-      doc.rect(margin, yPos, pageWidth - 2 * margin, 60, 'F');
-      doc.setDrawColor(251, 191, 36);
-      doc.rect(margin, yPos, pageWidth - 2 * margin, 60);
+      doc.setTextColor(...palette.slate);
+      doc.text('Investor-ready output summarizing valuation methods, key metrics, and next steps.', margin, yPos);
+      doc.setTextColor(...palette.ink);
+      yPos += 12;
+      doc.setFillColor(...palette.soft);
+      doc.roundedRect(margin, yPos, pageWidth - 2 * margin, 40, 3, 3, 'F');
+      doc.setDrawColor(...palette.brand);
+      doc.roundedRect(margin, yPos, pageWidth - 2 * margin, 40, 3, 3);
+      const statWidth = (pageWidth - 2 * margin - 10) / 3;
+      yPos = statBand('Average valuation', `$${Math.round(sanitizedData.avgValuation).toLocaleString()}`, margin + 4, yPos + 4, statWidth);
+      statBand('Valuation range', `$${Math.round(sanitizedData.rangeLow).toLocaleString()} - $${Math.round(sanitizedData.rangeHigh).toLocaleString()}`, margin + statWidth + 9, yPos - 24, statWidth, palette.ink);
+      statBand('Confidence', `${sanitizedData.confidence}%`, margin + 2 * statWidth + 14, yPos - 24, statWidth, palette.amber);
       yPos += 10;
-      doc.text(`Company: ${sanitizedData.companyName}`, margin + 5, yPos);
-      yPos += 10;
-      doc.text(`Email: ${sanitizedData.email}`, margin + 5, yPos);
-      yPos += 10;
-      doc.text(`Valuation: $${Math.round(sanitizedData.avgValuation).toLocaleString()}`, margin + 5, yPos);
-      yPos += 10;
-      doc.text(`Range: $${Math.round(sanitizedData.rangeLow).toLocaleString()} - $${Math.round(sanitizedData.rangeHigh).toLocaleString()}`, margin + 5, yPos);
-      yPos += 10;
-      doc.text(`Confidence: ${Math.round(sanitizedData.confidence)}%`, margin + 5, yPos);
-      yPos += 15;
       doc.setFontSize(10);
-      const today = new Date().toLocaleDateString();
-      doc.text(`Generated on ${today}`, margin, yPos);
+      doc.text(`Business: ${sanitizedData.companyName || 'Not specified'} • Type: ${sanitizedData.businessType} • Methods: ${sanitizedData.methods.join(', ')}`, margin, yPos);
+      yPos += 6;
+      doc.text(`Prepared for: ${sanitizedData.email || 'Not provided'} • Report date: ${new Date().toLocaleDateString()}`, margin, yPos);
+      yPos += 12;
+      doc.setTextColor(...palette.slate);
+      doc.text('Confidence reflects completeness of inputs and variance between methods. Use the range for negotiation and the notes for improvement priorities.', margin, yPos, { maxWidth: pageWidth - 2 * margin });
+      doc.setTextColor(...palette.ink);
 
       // Valuation Details Page
-      doc.addPage();
-      addHeader();
-      yPos = 25;
-      doc.setFontSize(16);
-      doc.setTextColor(0, 0, 0);
-      doc.text('Valuation Details', margin, yPos);
-      yPos += 10;
-      sanitizedData.valuations.forEach(v => {
-        doc.setFontSize(12);
-        doc.setFillColor(240, 240, 240);
-        doc.rect(margin, yPos, pageWidth - 2 * margin, 50, 'F');
-        doc.setDrawColor(251, 191, 36);
-        doc.rect(margin, yPos, pageWidth - 2 * margin, 50);
-        yPos += 10;
-        doc.text(`${v.method}: $${Math.round(v.value).toLocaleString()}`, margin + 5, yPos);
-        doc.setFontSize(10);
-        yPos += 8;
-        if (v.method === 'Revenue Multiplier') {
-          doc.text(`Why: Multiplies ARR ($${sanitizedData.arr.toLocaleString()}) by ${sanitizedData.multiplier}x, reflecting revenue stability.`, margin + 5, yPos);
-          yPos += 5;
-          doc.text(`Improve: Increase ARR via customer acquisition or upselling; reduce churn (${sanitizedData.customerChurn}%).`, margin + 5, yPos);
-          yPos += 5;
-          doc.text(`Risk: High churn or low growth (${sanitizedData.growthYoy}%) lowers multiplier.`, margin + 5, yPos);
-          yPos += 5;
-          doc.text('Means: Signals revenue potential to investors.', margin + 5, yPos);
-        } else if (v.method === 'Income-Based') {
-          doc.text(`Why: Multiplies profit ($${sanitizedData.netProfit.toLocaleString()}) by ${sanitizedData.multiplier - 1}x, showing profitability.`, margin + 5, yPos);
-          yPos += 5;
-          doc.text(`Improve: Boost margins (${sanitizedData.grossMargin}%) or cut costs (burn: $${sanitizedData.burnRate.toLocaleString()}).`, margin + 5, yPos);
-          yPos += 5;
-          doc.text(`Risk: Low profit or short runway (${sanitizedData.runway} months) reduces value.`, margin + 5, yPos);
-          yPos += 5;
-          doc.text('Means: Highlights cash flow for buyers.', margin + 5, yPos);
-        } else if (v.method === 'Earnings-Based') {
-          doc.text(`Why: Combines ARR ($${sanitizedData.arr.toLocaleString()}) and profit, adjusted for retention (${sanitizedData.retentionRate}%).`, margin + 5, yPos);
-          yPos += 5;
-          doc.text(`Improve: Enhance retention or NPS (${sanitizedData.nps}); grow revenue.`, margin + 5, yPos);
-          yPos += 5;
-          doc.text('Risk: Weak customer metrics lower valuation.', margin + 5, yPos);
-          yPos += 5;
-          doc.text('Means: Balances growth and profit for investors.', margin + 5, yPos);
-        } else if (v.method === 'DCF') {
-          doc.text(`Why: Discounts cash flow ($${Math.round(sanitizedData.netProfit * 1.2).toLocaleString()}) at ${(sanitizedData.discountRate * 100).toFixed(2)}%, factoring risks.`, margin + 5, yPos);
-          yPos += 5;
-          doc.text(`Improve: Extend runway (${sanitizedData.runway} months) or reduce risks (e.g., legal: ${sanitizedData.legalIssues}).`, margin +5, yPos);
-          yPos += 5;
-          doc.text(`Risk: High debt ($${sanitizedData.debtLevel.toLocaleString()}) or legal issues hurt value.`, margin + 5, yPos);
-          yPos += 5;
-          doc.text('Means: Shows long-term potential to buyers.', margin + 5, yPos);
-        }
-        yPos += 10;
+      yPos = addPage('Valuation Breakdown');
+      yPos = sectionTitle('Valuation Details', yPos);
+      yPos = sectionSubtitle('Blend of approaches to triangulate a defensible range.', yPos);
+      const valuationRows = sanitizedData.valuations.map(v => {
+        const value = `$${Math.round(v.value).toLocaleString()}`;
+        const insights = {
+          'Revenue Multiplier': `ARR ${sanitizedData.multiplier}x shows revenue stability; churn at ${sanitizedData.customerChurn}% impacts multiple.`,
+          'Income-Based': `Profit focus; margins ${sanitizedData.grossMargin}% and burn $${sanitizedData.burnRate.toLocaleString()} influence quality.`,
+          'Earnings-Based': `Balances ARR and retention (${sanitizedData.retentionRate}%); higher NPS (${sanitizedData.nps}) improves confidence.`,
+          DCF: `Discounts future cash at ${(sanitizedData.discountRate * 100).toFixed(2)}%; runway ${sanitizedData.runway}m and debt $${sanitizedData.debtLevel.toLocaleString()} are key.`
+        };
+        return [v.method, value, insights[v.method] || 'Methodology detail unavailable'];
       });
+      doc.autoTable({
+        head: [['Method', 'Valuation', 'Notes']],
+        body: valuationRows,
+        startY: yPos,
+        theme: 'grid',
+        headStyles: { fillColor: palette.brand, textColor: [255, 255, 255] },
+        styles: { fillColor: [255, 255, 255], textColor: palette.ink, lineColor: palette.soft },
+        columnStyles: { 0: { cellWidth: 45 }, 1: { cellWidth: 40 }, 2: { cellWidth: pageWidth - 2 * margin - 85 } }
+      });
+      yPos = doc.lastAutoTable.finalY + 8;
+      doc.setFontSize(10);
+      doc.setTextColor(...palette.slate);
+      doc.text('Use the midpoint for planning, the low end for conservative offers, and the high end when negotiating with strategic buyers.', margin, yPos, { maxWidth: pageWidth - 2 * margin });
+      doc.setTextColor(...palette.ink);
 
       // Input Summary Page
-      doc.addPage();
-      addHeader();
-      yPos = 25;
-      doc.setFontSize(16);
-      doc.text('Input Summary', margin, yPos);
-      yPos += 10;
+      yPos = addPage('Inputs & Assumptions');
+      yPos = sectionTitle('Input Summary', yPos);
       const inputs = [
         ['Valuation Methods', sanitizedData.methods.join(', ')],
         ['Business Type', sanitizedData.businessType],
@@ -256,18 +276,15 @@ export function setupPDF(data) {
         body: inputs,
         startY: yPos,
         theme: 'striped',
-        styles: { fillColor: [240, 240, 240], textColor: [0, 0, 0] },
-        headStyles: { fillColor: [56, 178, 172] }
+        styles: { fillColor: palette.soft, textColor: palette.ink },
+        headStyles: { fillColor: palette.brand, textColor: [255, 255, 255] }
       });
       yPos = doc.lastAutoTable.finalY + 10;
 
       // Metrics Overview Page
-      doc.addPage();
-      addHeader();
-      yPos = 25;
-      doc.setFontSize(16);
-      doc.text('Key Metrics Overview', margin, yPos);
-      yPos += 10;
+      yPos = addPage('Metrics & Health');
+      yPos = sectionTitle('Key Metrics Overview', yPos);
+      yPos = sectionSubtitle('Importance shows why each KPI matters; insight provides an immediate recommendation.', yPos);
       // Each metric now includes an "importance" explanation to show why it matters.
       const metrics = [
         {
@@ -381,14 +398,62 @@ export function setupPDF(data) {
       ];
       doc.autoTable({
         head: [['Label', 'Value', 'Importance', 'Insight']],
-        // Output four columns so readers understand each metric's role and takeaway
         body: metrics.map(m => [m.label, m.value, m.importance, m.insight]),
         startY: yPos,
         theme: 'striped',
-        styles: { fillColor: [240, 240, 240], textColor: [0, 0, 0] },
-        headStyles: { fillColor: [56, 178, 172] }
+        styles: { fillColor: palette.soft, textColor: palette.ink },
+        headStyles: { fillColor: palette.brand, textColor: [255, 255, 255] },
+        columnStyles: { 0: { cellWidth: 32 }, 1: { cellWidth: 35 } }
+      });
+      yPos = doc.lastAutoTable.finalY + 8;
+      doc.setFontSize(10);
+      doc.setTextColor(...palette.slate);
+      doc.text('Highlight top three metrics to focus on before investor review to meaningfully improve the multiple.', margin, yPos, { maxWidth: pageWidth - 2 * margin });
+      doc.setTextColor(...palette.ink);
+
+      // Risk & Opportunity Page
+      yPos = addPage('Risks & Upside');
+      yPos = sectionTitle('Risk and Opportunity Notes', yPos);
+      const riskRows = [
+        ['Churn & Retention', `${sanitizedData.customerChurn}% churn; ${sanitizedData.retentionRate}% retention`, sanitizedData.customerChurn < 6 ? 'Healthy retention keeps revenue durable.' : 'Prioritize save flows and onboarding to slow churn.'],
+        ['Runway', `${sanitizedData.runway} months`, sanitizedData.runway >= 12 ? 'Comfortable runway supports growth investments.' : 'Extend runway with spend discipline or new capital.'],
+        ['Debt & Legal', `$${sanitizedData.debtLevel.toLocaleString()} debt; legal: ${sanitizedData.legalIssues || 'None'}`, sanitizedData.debtLevel < 100000 ? 'Low leverage risk.' : 'Reduce debt or restructure for cleaner balance sheet.'],
+        ['Customer Love', `NPS ${sanitizedData.nps}; Support rating ${sanitizedData.supportRating}`, sanitizedData.nps > 50 ? 'Promoters can drive referrals and upsell.' : 'Invest in CX and proactive support.'],
+        ['Technology', `${sanitizedData.proprietaryTech}; ${sanitizedData.securityCompliance}`, sanitizedData.proprietaryTech.includes('Yes') ? 'Defensible IP strengthens moat.' : 'Document IP and security posture for diligence.']
+      ];
+      doc.autoTable({
+        head: [['Area', 'Current State', 'Recommendation']],
+        body: riskRows,
+        startY: yPos,
+        theme: 'striped',
+        styles: { fillColor: palette.soft, textColor: palette.ink },
+        headStyles: { fillColor: palette.brand, textColor: [255, 255, 255] },
+        columnStyles: { 0: { cellWidth: 38 }, 1: { cellWidth: 55 } }
       });
       yPos = doc.lastAutoTable.finalY + 10;
+
+      // Methodology Page
+      yPos = addPage('Methodology');
+      yPos = sectionTitle('Valuation Methodology', yPos);
+      const methodology = [
+        ['Revenue Multiplier', `ARR $${sanitizedData.arr.toLocaleString()} × ${sanitizedData.multiplier}x`, 'Anchored to industry multiples, adjusted for churn, growth, and market segment.'],
+        ['Income-Based', `Profit $${sanitizedData.netProfit.toLocaleString()} × ${(sanitizedData.multiplier - 1).toFixed(1)}x`, 'Focuses on cash flow quality and margin durability for financial buyers.'],
+        ['Earnings-Based', 'Hybrid growth & retention lens', 'Balances profitability and retention to normalize outlier inputs.'],
+        ['DCF', `${(sanitizedData.discountRate * 100).toFixed(2)}% discount`, 'Projects cash flows and discounts for risk, runway, and leverage.']
+      ];
+      doc.autoTable({
+        head: [['Approach', 'Formula / Key Inputs', 'How to Read']],
+        body: methodology,
+        startY: yPos,
+        theme: 'grid',
+        headStyles: { fillColor: palette.ink, textColor: [255, 255, 255] },
+        styles: { fillColor: [255, 255, 255], textColor: palette.ink, lineColor: palette.soft }
+      });
+      yPos = doc.lastAutoTable.finalY + 8;
+      doc.setFontSize(10);
+      doc.setTextColor(...palette.slate);
+      doc.text('Sensitivity: strongest drivers are ARR growth, churn, and gross margin. Updating those inputs will refresh the range.', margin, yPos, { maxWidth: pageWidth - 2 * margin });
+      doc.setTextColor(...palette.ink);
 
       // Graphs Pages
       const graphs = [
@@ -399,9 +464,7 @@ export function setupPDF(data) {
       ];
       graphs.forEach((graph, index) => {
         if (index % 2 === 0) {
-          doc.addPage();
-          addHeader();
-          yPos = 25;
+          yPos = addPage('Charts & Visuals');
         }
         const canvas = document.getElementById(graph.id);
         if (!canvas) {
@@ -420,34 +483,29 @@ export function setupPDF(data) {
       });
 
       // About & Disclaimer Page
-      doc.addPage();
-      addHeader();
-      yPos = 25;
-      doc.setFontSize(16);
-      doc.text('About The SaaS Valuation App™', margin, yPos);
-      yPos += 10;
+      yPos = addPage('About & Disclaimer');
+      yPos = sectionTitle('About The SaaS Valuation App™', yPos);
       doc.setFontSize(10);
       const aboutText = 'The SaaS Valuation App™ empowers businesses with AI-driven, transparent valuations. We value honest opinions and real calculations to help investors, partners, and buyers make informed decisions without speculation. Our mission is to deliver accurate, data-driven insights based on your inputs. Contact us: support@saasvaluation.app | Visit: www.saasvaluation.app';
       doc.text(doc.splitTextToSize(aboutText, pageWidth - 2 * margin), margin, yPos);
       yPos += 40;
-      doc.setFontSize(16);
-      doc.text('Why Trust Us', margin, yPos);
-      yPos += 10;
+      yPos = sectionTitle('Why Trust Us', yPos + 2);
       doc.setFontSize(10);
       const trustText = 'Our valuations are built on industry-standard methods and real-time data analysis. We prioritize transparency, ensuring every calculation is clear and actionable. Note: The accuracy of this report depends on the data you provide. Always verify inputs for reliable results.';
       doc.text(doc.splitTextToSize(trustText, pageWidth - 2 * margin), margin, yPos);
       yPos += 30;
-      doc.setFontSize(16);
-      doc.text('Disclaimer', margin, yPos);
-      yPos += 10;
+      yPos = sectionTitle('Disclaimer', yPos + 2);
       doc.setFontSize(10);
       const disclaimerText = 'This valuation is an estimate based on user-provided data and standard methods. It is not financial advice. Consult a professional advisor for business decisions. The SaaS Valuation App™ is not liable for actions taken based on this report. Accuracy depends on the correctness of your inputs.';
       doc.text(doc.splitTextToSize(disclaimerText, pageWidth - 2 * margin), margin, yPos);
       const pageCount = doc.getNumberOfPages();
       for (let i = 1; i <= pageCount; i++) {
         doc.setPage(i);
-        doc.setFontSize(10);
-        doc.text(`Page ${i}`, doc.internal.pageSize.getWidth() - margin, doc.internal.pageSize.getHeight() - 10, { align: 'right' });
+        doc.setFontSize(9);
+        doc.setTextColor(...palette.slate);
+        doc.text(`Page ${i} of ${pageCount}`, pageWidth - margin, pageHeight - 10, { align: 'right' });
+        doc.text('Confidential — generated by The SaaS Valuation App™', margin, pageHeight - 10);
+        doc.setTextColor(...palette.ink);
       }
 
       await doc.save('saas_valuation_report.pdf', { returnPromise: true });
