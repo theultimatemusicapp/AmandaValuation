@@ -69,6 +69,15 @@
             border-color: #E53E3E !important;
             box-shadow: 0 0 0 2px rgba(229, 62, 62, 0.2) !important;
         }
+        .input-valid {
+            border-color: #38A169 !important;
+            box-shadow: 0 0 0 2px rgba(56, 161, 105, 0.25) !important;
+        }
+        .saved-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
         [data-tooltip] {
             position: relative;
         }
@@ -88,6 +97,12 @@
         }
         .tooltip-hidden {
             display: none;
+        }
+        .nav-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 0;
         }
         .dashboard-card {
             background: rgba(255, 255, 255, 0.1);
@@ -134,23 +149,26 @@
             <div class="text-2xl font-bold">
                 <a href="/">SaaS Valuation App</a>
             </div>
-            <nav class="hidden md:flex space-x-6">
-                <a href="#valuation" class="hover:text-teal-400">Free Self Valuation</a>
-                <a href="#data-room" class="hover:text-teal-400">AI Data Analysis</a>
-                <a href="#pricing" class="hover:text-teal-400">Pricing</a>
-                <a href="saas-growth-calculator.html" class="hover:text-teal-400">Growth Calculator</a>
-            <a href="blog.html">Resources</a> </nav>
+            <nav class="hidden md:flex items-center space-x-6">
+                <a href="#valuation" class="nav-link hover:text-teal-400">Free Self Valuation</a>
+                <a href="#valuation" class="nav-link hover:text-teal-400">Valuation Tool</a>
+                <a href="#data-room" class="nav-link hover:text-teal-400">AI Data Analysis</a>
+                <a href="#pricing" class="nav-link hover:text-teal-400">Pricing</a>
+                <a href="saas-growth-calculator.html" class="nav-link hover:text-teal-400">Growth Calculator</a>
+                <a href="blog.html" class="nav-link hover:text-teal-400">Resources</a>
+            </nav>
             <button id="menu-toggle" class="md:hidden focus:outline-none">
                 <i class="fas fa-bars text-2xl"></i>
             </button>
         </div>
         <div id="mobile-menu" class="md:hidden hidden">
             <nav class="flex flex-col space-y-4 mt-4 px-6">
-                <a href="#valuation" class="hover:text-teal-400">Self Valuation</a>
-                <a href="#data-room" class="hover:text-teal-400">AI Data Room</a>
-                <a href="#pricing" class="hover:text-teal-400">Pricing</a>
-                <a href="saas-growth-calculator.html" class="hover:text-teal-400">Growth Calculator</a>
-                <a href="#resources" class="hover:text-teal-400">Resources</a>
+                <a href="#valuation" class="hover:text-teal-400 nav-link">Self Valuation</a>
+                <a href="#valuation" class="hover:text-teal-400 nav-link">Valuation Tool</a>
+                <a href="#data-room" class="hover:text-teal-400 nav-link">AI Data Room</a>
+                <a href="#pricing" class="hover:text-teal-400 nav-link">Pricing</a>
+                <a href="saas-growth-calculator.html" class="hover:text-teal-400 nav-link">Growth Calculator</a>
+                <a href="blog.html" class="hover:text-teal-400 nav-link">Resources / Blog</a>
             </nav>
         </div>
     </header>
@@ -188,11 +206,18 @@
                         <span class="indicator" style="background: #48BB78;"></span>
                         Your business is in the Top 30% of SaaS Companies
                     </div>
+                    <p class="mt-4 text-xs text-green-100 text-center">Example snapshot—your numbers will appear after you start the valuation.</p>
                 </div>
             </div>
             <p class="text-xs text-gray-300 mt-2">Estimates for illustration only—consult a professional for advice.</p>
             <div class="flex justify-center space-x-4">
-                <a href="#valuation" class="btn-primary text-white font-bold py-3 px-8 rounded-lg">Get Your Valuation</a>
+                <a href="#valuation" class="btn-primary text-white font-bold py-3 px-8 rounded-lg flex items-center space-x-2">
+                    <span>Get Your Valuation</span>
+                    <span class="bg-white text-teal-600 text-xs font-semibold px-2 py-1 rounded flex items-center gap-1">
+                        <span class="w-2 h-2 rounded-full bg-green-500"></span>
+                        Live tool
+                    </span>
+                </a>
                 <a href="#demo" class="btn-secondary font-bold py-3 px-8 rounded-lg">Watch Demo</a>
             </div>
         </div>
@@ -251,46 +276,52 @@
                 <h2 class="text-3xl font-bold text-gray-800 mb-4">FREE Self Valuation Tool</h2>
                 <p class="text-lg text-gray-600 max-w-2xl mx-auto">Answer a few questions to get a detailed valuation report for your SaaS business in minutes.</p>
           </div>
-            <div id="valuation-form" class="bg-white rounded-xl shadow-lg p-6 max-w-3xl mx-auto">
-                <!-- Progress Bar -->
-                <div class="mb-8">
-                  <div class="relative pt-1">
-                        <div class="overflow-hidden h-2 mb-4 text-xs flex rounded bg-gray-200">
-                            <div id="progress-fill" class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-teal-500" style="width: 16.67%" role="progressbar" aria-valuemin="1" aria-valuemax="6" aria-valuenow="1"></div>
+            <div id="valuation-form" class="bg-white rounded-xl shadow-lg p-6 max-w-5xl mx-auto">
+                <div class="lg:grid lg:grid-cols-4 lg:gap-6">
+                    <div class="lg:col-span-3">
+                        <!-- Progress Bar -->
+                        <div class="mb-8">
+                            <div class="relative pt-1">
+                                <div class="overflow-hidden h-2 mb-4 text-xs flex rounded bg-gray-200">
+                                    <div id="progress-fill" class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-teal-500" style="width: 16.67%" role="progressbar" aria-valuemin="1" aria-valuemax="6" aria-valuenow="1"></div>
+                                </div>
+                                <div class="text-center">
+                                    <p class="text-gray-600">Step <span id="current-step">1</span> of 6</p>
+                                    <p id="current-step-label" class="text-sm text-teal-700 font-semibold">Currently: Select Valuation Method</p>
+                                    <p class="text-gray-500 text-sm flex items-center justify-center gap-2 mt-1"><i class="far fa-clock"></i>Estimated completion time: ~3 minutes</p>
+                                </div>
+                            </div>
                         </div>
-                        <p class="text-center text-gray-600">Step <span id="current-step">1</span> of 6</p>
-                    </div>
-                </div>
 
-                <!-- Step 1: Valuation Method -->
-                <div class="step step-visible">
-                    <h3 class="text-xl font-semibold text-gray-800 mb-4">Step 1: Select Valuation Method</h3>
-                    <p class="text-gray-600 mb-4">Choose up to 3 methods for a comprehensive valuation. <span data-tooltip="Select methods based on your business model. Multiplier is best for established SaaS companies, while DCF suits those with predictable cash flows." class="text-teal-500 underline cursor-pointer">Learn more</span></p>
-                    <div class="space-y-2">
-                        <label class="flex items-center">
-                            <input type="checkbox" id="method-multiplier" value="multiplier" class="form-checkbox h-5 w-5 text-teal-500">
-                            <span class="ml-2 text-gray-600">Revenue Multiplier</span>
-                        </label>
-                        <label class="flex items-center">
-                            <input type="checkbox" id="method-income" value="income" class="form-checkbox h-5 w-5 text-teal-500">
-                            <span class="ml-2 text-gray-600">Income-Based Valuation</span>
-                        </label>
-                        <label class="flex items-center">
-                            <input type="checkbox" id="method-earnings" value="earnings" class="form-checkbox h-5 w-5 text-teal-500">
-                            <span class="ml-2 text-gray-600">Earnings-Based Valuation</span>
-                        </label>
-                        <label class="flex items-center">
-                            <input type="checkbox" id="method-dcf" value="dcf" class="form-checkbox h-5 w-5 text-teal-500">
-                            <span class="ml-2 text-gray-600">Discounted Cash Flow (DCF)</span>
-                        </label>
-                    </div>
-                    <p id="method-error" class="text-red-500 text-sm mt-2 hidden">Please select 1 to 3 methods.</p>
-                    <div class="mt-6 flex justify-end">
-                        <button id="next-btn-1" class="btn-primary text-white font-bold py-2 px-4 rounded-lg">Next</button>
-                    </div>
-                </div>
+                        <!-- Step 1: Valuation Method -->
+                        <div class="step step-visible">
+                            <h3 class="text-xl font-semibold text-gray-800 mb-4">Step 1: Select Valuation Method</h3>
+                            <p class="text-gray-600 mb-4">Choose up to 3 methods for a comprehensive valuation. <span data-tooltip="Select methods based on your business model. Multiplier is best for established SaaS companies, while DCF suits those with predictable cash flows." class="text-teal-500 underline cursor-pointer">Learn more</span></p>
+                            <div class="space-y-2">
+                                <label class="flex items-center">
+                                    <input type="checkbox" id="method-multiplier" value="multiplier" class="form-checkbox h-5 w-5 text-teal-500">
+                                    <span class="ml-2 text-gray-600">Revenue Multiplier</span>
+                                </label>
+                                <label class="flex items-center">
+                                    <input type="checkbox" id="method-income" value="income" class="form-checkbox h-5 w-5 text-teal-500">
+                                    <span class="ml-2 text-gray-600">Income-Based Valuation</span>
+                                </label>
+                                <label class="flex items-center">
+                                    <input type="checkbox" id="method-earnings" value="earnings" class="form-checkbox h-5 w-5 text-teal-500">
+                                    <span class="ml-2 text-gray-600">Earnings-Based Valuation</span>
+                                </label>
+                                <label class="flex items-center">
+                                    <input type="checkbox" id="method-dcf" value="dcf" class="form-checkbox h-5 w-5 text-teal-500">
+                                    <span class="ml-2 text-gray-600">Discounted Cash Flow (DCF)</span>
+                                </label>
+                            </div>
+                            <p id="method-error" class="text-red-500 text-sm mt-2 hidden">Please select 1 to 3 methods.</p>
+                            <div class="mt-6 flex justify-end">
+                                <button id="next-btn-1" class="btn-primary text-white font-bold py-2 px-4 rounded-lg">Next</button>
+                            </div>
+                        </div>
 
-                <!-- Step 2: Financial Information -->
+                        <!-- Step 2: Financial Information -->
                 <div class="step step-hidden">
                     <h3 class="text-xl font-semibold text-gray-800 mb-4">Step 2: Financial Information</h3>
                     <p class="text-gray-600 mb-4">Provide your financial details to help us calculate your valuation accurately.</p>
@@ -353,23 +384,27 @@
                     <p class="text-gray-600 mb-4">Tell us about your customer acquisition and retention metrics.</p>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
-                            <label for="ltv" class="block text-gray-600 mb-1">Customer Lifetime Value (LTV) ($)</label>
+                            <label for="ltv" class="block text-gray-600 mb-1">Customer Lifetime Value (LTV) ($) <span data-tooltip="Average revenue you expect from a customer across their entire relationship." class="text-teal-500 underline cursor-pointer">?</span></label>
                             <input type="text" id="ltv" class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-500" placeholder="e.g., 5,000">
+                            <p class="text-gray-500 text-sm mt-1">Estimate by multiplying ARPU by the average number of months a customer stays.</p>
                             <p id="ltv-error" class="text-red-500 text-sm mt-1 hidden">Please enter a valid number.</p>
                         </div>
                         <div>
-                            <label for="cac" class="block text-gray-600 mb-1">Customer Acquisition Cost (CAC) ($)</label>
+                            <label for="cac" class="block text-gray-600 mb-1">Customer Acquisition Cost (CAC) ($) <span data-tooltip="Average marketing + sales cost to land one new customer." class="text-teal-500 underline cursor-pointer">?</span></label>
                             <input type="text" id="cac" class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-500" placeholder="e.g., 1,000">
+                            <p class="text-gray-500 text-sm mt-1">Use your last month’s total acquisition spend divided by new customers won.</p>
                             <p id="cac-error" class="text-red-500 text-sm mt-1 hidden">Please enter a valid number.</p>
                         </div>
                         <div>
-                            <label for="churnRate" class="block text-gray-600 mb-1">Churn Rate (%)</label>
+                            <label for="churnRate" class="block text-gray-600 mb-1">Churn Rate (%) <span data-tooltip="Percentage of customers lost per month." class="text-teal-500 underline cursor-pointer">?</span></label>
                             <input type="number" id="churnRate" class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-500" placeholder="e.g., 5">
+                            <p class="text-gray-500 text-sm mt-1">Divide customers lost last month by customers at the start of the month.</p>
                             <p id="churnRate-error" class="text-red-500 text-sm mt-1 hidden">Please enter a valid percentage (0-100).</p>
                         </div>
                         <div>
-                            <label for="customerGrowthRate" class="block text-gray-600 mb-1">Customer Growth Rate (%)</label>
+                            <label for="customerGrowthRate" class="block text-gray-600 mb-1">Customer Growth Rate (%) <span data-tooltip="Net increase in customers month over month." class="text-teal-500 underline cursor-pointer">?</span></label>
                             <input type="number" id="customerGrowthRate" class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-500" placeholder="e.g., 10">
+                            <p class="text-gray-500 text-sm mt-1">Use average net new customers over the past quarter for a steady view.</p>
                             <p id="customerGrowthRate-error" class="text-red-500 text-sm mt-1 hidden">Please enter a valid percentage (0-100).</p>
                         </div>
                     </div>
@@ -555,9 +590,45 @@
                         <button onclick="calculateValuation()" class="btn-primary text-white font-bold py-2 px-4 rounded-lg">Calculate Valuation</button>
                     </div>
                 </div>
+            </div>
+            <aside class="mt-8 lg:mt-0">
+                <div class="bg-gray-50 border border-gray-200 rounded-lg p-4 shadow-sm sticky top-4">
+                    <div class="flex items-center justify-between mb-3">
+                        <h4 class="text-lg font-semibold text-gray-800">Your summary</h4>
+                        <span class="text-xs text-gray-500">Auto-saves</span>
+                    </div>
+                    <div class="space-y-3 text-sm" id="summary-content">
+                        <div>
+                            <p class="text-gray-500">Valuation methods</p>
+                            <p class="font-semibold text-gray-800" data-summary-field="methods">Add at least one method</p>
+                        </div>
+                        <div class="border-t border-gray-200 pt-3">
+                            <p class="text-gray-500">Owner salary</p>
+                            <p class="font-semibold text-gray-800" data-summary-field="ownerSalary">Enter amount</p>
+                        </div>
+                        <div class="border-t border-gray-200 pt-3">
+                            <p class="text-gray-500">Operating expenses</p>
+                            <p class="font-semibold text-gray-800" data-summary-field="expenses">Enter amount</p>
+                        </div>
+                        <div class="border-t border-gray-200 pt-3">
+                            <p class="text-gray-500">Team size</p>
+                            <p class="font-semibold text-gray-800" data-summary-field="staffNumber">Add headcount</p>
+                        </div>
+                        <div class="border-t border-gray-200 pt-3">
+                            <p class="text-gray-500">Customer metrics</p>
+                            <p class="font-semibold text-gray-800" data-summary-field="customerMetrics">Add LTV, CAC, churn</p>
+                        </div>
+                        <div class="border-t border-gray-200 pt-3">
+                            <p class="text-gray-500">Projected revenue</p>
+                            <p class="font-semibold text-gray-800" data-summary-field="projectedRevenue">Add revenue & growth</p>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+        </div>
 
-                <!-- Results -->
-                <div id="valuationResult" class="mt-8 hidden">
+        <!-- Results -->
+        <div id="valuationResult" class="mt-8 hidden">
                     <h3 class="text-xl font-semibold text-gray-800 mb-4">Your SaaS Valuation</h3>
                     <p class="text-3xl font-bold text-teal-500 mb-4">Valuation: <span id="valuationAmount">$0</span></p>
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -909,6 +980,110 @@
         const totalSteps = 6;
         const steps = document.querySelectorAll('.step');
         const progressFill = document.getElementById('progress-fill');
+        const stepLabels = [
+            'Select Valuation Method',
+            'Financial Information',
+            'Customer Metrics',
+            'Industry Details',
+            'Technology & IP',
+            'Future Projections'
+        ];
+        const stepLabelDisplay = document.getElementById('current-step-label');
+
+        const savedIndicatorTargets = document.querySelectorAll('#valuation-form input[type="text"], #valuation-form input[type="number"], #valuation-form select');
+        savedIndicatorTargets.forEach(field => {
+            if (!field.parentElement.querySelector('.saved-indicator')) {
+                const indicator = document.createElement('p');
+                indicator.className = 'text-green-600 text-xs mt-1 saved-indicator hidden';
+                indicator.innerHTML = '<i class="fas fa-check-circle"></i> Saved';
+                const errorElement = field.parentElement.querySelector(`#${field.id}-error`);
+                if (errorElement) {
+                    errorElement.insertAdjacentElement('beforebegin', indicator);
+                } else {
+                    field.insertAdjacentElement('afterend', indicator);
+                }
+            }
+        });
+
+        function cleanNumericInput(value, regex, allowEmpty = false) {
+            const cleanedValue = value.replace(/,/g, '').trim();
+            if (allowEmpty && cleanedValue === '') return true;
+            return regex.test(cleanedValue) && cleanedValue !== '';
+        }
+
+        function toggleSavedIndicator(element, isVisible) {
+            const indicator = element.parentElement.querySelector('.saved-indicator');
+            if (indicator) {
+                indicator.classList.toggle('hidden', !isVisible);
+            }
+        }
+
+        function setFieldState(element, errorElement, isFieldValid) {
+            const hasValue = element.value.trim() !== '';
+            if (!isFieldValid) {
+                element.classList.remove('input-valid');
+                element.classList.add('input-error');
+                if (errorElement) errorElement.classList.remove('hidden');
+                toggleSavedIndicator(element, false);
+                return;
+            }
+
+            element.classList.remove('input-error');
+            if (hasValue) {
+                element.classList.add('input-valid');
+                toggleSavedIndicator(element, true);
+            } else {
+                element.classList.remove('input-valid');
+                toggleSavedIndicator(element, false);
+            }
+            if (errorElement) errorElement.classList.add('hidden');
+        }
+
+        const summaryFields = {
+            methods: document.querySelector('[data-summary-field="methods"]'),
+            ownerSalary: document.querySelector('[data-summary-field="ownerSalary"]'),
+            expenses: document.querySelector('[data-summary-field="expenses"]'),
+            staffNumber: document.querySelector('[data-summary-field="staffNumber"]'),
+            customerMetrics: document.querySelector('[data-summary-field="customerMetrics"]'),
+            projectedRevenue: document.querySelector('[data-summary-field="projectedRevenue"]')
+        };
+
+        function formatCurrencyDisplay(value) {
+            const cleaned = value.replace(/,/g, '').trim();
+            if (cleaned === '' || isNaN(parseFloat(cleaned))) return null;
+            return `$${Number(cleaned).toLocaleString()}`;
+        }
+
+        function formatPercentDisplay(value) {
+            const cleaned = value.trim();
+            if (cleaned === '' || isNaN(parseFloat(cleaned))) return null;
+            return `${cleaned}%`;
+        }
+
+        function updateSummary() {
+            if (!summaryFields.methods) return;
+            const methodsSelected = Array.from(document.querySelectorAll('input[type="checkbox"]:checked')).map(cb => cb.nextElementSibling.textContent.trim());
+            summaryFields.methods.textContent = methodsSelected.length ? methodsSelected.join(', ') : 'Add at least one method';
+
+            summaryFields.ownerSalary.textContent = formatCurrencyDisplay(document.getElementById('ownerSalary').value) || 'Enter amount';
+            summaryFields.expenses.textContent = formatCurrencyDisplay(document.getElementById('expenses').value) || 'Enter amount';
+
+            const staffValue = document.getElementById('staffNumber').value.trim();
+            summaryFields.staffNumber.textContent = staffValue ? `${staffValue} team members` : 'Add headcount';
+
+            const ltvText = formatCurrencyDisplay(document.getElementById('ltv').value);
+            const cacText = formatCurrencyDisplay(document.getElementById('cac').value);
+            const churnText = formatPercentDisplay(document.getElementById('churnRate').value);
+            summaryFields.customerMetrics.textContent = (ltvText || cacText || churnText)
+                ? `LTV ${ltvText || '—'}, CAC ${cacText || '—'}, Churn ${churnText || '—'}`
+                : 'Add LTV, CAC, churn';
+
+            const projectedText = formatCurrencyDisplay(document.getElementById('projectedRevenue').value);
+            const growthText = formatPercentDisplay(document.getElementById('expectedGrowthRate').value);
+            summaryFields.projectedRevenue.textContent = projectedText && growthText
+                ? `${projectedText} at ${growthText} growth`
+                : (projectedText || growthText || 'Add revenue & growth');
+        }
 
         function updateProgress() {
             const progress = (currentStep / totalSteps) * 100;
@@ -917,6 +1092,9 @@
             progressFill.setAttribute('aria-valuemin', 1);
             progressFill.setAttribute('aria-valuemax', totalSteps);
             document.getElementById('current-step').textContent = currentStep;
+            if (stepLabelDisplay) {
+                stepLabelDisplay.textContent = `Currently: ${stepLabels[currentStep - 1] || ''}`;
+            }
         }
 
         function showStep(step) {
@@ -925,18 +1103,11 @@
                 s.classList.toggle('step-hidden', index + 1 !== step);
             });
             updateProgress();
+            updateSummary();
         }
 
         function validateStep(step) {
             let isValid = true;
-
-            // Helper function to clean and validate numeric input
-            function cleanNumericInput(value, regex, allowEmpty = false) {
-                // Remove commas and trim whitespace
-                const cleanedValue = value.replace(/,/g, '').trim();
-                if (allowEmpty && cleanedValue === '') return true;
-                return regex.test(cleanedValue) && cleanedValue !== '';
-            }
 
             if (step === 1) {
                 const methods = document.querySelectorAll('input[type="checkbox"]:checked');
@@ -970,15 +1141,9 @@
                 inputs.forEach(input => {
                     const element = document.getElementById(input.id);
                     const errorElement = document.getElementById(input.error);
-                    const isValidInput = cleanNumericInput(element.value, input.regex, input.allowEmpty);
-                    if (!isValidInput) {
-                        element.classList.add('input-error');
-                        errorElement.classList.remove('hidden');
-                        isValid = false;
-                    } else {
-                        element.classList.remove('input-error');
-                        errorElement.classList.add('hidden');
-                    }
+                    const fieldValid = cleanNumericInput(element.value, input.regex, input.allowEmpty);
+                    setFieldState(element, errorElement, fieldValid);
+                    if (!fieldValid) isValid = false;
                 });
             }
 
@@ -993,28 +1158,18 @@
                 inputs.forEach(input => {
                     const element = document.getElementById(input.id);
                     const errorElement = document.getElementById(input.error);
-                    if (!cleanNumericInput(element.value, input.regex)) {
-                        element.classList.add('input-error');
-                        errorElement.classList.remove('hidden');
-                        isValid = false;
-                    } else {
-                        element.classList.remove('input-error');
-                        errorElement.classList.add('hidden');
-                    }
+                    const fieldValid = cleanNumericInput(element.value, input.regex);
+                    setFieldState(element, errorElement, fieldValid);
+                    if (!fieldValid) isValid = false;
                 });
             }
 
             if (step === 4) {
                 const industry = document.getElementById('industry');
                 const industryError = document.getElementById('industry-error');
-                if (!industry.value) {
-                    industry.classList.add('input-error');
-                    industryError.classList.remove('hidden');
-                    isValid = false;
-                } else {
-                    industry.classList.remove('input-error');
-                    industryError.classList.add('hidden');
-                }
+                const fieldValid = !!industry.value;
+                setFieldState(industry, industryError, fieldValid);
+                if (!fieldValid) isValid = false;
             }
 
             if (step === 5) {
@@ -1023,36 +1178,21 @@
                 const hasIP = document.getElementById('hasIP');
                 const hasIPError = document.getElementById('hasIP-error');
 
-                if (!aiReplaceable.value) {
-                    aiReplaceable.classList.add('input-error');
-                    aiReplaceableError.classList.remove('hidden');
-                    isValid = false;
-                } else {
-                    aiReplaceable.classList.remove('input-error');
-                    aiReplaceableError.classList.add('hidden');
-                }
+                const aiReplaceValid = !!aiReplaceable.value;
+                setFieldState(aiReplaceable, aiReplaceableError, aiReplaceValid);
+                if (!aiReplaceValid) isValid = false;
 
                 if (aiReplaceable.value === 'yes') {
                     const aiReplaceCount = document.getElementById('aiReplaceCount');
                     const aiReplaceCountError = document.getElementById('aiReplaceCount-error');
-                    if (!cleanNumericInput(aiReplaceCount.value, /^\d+$/)) {
-                        aiReplaceCount.classList.add('input-error');
-                        aiReplaceCountError.classList.remove('hidden');
-                        isValid = false;
-                    } else {
-                        aiReplaceCount.classList.remove('input-error');
-                        aiReplaceCountError.classList.add('hidden');
-                    }
+                    const fieldValid = cleanNumericInput(aiReplaceCount.value, /^\d+$/);
+                    setFieldState(aiReplaceCount, aiReplaceCountError, fieldValid);
+                    if (!fieldValid) isValid = false;
                 }
 
-                if (!hasIP.value) {
-                    hasIP.classList.add('input-error');
-                    hasIPError.classList.remove('hidden');
-                    isValid = false;
-                } else {
-                    hasIP.classList.remove('input-error');
-                    hasIPError.classList.add('hidden');
-                }
+                const hasIPValid = !!hasIP.value;
+                setFieldState(hasIP, hasIPError, hasIPValid);
+                if (!hasIPValid) isValid = false;
 
                 if (hasIP.value === 'yes') {
                     const ipValue = document.getElementById('ipValue');
@@ -1060,23 +1200,11 @@
                     const ipUnique = document.getElementById('ipUnique');
                     const ipUniqueError = document.getElementById('ipUnique-error');
 
-                    if (!cleanNumericInput(ipValue.value, /^\d+(\.\d{1,2})?$/)) {
-                        ipValue.classList.add('input-error');
-                        ipValueError.classList.remove('hidden');
-                        isValid = false;
-                    } else {
-                        ipValue.classList.remove('input-error');
-                        ipValueError.classList.add('hidden');
-                    }
-
-                    if (!ipUnique.value) {
-                        ipUnique.classList.add('input-error');
-                        ipUniqueError.classList.remove('hidden');
-                        isValid = false;
-                    } else {
-                        ipUnique.classList.remove('input-error');
-                        ipUniqueError.classList.add('hidden');
-                    }
+                    const ipValueValid = cleanNumericInput(ipValue.value, /^\d+(\.\d{1,2})?$/);
+                    const ipUniqueValid = !!ipUnique.value;
+                    setFieldState(ipValue, ipValueError, ipValueValid);
+                    setFieldState(ipUnique, ipUniqueError, ipUniqueValid);
+                    if (!ipValueValid || !ipUniqueValid) isValid = false;
                 }
             }
 
@@ -1089,14 +1217,9 @@
                 inputs.forEach(input => {
                     const element = document.getElementById(input.id);
                     const errorElement = document.getElementById(input.error);
-                    if (!cleanNumericInput(element.value, input.regex)) {
-                        element.classList.add('input-error');
-                        errorElement.classList.remove('hidden');
-                        isValid = false;
-                    } else {
-                        element.classList.remove('input-error');
-                        errorElement.classList.add('hidden');
-                    }
+                    const fieldValid = cleanNumericInput(element.value, input.regex);
+                    setFieldState(element, errorElement, fieldValid);
+                    if (!fieldValid) isValid = false;
                 });
 
                 if (document.getElementById('method-dcf').checked) {
@@ -1113,33 +1236,40 @@
                     dcfInputs.forEach(input => {
                         const element = document.getElementById(input.id);
                         const errorElement = document.getElementById(input.error);
-                        if (!cleanNumericInput(element.value, input.regex)) {
-                            element.classList.add('input-error');
-                            errorElement.classList.remove('hidden');
-                            isValid = false;
-                        } else {
-                            element.classList.remove('input-error');
-                            errorElement.classList.add('hidden');
-                        }
+                        const fieldValid = cleanNumericInput(element.value, input.regex);
+                        setFieldState(element, errorElement, fieldValid);
+                        if (!fieldValid) isValid = false;
                     });
                 }
 
                 if (document.getElementById('method-earnings').checked) {
                     const assets = document.getElementById('assets');
                     const assetsError = document.getElementById('assets-error');
-                    if (!cleanNumericInput(assets.value, /^\d+(\.\d{1,2})?$/)) {
-                        assets.classList.add('input-error');
-                        assetsError.classList.remove('hidden');
-                        isValid = false;
-                    } else {
-                        assets.classList.remove('input-error');
-                        assetsError.classList.add('hidden');
-                    }
+                    const fieldValid = cleanNumericInput(assets.value, /^\d+(\.\d{1,2})?$/);
+                    setFieldState(assets, assetsError, fieldValid);
+                    if (!fieldValid) isValid = false;
                 }
             }
 
             return isValid;
         }
+
+        updateProgress();
+        updateSummary();
+
+        ['ownerSalary', 'expenses', 'staffNumber', 'ltv', 'cac', 'churnRate', 'projectedRevenue', 'expectedGrowthRate'].forEach(id => {
+            const field = document.getElementById(id);
+            if (field) {
+                field.addEventListener('input', updateSummary);
+            }
+        });
+
+        ['method-multiplier', 'method-income', 'method-earnings', 'method-dcf'].forEach(id => {
+            const checkbox = document.getElementById(id);
+            if (checkbox) {
+                checkbox.addEventListener('change', updateSummary);
+            }
+        });
 
         document.getElementById('next-btn-1').addEventListener('click', () => {
             if (validateStep(1)) {
