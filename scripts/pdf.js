@@ -166,7 +166,7 @@ export function setupPDF(data) {
       yPos += 10;
       doc.setFontSize(12);
       doc.setTextColor(...palette.slate);
-      doc.text('Investor-ready output summarizing valuation methods, key metrics, and next steps.', margin, yPos);
+      doc.text('Investor-ready output with clear valuation logic, usage guidance, and confidence notes tied to your inputs.', margin, yPos, { maxWidth: pageWidth - 2 * margin });
       doc.setTextColor(...palette.ink);
       yPos += 12;
       doc.setFillColor(...palette.soft);
@@ -182,9 +182,32 @@ export function setupPDF(data) {
       doc.text(`Business: ${sanitizedData.companyName || 'Not specified'} • Type: ${sanitizedData.businessType} • Methods: ${sanitizedData.methods.join(', ')}`, margin, yPos);
       yPos += 6;
       doc.text(`Prepared for: ${sanitizedData.email || 'Not provided'} • Report date: ${new Date().toLocaleDateString()}`, margin, yPos);
-      yPos += 12;
+      yPos += 10;
       doc.setTextColor(...palette.slate);
-      doc.text('Confidence reflects completeness of inputs and variance between methods. Use the range for negotiation and the notes for improvement priorities.', margin, yPos, { maxWidth: pageWidth - 2 * margin });
+      const midpoint = Math.round((sanitizedData.rangeLow + sanitizedData.rangeHigh) / 2);
+      doc.text(`Fair market value midpoint: $${midpoint.toLocaleString()} with a ${sanitizedData.confidence}% confidence score based on completeness and method alignment.`, margin, yPos, { maxWidth: pageWidth - 2 * margin });
+      yPos += 8;
+      doc.text('Use the low end for conservative offers, the midpoint for planning, and the high end when strategic fit or competitive tension exists.', margin, yPos, { maxWidth: pageWidth - 2 * margin });
+      doc.setTextColor(...palette.ink);
+      yPos += 12;
+
+      const coverNotes = [
+        ['How to Use', 'Share as an executive summary for investors, buyers, and advisors. Add diligence links and KPI definitions as appendices when sharing externally.'],
+        ['Valuation Drivers', `Growth ${sanitizedData.growthYoy}% YoY, churn ${sanitizedData.customerChurn}%, and gross margin ${sanitizedData.grossMargin}% drive the applied ${sanitizedData.multiplier}x multiple.`],
+        ['Interpretation', `Range captures sensitivity across methods: ${sanitizedData.methods.join(', ')}. Confidence is lower if inputs are sparse or methods diverge.`]
+      ];
+      doc.autoTable({
+        head: [['Executive Summary']],
+        body: coverNotes.map(([label, text]) => [`${label}: ${text}`]),
+        startY: yPos,
+        theme: 'plain',
+        styles: { textColor: palette.ink, lineColor: palette.soft },
+        headStyles: { fillColor: palette.brand, textColor: [255, 255, 255] },
+        columnStyles: { 0: { cellWidth: pageWidth - 2 * margin } }
+      });
+      yPos = doc.lastAutoTable.finalY + 6;
+      doc.setTextColor(...palette.slate);
+      doc.text('Next steps: refresh inputs monthly, rerun scenarios with updated churn or growth, and attach supporting dashboards for investor diligence.', margin, yPos, { maxWidth: pageWidth - 2 * margin });
       doc.setTextColor(...palette.ink);
 
       // Valuation Details Page
@@ -214,6 +237,8 @@ export function setupPDF(data) {
       doc.setFontSize(10);
       doc.setTextColor(...palette.slate);
       doc.text('Use the midpoint for planning, the low end for conservative offers, and the high end when negotiating with strategic buyers.', margin, yPos, { maxWidth: pageWidth - 2 * margin });
+      yPos += 6;
+      doc.text('Method alignment check: larger spreads between methods signal areas where better inputs (growth, churn, margin) can tighten confidence.', margin, yPos, { maxWidth: pageWidth - 2 * margin });
       doc.setTextColor(...palette.ink);
 
       // Input Summary Page
@@ -280,6 +305,13 @@ export function setupPDF(data) {
         headStyles: { fillColor: palette.brand, textColor: [255, 255, 255] }
       });
       yPos = doc.lastAutoTable.finalY + 10;
+      doc.setFontSize(10);
+      doc.setTextColor(...palette.slate);
+      doc.text('Assumptions: higher-quality data tightens the confidence band. If any inputs are estimates (e.g., churn or LTV), rerun after aligning them to system-of-record dashboards.', margin, yPos, { maxWidth: pageWidth - 2 * margin });
+      yPos += 6;
+      doc.text('Operational levers: growth and churn move the multiple fastest; gross margin and CAC/LTV set profitability quality; legal/IP answers reduce diligence friction.', margin, yPos, { maxWidth: pageWidth - 2 * margin });
+      doc.setTextColor(...palette.ink);
+      yPos += 4;
 
       // Metrics Overview Page
       yPos = addPage('Metrics & Health');
@@ -409,6 +441,9 @@ export function setupPDF(data) {
       doc.setFontSize(10);
       doc.setTextColor(...palette.slate);
       doc.text('Highlight top three metrics to focus on before investor review to meaningfully improve the multiple.', margin, yPos, { maxWidth: pageWidth - 2 * margin });
+      yPos += 6;
+      const driverNote = sanitizedData.growthYoy > sanitizedData.customerChurn ? 'Growth outruns churn—protect this advantage with retention playbooks.' : 'Churn is outpacing growth—stabilize retention before pushing paid acquisition.';
+      doc.text(`Valuation driver check: ${driverNote}`, margin, yPos, { maxWidth: pageWidth - 2 * margin });
       doc.setTextColor(...palette.ink);
 
       // Risk & Opportunity Page
@@ -431,6 +466,10 @@ export function setupPDF(data) {
         columnStyles: { 0: { cellWidth: 38 }, 1: { cellWidth: 55 } }
       });
       yPos = doc.lastAutoTable.finalY + 10;
+      doc.setFontSize(10);
+      doc.setTextColor(...palette.slate);
+      doc.text('Risk interpretation: items flagged here typically drive diligence questions and discounting. Address the largest gaps before circulating the report externally.', margin, yPos, { maxWidth: pageWidth - 2 * margin });
+      doc.setTextColor(...palette.ink);
 
       // Methodology Page
       yPos = addPage('Methodology');
@@ -453,6 +492,8 @@ export function setupPDF(data) {
       doc.setFontSize(10);
       doc.setTextColor(...palette.slate);
       doc.text('Sensitivity: strongest drivers are ARR growth, churn, and gross margin. Updating those inputs will refresh the range.', margin, yPos, { maxWidth: pageWidth - 2 * margin });
+      yPos += 6;
+      doc.text('If methods diverge widely, revisit the inputs above (especially churn, CAC/LTV, and discount rate) and re-run to tighten the spread.', margin, yPos, { maxWidth: pageWidth - 2 * margin });
       doc.setTextColor(...palette.ink);
 
       // Graphs Pages
@@ -476,7 +517,13 @@ export function setupPDF(data) {
         doc.text(graph.title, margin, yPos);
         yPos += 8;
         doc.setFontSize(10);
-        doc.text(graph.desc, margin, yPos);
+        const interpretation = {
+          'Valuation by Method': 'Compare bars to see how each approach pulls the range; large gaps suggest refining inputs.',
+          'Financial Metrics Impact': 'Higher ARR, profit, and LTV relative to CAC lift valuation and reduce downside risk.',
+          'Growth vs. Churn': 'Growth above churn indicates momentum; if churn is higher, focus on retention and onboarding.',
+          'Risk Factors': 'Lower scores on legal/IP/privacy reduce diligence friction and discounting.'
+        }[graph.title];
+        doc.text(`${graph.desc} ${interpretation || ''}`.trim(), margin, yPos, { maxWidth: pageWidth - 2 * margin });
         yPos += 8;
         doc.addImage(imgData, 'JPEG', margin, yPos, 120, 75);
         yPos += 85;
@@ -486,17 +533,17 @@ export function setupPDF(data) {
       yPos = addPage('About & Disclaimer');
       yPos = sectionTitle('About The SaaS Valuation App™', yPos);
       doc.setFontSize(10);
-      const aboutText = 'The SaaS Valuation App™ empowers businesses with AI-driven, transparent valuations. We value honest opinions and real calculations to help investors, partners, and buyers make informed decisions without speculation. Our mission is to deliver accurate, data-driven insights based on your inputs. Contact us: support@saasvaluation.app | Visit: www.saasvaluation.app';
+      const aboutText = 'The SaaS Valuation App™ delivers transparent valuations built on industry-standard methods and auditable calculations. Every figure in this report is tied to the inputs you provided and can be refreshed as metrics change. Contact us: support@saasvaluation.app | Visit: www.saasvaluation.app';
       doc.text(doc.splitTextToSize(aboutText, pageWidth - 2 * margin), margin, yPos);
       yPos += 40;
       yPos = sectionTitle('Why Trust Us', yPos + 2);
       doc.setFontSize(10);
-      const trustText = 'Our valuations are built on industry-standard methods and real-time data analysis. We prioritize transparency, ensuring every calculation is clear and actionable. Note: The accuracy of this report depends on the data you provide. Always verify inputs for reliable results.';
+      const trustText = 'We follow revenue, earnings, and DCF techniques common to investors, buyers, and brokers. The logic, multipliers, and discounting choices are visible in this PDF so stakeholders can diligence assumptions quickly. Accuracy depends on the integrity of your inputs—verify them before sharing.';
       doc.text(doc.splitTextToSize(trustText, pageWidth - 2 * margin), margin, yPos);
       yPos += 30;
       yPos = sectionTitle('Disclaimer', yPos + 2);
       doc.setFontSize(10);
-      const disclaimerText = 'This valuation is an estimate based on user-provided data and standard methods. It is not financial advice. Consult a professional advisor for business decisions. The SaaS Valuation App™ is not liable for actions taken based on this report. Accuracy depends on the correctness of your inputs.';
+      const disclaimerText = 'This valuation is an estimate based on user-provided data and standard methods. It is not investment, tax, or legal advice. Consult professional advisors before acting on this report. The SaaS Valuation App™ is not liable for actions taken based on this document. Accuracy depends on the correctness and timeliness of your inputs.';
       doc.text(doc.splitTextToSize(disclaimerText, pageWidth - 2 * margin), margin, yPos);
       const pageCount = doc.getNumberOfPages();
       for (let i = 1; i <= pageCount; i++) {
