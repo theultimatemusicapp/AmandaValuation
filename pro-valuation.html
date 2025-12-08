@@ -1213,22 +1213,34 @@
                 </div>
 
                 <!-- Graphs -->
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-                  <div class="bg-white p-4 rounded-lg shadow">
+                <div class="chart-grid mb-6" aria-label="Valuation charts">
+                  <div class="chart-card">
                     <h4 class="text-md font-semibold text-gray-800 mb-2">Valuation by Method</h4>
-                    <canvas id="valuation-chart" aria-label="Valuation by method chart"></canvas>
+                    <div class="chart-inner">
+                      <canvas id="valuation-chart" aria-label="Valuation by method chart"></canvas>
+                    </div>
+                    <p id="valuation-chart-caption" class="chart-caption"></p>
                   </div>
-                  <div class="bg-white p-4 rounded-lg shadow">
+                  <div class="chart-card">
                     <h4 class="text-md font-semibold text-gray-800 mb-2">Financial Metrics Impact</h4>
-                    <canvas id="financial-chart" aria-label="Financial metrics impact chart"></canvas>
+                    <div class="chart-inner">
+                      <canvas id="financial-chart" aria-label="Financial metrics impact chart"></canvas>
+                    </div>
+                    <p id="financial-chart-caption" class="chart-caption"></p>
                   </div>
-                  <div class="bg-white p-4 rounded-lg shadow">
+                  <div class="chart-card">
                     <h4 class="text-md font-semibold text-gray-800 mb-2">Growth vs. Churn</h4>
-                    <canvas id="growth-churn-chart" aria-label="Growth versus churn chart"></canvas>
+                    <div class="chart-inner">
+                      <canvas id="growth-churn-chart" aria-label="Growth versus churn chart"></canvas>
+                    </div>
+                    <p id="growth-churn-chart-caption" class="chart-caption"></p>
                   </div>
-                  <div class="bg-white p-4 rounded-lg shadow">
+                  <div class="chart-card">
                     <h4 class="text-md font-semibold text-gray-800 mb-2">Risk Factors</h4>
-                    <canvas id="risk-chart" aria-label="Risk factors chart"></canvas>
+                    <div class="chart-inner">
+                      <canvas id="risk-chart" aria-label="Risk factors chart"></canvas>
+                    </div>
+                    <p id="risk-chart-caption" class="chart-caption"></p>
                   </div>
                 </div>
 
