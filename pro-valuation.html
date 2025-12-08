@@ -49,41 +49,34 @@
 </head>
 <body class="font-inter antialiased">
           <!-- HEADER -->
-  <header class="bg-gray-800 text-white py-3 sticky top-0 z-50 shadow-lg">
-    <div class="container mx-auto px-4 flex justify-between items-center">
-      <div class="flex items-center">
-        <svg class="w-6 h-6 text-teal-400 mr-2" aria-hidden="true" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-          <path d="M18.375 2.25C17.3395 2.25 16.5 3.08947 16.5 4.125V19.875C16.5 20.9105 17.3395 21.75 18.375 21.75H19.125C20.1605 21.75 21 20.9105 21 19.875V4.125C21 3.08947 20.1605 2.25 19.125 2.25H18.375Z"/>
-          <path d="M9.75 8.625C9.75 7.58947 10.5895 6.75 11.625 6.75H12.375C13.4105 6.75 14.25 7.58947 14.25 8.625V19.875C14.25 20.9105 13.4105 21.75 12.375 21.75H11.625C10.5895 21.75 9.75 20.9105 9.75 19.875V8.625Z"/>
-          <path d="M3 13.125C3 12.0895 3.83947 11.25 4.875 11.25H5.625C6.66053 11.25 7.5 12.0895 7.5 13.125V19.875C7.5 20.9105 6.66053 21.75 5.625 21.75H4.875C3.83947 21.75 3 20.9105 3 19.875V13.125Z"/>
-        </svg>
-        <a href="index.html" class="text-xl font-bold" aria-label="SaaS Valuation App Home">
-          SaaS<span class="text-teal-400">Val</span>
-        </a>
-      </div>
-      <nav class="hidden md:flex items-center space-x-6" aria-label="Main navigation">
-        <a href="index.html" class="nav-link">Free Valuation</a>
-        <a href="#pro-valuation" class="nav-link" data-section="#pro-valuation">Pro Tool</a>
-        <a href="#features" class="nav-link" data-section="#features">Features</a>
-        <a href="#how-it-works" class="nav-link" data-section="#how-it-works">How It Works</a>
-        <a href="saas-growth-calculator.html" class="nav-link">Growth Calculator</a>
-        <a href="blog.html" class="nav-link">Resources</a>
-      </nav>
-      <button id="menu-toggle" class="md:hidden focus:outline-none" aria-controls="mobile-menu" aria-expanded="false">
-        <svg class="w-6 h-6" aria-hidden="true" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M3.75 6.75H20.25M3.75 12H20.25M3.75 17.25H20.25" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-        <span class="sr-only">Open menu</span>
-      </button>
-    </div>
-    <nav id="mobile-menu" hidden class="md:hidden px-4 pb-4 bg-gray-700" aria-label="Mobile navigation">
-      <a href="#pro-valuation" class="mobile-nav-link">Valuation</a>
-      <a href="#features" class="mobile-nav-link">Features</a>
-      <a href="#how-it-works" class="mobile-nav-link">How It Works</a>
-      <a href="saas-growth-calculator.html" class="mobile-nav-link">Growth Calculator</a>
-      <a href="blog.html" class="mobile-nav-link">Resources</a>
-    </nav>
-  </header>
+      <header class="bg-gray-800 text-white py-4 sticky top-0 z-50">
+        <div class="container mx-auto px-6 flex justify-between items-center">
+            <div class="text-2xl font-bold">
+                <a href="/">SaaS Valuation App</a>
+            </div>
+            <nav class="hidden md:flex space-x-6 items-center">
+                <a href="index.html#valuation" class="hover:text-teal-400">Free Self Valuation</a>
+                <a href="index.html#valuation" class="hover:text-teal-400">Valuation Tool</a>
+                <a href="index.html#data-room" class="hover:text-teal-400">AI Data Analysis</a>
+                <a href="index.html#pricing" class="hover:text-teal-400">Pricing</a>
+                <a href="saas-growth-calculator.html" class="hover:text-teal-400">Growth Calculator</a>
+                <a href="blog.html" class="hover:text-teal-400">Resources</a>
+            </nav>
+            <button id="menu-toggle" class="md:hidden focus:outline-none">
+                <i class="fas fa-bars text-2xl"></i>
+            </button>
+        </div>
+        <div id="mobile-menu" class="md:hidden hidden">
+            <nav class="flex flex-col space-y-4 mt-4 px-6 pb-4">
+                <a href="index.html#valuation" class="hover:text-teal-400">Self Valuation</a>
+                <a href="index.html#valuation" class="hover:text-teal-400">Valuation Tool</a>
+                <a href="index.html#data-room" class="hover:text-teal-400">AI Data Room</a>
+                <a href="index.html#pricing" class="hover:text-teal-400">Pricing</a>
+                <a href="saas-growth-calculator.html" class="hover:text-teal-400">Growth Calculator</a>
+                <a href="blog.html" class="hover:text-teal-400">Resources</a>
+            </nav>
+        </div>
+    </header>
   <main id="top">
   <!-- HERO SECTION -->
   <section id="hero" class="gradient-bg text-white py-20 scroll-mt-24">
@@ -1346,73 +1339,62 @@
     </div>
 </section>
   </main>
-  <footer class="bg-gray-800 text-white py-8">
-    <div class="container mx-auto px-4">
-      <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
-        <div>
-          <div class="flex items-center mb-4">
-            <svg class="w-6 h-6 text-teal-400 mr-2" aria-hidden="true" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-              <path d="M18.375 2.25C17.3395 2.25 16.5 3.08947 16.5 4.125V19.875C16.5 20.9105 17.3395 21.75 18.375 21.75H19.125C20.1605 21.75 21 20.9105 21 19.875V4.125C21 3.08947 20.1605 2.25 19.125 2.25H18.375Z"/>
-              <path d="M9.75 8.625C9.75 7.58947 10.5895 6.75 11.625 6.75H12.375C13.4105 6.75 14.25 7.58947 14.25 8.625V19.875C14.25 20.9105 13.4105 21.75 12.375 21.75H11.625C10.5895 21.75 9.75 20.9105 9.75 19.875V8.625Z"/>
-              <path d="M3 13.125C3 12.0895 3.83947 11.25 4.875 11.25H5.625C6.66053 11.25 7.5 12.0895 7.5 13.125V19.875C7.5 20.9105 6.66053 21.75 5.625 21.75H4.875C3.83947 21.75 3 20.9105 3 19.875V13.125Z"/>
-            </svg>
-            <span class="text-xl font-bold">SaaS<span class="text-teal-400">Val</span></span>
-          </div>
-          <p class="text-gray-400">
-            The most accurate SaaS business valuation tool for founders, investors, and acquirers.
-          </p>
+      <footer class="bg-gray-800 text-white py-12">
+        <div class="container mx-auto px-6 space-y-10">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-10 gap-y-12 items-center">
+                <div>
+                    <h2 class="text-3xl font-bold mb-4">Ready to Discover Your SaaS Value?</h2>
+                    <p class="text-lg text-gray-200 mb-6 max-w-2xl">Join thousands of founders who trust SaaS Valuation App to understand their business worth and grow smarter.</p>
+                    <a href="index.html#valuation" class="btn-primary text-white font-bold py-3 px-8 rounded-lg inline-block">Get Started Now</a>
+                </div>
+                <div class="bg-gray-900 rounded-xl p-6 shadow-lg">
+                    <h3 class="text-2xl font-semibold mb-2">Get SaaS Growth Insights</h3>
+                    <p class="text-gray-300 mb-4">Join our newsletter for exclusive tips, valuation strategies, and updates to grow your SaaS business.</p>
+                    <form action="https://formspree.io/f/mjkowkld" method="POST" class="space-y-4">
+                        <div>
+                            <label for="newsletter-email" class="block text-sm font-medium text-gray-300 mb-1">Your Email</label>
+                            <input type="email" name="email" id="newsletter-email" class="w-full border rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-teal-500 text-gray-900" placeholder="Enter your email" required aria-required="true">
+                            <p id="email-error" class="text-red-400 text-sm mt-1 hidden">Please enter a valid email address.</p>
+                        </div>
+                        <button type="submit" class="btn-secondary text-white font-bold py-3 px-6 rounded-lg w-full md:w-auto">Get SaaS Growth Insights</button>
+                        <p class="text-xs italic text-gray-400">By subscribing, you agree to our <a href="privacy-policy.html" class="underline">Privacy Policy</a>.</p>
+                    </form>
+                </div>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <h3 class="text-lg font-bold mb-4">SaaS Valuation App</h3>
+                    <p class="text-gray-400">Empowering SaaS founders to understand their business worth with AI-driven insights.</p>
+                </div>
+                <div>
+                    <h3 class="text-lg font-bold mb-4">Product</h3>
+                    <ul class="space-y-2">
+                        <li><a href="index.html#valuation" class="text-gray-400 hover:text-teal-400">Self Valuation</a></li>
+                        <li><a href="index.html#data-room" class="text-gray-400 hover:text-teal-400">AI Data Room</a></li>
+                        <li><a href="index.html#pricing" class="text-gray-400 hover:text-teal-400">Pricing</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-lg font-bold mb-4">Resources</h3>
+                    <ul class="space-y-2">
+                        <li><a href="blog.html" class="text-gray-400 hover:text-teal-400">Blog</a></li>
+                        <li><a href="valuation-guide.html" class="text-gray-400 hover:text-teal-400">Valuation Guide</a></li>
+                        <li><a href="due-diligence-checklist.html" class="text-gray-400 hover:text-teal-400">Due Diligence Checklist</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-lg font-bold mb-4">Legal</h3>
+                    <ul class="space-y-2">
+                        <li><a href="privacy-policy.html" class="text-gray-400 hover:text-teal-400">Privacy Policy</a></li>
+                        <li><a href="terms-and-conditions.html" class="text-gray-400 hover:text-teal-400">Terms and Conditions</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-700 mt-8 pt-6 text-center">
+                <p class="text-gray-400">© 2025 SaaS Valuation App. All rights reserved.</p>
+            </div>
         </div>
-        
-        <div>
-          <h3 class="text-lg font-bold mb-4">Quick Links</h3>
-          <ul class="space-y-2">
-            <li><a href="#pro-valuation" class="text-gray-400 hover:text-teal-400 transition-colors duration-300">Valuation Tool</a></li>
-            <li><a href="#features" class="text-gray-400 hover:text-teal-400 transition-colors duration-300">Features</a></li>
-            <li><a href="#how-it-works" class="text-gray-400 hover:text-teal-400 transition-colors duration-300">How It Works</a></li>
-            <li><a href="blog.html" class="text-gray-400 hover:text-teal-400 transition-colors duration-300">Resources</a></li>
-          </ul>
-        </div>
-        
-        <div>
-          <h3 class="text-lg font-bold mb-4">Resources</h3>
-          <ul class="space-y-2">
-            <li><a href="blog.html" class="text-gray-400 hover:text-teal-400 transition-colors duration-300">Blog</a></li>
-            <li><a href="valuation-guide.html" class="text-gray-400 hover:text-teal-400 transition-colors duration-300">SaaS Valuation Guide</a></li>
-            <li><a href="#" class="text-gray-400 hover:text-teal-400 transition-colors duration-300">Case Studies</a></li>
-            <li><a href="#" class="text-gray-400 hover:text-teal-400 transition-colors duration-300">FAQ</a></li>
-          </ul>
-        </div>
-        
-        <div>
-          <h3 class="text-lg font-bold mb-4">Connect</h3>
-          <div class="flex space-x-4 mb-4">
-            <a href="#" class="text-gray-400 hover:text-teal-400 transition-colors duration-300" aria-label="Twitter">
-              <svg class="w-5 h-5" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg"><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"/></svg>
-            </a>
-            <a href="#" class="text-gray-400 hover:text-teal-400 transition-colors duration-300" aria-label="LinkedIn">
-              <svg class="w-5 h-5" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg>
-            </a>
-            <a href="#" class="text-gray-400 hover:text-teal-400 transition-colors duration-300" aria-label="Facebook">
-              <svg class="w-5 h-5" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
-            </a>
-          </div>
-          <p class="text-gray-400">
-          </p>
-        </div>
-      </div>
-      
-      <div class="pt-6 border-t border-gray-700 text-center md:text-left">
-        <div class="flex flex-col md:flex-row justify-between items-center">
-          <p class="text-gray-400 mb-4 md:mb-0">
-            © 2025 SaaSVal. All rights reserved.
-          </p>
-          <div class="flex space-x-4">
-            <a href="privacy-policy.html">Privacy Policy</a> <a href="terms-and-conditions.html">Terms of Service</a> <a href="#" class="text-gray-400 hover:text-teal-400 transition-colors duration-300 text-sm">Cookies</a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </footer>
+    </footer>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" defer></script>
   <script type="module" src="scripts/main.js" defer></script>
 </body>
