@@ -2,6 +2,15 @@ import { setupPDF as setupPDFDefault } from './pdf.js';
 import { Chart, registerables } from './vendor/chart.js';
 Chart.register(...registerables);
 
+const formatCurrency = (value = 0) => {
+  const numeric = Number(value) || 0;
+  const absVal = Math.abs(numeric);
+  if (absVal < 10) return `$${numeric.toFixed(2)}`;
+  return `$${Math.round(numeric).toLocaleString()}`;
+};
+
+const formatPercent = (value = 0) => `${Number(value || 0).toFixed(1)}%`;
+
 export async function calculateValuation(deps = {}) {
   let jsPDF;
   let pdfEnabled = true;
@@ -134,10 +143,12 @@ export async function calculateValuation(deps = {}) {
       }
     }
 
+    const usedMethods = valuations.map(v => v.method);
+    const methodCount = usedMethods.length || methods.length;
     const avgValuation = valuations.length ? valuations.reduce((sum, v) => sum + v.value, 0) / valuations.length : 0;
     const rangeLow = avgValuation * 0.9;
     const rangeHigh = avgValuation * 1.1;
-    const confidence = Math.min(95, 60 + (methods.length * 10) + (growthYoy > 20 ? 10 : 0) + (customerChurn < 5 ? 10 : 0));
+    const confidence = Math.min(95, 60 + (methodCount * 10) + (growthYoy > 20 ? 10 : 0) + (customerChurn < 5 ? 10 : 0));
 
     const warningEl = document.getElementById('valuation-warnings');
     if (warnings.length) {
@@ -148,29 +159,29 @@ export async function calculateValuation(deps = {}) {
       warningEl.innerHTML = '';
     }
 
-    document.getElementById('valuation-amount').textContent = `$${Math.round(avgValuation).toLocaleString()}`;
-    document.getElementById('valuation-range').textContent = `$${Math.round(rangeLow).toLocaleString()} - $${Math.round(rangeHigh).toLocaleString()}`;
-    document.getElementById('confidence-score').textContent = `${Math.round(confidence)}%`;
+    document.getElementById('valuation-amount').textContent = formatCurrency(avgValuation);
+    document.getElementById('valuation-range').textContent = `${formatCurrency(rangeLow)} - ${formatCurrency(rangeHigh)}`;
+    document.getElementById('confidence-score').textContent = formatPercent(Math.round(confidence));
 
     // Charts
     try {
       const baseFont = { family: 'Inter, Arial, sans-serif', size: 12 };
       const buildOptions = (yTitle, max = undefined) => ({
-        responsive: false,
+        responsive: true,
+        maintainAspectRatio: false,
         plugins: {
-          legend: { labels: { color: '#233041', font: baseFont } },
-          tooltip: { backgroundColor: '#f6f7f9', titleColor: '#233041', bodyColor: '#233041' }
+          legend: { position: 'bottom', labels: { color: '#233041', font: baseFont, usePointStyle: true } },
+          tooltip: { backgroundColor: '#ffffff', titleColor: '#233041', bodyColor: '#233041', borderColor: '#e5e7eb', borderWidth: 1 }
         },
-        layout: { padding: 8 },
+        layout: { padding: 12 },
         scales: {
-          x: { ticks: { color: '#233041', font: baseFont }, grid: { color: '#e5e7eb' } },
-          y: { beginAtZero: true, max, title: { display: true, text: yTitle, color: '#233041', font: baseFont }, ticks: { color: '#233041', font: baseFont }, grid: { color: '#e5e7eb' } }
-        }
+          x: { ticks: { color: '#233041', font: baseFont }, grid: { color: '#eef2f7' } },
+          y: { beginAtZero: true, max, title: { display: true, text: yTitle, color: '#233041', font: baseFont }, ticks: { color: '#233041', font: baseFont }, grid: { color: '#eef2f7' } }
+        },
+        elements: { bar: { borderRadius: 6 } }
       });
 
       const valuationCanvas = document.getElementById('valuation-chart');
-      valuationCanvas.width = 800;
-      valuationCanvas.height = 500;
       new Chart(valuationCanvas, {
         type: 'bar',
         data: {
@@ -187,8 +198,6 @@ export async function calculateValuation(deps = {}) {
       });
 
       const financialCanvas = document.getElementById('financial-chart');
-      financialCanvas.width = 800;
-      financialCanvas.height = 500;
       new Chart(financialCanvas, {
         type: 'bar',
         data: {
@@ -205,8 +214,6 @@ export async function calculateValuation(deps = {}) {
       });
 
       const growthChurnCanvas = document.getElementById('growth-churn-chart');
-      growthChurnCanvas.width = 800;
-      growthChurnCanvas.height = 500;
       new Chart(growthChurnCanvas, {
         type: 'bar',
         data: {
@@ -228,8 +235,6 @@ export async function calculateValuation(deps = {}) {
       });
 
       const riskCanvas = document.getElementById('risk-chart');
-      riskCanvas.width = 800;
-      riskCanvas.height = 500;
       new Chart(riskCanvas, {
         type: 'radar',
         data: {
@@ -248,10 +253,29 @@ export async function calculateValuation(deps = {}) {
           }]
         },
         options: {
-          responsive: false,
-          plugins: { legend: { labels: { color: '#233041', font: baseFont } } },
-          scales: { r: { min: 0, max: 10, grid: { color: '#e5e7eb' }, pointLabels: { color: '#233041', font: baseFont }, ticks: { display: false } } }
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { position: 'bottom', labels: { color: '#233041', font: baseFont } } },
+          scales: { r: { min: 0, max: 10, grid: { color: '#eef2f7' }, pointLabels: { color: '#233041', font: baseFont }, ticks: { display: false } } }
         }
+      });
+
+      const chartCaptions = {
+        'valuation-chart': valuations.length > 1
+          ? 'Methods are cross-checked; alignments within range improve confidence.'
+          : 'Single-method result—add another approach to validate the headline number.',
+        'financial-chart': ltv && cac
+          ? `LTV/CAC balance guides buyer confidence; LTV ${formatCurrency(ltv)} vs CAC ${formatCurrency(cac)}.`
+          : 'Populate LTV and CAC to show acquisition efficiency clearly.',
+        'growth-churn-chart': growthYoy > customerChurn
+          ? 'Growth outpaces churn, supporting the applied multiple.'
+          : 'Churn is eroding growth—improve retention to defend the valuation.',
+        'risk-chart': `Risk inputs reflect legal (${legalIssues}), IP (${ipOwnership}), and debt ${formatCurrency(debtLevel)}.`
+      };
+
+      Object.entries(chartCaptions).forEach(([id, text]) => {
+        const el = document.getElementById(`${id}-caption`);
+        if (el) el.textContent = text;
       });
     } catch (error) {
       console.error('Failed to render charts:', error);
@@ -316,7 +340,7 @@ export async function calculateValuation(deps = {}) {
         multiplier,
         discountRate,
         ruleOf40,
-        methods
+        methods: usedMethods.length ? usedMethods : methods
       });
     }
 

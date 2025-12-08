@@ -100,6 +100,15 @@ export function setupPDF(data) {
         ruleOf40: sanitizeNumber(data.ruleOf40)
       };
 
+      const formatCurrency = (value = 0) => {
+        const numeric = Number(value) || 0;
+        const absVal = Math.abs(numeric);
+        if (absVal < 10) return `$${numeric.toFixed(2)}`;
+        return `$${Math.round(numeric).toLocaleString()}`;
+      };
+
+      const formatPercent = (value = 0, decimals = 1) => `${(Number(value) || 0).toFixed(decimals)}%`;
+
       const inferStage = () => {
         if (sanitizedData.arr < config.stageThresholds.earlyARR) return 'early-stage';
         if (sanitizedData.arr < config.stageThresholds.midARR) return 'mid-stage';
@@ -276,11 +285,14 @@ export function setupPDF(data) {
         if (sanitizedData.ownerSalary === 0 && sanitizedData.netProfit > 0) {
           warnings.push('Owner salary is set to $0. Buyers will adjust profit downward to reflect a market-rate founder salary.');
         }
-        if (sanitizedData.runway < 3 && sanitizedData.netProfit <= 0) {
-          warnings.push('Short runway (< 3 months) increases risk and can trigger valuation discounts.');
+        if (sanitizedData.runway < 3 && sanitizedData.burnRate > 0) {
+          warnings.push('Runway under 3 months with positive burn suggests urgent funding needs.');
         }
         if (sanitizedData.ltv < sanitizedData.cac && sanitizedData.ltv > 0 && sanitizedData.cac > 0) {
           warnings.push('LTV is lower than CAC, indicating unprofitable acquisition economics.');
+        }
+        if (sanitizedData.ltv > 0 && sanitizedData.arr > 0 && sanitizedData.ltv < sanitizedData.arr * 0.0001) {
+          warnings.push('LTV appears extremely low relative to revenue; revisit pricing, retention, or data quality.');
         }
         return warnings;
       };
@@ -294,6 +306,10 @@ export function setupPDF(data) {
       const confidenceBreakdown = computeConfidenceBreakdown();
       const exitAssessment = buildExitAssessment();
       const inputWarnings = buildInputWarnings();
+      const methodsUsed = sanitizedData.valuations.map(v => v.method);
+      const displayedMethods = methodsUsed.length ? methodsUsed : sanitizedData.methods;
+      const headlineMethod = methodsUsed[0] || displayedMethods[0] || 'Selected methods';
+      const methodList = displayedMethods.length ? displayedMethods.join(', ') : 'None selected';
 
       const doc = new jsPDF({ compress: true });
       doc.setProperties({
@@ -337,11 +353,14 @@ export function setupPDF(data) {
         return 28;
       };
 
-      const sectionTitle = (text, y) => {
+      const sectionTitle = (text, y, options = {}) => {
+        const topGap = options.topGap ?? 6;
+        const bottomGap = options.bottomGap ?? 8;
+        const nextY = y + topGap;
         doc.setFontSize(16);
         doc.setTextColor(...palette.ink);
-        doc.text(text, margin, y);
-        return y + 8;
+        doc.text(text, margin, nextY);
+        return nextY + bottomGap;
       };
 
       const sectionSubtitle = (text, y) => {
@@ -381,22 +400,24 @@ export function setupPDF(data) {
       doc.setDrawColor(...palette.brand);
       doc.roundedRect(margin, yPos, pageWidth - 2 * margin, 40, 3, 3);
       const statWidth = (pageWidth - 2 * margin - 10) / 3;
-      yPos = statBand('Average valuation', `$${Math.round(sanitizedData.avgValuation).toLocaleString()}`, margin + 4, yPos + 4, statWidth);
-      statBand('Valuation range', `$${Math.round(sanitizedData.rangeLow).toLocaleString()} - $${Math.round(sanitizedData.rangeHigh).toLocaleString()}`, margin + statWidth + 9, yPos - 24, statWidth, palette.ink);
-      statBand('Confidence', `${sanitizedData.confidence}%`, margin + 2 * statWidth + 14, yPos - 24, statWidth, palette.amber);
+      yPos = statBand('Average valuation', formatCurrency(sanitizedData.avgValuation), margin + 4, yPos + 4, statWidth);
+      statBand('Valuation range', `${formatCurrency(sanitizedData.rangeLow)} - ${formatCurrency(sanitizedData.rangeHigh)}`, margin + statWidth + 9, yPos - 24, statWidth, palette.ink);
+      statBand('Confidence', formatPercent(sanitizedData.confidence, 0), margin + 2 * statWidth + 14, yPos - 24, statWidth, palette.amber);
       yPos += 10;
       doc.setFontSize(10);
-      doc.text(`Business: ${sanitizedData.companyName || 'Not specified'} • Type: ${sanitizedData.businessType} • Methods: ${sanitizedData.methods.join(', ')}`, margin, yPos);
+      doc.text(`Business: ${sanitizedData.companyName || 'Not specified'} • Type: ${sanitizedData.businessType} • Methods: ${methodList}`, margin, yPos);
       yPos += 6;
       doc.text(`Prepared for: ${sanitizedData.email || 'Not provided'} • Report date: ${new Date().toLocaleDateString()}`, margin, yPos);
       yPos += 10;
       doc.setTextColor(...palette.slate);
       const midpoint = Math.round((sanitizedData.rangeLow + sanitizedData.rangeHigh) / 2);
-      doc.text(`Fair market value midpoint: $${midpoint.toLocaleString()} with a ${sanitizedData.confidence}% confidence score based on completeness and method alignment.`, margin, yPos, { maxWidth: pageWidth - 2 * margin });
+      doc.text(`Fair market value midpoint: ${formatCurrency(midpoint)} with an ${formatPercent(sanitizedData.confidence, 0)} confidence score based on completeness and method alignment.`, margin, yPos, { maxWidth: pageWidth - 2 * margin });
       yPos += 8;
-      doc.text(`Headline metrics: ARR $${sanitizedData.arr.toLocaleString()} • YoY growth ${sanitizedData.growthYoy}% • Customer churn ${sanitizedData.customerChurn}% • Runway ${sanitizedData.runway} months`, margin, yPos, { maxWidth: pageWidth - 2 * margin });
+      doc.text(`Headline metrics: ARR ${formatCurrency(sanitizedData.arr)} • YoY growth ${formatPercent(sanitizedData.growthYoy)} • Customer churn ${formatPercent(sanitizedData.customerChurn)} • Runway ${sanitizedData.runway} months`, margin, yPos, { maxWidth: pageWidth - 2 * margin });
       yPos += 8;
-      doc.text(`Why this valuation? This valuation is primarily driven by ARR of $${sanitizedData.arr.toLocaleString()}, growth of ${sanitizedData.growthYoy}% YoY, churn of ${sanitizedData.customerChurn}%, and gross margin of ${sanitizedData.grossMargin}%. The applied multiple of ${sanitizedData.multiplier}× reflects ${stage} SaaS with ${profitProfile} economics.`, margin, yPos, { maxWidth: pageWidth - 2 * margin });
+      doc.text(`Why this valuation? This valuation is primarily driven by ARR of ${formatCurrency(sanitizedData.arr)}, growth of ${formatPercent(sanitizedData.growthYoy)}, churn of ${formatPercent(sanitizedData.customerChurn)}, and gross margin of ${formatPercent(sanitizedData.grossMargin)}. The applied multiple of ${sanitizedData.multiplier}× reflects ${stage} SaaS with ${profitProfile} economics.`, margin, yPos, { maxWidth: pageWidth - 2 * margin });
+      yPos += 8;
+      doc.text(`Headline figure derived from ${headlineMethod}; Revenue Multiple context is provided as market reference even when income-based methods dominate.`, margin, yPos, { maxWidth: pageWidth - 2 * margin });
       yPos += 10;
       doc.text('How to use this report:', margin, yPos);
       yPos += 6;
@@ -415,8 +436,8 @@ export function setupPDF(data) {
       doc.autoTable({
         head: [['Executive Summary']],
         body: [
-          [`Valuation drivers: Growth ${sanitizedData.growthYoy}% YoY, churn ${sanitizedData.customerChurn}%, gross margin ${sanitizedData.grossMargin}%, applied multiple ${sanitizedData.multiplier}x.`],
-          [`Interpretation: Range captures sensitivity across methods (${sanitizedData.methods.join(', ')}). Confidence dips if inputs are sparse or methods diverge.`],
+          [`Valuation drivers: Growth ${formatPercent(sanitizedData.growthYoy)} YoY, churn ${formatPercent(sanitizedData.customerChurn)}, gross margin ${formatPercent(sanitizedData.grossMargin)}, applied multiple ${sanitizedData.multiplier}x.`],
+          [`Interpretation: Range captures sensitivity across methods (${methodList}). Confidence dips if inputs are sparse or methods diverge.`],
           ['Next steps: Refresh inputs monthly, rerun scenarios with updated churn or growth, and attach supporting dashboards for investor diligence.']
         ],
         startY: yPos,
@@ -430,6 +451,7 @@ export function setupPDF(data) {
       // Strategic Context Page
       yPos = addPage('Strategic Context');
       yPos = sectionTitle('Best-Fit Buyer Profiles', yPos);
+      yPos = sectionSubtitle('Profiles most likely to value your current stage and metrics.', yPos);
       doc.setFontSize(10);
       const profiles = buyerProfiles.length ? buyerProfiles : ['General financial buyers'];
       profiles.forEach(profile => {
@@ -440,36 +462,52 @@ export function setupPDF(data) {
       yPos += 10;
 
       yPos = sectionTitle('Valuation Sensitivity Scenarios', yPos);
+      yPos = sectionSubtitle('Current, optimistic, and conservative cases using the same methods to show upside/downside.', yPos);
       doc.autoTable({
         head: [['Scenario', 'ARR', 'YoY Growth', 'Customer Churn', 'Estimated Valuation']],
         body: scenarios.map(s => [
           s.label,
-          `$${Math.round(s.ARR).toLocaleString()}`,
-          `${s.yoyGrowth}%`,
-          `${s.churn}%`,
-          `$${Math.round(s.valuation).toLocaleString()}`
+          formatCurrency(s.ARR),
+          formatPercent(s.yoyGrowth),
+          formatPercent(s.churn),
+          formatCurrency(s.valuation)
         ]),
         startY: yPos,
         theme: 'striped',
-        styles: { fillColor: palette.soft, textColor: palette.ink },
+        styles: { fillColor: palette.soft, textColor: palette.ink, cellPadding: 3, overflow: 'linebreak' },
         headStyles: { fillColor: palette.brand, textColor: [255, 255, 255] }
       });
       yPos = doc.lastAutoTable.finalY + 6;
       doc.setTextColor(...palette.slate);
       doc.text('Scenarios use the same valuation logic to illustrate upside and downside paths. Adjust growth, churn, and ARR to see how the range shifts.', margin, yPos, { maxWidth: pageWidth - 2 * margin });
       doc.setTextColor(...palette.ink);
-      yPos += 10;
+      yPos += 12;
 
       yPos = sectionTitle('90-Day Valuation Uplift Plan', yPos);
-      doc.autoTable({
-        head: [['Area', 'Action', 'Impact']],
-        body: (upliftActions.length ? upliftActions : [{ area: 'No immediate red flags', action: 'Maintain steady growth and clean inputs', impact: 'Keeps confidence stable while you gather more data.' }]).map(item => [item.area, item.action, item.impact]),
-        startY: yPos,
-        theme: 'grid',
-        headStyles: { fillColor: palette.ink, textColor: [255, 255, 255] },
-        styles: { fillColor: [255, 255, 255], textColor: palette.ink, lineColor: palette.soft }
-      });
-      yPos = upliftActions.length ? doc.lastAutoTable.finalY + 6 : yPos + 6;
+      yPos = sectionSubtitle('Targeted actions to tighten diligence responses and lift the multiple.', yPos);
+      if (upliftActions.length > 1) {
+        doc.autoTable({
+          head: [['Area', 'Action', 'Impact']],
+          body: upliftActions.map(item => [item.area, item.action, item.impact]),
+          startY: yPos,
+          theme: 'grid',
+          headStyles: { fillColor: palette.ink, textColor: [255, 255, 255] },
+          styles: { fillColor: [255, 255, 255], textColor: palette.ink, lineColor: palette.soft, cellPadding: 3, overflow: 'linebreak' },
+          columnStyles: { 0: { cellWidth: 32 }, 1: { cellWidth: 70 }, 2: { cellWidth: pageWidth - 2 * margin - 102 } }
+        });
+        yPos = doc.lastAutoTable.finalY + 6;
+      } else if (upliftActions.length === 1) {
+        const solo = upliftActions[0];
+        doc.setFontSize(10);
+        doc.text(`• ${solo.area}: ${solo.action}`, margin, yPos, { maxWidth: pageWidth - 2 * margin });
+        yPos += 6;
+        doc.text(`Impact: ${solo.impact}`, margin + 6, yPos, { maxWidth: pageWidth - 2 * margin });
+        yPos += 6;
+      } else {
+        doc.setFontSize(10);
+        doc.text('No major uplift actions detected for the next 90 days. Maintain steady growth and refresh inputs monthly.', margin, yPos, { maxWidth: pageWidth - 2 * margin });
+        yPos += 6;
+      }
       doc.setTextColor(...palette.slate);
       doc.text('Focus on the top 3–5 actions with the biggest gap to improve buyer confidence before outreach.', margin, yPos, { maxWidth: pageWidth - 2 * margin });
       doc.setTextColor(...palette.ink);
@@ -479,12 +517,12 @@ export function setupPDF(data) {
       yPos = sectionTitle('Valuation Details', yPos);
       yPos = sectionSubtitle('Blend of approaches to triangulate a defensible range.', yPos);
       const valuationRows = sanitizedData.valuations.map(v => {
-        const value = `$${Math.round(v.value).toLocaleString()}`;
+        const value = formatCurrency(v.value);
         const insights = {
-          'Revenue Multiplier': `ARR ${sanitizedData.multiplier}x shows revenue stability; churn at ${sanitizedData.customerChurn}% impacts multiple.`,
-          'Income-Based': `Profit focus; margins ${sanitizedData.grossMargin}% and burn $${sanitizedData.burnRate.toLocaleString()} influence quality.`,
-          'Earnings-Based': `Balances ARR and retention (${sanitizedData.retentionRate}%); higher NPS (${sanitizedData.nps}) improves confidence.`,
-          DCF: `Discounts future cash at ${(sanitizedData.discountRate * 100).toFixed(2)}%; runway ${sanitizedData.runway}m and debt $${sanitizedData.debtLevel.toLocaleString()} are key.`
+          'Revenue Multiplier': `ARR ${sanitizedData.multiplier}x shows revenue stability; churn at ${formatPercent(sanitizedData.customerChurn)} impacts multiple.`,
+          'Income-Based': `Profit focus; margins ${formatPercent(sanitizedData.grossMargin)} and burn ${formatCurrency(sanitizedData.burnRate)} influence quality.`,
+          'Earnings-Based': `Balances ARR and retention (${formatPercent(sanitizedData.retentionRate, 0)}); higher NPS (${sanitizedData.nps}) improves confidence.`,
+          DCF: `Discounts future cash at ${formatPercent(sanitizedData.discountRate * 100, 2)}; runway ${sanitizedData.runway}m and debt ${formatCurrency(sanitizedData.debtLevel)} are key.`
         };
         return [v.method, value, insights[v.method] || 'Methodology detail unavailable'];
       });
@@ -494,7 +532,7 @@ export function setupPDF(data) {
         startY: yPos,
         theme: 'grid',
         headStyles: { fillColor: palette.brand, textColor: [255, 255, 255] },
-        styles: { fillColor: [255, 255, 255], textColor: palette.ink, lineColor: palette.soft },
+        styles: { fillColor: [255, 255, 255], textColor: palette.ink, lineColor: palette.soft, cellPadding: 3, overflow: 'linebreak' },
         columnStyles: { 0: { cellWidth: 45 }, 1: { cellWidth: 40 }, 2: { cellWidth: pageWidth - 2 * margin - 85 } }
       });
       yPos = doc.lastAutoTable.finalY + 8;
@@ -509,27 +547,27 @@ export function setupPDF(data) {
       yPos = addPage('Inputs & Assumptions');
       yPos = sectionTitle('Input Summary', yPos);
       const inputs = [
-        ['Valuation Methods', sanitizedData.methods.join(', ')],
+        ['Valuation Methods', methodList],
         ['Business Type', sanitizedData.businessType],
         ['Industry Multiplier', sanitizedData.baseMultiplier],
         ['Adjusted Multiplier', sanitizedData.multiplier],
-        ['ARR', `$${sanitizedData.arr.toLocaleString()}`],
-        ['MRR', `$${sanitizedData.mrr.toLocaleString()}`],
-        ['Net Profit', `$${sanitizedData.netProfit.toLocaleString()}`],
-        ['YoY Growth', `${sanitizedData.growthYoy}%`],
-        ['MoM Growth', `${sanitizedData.revenueGrowthMom}%`],
-        ['Customer Churn', `${sanitizedData.customerChurn}%`],
-        ['Revenue Churn', `${sanitizedData.revenueChurn}%`],
-        ['Retention Rate', `${sanitizedData.retentionRate}%`],
+        ['ARR', formatCurrency(sanitizedData.arr)],
+        ['MRR', formatCurrency(sanitizedData.mrr)],
+        ['Net Profit', formatCurrency(sanitizedData.netProfit)],
+        ['YoY Growth', formatPercent(sanitizedData.growthYoy)],
+        ['MoM Growth', formatPercent(sanitizedData.revenueGrowthMom)],
+        ['Customer Churn', formatPercent(sanitizedData.customerChurn)],
+        ['Revenue Churn', formatPercent(sanitizedData.revenueChurn)],
+        ['Retention Rate', formatPercent(sanitizedData.retentionRate)],
         ['NPS', sanitizedData.nps],
-        ['Gross Margin', `${sanitizedData.grossMargin}%`],
-        ['CAC', `$${sanitizedData.cac.toLocaleString()}`],
-        ['LTV', `$${sanitizedData.ltv.toLocaleString()}`],
-        ['Burn Rate', `$${sanitizedData.burnRate.toLocaleString()}`],
+        ['Gross Margin', formatPercent(sanitizedData.grossMargin)],
+        ['CAC', formatCurrency(sanitizedData.cac)],
+        ['LTV', formatCurrency(sanitizedData.ltv)],
+        ['Burn Rate', formatCurrency(sanitizedData.burnRate)],
         ['Runway', `${sanitizedData.runway} months`],
-        ['Owner Salary', `$${sanitizedData.ownerSalary.toLocaleString()}`],
-        ['Average Employee Salary', `$${sanitizedData.averageSalary.toLocaleString()}`],
-        ['Employee Benefits', `$${sanitizedData.employeeBenefits.toLocaleString()}`],
+        ['Owner Salary', formatCurrency(sanitizedData.ownerSalary)],
+        ['Average Employee Salary', formatCurrency(sanitizedData.averageSalary)],
+        ['Employee Benefits', formatCurrency(sanitizedData.employeeBenefits)],
         ['Years in Operation', sanitizedData.yearsOperating],
         ['Active Customers', sanitizedData.activeCustomers],
         ['MAU', sanitizedData.mau],
@@ -550,14 +588,14 @@ export function setupPDF(data) {
         ['Headcount Growth', `${sanitizedData.headcountGrowth}%`],
         ['Legal Entity', sanitizedData.legalEntity],
         ['Contract Length', `${sanitizedData.contractLength} months`],
-        ['Contract Value', `$${sanitizedData.contractValue.toLocaleString()}`],
+        ['Contract Value', formatCurrency(sanitizedData.contractValue)],
         ['Vendor Lock-in', sanitizedData.vendorLockin],
         ['Legal Issues', sanitizedData.legalIssues],
         ['IP Ownership', sanitizedData.ipOwnership],
         ['Data Privacy', sanitizedData.dataPrivacy],
         ['Cyber Insurance', sanitizedData.cyberInsurance],
-        ['Debt Level', `$${sanitizedData.debtLevel.toLocaleString()}`],
-        ['Discount Rate', `${(sanitizedData.discountRate * 100).toFixed(2)}%`],
+        ['Debt Level', formatCurrency(sanitizedData.debtLevel)],
+        ['Discount Rate', formatPercent(sanitizedData.discountRate * 100, 2)],
         ['Rule of 40', sanitizedData.ruleOf40]
       ];
       doc.autoTable({
@@ -565,7 +603,7 @@ export function setupPDF(data) {
         body: inputs,
         startY: yPos,
         theme: 'striped',
-        styles: { fillColor: palette.soft, textColor: palette.ink },
+        styles: { fillColor: palette.soft, textColor: palette.ink, cellPadding: 3, overflow: 'linebreak' },
         headStyles: { fillColor: palette.brand, textColor: [255, 255, 255] }
       });
       yPos = doc.lastAutoTable.finalY + 10;
@@ -581,47 +619,52 @@ export function setupPDF(data) {
       yPos = addPage('Metrics & Health');
       yPos = sectionTitle('Key Metrics Overview', yPos);
       yPos = sectionSubtitle('Importance shows why each KPI matters; insight provides an immediate recommendation.', yPos);
+      const ltvToCac = sanitizedData.cac ? sanitizedData.ltv / sanitizedData.cac : 0;
       // Each metric now includes an "importance" explanation to show why it matters.
       const metrics = [
         {
           label: 'ARR',
-          value: `$${sanitizedData.arr.toLocaleString()}`,
+          value: formatCurrency(sanitizedData.arr),
           importance: 'Shows recurring revenue baseline.',
           insight: sanitizedData.arr > 1000000 ? 'Strong revenue base.' : 'Grow revenue to boost value.'
         },
         {
           label: 'MRR',
-          value: `$${sanitizedData.mrr.toLocaleString()}`,
+          value: formatCurrency(sanitizedData.mrr),
           importance: 'Highlights monthly revenue consistency.',
           insight: sanitizedData.mrr > 100000 ? 'Stable monthly income.' : 'Increase subscriptions.'
         },
         {
           label: 'LTV',
-          value: `$${sanitizedData.ltv.toLocaleString()}`,
+          value: formatCurrency(sanitizedData.ltv),
           importance: 'Indicates lifetime revenue per customer.',
-          insight: sanitizedData.ltv > 3 * sanitizedData.cac ? 'High customer value.' : 'Extend customer lifetime.'
+          insight: sanitizedData.ltv < 10
+            ? 'Low lifetime value; focus on pricing and retention.'
+            : ltvToCac >= 3
+              ? 'Strong lifetime value supports valuation.'
+              : 'Healthy lifetime value with room to improve retention.'
         },
         {
           label: 'CAC',
-          value: `$${sanitizedData.cac.toLocaleString()}`,
+          value: formatCurrency(sanitizedData.cac),
           importance: 'Reveals cost to acquire customers.',
-          insight: sanitizedData.cac < sanitizedData.ltv / 3 ? 'Efficient acquisition.' : 'Lower acquisition costs.'
+          insight: ltvToCac >= 3 ? 'Efficient acquisition relative to LTV.' : 'Reduce CAC or lift LTV to improve payback.'
         },
         {
           label: 'Gross Margin',
-          value: `${sanitizedData.grossMargin}%`,
+          value: formatPercent(sanitizedData.grossMargin),
           importance: 'Reflects operational efficiency.',
-          insight: sanitizedData.grossMargin > 70 ? 'Efficient operations.' : 'Optimize costs.'
+          insight: sanitizedData.grossMargin > 70 ? 'Efficient operations.' : 'Optimize costs to defend margins.'
         },
         {
           label: 'Net Profit',
-          value: `$${sanitizedData.netProfit.toLocaleString()}`,
+          value: formatCurrency(sanitizedData.netProfit),
           importance: 'Measures profitability.',
-          insight: sanitizedData.netProfit > 0 ? 'Profitable business.' : 'Focus on profitability.'
+          insight: sanitizedData.netProfit > 0 ? 'Profitable business.' : 'Focus on profitability and cash discipline.'
         },
         {
           label: 'Burn Rate',
-          value: `$${sanitizedData.burnRate.toLocaleString()}`,
+          value: formatCurrency(sanitizedData.burnRate),
           importance: 'Tracks cash consumption rate.',
           insight: sanitizedData.burnRate < sanitizedData.mrr ? 'Sustainable spending.' : 'Reduce expenses.'
         },
@@ -629,23 +672,23 @@ export function setupPDF(data) {
           label: 'Runway',
           value: `${sanitizedData.runway} months`,
           importance: 'Estimates months before cash runs out.',
-          insight: sanitizedData.runway > 12 ? 'Long-term stability.' : 'Secure funding.'
+          insight: sanitizedData.runway > 12 ? 'Long-term stability.' : 'Secure funding or extend runway.'
         },
         {
           label: 'Owner Salary',
-          value: `$${sanitizedData.ownerSalary.toLocaleString()}`,
+          value: formatCurrency(sanitizedData.ownerSalary),
           importance: 'Shows owner compensation excluded from profit.',
           insight: sanitizedData.ownerSalary > 0 ? 'Track SDE adjustments.' : 'Enter salary for clarity.'
         },
         {
           label: 'Average Employee Salary',
-          value: `$${sanitizedData.averageSalary.toLocaleString()}`,
+          value: formatCurrency(sanitizedData.averageSalary),
           importance: 'Highlights staff cost structure.',
           insight: sanitizedData.averageSalary > 0 ? 'Competitive pay scale.' : 'Benchmark salaries.'
         },
         {
           label: 'Employee Benefits',
-          value: `$${sanitizedData.employeeBenefits.toLocaleString()}`,
+          value: formatCurrency(sanitizedData.employeeBenefits),
           importance: 'Captures non-salary compensation.',
           insight: sanitizedData.employeeBenefits > 0 ? 'Include in cost planning.' : 'Track benefit spend.'
         },
@@ -657,15 +700,15 @@ export function setupPDF(data) {
         },
         {
           label: 'YoY Growth',
-          value: `${sanitizedData.growthYoy}%`,
+          value: formatPercent(sanitizedData.growthYoy),
           importance: 'Shows annual revenue momentum.',
           insight: sanitizedData.growthYoy > 20 ? 'Strong growth.' : 'Accelerate revenue growth.'
         },
         {
           label: 'Customer Churn',
-          value: `${sanitizedData.customerChurn}%`,
+          value: formatPercent(sanitizedData.customerChurn),
           importance: 'Captures customer loss rate.',
-          insight: sanitizedData.customerChurn < 5 ? 'Loyal customers.' : 'Improve retention.'
+          insight: sanitizedData.customerChurn < 5 ? 'Loyal customers.' : 'Improve retention to protect ARR.'
         },
         {
           label: 'Active Customers',
@@ -687,7 +730,7 @@ export function setupPDF(data) {
         },
         {
           label: 'Debt Level',
-          value: `$${sanitizedData.debtLevel.toLocaleString()}`,
+          value: formatCurrency(sanitizedData.debtLevel),
           importance: 'Assesses financial risk.',
           insight: sanitizedData.debtLevel < 100000 ? 'Low financial risk.' : 'Reduce debt.'
         }
@@ -697,9 +740,9 @@ export function setupPDF(data) {
         body: metrics.map(m => [m.label, m.value, m.importance, m.insight]),
         startY: yPos,
         theme: 'striped',
-        styles: { fillColor: palette.soft, textColor: palette.ink },
+        styles: { fillColor: palette.soft, textColor: palette.ink, cellPadding: 3, overflow: 'linebreak' },
         headStyles: { fillColor: palette.brand, textColor: [255, 255, 255] },
-        columnStyles: { 0: { cellWidth: 32 }, 1: { cellWidth: 35 } }
+        columnStyles: { 0: { cellWidth: 32 }, 1: { cellWidth: 35 }, 2: { cellWidth: 40 }, 3: { cellWidth: pageWidth - 2 * margin - 107 } }
       });
       yPos = doc.lastAutoTable.finalY + 8;
       doc.setFontSize(10);
@@ -714,9 +757,9 @@ export function setupPDF(data) {
       yPos = addPage('Risks & Upside');
       yPos = sectionTitle('Risk and Opportunity Notes', yPos);
       const riskRows = [
-        ['Churn & Retention', `${sanitizedData.customerChurn}% churn; ${sanitizedData.retentionRate}% retention`, sanitizedData.customerChurn < 6 ? 'Healthy retention keeps revenue durable.' : 'Prioritize save flows and onboarding to slow churn.'],
+        ['Churn & Retention', `${formatPercent(sanitizedData.customerChurn)} churn; ${formatPercent(sanitizedData.retentionRate)} retention`, sanitizedData.customerChurn < 6 ? 'Healthy retention keeps revenue durable.' : 'Prioritize save flows and onboarding to slow churn.'],
         ['Runway', `${sanitizedData.runway} months`, sanitizedData.runway >= 12 ? 'Comfortable runway supports growth investments.' : 'Extend runway with spend discipline or new capital.'],
-        ['Debt & Legal', `$${sanitizedData.debtLevel.toLocaleString()} debt; legal: ${sanitizedData.legalIssues || 'None'}`, sanitizedData.debtLevel < 100000 ? 'Low leverage risk.' : 'Reduce debt or restructure for cleaner balance sheet.'],
+        ['Debt & Legal', `${formatCurrency(sanitizedData.debtLevel)} debt; legal: ${sanitizedData.legalIssues || 'None'}`, sanitizedData.debtLevel < 100000 ? 'Low leverage risk.' : 'Reduce debt or restructure for cleaner balance sheet.'],
         ['Customer Love', `NPS ${sanitizedData.nps}; Support rating ${sanitizedData.supportRating}`, sanitizedData.nps > 50 ? 'Promoters can drive referrals and upsell.' : 'Invest in CX and proactive support.'],
         ['Technology', `${sanitizedData.proprietaryTech}; ${sanitizedData.securityCompliance}`, sanitizedData.proprietaryTech.includes('Yes') ? 'Defensible IP strengthens moat.' : 'Document IP and security posture for diligence.']
       ];
@@ -725,7 +768,7 @@ export function setupPDF(data) {
         body: riskRows,
         startY: yPos,
         theme: 'striped',
-        styles: { fillColor: palette.soft, textColor: palette.ink },
+        styles: { fillColor: palette.soft, textColor: palette.ink, cellPadding: 3, overflow: 'linebreak' },
         headStyles: { fillColor: palette.brand, textColor: [255, 255, 255] },
         columnStyles: { 0: { cellWidth: 38 }, 1: { cellWidth: 55 } }
       });
@@ -738,12 +781,14 @@ export function setupPDF(data) {
       // Methodology Page
       yPos = addPage('Methodology');
       yPos = sectionTitle('Valuation Methodology', yPos);
-      const methodology = [
-        ['Revenue Multiplier', `ARR $${sanitizedData.arr.toLocaleString()} × ${sanitizedData.multiplier}x`, 'Anchored to industry multiples, adjusted for churn, growth, and market segment.'],
-        ['Income-Based', `Profit $${sanitizedData.netProfit.toLocaleString()} × ${(sanitizedData.multiplier - 1).toFixed(1)}x`, 'Focuses on cash flow quality and margin durability for financial buyers.'],
+      yPos = sectionSubtitle('Shows only the approaches used to compute this report.', yPos);
+      const methodologyBase = [
+        ['Revenue Multiplier', `ARR ${formatCurrency(sanitizedData.arr)} × ${sanitizedData.multiplier}x`, 'Anchored to industry multiples, adjusted for churn, growth, and market segment.'],
+        ['Income-Based', `Profit ${formatCurrency(sanitizedData.netProfit)} × ${(sanitizedData.multiplier - 1).toFixed(1)}x`, 'Focuses on cash flow quality and margin durability for financial buyers.'],
         ['Earnings-Based', 'Hybrid growth & retention lens', 'Balances profitability and retention to normalize outlier inputs.'],
-        ['DCF', `${(sanitizedData.discountRate * 100).toFixed(2)}% discount`, 'Projects cash flows and discounts for risk, runway, and leverage.']
+        ['DCF', `${formatPercent(sanitizedData.discountRate * 100, 2)} discount`, 'Projects cash flows and discounts for risk, runway, and leverage.']
       ];
+      const methodology = displayedMethods.length ? methodologyBase.filter(row => displayedMethods.includes(row[0])) : methodologyBase;
       doc.autoTable({
         head: [['Approach', 'Formula / Key Inputs', 'How to Read']],
         body: methodology,
@@ -762,7 +807,7 @@ export function setupPDF(data) {
 
       // Market and Confidence Page
       yPos = addPage('Market & Confidence');
-      yPos = sectionTitle('Market Multiple Context', yPos);
+      yPos = sectionTitle('Revenue Multiple Market Context (for reference)', yPos);
       const rangeSpan = marketRange.high - marketRange.low;
       const lowerBand = marketRange.low + rangeSpan / 3;
       const upperBand = marketRange.high - rangeSpan / 3;
@@ -789,7 +834,7 @@ export function setupPDF(data) {
         ],
         startY: yPos,
         theme: 'striped',
-        styles: { fillColor: palette.soft, textColor: palette.ink },
+        styles: { fillColor: palette.soft, textColor: palette.ink, cellPadding: 3 },
         headStyles: { fillColor: palette.brand, textColor: [255, 255, 255] }
       });
       yPos = doc.lastAutoTable.finalY + 6;
@@ -798,9 +843,10 @@ export function setupPDF(data) {
       doc.setTextColor(...palette.slate);
       doc.text('Scores are weighted across data completeness, method alignment, revenue quality, legal clarity, and market stability.', margin, yPos, { maxWidth: pageWidth - 2 * margin });
       doc.setTextColor(...palette.ink);
-      yPos += 10;
+      yPos += 12;
 
       yPos = sectionTitle('Exit Readiness Snapshot', yPos);
+      yPos = sectionSubtitle('This section summarizes your readiness for acquisition or fundraising.', yPos);
       doc.autoTable({
         head: [['Dimension', 'Assessment']],
         body: [
@@ -843,13 +889,13 @@ export function setupPDF(data) {
           return 'Single-method valuation; add another method for cross-checking confidence.';
         }
         if (title === 'Growth vs. Churn') {
-          return `YoY growth of ${sanitizedData.growthYoy}% compared to churn of ${sanitizedData.customerChurn}% ${sanitizedData.growthYoy > sanitizedData.customerChurn ? 'supports the current multiple.' : 'signals retention needs before scaling spend.'}`;
+          return `YoY growth of ${formatPercent(sanitizedData.growthYoy)} compared to churn of ${formatPercent(sanitizedData.customerChurn)} ${sanitizedData.growthYoy > sanitizedData.customerChurn ? 'supports the current multiple.' : 'signals retention needs before scaling spend.'}`;
         }
         if (title === 'Financial Metrics Impact') {
-          return `LTV/CAC visibility and margin quality shape buyer confidence; LTV $${sanitizedData.ltv.toLocaleString()} vs. CAC $${sanitizedData.cac.toLocaleString()}.`;
+          return `LTV/CAC visibility and margin quality shape buyer confidence; LTV ${formatCurrency(sanitizedData.ltv)} vs. CAC ${formatCurrency(sanitizedData.cac)}.`;
         }
         if (title === 'Risk Factors') {
-          return `Legal (${sanitizedData.legalIssues || 'n/a'}), IP (${sanitizedData.ipOwnership}), and debt $${sanitizedData.debtLevel.toLocaleString()} drive diligence effort.`;
+          return `Legal (${sanitizedData.legalIssues || 'n/a'}), IP (${sanitizedData.ipOwnership}), and debt ${formatCurrency(sanitizedData.debtLevel)} drive diligence effort.`;
         }
         return '';
       };
