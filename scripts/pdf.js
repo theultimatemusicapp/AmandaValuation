@@ -10,6 +10,8 @@ const config = {
   }
 };
 
+const REVALUATION_COUPON_CODE = 'sasvalcoup26x92f';
+
 export function setupPDF(data) {
   const button = document.getElementById('download-report');
   if (!button) return;
@@ -943,6 +945,23 @@ export function setupPDF(data) {
       doc.setFontSize(10);
       const disclaimerText = 'This valuation is an estimate based on user-provided data and standard methods. It is not investment, tax, or legal advice. Consult professional advisors before acting on this report. The SaaS Valuation App™ is not liable for actions taken based on this document. Accuracy depends on the correctness and timeliness of your inputs.';
       doc.text(doc.splitTextToSize(disclaimerText, pageWidth - 2 * margin), margin, yPos);
+
+      yPos = addPage('Revaluation Access');
+      yPos = sectionTitle('Keep Your Revaluation Coupon', yPos);
+      doc.setFontSize(11);
+      const revalueMessage = 'To revalue your business at a later date please enter this unique coupon code:';
+      doc.text(doc.splitTextToSize(revalueMessage, pageWidth - 2 * margin), margin, yPos);
+      yPos += 12;
+      doc.setFont(undefined, 'bold');
+      doc.setFontSize(18);
+      doc.setTextColor(...palette.brand);
+      doc.text(REVALUATION_COUPON_CODE, margin, yPos);
+      doc.setTextColor(...palette.ink);
+      doc.setFont(undefined, 'normal');
+      yPos += 14;
+      doc.setFontSize(10);
+      const revalueNote = 'Keep this code safe. It unlocks future valuation updates without repurchasing after you have already paid.';
+      doc.text(doc.splitTextToSize(revalueNote, pageWidth - 2 * margin), margin, yPos);
       const pageCount = doc.getNumberOfPages();
       for (let i = 1; i <= pageCount; i++) {
         doc.setPage(i);
