@@ -1,3 +1,15 @@
+const config = {
+  stageThresholds: { earlyARR: 50000, midARR: 500000 },
+  confidenceWeights: { data: 0.3, methods: 0.25, revenue: 0.2, legal: 0.15, market: 0.1 },
+  marketMultiples: {
+    'Generic SaaS': { low: 1.5, high: 4 },
+    'Education Tech': { low: 2, high: 6 },
+    'Fintech SaaS': { low: 3, high: 8 },
+    'Developer Tools': { low: 3, high: 7 },
+    Other: { low: 1, high: 3.5 }
+  }
+};
+
 export function setupPDF(data) {
   const button = document.getElementById('download-report');
   if (!button) return;
@@ -87,6 +99,201 @@ export function setupPDF(data) {
         discountRate: sanitizeNumber(data.discountRate),
         ruleOf40: sanitizeNumber(data.ruleOf40)
       };
+
+      const inferStage = () => {
+        if (sanitizedData.arr < config.stageThresholds.earlyARR) return 'early-stage';
+        if (sanitizedData.arr < config.stageThresholds.midARR) return 'mid-stage';
+        return 'later-stage';
+      };
+
+      const inferProfitProfile = () => {
+        if (sanitizedData.netProfit > 0) return 'profitable';
+        if (Math.abs(sanitizedData.netProfit) < sanitizedData.arr * 0.05) return 'breakeven';
+        return 'loss-making';
+      };
+
+      const inferBuyerProfiles = () => {
+        const profiles = [];
+        const teamSize = sanitizedData.fte || sanitizedData.keyStaff || 0;
+        if (sanitizedData.netProfit > 0 && sanitizedData.arr <= 200000 && teamSize <= 3) {
+          profiles.push('Indie founder / solo SaaS buyer');
+        }
+        if (sanitizedData.arr >= 200000 && sanitizedData.growthYoy >= 20) {
+          profiles.push('Micro-PE / roll-up fund');
+        }
+        if (sanitizedData.businessType) {
+          profiles.push(`Strategic buyer in ${sanitizedData.businessType}`);
+        }
+        if ((sanitizedData.burnRate < 0 || sanitizedData.netProfit <= 0) && sanitizedData.growthYoy >= 20) {
+          profiles.push('Growth investor / angel backing further scale rather than immediate acquisition');
+        }
+        return profiles.slice(0, 3);
+      };
+
+      const buildScenarios = () => {
+        const optimisticGrowth = Math.min(sanitizedData.growthYoy + 20, 100);
+        const conservativeGrowth = Math.max(sanitizedData.growthYoy - 10, 0);
+        return [
+          {
+            label: 'Current',
+            ARR: sanitizedData.arr,
+            yoyGrowth: sanitizedData.growthYoy,
+            churn: sanitizedData.customerChurn,
+            valuation: sanitizedData.avgValuation
+          },
+          {
+            label: 'Optimistic (12–18 months)',
+            ARR: sanitizedData.arr * 2,
+            yoyGrowth: optimisticGrowth,
+            churn: Math.max(sanitizedData.customerChurn - 1, 0),
+            valuation: sanitizedData.avgValuation * 2.5
+          },
+          {
+            label: 'Conservative',
+            ARR: sanitizedData.arr * 0.75,
+            yoyGrowth: conservativeGrowth,
+            churn: sanitizedData.customerChurn + 2,
+            valuation: sanitizedData.avgValuation * 0.7
+          }
+        ];
+      };
+
+      const buildUpliftActions = () => {
+        const actions = [];
+        if (sanitizedData.customerChurn > 5) {
+          actions.push({
+            area: 'Churn & Retention',
+            action: 'Implement onboarding emails, check-in sequences, and cancellation surveys to reduce churn by 1–2 points.',
+            impact: 'Even a 1% churn improvement can support a higher revenue multiple.'
+          });
+        }
+        if (sanitizedData.runway < 6 && sanitizedData.netProfit <= 0) {
+          actions.push({
+            area: 'Runway',
+            action: 'Cut non-essential spend and test pricing increases or annual plans to extend runway beyond 9–12 months.',
+            impact: 'Longer runway reduces buyer discounting and improves negotiating leverage.'
+          });
+        }
+        if (sanitizedData.cac === 0 && sanitizedData.arr > 0) {
+          actions.push({
+            area: 'Tracking CAC',
+            action: 'Start tracking CAC accurately across paid, organic, and referral channels.',
+            impact: 'Credible CAC/LTV numbers increase buyer confidence in your growth engine.'
+          });
+        }
+        if (sanitizedData.arr < 3000 && sanitizedData.growthYoy > 20) {
+          actions.push({
+            area: 'Revenue Scale',
+            action: 'Prioritize converting free users to paid and test simple upgrade paths to lift ARR.',
+            impact: 'Crossing ARR bands opens up different buyer profiles.'
+          });
+        }
+        if (sanitizedData.grossMargin < 60) {
+          actions.push({
+            area: 'Margin Efficiency',
+            action: 'Renegotiate hosting, streamline support workflows, or re-price low-margin plans.',
+            impact: 'Improving gross margin expands profit-based valuations.'
+          });
+        }
+        return actions.slice(0, 5);
+      };
+
+      const findMarketMultiple = () => {
+        const type = sanitizedData.businessType || 'Generic SaaS';
+        if (type.toLowerCase().includes('edu')) return { ...config.marketMultiples['Education Tech'], label: 'Education Tech' };
+        if (type.toLowerCase().includes('fin')) return { ...config.marketMultiples['Fintech SaaS'], label: 'Fintech SaaS' };
+        if (type.toLowerCase().includes('dev')) return { ...config.marketMultiples['Developer Tools'], label: 'Developer Tools' };
+        return { ...config.marketMultiples['Generic SaaS'], label: 'Generic SaaS' };
+      };
+
+      const computeConfidenceBreakdown = () => {
+        let dataCompleteness = 100;
+        const criticalFields = [sanitizedData.arr, sanitizedData.customerChurn, sanitizedData.cac, sanitizedData.ltv, sanitizedData.runway, sanitizedData.netProfit];
+        criticalFields.forEach(val => {
+          if (!val || Number.isNaN(val)) dataCompleteness -= 10;
+        });
+
+        let methodAlignment = 70;
+        if (sanitizedData.valuations.length > 1) {
+          const values = sanitizedData.valuations.map(v => v.value);
+          const spread = Math.max(...values) - Math.min(...values);
+          const midpoint = sanitizedData.avgValuation || 1;
+          const ratio = midpoint ? (spread / midpoint) * 100 : 0;
+          methodAlignment = ratio < 30 ? 90 : ratio < 60 ? 75 : 60;
+        }
+
+        let revenueQuality = 70;
+        if (sanitizedData.grossMargin > 70 && sanitizedData.customerChurn < 5) revenueQuality = 90;
+        else if (sanitizedData.grossMargin > 60 && sanitizedData.customerChurn < 8) revenueQuality = 80;
+        else revenueQuality = 65;
+
+        const legalClarity = sanitizedData.legalIssues === 'none' && sanitizedData.ipOwnership === 'fully-owned' && sanitizedData.dataPrivacy === 'full' ? 85 : 65;
+        const marketStability = 75;
+
+        const overall = Math.round(
+          config.confidenceWeights.data * dataCompleteness +
+          config.confidenceWeights.methods * methodAlignment +
+          config.confidenceWeights.revenue * revenueQuality +
+          config.confidenceWeights.legal * legalClarity +
+          config.confidenceWeights.market * marketStability
+        );
+
+        return { dataCompleteness, methodAlignment, revenueQuality, legalClarity, marketStability, overall };
+      };
+
+      const buildExitAssessment = () => {
+        let sellableToday = 'Moderate';
+        let fundableToday = 'Moderate';
+        let strategicAppeal = 'Moderate';
+        const notes = [];
+
+        if (sanitizedData.arr < 24000 && sanitizedData.netProfit <= 0) {
+          sellableToday = 'Low';
+          fundableToday = 'Low';
+          notes.push('Low revenue and negative profit reduce immediate saleability.');
+        }
+        if (sanitizedData.arr >= 24000 && sanitizedData.netProfit > 0) {
+          sellableToday = 'Moderate';
+          notes.push('Profitable with initial scale supports modest sale options.');
+        }
+        if (sanitizedData.arr >= 100000 && sanitizedData.growthYoy >= 20) {
+          sellableToday = 'High';
+          fundableToday = 'High';
+          notes.push('Growth above 20% and six-figure ARR attract more bidders.');
+        }
+        if (sanitizedData.businessType && sanitizedData.retentionRate >= 80) {
+          strategicAppeal = 'High';
+          notes.push('High retention in a niche category increases strategic appeal.');
+        }
+        return { sellableToday, fundableToday, strategicAppeal, notes };
+      };
+
+      const buildInputWarnings = () => {
+        const warnings = [];
+        if (sanitizedData.cac === 0 && sanitizedData.arr > 0) {
+          warnings.push('CAC is set to $0. Unless all customers are purely organic or referral, this is likely under-reported and may reduce buyer trust.');
+        }
+        if (sanitizedData.ownerSalary === 0 && sanitizedData.netProfit > 0) {
+          warnings.push('Owner salary is set to $0. Buyers will adjust profit downward to reflect a market-rate founder salary.');
+        }
+        if (sanitizedData.runway < 3 && sanitizedData.netProfit <= 0) {
+          warnings.push('Short runway (< 3 months) increases risk and can trigger valuation discounts.');
+        }
+        if (sanitizedData.ltv < sanitizedData.cac && sanitizedData.ltv > 0 && sanitizedData.cac > 0) {
+          warnings.push('LTV is lower than CAC, indicating unprofitable acquisition economics.');
+        }
+        return warnings;
+      };
+
+      const stage = inferStage();
+      const profitProfile = inferProfitProfile();
+      const buyerProfiles = inferBuyerProfiles();
+      const scenarios = buildScenarios();
+      const upliftActions = buildUpliftActions();
+      const marketRange = findMarketMultiple();
+      const confidenceBreakdown = computeConfidenceBreakdown();
+      const exitAssessment = buildExitAssessment();
+      const inputWarnings = buildInputWarnings();
 
       const doc = new jsPDF({ compress: true });
       doc.setProperties({
@@ -187,18 +394,31 @@ export function setupPDF(data) {
       const midpoint = Math.round((sanitizedData.rangeLow + sanitizedData.rangeHigh) / 2);
       doc.text(`Fair market value midpoint: $${midpoint.toLocaleString()} with a ${sanitizedData.confidence}% confidence score based on completeness and method alignment.`, margin, yPos, { maxWidth: pageWidth - 2 * margin });
       yPos += 8;
-      doc.text('Use the low end for conservative offers, the midpoint for planning, and the high end when strategic fit or competitive tension exists.', margin, yPos, { maxWidth: pageWidth - 2 * margin });
-      doc.setTextColor(...palette.ink);
-      yPos += 12;
-
-      const coverNotes = [
-        ['How to Use', 'Share as an executive summary for investors, buyers, and advisors. Add diligence links and KPI definitions as appendices when sharing externally.'],
-        ['Valuation Drivers', `Growth ${sanitizedData.growthYoy}% YoY, churn ${sanitizedData.customerChurn}%, and gross margin ${sanitizedData.grossMargin}% drive the applied ${sanitizedData.multiplier}x multiple.`],
-        ['Interpretation', `Range captures sensitivity across methods: ${sanitizedData.methods.join(', ')}. Confidence is lower if inputs are sparse or methods diverge.`]
+      doc.text(`Headline metrics: ARR $${sanitizedData.arr.toLocaleString()} • YoY growth ${sanitizedData.growthYoy}% • Customer churn ${sanitizedData.customerChurn}% • Runway ${sanitizedData.runway} months`, margin, yPos, { maxWidth: pageWidth - 2 * margin });
+      yPos += 8;
+      doc.text(`Why this valuation? This valuation is primarily driven by ARR of $${sanitizedData.arr.toLocaleString()}, growth of ${sanitizedData.growthYoy}% YoY, churn of ${sanitizedData.customerChurn}%, and gross margin of ${sanitizedData.grossMargin}%. The applied multiple of ${sanitizedData.multiplier}× reflects ${stage} SaaS with ${profitProfile} economics.`, margin, yPos, { maxWidth: pageWidth - 2 * margin });
+      yPos += 10;
+      doc.text('How to use this report:', margin, yPos);
+      yPos += 6;
+      const howToUse = [
+        'Use the low end of the range for conservative offers or distressed sales.',
+        'Use the midpoint for internal planning, investor conversations, and goal-setting.',
+        'Use the high end where there is strong strategic fit, competitive tension, or unique assets (brand, IP, distribution).'
       ];
+      howToUse.forEach(line => {
+        doc.text(`• ${line}`, margin + 2, yPos, { maxWidth: pageWidth - 2 * margin });
+        yPos += 5;
+      });
+      doc.setTextColor(...palette.ink);
+      yPos += 6;
+
       doc.autoTable({
         head: [['Executive Summary']],
-        body: coverNotes.map(([label, text]) => [`${label}: ${text}`]),
+        body: [
+          [`Valuation drivers: Growth ${sanitizedData.growthYoy}% YoY, churn ${sanitizedData.customerChurn}%, gross margin ${sanitizedData.grossMargin}%, applied multiple ${sanitizedData.multiplier}x.`],
+          [`Interpretation: Range captures sensitivity across methods (${sanitizedData.methods.join(', ')}). Confidence dips if inputs are sparse or methods diverge.`],
+          ['Next steps: Refresh inputs monthly, rerun scenarios with updated churn or growth, and attach supporting dashboards for investor diligence.']
+        ],
         startY: yPos,
         theme: 'plain',
         styles: { textColor: palette.ink, lineColor: palette.soft },
@@ -206,8 +426,52 @@ export function setupPDF(data) {
         columnStyles: { 0: { cellWidth: pageWidth - 2 * margin } }
       });
       yPos = doc.lastAutoTable.finalY + 6;
+
+      // Strategic Context Page
+      yPos = addPage('Strategic Context');
+      yPos = sectionTitle('Best-Fit Buyer Profiles', yPos);
+      doc.setFontSize(10);
+      const profiles = buyerProfiles.length ? buyerProfiles : ['General financial buyers'];
+      profiles.forEach(profile => {
+        doc.text(`• ${profile}`, margin, yPos, { maxWidth: pageWidth - 2 * margin });
+        yPos += 5;
+      });
+      doc.text('These buyer types are most likely to value your current metrics and stage. Tailor outreach and positioning to their priorities (profitability for financial buyers vs. user base and product fit for strategic acquirers).', margin, yPos, { maxWidth: pageWidth - 2 * margin });
+      yPos += 10;
+
+      yPos = sectionTitle('Valuation Sensitivity Scenarios', yPos);
+      doc.autoTable({
+        head: [['Scenario', 'ARR', 'YoY Growth', 'Customer Churn', 'Estimated Valuation']],
+        body: scenarios.map(s => [
+          s.label,
+          `$${Math.round(s.ARR).toLocaleString()}`,
+          `${s.yoyGrowth}%`,
+          `${s.churn}%`,
+          `$${Math.round(s.valuation).toLocaleString()}`
+        ]),
+        startY: yPos,
+        theme: 'striped',
+        styles: { fillColor: palette.soft, textColor: palette.ink },
+        headStyles: { fillColor: palette.brand, textColor: [255, 255, 255] }
+      });
+      yPos = doc.lastAutoTable.finalY + 6;
       doc.setTextColor(...palette.slate);
-      doc.text('Next steps: refresh inputs monthly, rerun scenarios with updated churn or growth, and attach supporting dashboards for investor diligence.', margin, yPos, { maxWidth: pageWidth - 2 * margin });
+      doc.text('Scenarios use the same valuation logic to illustrate upside and downside paths. Adjust growth, churn, and ARR to see how the range shifts.', margin, yPos, { maxWidth: pageWidth - 2 * margin });
+      doc.setTextColor(...palette.ink);
+      yPos += 10;
+
+      yPos = sectionTitle('90-Day Valuation Uplift Plan', yPos);
+      doc.autoTable({
+        head: [['Area', 'Action', 'Impact']],
+        body: (upliftActions.length ? upliftActions : [{ area: 'No immediate red flags', action: 'Maintain steady growth and clean inputs', impact: 'Keeps confidence stable while you gather more data.' }]).map(item => [item.area, item.action, item.impact]),
+        startY: yPos,
+        theme: 'grid',
+        headStyles: { fillColor: palette.ink, textColor: [255, 255, 255] },
+        styles: { fillColor: [255, 255, 255], textColor: palette.ink, lineColor: palette.soft }
+      });
+      yPos = upliftActions.length ? doc.lastAutoTable.finalY + 6 : yPos + 6;
+      doc.setTextColor(...palette.slate);
+      doc.text('Focus on the top 3–5 actions with the biggest gap to improve buyer confidence before outreach.', margin, yPos, { maxWidth: pageWidth - 2 * margin });
       doc.setTextColor(...palette.ink);
 
       // Valuation Details Page
@@ -496,7 +760,100 @@ export function setupPDF(data) {
       doc.text('If methods diverge widely, revisit the inputs above (especially churn, CAC/LTV, and discount rate) and re-run to tighten the spread.', margin, yPos, { maxWidth: pageWidth - 2 * margin });
       doc.setTextColor(...palette.ink);
 
+      // Market and Confidence Page
+      yPos = addPage('Market & Confidence');
+      yPos = sectionTitle('Market Multiple Context', yPos);
+      const rangeSpan = marketRange.high - marketRange.low;
+      const lowerBand = marketRange.low + rangeSpan / 3;
+      const upperBand = marketRange.high - rangeSpan / 3;
+      const bandPosition = sanitizedData.multiplier <= lowerBand ? 'lower' : sanitizedData.multiplier >= upperBand ? 'upper' : 'middle';
+      doc.setFontSize(10);
+      doc.text(`Typical market range for ${marketRange.label}:`, margin, yPos);
+      yPos += 6;
+      doc.text(`• Early-stage / bootstrapped: ${marketRange.low.toFixed(1)}× – ${(marketRange.low + (rangeSpan / 2)).toFixed(1)}× ARR`, margin, yPos);
+      yPos += 5;
+      doc.text(`• Growth / VC-backed: ${(marketRange.low + (rangeSpan / 2)).toFixed(1)}× – ${marketRange.high.toFixed(1)}× ARR`, margin, yPos);
+      yPos += 6;
+      doc.text(`Your applied multiple: ${sanitizedData.multiplier}× (within the ${bandPosition} part of this band).`, margin, yPos);
+      yPos += 10;
+
+      yPos = sectionTitle('Confidence Breakdown', yPos);
+      doc.autoTable({
+        head: [['Factor', 'Score (0-100)']],
+        body: [
+          ['Data completeness', confidenceBreakdown.dataCompleteness],
+          ['Method alignment', confidenceBreakdown.methodAlignment],
+          ['Revenue quality', confidenceBreakdown.revenueQuality],
+          ['Legal/IP clarity', confidenceBreakdown.legalClarity],
+          ['Market stability', confidenceBreakdown.marketStability]
+        ],
+        startY: yPos,
+        theme: 'striped',
+        styles: { fillColor: palette.soft, textColor: palette.ink },
+        headStyles: { fillColor: palette.brand, textColor: [255, 255, 255] }
+      });
+      yPos = doc.lastAutoTable.finalY + 6;
+      doc.text(`Overall confidence score: ${confidenceBreakdown.overall}/100`, margin, yPos);
+      yPos += 6;
+      doc.setTextColor(...palette.slate);
+      doc.text('Scores are weighted across data completeness, method alignment, revenue quality, legal clarity, and market stability.', margin, yPos, { maxWidth: pageWidth - 2 * margin });
+      doc.setTextColor(...palette.ink);
+      yPos += 10;
+
+      yPos = sectionTitle('Exit Readiness Snapshot', yPos);
+      doc.autoTable({
+        head: [['Dimension', 'Assessment']],
+        body: [
+          ['Sellable today', exitAssessment.sellableToday],
+          ['Attractive to financial buyers', exitAssessment.fundableToday],
+          ['Strategic acquisition appeal', exitAssessment.strategicAppeal]
+        ],
+        startY: yPos,
+        theme: 'grid',
+        headStyles: { fillColor: palette.ink, textColor: [255, 255, 255] },
+        styles: { fillColor: [255, 255, 255], textColor: palette.ink, lineColor: palette.soft }
+      });
+      yPos = doc.lastAutoTable.finalY + 6;
+      exitAssessment.notes.slice(0, 3).forEach(note => {
+        doc.text(`• ${note}`, margin, yPos, { maxWidth: pageWidth - 2 * margin });
+        yPos += 5;
+      });
+      if (!exitAssessment.notes.length) {
+        doc.text('You could explore a small acquisition today, but maximizing value likely requires more growth and runway extension.', margin, yPos, { maxWidth: pageWidth - 2 * margin });
+        yPos += 6;
+      }
+      yPos += 4;
+
+      if (inputWarnings.length) {
+        yPos = sectionTitle('Input Quality & Red Flags', yPos);
+        inputWarnings.forEach(w => {
+          doc.text(`• ${w}`, margin, yPos, { maxWidth: pageWidth - 2 * margin });
+          yPos += 5;
+        });
+      }
+
       // Graphs Pages
+      const graphInsights = (title) => {
+        if (title === 'Valuation by Method') {
+          if (sanitizedData.valuations.length > 1) {
+            const values = sanitizedData.valuations.map(v => v.value);
+            const spreadPct = Math.round(((Math.max(...values) - Math.min(...values)) / (sanitizedData.avgValuation || 1)) * 100);
+            return `Revenue multiplier and income-based valuations are within ${spreadPct}% of each other, indicating ${spreadPct < 30 ? 'good' : 'moderate'} method alignment.`;
+          }
+          return 'Single-method valuation; add another method for cross-checking confidence.';
+        }
+        if (title === 'Growth vs. Churn') {
+          return `YoY growth of ${sanitizedData.growthYoy}% compared to churn of ${sanitizedData.customerChurn}% ${sanitizedData.growthYoy > sanitizedData.customerChurn ? 'supports the current multiple.' : 'signals retention needs before scaling spend.'}`;
+        }
+        if (title === 'Financial Metrics Impact') {
+          return `LTV/CAC visibility and margin quality shape buyer confidence; LTV $${sanitizedData.ltv.toLocaleString()} vs. CAC $${sanitizedData.cac.toLocaleString()}.`;
+        }
+        if (title === 'Risk Factors') {
+          return `Legal (${sanitizedData.legalIssues || 'n/a'}), IP (${sanitizedData.ipOwnership}), and debt $${sanitizedData.debtLevel.toLocaleString()} drive diligence effort.`;
+        }
+        return '';
+      };
+
       const graphs = [
         { id: 'valuation-chart', title: 'Valuation by Method', desc: 'Shows valuation per selected method.' },
         { id: 'financial-chart', title: 'Financial Metrics Impact', desc: 'Highlights key financial inputs.' },
@@ -517,12 +874,7 @@ export function setupPDF(data) {
         doc.text(graph.title, margin, yPos);
         yPos += 8;
         doc.setFontSize(10);
-        const interpretation = {
-          'Valuation by Method': 'Compare bars to see how each approach pulls the range; large gaps suggest refining inputs.',
-          'Financial Metrics Impact': 'Higher ARR, profit, and LTV relative to CAC lift valuation and reduce downside risk.',
-          'Growth vs. Churn': 'Growth above churn indicates momentum; if churn is higher, focus on retention and onboarding.',
-          'Risk Factors': 'Lower scores on legal/IP/privacy reduce diligence friction and discounting.'
-        }[graph.title];
+        const interpretation = graphInsights(graph.title);
         doc.text(`${graph.desc} ${interpretation || ''}`.trim(), margin, yPos, { maxWidth: pageWidth - 2 * margin });
         yPos += 8;
         doc.addImage(imgData, 'JPEG', margin, yPos, 120, 75);
