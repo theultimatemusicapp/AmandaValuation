@@ -154,6 +154,32 @@ export async function calculateValuation(deps = {}) {
 
     // Charts
     try {
+  const baseFont = { family: 'Inter, Arial, sans-serif', size: 12 };
+  const backgroundPlugin = {
+    id: 'softBackground',
+    beforeDraw: (chart) => {
+      const ctx = chart.ctx;
+      ctx.save();
+      ctx.fillStyle = '#ffffff';
+      ctx.fillRect(0, 0, chart.width, chart.height);
+      ctx.restore();
+    }
+  };
+  Chart.register(backgroundPlugin);
+
+  const buildOptions = (yTitle, max = undefined) => ({
+    responsive: false,
+    plugins: {
+      legend: { labels: { color: '#233041', font: baseFont } },
+      tooltip: { backgroundColor: '#f6f7f9', titleColor: '#233041', bodyColor: '#233041' }
+    },
+    layout: { padding: 12 },
+    scales: {
+      x: { ticks: { color: '#233041', font: baseFont }, grid: { color: '#e5e7eb', drawBorder: false } },
+      y: { beginAtZero: true, max, title: { display: true, text: yTitle, color: '#233041', font: baseFont }, ticks: { color: '#233041', font: baseFont }, grid: { color: '#e5e7eb', drawBorder: false } }
+    }
+  });
+
       const valuationCanvas = document.getElementById('valuation-chart');
       valuationCanvas.width = 800;
       valuationCanvas.height = 500;
@@ -164,10 +190,12 @@ export async function calculateValuation(deps = {}) {
           datasets: [{
             label: 'Valuation ($)',
             data: valuations.map(v => v.value),
-            backgroundColor: 'rgba(56, 178, 172, 0.6)',
+            backgroundColor: 'rgba(56, 178, 172, 0.7)',
+            borderColor: '#38b2ac',
+            borderWidth: 1
           }]
         },
-        options: { scales: { y: { beginAtZero: true } } }
+        options: buildOptions('Valuation ($)')
       });
 
       const financialCanvas = document.getElementById('financial-chart');
@@ -180,10 +208,12 @@ export async function calculateValuation(deps = {}) {
           datasets: [{
             label: 'Financial Metrics ($)',
             data: [arr, netProfit, ltv, cac],
-            backgroundColor: ['rgba(56, 178, 172, 0.6)', 'rgba(251, 191, 36, 0.6)', 'rgba(45, 55, 72, 0.6)', 'rgba(255, 99, 132, 0.6)'],
+            backgroundColor: ['rgba(56, 178, 172, 0.7)', 'rgba(251, 191, 36, 0.7)', 'rgba(45, 55, 72, 0.7)', 'rgba(255, 99, 132, 0.7)'],
+            borderColor: ['#38b2ac', '#fbbf24', '#2d3748', '#ff6384'],
+            borderWidth: 1
           }]
         },
-        options: { scales: { y: { beginAtZero: true } } }
+        options: buildOptions('Amount ($)')
       });
 
       const growthChurnCanvas = document.getElementById('growth-churn-chart');
@@ -201,10 +231,12 @@ export async function calculateValuation(deps = {}) {
               customerChurn,
               revenueChurn
             ],
-            backgroundColor: ['rgba(56, 178, 172, 0.6)', 'rgba(251, 191, 36, 0.6)', 'rgba(255, 99, 132, 0.6)', 'rgba(45, 55, 72, 0.6)'],
+            backgroundColor: ['rgba(56, 178, 172, 0.7)', 'rgba(251, 191, 36, 0.7)', 'rgba(255, 99, 132, 0.7)', 'rgba(45, 55, 72, 0.7)'],
+            borderColor: ['#38b2ac', '#fbbf24', '#ff6384', '#2d3748'],
+            borderWidth: 1
           }]
         },
-        options: { scales: { y: { beginAtZero: true, max: 100 } } }
+        options: buildOptions('Rate (%)', 100)
       });
 
       const riskCanvas = document.getElementById('risk-chart');
@@ -224,10 +256,14 @@ export async function calculateValuation(deps = {}) {
             ],
             backgroundColor: 'rgba(255, 99, 132, 0.2)',
             borderColor: 'rgba(255, 99, 132, 1)',
-            pointBackgroundColor: 'rgba(255, 99, 132, 1)',
+            pointBackgroundColor: 'rgba(255, 99, 132, 1)'
           }]
         },
-        options: { scales: { r: { min: 0, max: 10 } } }
+        options: {
+          responsive: false,
+          plugins: { legend: { labels: { color: '#233041', font: baseFont } } },
+          scales: { r: { min: 0, max: 10, grid: { color: '#e5e7eb' }, pointLabels: { color: '#233041', font: baseFont }, ticks: { display: false } } }
+        }
       });
     } catch (error) {
       console.error('Failed to render charts:', error);
