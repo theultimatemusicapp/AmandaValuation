@@ -86,13 +86,8 @@ async function renderSamplePdf() {
     const url = URL.createObjectURL(blob);
     iframe.src = url;
     downloadLink.href = url;
-    downloadLink.removeAttribute('aria-disabled');
-    downloadLink.classList.remove('pointer-events-none', 'text-gray-400');
   } catch (error) {
     console.error('Sample PDF generation failed:', error);
-    downloadLink.textContent = 'Preview unavailable — retry';
-    downloadLink.setAttribute('aria-disabled', 'true');
-    downloadLink.classList.add('pointer-events-none', 'text-gray-400');
   }
 }
 

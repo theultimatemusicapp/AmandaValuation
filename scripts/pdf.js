@@ -15,14 +15,7 @@ const REVALUATION_COUPON_CODE = 'sasvalcoup26x92f';
 export async function generateValuationPdf(data, options = {}) {
   const { save = true, filename = 'saas_valuation_report.pdf' } = options;
   try {
-    let { jsPDF } = window.jspdf || {};
-    if (!jsPDF) {
-      const jspdfModule = await import('./vendor/jspdf.es.min.js');
-      jsPDF = jspdfModule.jsPDF || jspdfModule.default;
-      if (jsPDF) {
-        window.jspdf = { jsPDF };
-      }
-    }
+    const { jsPDF } = window.jspdf || {};
     if (!jsPDF) {
       throw new Error('PDF library not loaded. Please generate a valuation first.');
     }
