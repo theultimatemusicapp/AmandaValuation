@@ -12,34 +12,17 @@ const config = {
 
 const REVALUATION_COUPON_CODE = 'sasvalcoup26x92f';
 
-export function setupPDF(data) {
-  const button = document.getElementById('download-report');
-  if (!button) return;
-
-  button.onclick = async () => {
-    try {
-      const { jsPDF } = window.jspdf || {};
-      if (!jsPDF) {
-        alert('PDF library not loaded. Please generate a valuation first.');
-        return;
-      }
-      try {
-        const { applyPlugin } = await import('./vendor/jspdf.plugin.autotable.js');
-        applyPlugin(jsPDF);
-      } catch (error) {
-        console.error('Failed to load jsPDF autotable plugin:', error);
-        alert('Failed to load table plugin. Please refresh and try again.');
-        return;
-      }
-      let DOMPurify;
-      try {
-        const domPurifyModule = await import('./vendor/purify.es.min.js');
-        DOMPurify = domPurifyModule.default || domPurifyModule;
-      } catch (error) {
-        console.error('Failed to load DOMPurify:', error);
-        alert('Failed to load sanitization library. Please refresh and try again.');
-        return;
-      }
+export async function generateValuationPdf(data, options = {}) {
+  const { save = true, filename = 'saas_valuation_report.pdf' } = options;
+  try {
+    const { jsPDF } = window.jspdf || {};
+    if (!jsPDF) {
+      throw new Error('PDF library not loaded. Please generate a valuation first.');
+    }
+    const { applyPlugin } = await import('./vendor/jspdf.plugin.autotable.js');
+    applyPlugin(jsPDF);
+    const domPurifyModule = await import('./vendor/purify.es.min.js');
+    const DOMPurify = domPurifyModule.default || domPurifyModule;
       const sanitizeText = (str) => DOMPurify.sanitize(String(str));
       const sanitizeNumber = (num) => parseFloat(num) || 0;
       const sanitizedData = {
@@ -321,8 +304,7 @@ export function setupPDF(data) {
       });
       if (typeof doc.autoTable !== 'function') {
         console.error('jsPDF autoTable plugin failed to initialize');
-        alert('Failed to initialize table plugin. Please refresh and try again.');
-        return;
+        throw new Error('Failed to initialize table plugin. Please refresh and try again.');
       }
       doc.setFont('helvetica');
       const pageWidth = doc.internal.pageSize.getWidth();
@@ -972,10 +954,29 @@ export function setupPDF(data) {
         doc.setTextColor(...palette.ink);
       }
 
-      await doc.save('saas_valuation_report.pdf', { returnPromise: true });
+      const blob = doc.output('blob');
+      if (save) {
+        await doc.save(filename, { returnPromise: true });
+      }
+      return { doc, blob };
     } catch (error) {
       console.error('Error generating PDF:', error);
-      alert('An error occurred while generating the PDF. Please try again.');
+      throw error;
+    }
+  }
+}
+
+export function setupPDF(data) {
+  const button = document.getElementById('download-report');
+  if (!button) return;
+
+  button.onclick = async () => {
+    try {
+      await generateValuationPdf(data, { save: true });
+    } catch (error) {
+      const message = error?.message || 'An error occurred while generating the PDF. Please try again.';
+      console.error('Error generating PDF:', error);
+      alert(message);
     }
   };
 }
