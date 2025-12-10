@@ -79,15 +79,33 @@ function buildSampleData() {
 async function renderSamplePdf() {
   const iframe = document.getElementById('sample-pdf-frame');
   const downloadLink = document.getElementById('sample-pdf-link');
+  const errorText = document.getElementById('sample-pdf-error');
   if (!iframe || !downloadLink) return;
 
+  const waitForJsPdf = async (timeoutMs = 5000) => {
+    const start = performance.now();
+    return new Promise((resolve, reject) => {
+      const check = () => {
+        if (window.jspdf && window.jspdf.jsPDF) return resolve();
+        if (performance.now() - start > timeoutMs) return reject(new Error('jsPDF did not load in time'));
+        requestAnimationFrame(check);
+      };
+      check();
+    });
+  };
+
   try {
+    await waitForJsPdf();
     const { blob } = await generateValuationPdf(buildSampleData(), { save: false });
     const url = URL.createObjectURL(blob);
     iframe.src = url;
     downloadLink.href = url;
   } catch (error) {
     console.error('Sample PDF generation failed:', error);
+    if (errorText) {
+      errorText.textContent = 'Preview unavailable right now. Download the sample PDF instead while we reload.';
+      errorText.classList.remove('hidden');
+    }
   }
 }
 
