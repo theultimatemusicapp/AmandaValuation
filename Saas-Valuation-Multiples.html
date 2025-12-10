@@ -81,6 +81,15 @@
                     </table>
                 </div>
                 <p class="text-gray-600 mb-6">Why ARR size matters: scale lowers perceived risk (logo base, onboarding costs, management depth) and usually improves revenue quality (stickier customers, better cohorts).</p>
+                <div class="bg-teal-50 border border-teal-100 rounded-xl p-6 mb-8 shadow-sm">
+                    <p class="text-sm font-semibold text-teal-700 uppercase">Ready for a tailored estimate?</p>
+                    <h3 class="text-2xl font-bold text-gray-800 mb-2">Get your SaaS valuation in under 3 minutes</h3>
+                    <p class="text-gray-700 mb-4">Run a free calculation, then unlock the full PDF report to share with investors or buyers.</p>
+                    <div class="flex flex-col sm:flex-row gap-3">
+                        <a href="index.html#valuation" class="btn-primary text-white font-bold py-3 px-6 rounded-lg text-center valuation-cta">Start free valuation</a>
+                        <a href="pro-valuation.html" class="btn-secondary text-white font-bold py-3 px-6 rounded-lg text-center pro-preview-cta">Preview Pro report</a>
+                    </div>
+                </div>
                 <h3 class="text-xl font-semibold text-gray-800 mb-2">Growth adjustments (stack on top of ARR band)</h3>
                 <p class="text-gray-600 mb-4">Choose your growth bucket (YoY). Add or subtract from the baseline range.</p>
                 <div class="overflow-x-auto mb-4">
@@ -285,6 +294,37 @@
             const demoVideo = document.getElementById('demo-video');
             if (demoVideo) demoVideo.src = demoVideo.src;
         });
+
+        // Track key conversions from this article
+        const trackClick = (selector, eventName) => {
+            document.querySelectorAll(selector).forEach((el) => {
+                el.addEventListener('click', () => {
+                    if (typeof gtag === 'function') {
+                        gtag('event', eventName, {
+                            event_category: 'engagement',
+                            event_label: 'multiples_article'
+                        });
+                    }
+                });
+            });
+        };
+
+        trackClick('.valuation-cta', 'start_free_valuation');
+        trackClick('.pro-preview-cta', 'view_pro_preview');
+
+        // Sticky mobile CTA
+        const stickyCta = document.createElement('div');
+        stickyCta.className = 'fixed bottom-4 left-4 right-4 md:hidden';
+        stickyCta.innerHTML = `
+            <div class="bg-white shadow-lg rounded-full flex items-center justify-between px-5 py-3 border border-teal-100">
+                <div>
+                    <p class="text-xs uppercase text-teal-700 font-semibold">Quick check</p>
+                    <p class="text-sm text-gray-800">Get your valuation now</p>
+                </div>
+                <a href="index.html#valuation" class="btn-primary text-white font-bold py-2 px-4 rounded-full valuation-cta">Start</a>
+            </div>
+        `;
+        document.body.appendChild(stickyCta);
     </script>
 </body>
 </html>

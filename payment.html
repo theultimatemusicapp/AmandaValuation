@@ -185,6 +185,85 @@
                     </div>
                 </div>
 
+                <!-- Free vs Pro Comparison -->
+                <div class="mb-16 bg-white p-8 rounded-xl shadow-lg">
+                    <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
+                        <div>
+                            <p class="text-sm font-semibold text-teal-600 uppercase">Clarity before you pay</p>
+                            <h2 class="text-3xl font-bold text-gray-800">Compare Free vs Pro</h2>
+                        </div>
+                        <div class="text-center">
+                            <p class="text-gray-700 font-semibold">30-day refund guarantee</p>
+                            <p class="text-sm text-gray-500">If you’re not satisfied, email us and we’ll refund you.</p>
+                        </div>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full text-left border">
+                            <thead>
+                                <tr class="bg-gray-100 text-gray-800">
+                                    <th class="px-4 py-2 border">Feature</th>
+                                    <th class="px-4 py-2 border">Free</th>
+                                    <th class="px-4 py-2 border">Pro ($19 AUD)</th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-gray-700">
+                                <tr>
+                                    <td class="px-4 py-3 border">Core valuation calculator</td>
+                                    <td class="px-4 py-3 border text-center">✓</td>
+                                    <td class="px-4 py-3 border text-center">✓</td>
+                                </tr>
+                                <tr class="bg-gray-50">
+                                    <td class="px-4 py-3 border">Multi-method valuation (DCF, revenue, earnings)</td>
+                                    <td class="px-4 py-3 border text-center">–</td>
+                                    <td class="px-4 py-3 border text-center">✓</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-3 border">AI recommendations to lift your multiple</td>
+                                    <td class="px-4 py-3 border text-center">–</td>
+                                    <td class="px-4 py-3 border text-center">✓</td>
+                                </tr>
+                                <tr class="bg-gray-50">
+                                    <td class="px-4 py-3 border">Professional PDF export</td>
+                                    <td class="px-4 py-3 border text-center">–</td>
+                                    <td class="px-4 py-3 border text-center">✓</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-3 border">Investor/buyer readiness checklist</td>
+                                    <td class="px-4 py-3 border text-center">–</td>
+                                    <td class="px-4 py-3 border text-center">✓</td>
+                                </tr>
+                                <tr class="bg-gray-50">
+                                    <td class="px-4 py-3 border">Priority email support</td>
+                                    <td class="px-4 py-3 border text-center">–</td>
+                                    <td class="px-4 py-3 border text-center">✓</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- PDF Preview -->
+                <div class="mb-16 grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                    <div>
+                        <p class="text-sm font-semibold text-teal-600 uppercase">See before you buy</p>
+                        <h2 class="text-3xl font-bold text-gray-800 mb-3">Preview the Pro report</h2>
+                        <p class="text-gray-600 mb-4">Screenshot from the downloadable PDF so buyers and investors can see the level of detail you’ll share.</p>
+                        <ul class="list-disc list-inside text-gray-700 space-y-2 mb-4">
+                            <li>Valuation summary with EV/ARR, income, and DCF views</li>
+                            <li>Key drivers to raise your multiple faster</li>
+                            <li>“Not financial advice” disclosure to keep expectations clear</li>
+                        </ul>
+                        <div class="flex flex-col sm:flex-row gap-3">
+                            <a href="index.html#valuation" class="btn-secondary text-white font-bold py-3 px-6 rounded-lg start-checkout-cta">Try free version</a>
+                            <a href="#payment" class="btn-primary text-white font-bold py-3 px-6 rounded-lg start-checkout-cta">Buy Pro for $19 AUD</a>
+                        </div>
+                    </div>
+                    <div class="bg-white rounded-xl shadow-lg p-4 border border-gray-100">
+                        <img src="web.jpg" alt="Sample pages from the Pro valuation PDF report" class="rounded-lg object-cover w-full h-full">
+                        <p class="text-xs text-gray-500 mt-2 text-center">Sample preview – final PDF is generated from your inputs.</p>
+                    </div>
+                </div>
+
                 <!-- Testimonials -->
                 <div class="mb-16">
                     <h2 class="text-3xl font-bold text-gray-800 mb-8 text-center">Trusted by SaaS Founders</h2>
@@ -244,7 +323,7 @@
                 </div>
 
                 <!-- Payment Section -->
-                <div class="text-center bg-white p-8 rounded-xl shadow-lg max-w-lg mx-auto">
+                <div id="payment" class="text-center bg-white p-8 rounded-xl shadow-lg max-w-lg mx-auto">
                     <h2 class="text-2xl font-bold text-gray-800 mb-6">Complete Your Payment</h2>
                     <p class="text-gray-600 mb-4">Pro Valuation - $19 AUD (One-Time Payment)</p>
                     <div class="flex items-center justify-center text-gray-600 mb-6">
@@ -423,6 +502,14 @@
                 paymentStatus.textContent = 'Payment successful! Redirecting to Pro Valuation...';
                 paymentStatus.classList.remove('hidden');
                 document.getElementById('coupon-success').classList.add('hidden');
+                if (typeof gtag === 'function') {
+                    gtag('event', 'purchase_complete', {
+                        event_category: 'conversion',
+                        value: 19,
+                        currency: 'AUD',
+                        event_label: 'payment_page'
+                    });
+                }
                 fetch('/api/create-token', { method: 'POST' })
                     .then(res => res.json())
                     .then(data => {
@@ -432,6 +519,18 @@
                         }, 2000);
                     });
             }
+        });
+
+        // Track intent clicks leading to checkout
+        document.querySelectorAll('.start-checkout-cta').forEach((button) => {
+            button.addEventListener('click', () => {
+                if (typeof gtag === 'function') {
+                    gtag('event', 'begin_checkout', {
+                        event_category: 'engagement',
+                        event_label: 'payment_page'
+                    });
+                }
+            });
         });
     </script>
 </body>
