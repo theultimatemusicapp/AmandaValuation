@@ -963,10 +963,9 @@ export async function generateValuationPdf(data, options = {}) {
       console.error('Error generating PDF:', error);
       throw error;
     }
-  }
-}
-
-export function setupPDF(data) {
+    }
+  
+  export function setupPDF(data) {
   const button = document.getElementById('download-report');
   if (!button) return;
 
