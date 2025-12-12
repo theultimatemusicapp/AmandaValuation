@@ -31,10 +31,22 @@
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="styles/global.css">
     <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <!-- jsPDF -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Free SaaS Valuation Calculator",
+      "url": "https://saasvaluation.app/free-valuation-calculator.html",
+      "applicationCategory": "BusinessApplication",
+      "operatingSystem": "Web",
+      "description": "Interactive calculator that estimates SaaS valuations and upgrades to investor-ready reports."
+    }
+    </script>
     <style>
         .gradient-bg {
             background: linear-gradient(135deg, #38B2AC 0%, #2D3748 100%);
@@ -88,6 +100,7 @@
     </style>
 </head>
 <body class="font-sans">
+    <a class="skip-link" href="#main-content">Skip to main content</a>
     <!-- Header -->
         <header class="bg-gray-800 text-white py-4 sticky top-0 z-50">
         <div class="container mx-auto px-6 flex justify-between items-center">
@@ -121,12 +134,13 @@
         </div>
     </header>
 
+    <main id="main-content">
     <!-- Hero Section -->
     <section class="gradient-bg text-white py-20">
         <div class="container mx-auto px-6 text-center">
             <h1 class="text-4xl md:text-5xl font-bold mb-4">Free SaaS Valuation Calculator</h1>
             <p class="text-lg md:text-xl mb-8 opacity-90 max-w-2xl mx-auto">Here you can value your SaaS company for free with our entirely free calculator. For more insights, check out the Pro version.</p>
-            <a href="#valuation" class="btn-primary text-white font-bold py-3 px-8 rounded-lg">Get Your Valuation Now</a>
+            <a href="#valuation" class="btn-primary text-white font-bold py-3 px-8 rounded-lg" data-analytics-event="cta_click" data-analytics-label="free-valuation-hero">Get Your Valuation Now</a>
         </div>
     </section>
 <!-- Valuation Calculator (Steps 1-2) -->
@@ -1183,5 +1197,7 @@
             }
         });
     </script>
+    </main>
+    <script src="scripts/analytics.js"></script>
 </body>
 </html>
