@@ -82,7 +82,10 @@ async function renderSamplePdf() {
   if (!iframe || !downloadLink) return;
 
   try {
-    const { blob } = await generateValuationPdf(buildSampleData(), { save: false });
+    const { blob } = await generateValuationPdf(buildSampleData(), {
+      save: false,
+      includeCoupon: false
+    });
     const url = URL.createObjectURL(blob);
     iframe.src = url;
     downloadLink.href = url;
