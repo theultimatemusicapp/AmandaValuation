@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Free Business Model Feedback</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+  <link rel="stylesheet" href="styles/global.css">
+</head>
+<body class="bg-gray-50 text-gray-900">
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  <header class="bg-gray-800 text-white py-4">
+    <div class="container mx-auto px-6 flex justify-between items-center">
+      <div class="text-2xl font-bold">
+        <a href="/" class="flex items-center space-x-3">
+          <img src="favicon-96x96.png" alt="SaaS Valuation App logo" class="h-10 w-10 rounded">
+          <span>SaaS Valuation App</span>
+        </a>
+      </div>
+      <nav class="hidden md:flex space-x-6 items-center">
+        <a href="index.html#valuation" class="hover:text-teal-400">Valuation Tool</a>
+        <a href="saas-growth-calculator.html" class="hover:text-teal-400">Growth Calculator</a>
+        <a href="blog.html" class="hover:text-teal-400">Resources</a>
+        <a href="payment.html" class="ml-2 bg-white text-gray-900 font-semibold px-4 py-2 rounded-lg shadow hover:text-gray-900 hover:bg-teal-100">Go Pro</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main-content" class="container mx-auto px-6 py-12 max-w-5xl">
+    <section class="bg-white p-8 rounded-2xl shadow-lg mb-10">
+      <h1 class="text-3xl font-bold mb-3">Free, Local-Ready Business Model Feedback</h1>
+      <p class="text-gray-700 mb-4">Collect the core facts about your business and get structured, no-API feedback instantly. The prompt we build can be pasted into any 100% free, local LLM (Ollama, LM Studio, etc.)—no keys, tokens, or accounts required.</p>
+      <ul class="list-disc list-inside text-gray-700 space-y-1">
+        <li>Built-in heuristics surface strengths, risks, and fast experiments.</li>
+        <li>Output includes a copy-ready prompt tailored to your inputs.</li>
+        <li>All computation runs in your browser—data never leaves the page.</li>
+      </ul>
+    </section>
+
+    <section class="grid lg:grid-cols-2 gap-8">
+      <form id="feedback-form" class="bg-white p-6 rounded-2xl shadow-lg space-y-4">
+        <div>
+          <label class="block font-semibold mb-1" for="companyName">Company name (optional)</label>
+          <input id="companyName" name="companyName" type="text" class="w-full border rounded-lg p-3" placeholder="Acme Analytics" />
+        </div>
+        <div>
+          <label class="block font-semibold mb-1" for="product">What do you sell?</label>
+          <textarea id="product" name="product" class="w-full border rounded-lg p-3" required rows="2" placeholder="Workflow automation platform for distributed finance teams"></textarea>
+        </div>
+        <div>
+          <label class="block font-semibold mb-1" for="targetCustomer">Target customer / ICP</label>
+          <textarea id="targetCustomer" name="targetCustomer" class="w-full border rounded-lg p-3" required rows="2" placeholder="US-based B2B SaaS with 50-500 employees and complex approvals"></textarea>
+        </div>
+        <div class="grid md:grid-cols-2 gap-4">
+          <div>
+            <label class="block font-semibold mb-1" for="pricingModel">Pricing model</label>
+            <input id="pricingModel" name="pricingModel" class="w-full border rounded-lg p-3" required placeholder="$500/mo base + usage tiers" />
+          </div>
+          <div>
+            <label class="block font-semibold mb-1" for="monthlyRevenue">Monthly revenue (MRR)</label>
+            <input id="monthlyRevenue" name="monthlyRevenue" class="w-full border rounded-lg p-3" required placeholder="$45,000" />
+          </div>
+        </div>
+        <div class="grid md:grid-cols-3 gap-4">
+          <div>
+            <label class="block font-semibold mb-1" for="revenueGrowthRate">Revenue growth MoM (%)</label>
+            <input id="revenueGrowthRate" name="revenueGrowthRate" type="number" step="0.1" class="w-full border rounded-lg p-3" required placeholder="12" />
+          </div>
+          <div>
+            <label class="block font-semibold mb-1" for="churnRate">Gross churn (%)</label>
+            <input id="churnRate" name="churnRate" type="number" step="0.1" class="w-full border rounded-lg p-3" required placeholder="3.5" />
+          </div>
+          <div>
+            <label class="block font-semibold mb-1" for="grossMargin">Gross margin (%)</label>
+            <input id="grossMargin" name="grossMargin" type="number" step="0.1" class="w-full border rounded-lg p-3" required placeholder="78" />
+          </div>
+        </div>
+        <div>
+          <label class="block font-semibold mb-1" for="differentiation">What makes you different?</label>
+          <textarea id="differentiation" name="differentiation" class="w-full border rounded-lg p-3" required rows="3" placeholder="Domain-specific automations, finance-grade audit trail, and SOC 2 by default."></textarea>
+        </div>
+        <div>
+          <label class="block font-semibold mb-1" for="acquisitionChannels">Acquisition channels</label>
+          <textarea id="acquisitionChannels" name="acquisitionChannels" class="w-full border rounded-lg p-3" required rows="2" placeholder="Partner co-marketing, outbound pilots to 200 ICP accounts, and product-led expansion inside existing suites."></textarea>
+        </div>
+        <div class="grid md:grid-cols-3 gap-4">
+          <div>
+            <label class="block font-semibold mb-1" for="teamSize">Team size</label>
+            <input id="teamSize" name="teamSize" type="number" class="w-full border rounded-lg p-3" required placeholder="12" />
+          </div>
+          <div>
+            <label class="block font-semibold mb-1" for="fundingStage">Funding stage</label>
+            <select id="fundingStage" name="fundingStage" class="w-full border rounded-lg p-3" required>
+              <option value="bootstrapped">Bootstrapped</option>
+              <option value="pre-seed">Pre-seed</option>
+              <option value="seed">Seed</option>
+              <option value="series-a">Series A</option>
+              <option value="series-b">Series B+</option>
+            </select>
+          </div>
+          <div>
+            <label class="block font-semibold mb-1" for="runway">Runway (months)</label>
+            <input id="runway" name="runway" type="number" class="w-full border rounded-lg p-3" required placeholder="14" />
+          </div>
+        </div>
+        <div>
+          <label class="block font-semibold mb-1" for="dataSensitivity">Data sensitivity</label>
+          <select id="dataSensitivity" name="dataSensitivity" class="w-full border rounded-lg p-3" required>
+            <option value="low">Low</option>
+            <option value="medium">Medium</option>
+            <option value="high">High (regulated or PII-heavy)</option>
+          </select>
+        </div>
+        <button type="submit" class="w-full bg-teal-500 hover:bg-teal-600 text-white font-semibold py-3 rounded-lg">Generate Feedback</button>
+      </form>
+
+      <section class="space-y-6">
+        <div class="bg-white p-6 rounded-2xl shadow-lg">
+          <div class="flex justify-between items-center mb-3">
+            <h2 class="text-xl font-bold">Readiness Snapshot</h2>
+            <span id="readiness-score" class="text-2xl font-semibold">--/100</span>
+          </div>
+          <div class="w-full bg-gray-200 h-3 rounded-full overflow-hidden" aria-hidden="true">
+            <div id="readiness-meter" class="bg-teal-500 h-3" style="width: 0%"></div>
+          </div>
+        </div>
+
+        <div class="bg-white p-6 rounded-2xl shadow-lg">
+          <h2 class="text-xl font-bold mb-3">Strengths</h2>
+          <ul id="strength-list" class="list-disc list-inside space-y-2 text-gray-700">
+            <li class="text-gray-500">Fill out the form to see highlights.</li>
+          </ul>
+        </div>
+
+        <div class="bg-white p-6 rounded-2xl shadow-lg">
+          <h2 class="text-xl font-bold mb-3">Risks to Tackle</h2>
+          <ul id="risk-list" class="list-disc list-inside space-y-2 text-gray-700">
+            <li class="text-gray-500">Add your metrics to surface concerns.</li>
+          </ul>
+        </div>
+
+        <div class="bg-white p-6 rounded-2xl shadow-lg">
+          <h2 class="text-xl font-bold mb-3">Fast Experiments</h2>
+          <ul id="experiment-list" class="list-disc list-inside space-y-2 text-gray-700">
+            <li class="text-gray-500">Experiments will appear after you generate feedback.</li>
+          </ul>
+        </div>
+
+        <div class="bg-white p-6 rounded-2xl shadow-lg">
+          <div class="flex items-center justify-between mb-3">
+            <div>
+              <h2 class="text-xl font-bold">Copy-Ready Prompt</h2>
+              <p class="text-gray-600 text-sm">Paste into any free local model (Ollama, LM Studio, text-generation-webui).</p>
+            </div>
+            <span class="inline-flex items-center gap-2 text-sm bg-gray-100 px-3 py-1 rounded-lg">100% local</span>
+          </div>
+          <textarea id="prompt-text" class="w-full border rounded-lg p-3 text-sm" rows="8" readonly placeholder="Your prompt will appear here"></textarea>
+        </div>
+      </section>
+    </section>
+  </main>
+
+  <footer class="text-center text-gray-600 py-8 text-sm">
+    Built to be free forever—runs entirely in your browser so your data stays private.
+  </footer>
+
+  <script src="scripts/feedback.js"></script>
+</body>
+</html>
