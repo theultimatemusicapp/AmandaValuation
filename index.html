@@ -32,6 +32,7 @@
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="styles/global.css">
     <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <!-- jsPDF -->
@@ -135,8 +136,23 @@
             margin-right: 5px;
         }
     </style>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "SaaS Valuation App",
+      "url": "https://saasvaluation.app",
+      "logo": "https://saasvaluation.app/favicon-96x96.png",
+      "sameAs": [
+        "https://www.linkedin.com",
+        "https://twitter.com"
+      ],
+      "description": "Free and pro-grade SaaS valuation calculators, growth metrics, and investor-ready reports."
+    }
+    </script>
 </head>
 <body class="font-sans">
+    <a class="skip-link" href="#main-content">Skip to main content</a>
     <!-- Header -->
         <header class="bg-gray-800 text-white py-4 sticky top-0 z-50">
         <div class="container mx-auto px-6 flex justify-between items-center">
@@ -155,7 +171,7 @@
                 <a href="blog.html" class="hover:text-teal-400">Resources</a>
                 <a href="payment.html" class="ml-2 bg-white text-gray-900 font-semibold px-4 py-2 rounded-lg shadow hover:text-gray-900 hover:bg-teal-100">Go Pro</a>
             </nav>
-            <button id="menu-toggle" class="md:hidden focus:outline-none">
+            <button id="menu-toggle" class="md:hidden focus:outline-none" aria-label="Toggle navigation menu">
                 <i class="fas fa-bars text-2xl"></i>
             </button>
         </div>
@@ -172,11 +188,29 @@
         </div>
     </header>
 
+    <main id="main-content">
     <!-- Hero Section with Valuation Dashboard -->
     <section class="gradient-bg text-white py-20">
         <div class="container mx-auto px-6 text-center">
             <h1 class="text-4xl md:text-5xl font-bold mb-4">Upgrade to a Pro Valuation Built for Investors</h1>
             <p class="text-lg md:text-xl mb-8 opacity-90 max-w-2xl mx-auto">Guide buyers with an investor-ready, AI-calculated valuation—then share a polished PDF while you keep experimenting with the free tool.</p>
+            <div class="flex flex-col items-center gap-4">
+                <div class="flex flex-col md:flex-row gap-3">
+                    <a href="payment.html" class="summary-cta" data-analytics-event="cta_click" data-analytics-label="hero-go-pro">
+                        <span>Get Pro Valuation</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </a>
+                    <a href="#valuation" class="cta-trust" data-analytics-event="cta_click" data-analytics-label="hero-self-valuation">
+                        <i class="fas fa-play-circle"></i>
+                        <span>Try the free calculator</span>
+                    </a>
+                </div>
+                <div class="hero-proof" aria-label="Trust signals">
+                    <span><i class="fas fa-university text-yellow-300"></i>Investor-ready PDF output</span>
+                    <span><i class="fas fa-shield-alt text-green-300"></i>Privacy-first & no PII stored</span>
+                    <span><i class="fas fa-star text-yellow-300"></i>Trusted by 1,000+ SaaS founders</span>
+                </div>
+            </div>
             <div class="mb-8">
                 <h2 class="text-2xl font-semibold mb-2">Valuation Dashboard</h2>
                 <div class="dashboard-card">
@@ -977,8 +1011,10 @@
             </div>
         </div>
     </section>
+    </main>
+
     <!-- Footer -->
-        <footer class="bg-gray-800 text-white py-12">
+    <footer class="bg-gray-800 text-white py-12">
         <div class="container mx-auto px-6 space-y-10">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-10 gap-y-12 items-center">
                 <div>
@@ -989,7 +1025,7 @@
                 <div class="bg-gray-900 rounded-xl p-6 shadow-lg">
                     <h3 class="text-2xl font-semibold mb-2">Get SaaS Growth Insights</h3>
                     <p class="text-gray-300 mb-4">Join our newsletter for exclusive tips, valuation strategies, and updates to grow your SaaS business.</p>
-                    <form action="https://formspree.io/f/mjkowkld" method="POST" class="space-y-4">
+                    <form action="https://formspree.io/f/mjkowkld" method="POST" class="space-y-4" data-analytics-form="newsletter_submit" data-analytics-label="footer-newsletter">
                         <div>
                             <label for="newsletter-email" class="block text-sm font-medium text-gray-300 mb-1">Your Email</label>
                             <input type="email" name="email" id="newsletter-email" class="w-full border rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-teal-500 text-gray-900" placeholder="Enter your email" required aria-required="true">
@@ -1913,5 +1949,6 @@
             location.reload();
         });
     </script>
+    <script src="scripts/analytics.js"></script>
 </body>
 </html>

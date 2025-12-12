@@ -13,6 +13,11 @@ const JWT_SECRET = process.env.JWT_SECRET || 'secret';
 
 app.use(express.json());
 
+app.use((req, res, next) => {
+  console.log(`${new Date().toISOString()} ${req.method} ${req.originalUrl}`);
+  next();
+});
+
 function getToken(req) {
   const cookie = req.headers.cookie || '';
   return cookie
@@ -52,7 +57,13 @@ app.get('/pro-valuation.html', verifyToken, (req, res) => {
   res.sendFile(path.join(__dirname, 'pro-valuation.html'));
 });
 
-app.use(express.static(__dirname));
+app.use(express.static(__dirname, {
+  setHeaders: (res, filePath) => {
+    if (/(\.js|\.css|\.png|\.jpg|\.jpeg|\.webp|\.svg)$/i.test(filePath)) {
+      res.setHeader('Cache-Control', 'public, max-age=604800, immutable');
+    }
+  }
+}));
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
