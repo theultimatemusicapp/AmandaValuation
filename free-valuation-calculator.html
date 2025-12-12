@@ -497,6 +497,20 @@
                         <button onclick="saveProgress()" class="btn-secondary font-bold py-2 px-4 rounded-lg">Save Progress</button>
                         <button id="start-over" class="btn-secondary font-bold py-2 px-4 rounded-lg">Start Over</button>
                     </div>
+                    <div class="mt-6 bg-gray-50 border border-gray-200 rounded-xl p-4">
+                        <h4 class="text-lg font-semibold text-gray-800 mb-2">Email these results to yourself</h4>
+                        <p class="text-gray-600 mb-4">Drop your email below and we&rsquo;ll send this valuation snapshot straight to your inbox.</p>
+                        <form id="valuation-email-form" action="https://formspree.io/f/mjkowkld" method="POST" class="space-y-3">
+                            <div>
+                                <label for="valuation-email" class="block text-sm font-medium text-gray-700 mb-1">Your Email</label>
+                                <input type="email" name="email" id="valuation-email" class="w-full border rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-teal-500" placeholder="you@example.com" required aria-required="true">
+                            </div>
+                            <input type="hidden" name="valuation_summary" id="valuationSummaryInput">
+                            <input type="hidden" name="valuation_details" id="valuationDetailsInput">
+                            <button type="submit" class="btn-primary text-white font-bold py-3 px-6 rounded-lg w-full sm:w-auto">Send my results</button>
+                            <p class="text-xs text-gray-500">We&rsquo;ll only use your email to send this report.</p>
+                        </form>
+                    </div>
                     <div class="mt-6 text-center">
                         <p class="text-gray-600">Want deeper insights? <a href="/payment.html" class="text-teal-500 underline">Check out the Pro version</a> for advanced analytics and AI-powered reports.</p>
                     </div>
@@ -1023,7 +1037,7 @@
                     <p>Annual Growth Rate: ${growthRate}%</p>
                     <p>Projected Revenue: $${projectedRevenue.toLocaleString()}</p>
                 `;
-                document.getElementById('valuationRanges').innerHTML = Object.entries(valuations).map(([method, value]) => 
+                document.getElementById('valuationRanges').innerHTML = Object.entries(valuations).map(([method, value]) =>
                     `<p>${method.charAt(0).toUpperCase() + method.slice(1)}: $${Math.round(value).toLocaleString()}</p>`
                 ).join('');
                 document.getElementById('valuationFactors').innerHTML = `
@@ -1032,6 +1046,18 @@
                     <p>Market Volatility: ${marketVolatility}/10</p>
                     <p>Operational Efficiency: ${operationalEfficiency}/10</p>
                 `;
+
+                const valuationSummaryField = document.getElementById('valuationSummaryInput');
+                const valuationDetailsField = document.getElementById('valuationDetailsInput');
+                if (valuationSummaryField) {
+                    valuationSummaryField.value = `Average valuation: $${Math.round(averageValuation).toLocaleString()} (methods: ${methods.join(', ') || 'none selected'})`;
+                }
+                if (valuationDetailsField) {
+                    const valuationBreakdown = Object.entries(valuations)
+                        .map(([method, value]) => `${method}: $${Math.round(value).toLocaleString()}`)
+                        .join('; ');
+                    valuationDetailsField.value = `Projected revenue: $${projectedRevenue.toLocaleString()}, LTV/CAC: ${valuationData.ltvCacRatio.toFixed(2)}, churn: ${churnRate}%, growth: ${growthRate}%, factors - scalability: ${scalability}/10, competitive positioning: ${competitivePositioning}/10, market volatility: ${marketVolatility}/10, operational efficiency: ${operationalEfficiency}/10. Breakdown: ${valuationBreakdown}`;
+                }
 
                 // Show results and charts
                 document.getElementById('valuationResult').classList.remove('hidden');
