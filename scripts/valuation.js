@@ -60,7 +60,9 @@ export async function calculateValuation(deps = {}) {
     const yearsOperating = parseInt(document.getElementById('years-operating')?.value) || 0;
     const businessTypeSelect = document.getElementById('business-type');
     const baseMultiplier = businessTypeSelect ? parseFloat(businessTypeSelect.value) || 5 : 5;
-    const businessType = businessTypeSelect ? businessTypeSelect.options[businessTypeSelect.selectedIndex]?.dataset.name || '' : '';
+    const businessTypeOption = businessTypeSelect?.options[businessTypeSelect.selectedIndex];
+    const businessType = businessTypeOption?.dataset.name || '';
+    const useMultipliers = businessTypeOption?.dataset.useMultiplier !== 'false';
     const activeCustomers = parseFloat(document.getElementById('active-customers').value) || 0;
     const mau = parseFloat(document.getElementById('monthly-active-users').value) || 0;
     const customerSegment = document.getElementById('customer-segment').value;
@@ -98,18 +100,22 @@ export async function calculateValuation(deps = {}) {
     if (!isNaN(discountRateInput) && discountRateInput < 0) {
       warnings.push('Discount rate cannot be negative.');
     }
-    if (growthYoy > 20) multiplier += 2;
-    if (customerChurn < 5) multiplier += 1;
-    if (retentionRate > 80) multiplier += 1;
-    if (nps > 50) multiplier += 0.5;
-    if (legalIssues !== 'none') multiplier -= 1;
-    if (ipOwnership === 'fully-owned') multiplier += 0.5;
-    if (ruleOf40 >= 40) multiplier += 1;
-    else multiplier -= 1;
+    if (useMultipliers) {
+      if (growthYoy > 20) multiplier += 2;
+      if (customerChurn < 5) multiplier += 1;
+      if (retentionRate > 80) multiplier += 1;
+      if (nps > 50) multiplier += 0.5;
+      if (legalIssues !== 'none') multiplier -= 1;
+      if (ipOwnership === 'fully-owned') multiplier += 0.5;
+      if (ruleOf40 >= 40) multiplier += 1;
+      else multiplier -= 1;
+    }
     multiplier = Math.max(multiplier, 1);
 
     if (methods.includes('multiplier')) {
-      if (arr <= 0) {
+      if (!useMultipliers) {
+        warnings.push('Revenue multipliers are disabled for the selected business type. Choose income, earnings, or DCF instead.');
+      } else if (arr <= 0) {
         warnings.push('ARR must be greater than 0 for Revenue Multiplier method.');
       } else {
         const valuation = arr * multiplier;
@@ -120,7 +126,7 @@ export async function calculateValuation(deps = {}) {
       if (netProfit <= 0) {
         warnings.push('Net profit should be positive for Income-Based method.');
       } else {
-        const profitMultiplier = multiplier - 1;
+        const profitMultiplier = Math.max(multiplier - 1, 1);
         const valuation = netProfit * profitMultiplier;
         valuations.push({ method: 'Income-Based', value: valuation });
       }
@@ -137,6 +143,8 @@ export async function calculateValuation(deps = {}) {
       const cashFlow = netProfit * 1.2;
       if (discountRate <= 0) {
         warnings.push('Discount rate must be greater than 0 for DCF method.');
+      } else if (netProfit <= 0) {
+        warnings.push('Net profit must be positive to project discounted cash flows.');
       } else {
         const valuation = cashFlow / discountRate;
         valuations.push({ method: 'DCF', value: valuation });

@@ -365,6 +365,14 @@
                                     <span class="ml-2 text-gray-600">Discounted Cash Flow (DCF)</span>
                                 </label>
                             </div>
+                            <div class="mt-4">
+                                <label for="businessModel" class="block text-gray-700 font-semibold mb-1">Business Model</label>
+                                <select id="businessModel" class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-500">
+                                    <option value="saas" selected>SaaS (uses revenue multiples)</option>
+                                    <option value="non-saas">Non-SaaS (no revenue multiple)</option>
+                                </select>
+                                <p class="text-gray-500 text-sm mt-1">Use Non-SaaS if your business relies on services, inventory, or other models that are not valued on revenue multiples.</p>
+                            </div>
                             <p id="method-error" class="text-red-500 text-sm mt-2 hidden">Please select 1 to 3 methods.</p>
                             <div class="mt-6 flex justify-end">
                                 <button id="next-btn-1" class="btn-primary text-white font-bold py-2 px-4 rounded-lg">Next</button>
@@ -1430,6 +1438,7 @@
             if (!validateStep(6)) return;
 
             const methods = Array.from(document.querySelectorAll('input[type="checkbox"]:checked')).map(cb => cb.value);
+            const businessModel = document.getElementById('businessModel').value || 'saas';
             const ownerSalary = parseFloat(document.getElementById('ownerSalary').value.replace(/,/g, '')) || 0;
             const averageSalary = parseFloat(document.getElementById('averageSalary').value.replace(/,/g, '')) || 0;
             const employeeBenefits = parseFloat(document.getElementById('employeeBenefits').value.replace(/,/g, '')) || 0;
@@ -1457,37 +1466,43 @@
             const expectedGrowthRate = parseFloat(document.getElementById('expectedGrowthRate').value) || 0;
 
             let valuations = {};
-            let baseMultiplier = 3;
+            const usesMultipliers = businessModel === 'saas';
+            let baseMultiplier = usesMultipliers ? 3 : 1;
             const highGrowthIndustries = ['Technology', 'Healthcare', 'Finance'];
 
             // Adjust multiplier based on SaaS metrics
             const ltvCacRatio = cac > 0 ? ltv / cac : 0;
-            if (ltvCacRatio > 3) baseMultiplier += 1;
-            if (ltvCacRatio < 1) baseMultiplier -= 1;
-            if (churnRate < 5) baseMultiplier += 0.5;
-            if (churnRate > 10) baseMultiplier -= 0.5;
-            if (growthRate > 20) baseMultiplier += 1;
-            if (customerGrowthRate > 15) baseMultiplier += 0.5;
-            if (scalability > 7) baseMultiplier += 0.5;
-            if (marketTrendImpact > 7) baseMultiplier += 0.5;
-            if (competitivePositioning > 7) baseMultiplier += 0.5;
-            if (marketVolatility > 7) baseMultiplier -= 0.5;
-            if (aiReplaceable === 'yes' && aiReplaceCount > 0) baseMultiplier -= 0.5;
-            if (hasIP === 'yes' && ipUnique === 'unique') baseMultiplier += 1;
-            if (operationalEfficiency > 7) baseMultiplier += 0.5;
-            if (highGrowthIndustries.includes(industry)) baseMultiplier += 0.5;
+            if (usesMultipliers) {
+                if (ltvCacRatio > 3) baseMultiplier += 1;
+                if (ltvCacRatio < 1) baseMultiplier -= 1;
+                if (churnRate < 5) baseMultiplier += 0.5;
+                if (churnRate > 10) baseMultiplier -= 0.5;
+                if (growthRate > 20) baseMultiplier += 1;
+                if (customerGrowthRate > 15) baseMultiplier += 0.5;
+                if (scalability > 7) baseMultiplier += 0.5;
+                if (marketTrendImpact > 7) baseMultiplier += 0.5;
+                if (competitivePositioning > 7) baseMultiplier += 0.5;
+                if (marketVolatility > 7) baseMultiplier -= 0.5;
+                if (aiReplaceable === 'yes' && aiReplaceCount > 0) baseMultiplier -= 0.5;
+                if (hasIP === 'yes' && ipUnique === 'unique') baseMultiplier += 1;
+                if (operationalEfficiency > 7) baseMultiplier += 0.5;
+                if (highGrowthIndustries.includes(industry)) baseMultiplier += 0.5;
+            }
+            baseMultiplier = Math.max(1, baseMultiplier);
 
             if (methods.includes('multiplier')) {
                 const multiplierValuation = projectedRevenue * baseMultiplier;
                 valuations['Revenue Multiplier'] = {
-                    value: multiplierValuation,
-                    range: [multiplierValuation * 0.9, multiplierValuation * 1.1],
-                    explanation: `The Revenue Multiplier method calculates your valuation by applying a multiplier of ${baseMultiplier.toFixed(1)} to your projected revenue (${projectedRevenue.toLocaleString()}). This is adjusted based on your LTV:CAC ratio (${ltvCacRatio.toFixed(1)}), churn rate (${churnRate}%), and growth rate (${growthRate}%). Factors like scalability (${scalability}/10) and competitive positioning (${competitivePositioning}/10) also influence the result, making it ideal for SaaS companies with stable revenue, though it may not fully account for future risks or growth potential.`
+                    value: usesMultipliers ? multiplierValuation : 0,
+                    range: usesMultipliers ? [multiplierValuation * 0.9, multiplierValuation * 1.1] : [0, 0],
+                    explanation: usesMultipliers
+                        ? `The Revenue Multiplier method calculates your valuation by applying a multiplier of ${baseMultiplier.toFixed(1)} to your projected revenue (${projectedRevenue.toLocaleString()}). This is adjusted based on your LTV:CAC ratio (${ltvCacRatio.toFixed(1)}), churn rate (${churnRate}%), and growth rate (${growthRate}%). Factors like scalability (${scalability}/10) and competitive positioning (${competitivePositioning}/10) also influence the result, making it ideal for SaaS companies with stable revenue, though it may not fully account for future risks or growth potential.`
+                        : 'Revenue multiples are disabled for non-SaaS models. Consider using income, earnings, or DCF methods instead.'
                 };
             }
 
             if (methods.includes('income')) {
-                const netIncome = projectedRevenue - expenses - (averageSalary * staffNumber) - employeeBenefits - ownerSalary;
+                const netIncome = projectedRevenue - expenses - (averageSalary * staffNumber) - employeeBenefits - ownerSalary - debt;
                 const incomeValuation = netIncome * (baseMultiplier + 1);
                 valuations['Income-Based'] = {
                     value: incomeValuation,
@@ -1532,19 +1547,20 @@
             }
 
             const valuationValues = Object.values(valuations).map(v => v.value);
-            const averageValuation = valuationValues.reduce((a, b) => a + b, 0) / valuationValues.length;
+            const averageValuation = valuationValues.length ? valuationValues.reduce((a, b) => a + b, 0) / valuationValues.length : 0;
 
             valuationData = {
                 methods: valuations,
                 average: averageValuation,
                 financials: {
                     'Projected Revenue': projectedRevenue.toLocaleString(),
-                    'Net Income': (projectedRevenue - expenses - (averageSalary * staffNumber) - employeeBenefits - ownerSalary).toLocaleString(),
+                    'Net Income': (projectedRevenue - expenses - (averageSalary * staffNumber) - employeeBenefits - ownerSalary - debt).toLocaleString(),
                     'LTV:CAC Ratio': ltvCacRatio.toFixed(2),
                     'Churn Rate': `${churnRate}%`,
                     'Growth Rate': `${growthRate}%`
                 },
                 factors: {
+                    'Business Model': usesMultipliers ? 'SaaS (multiples applied)' : 'Non-SaaS (multiples disabled)',
                     'Scalability': `${scalability}/10`,
                     'Market Trends': `${marketTrendImpact}/10`,
                     'Competitive Positioning': `${competitivePositioning}/10`,
