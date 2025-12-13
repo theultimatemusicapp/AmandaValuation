@@ -720,14 +720,14 @@
                             <img src="favicon-96x96.png" alt="SaaS Valuation App badge" class="h-10 w-10 rounded shadow-sm">
                             <div>
                                 <p class="text-sm font-semibold text-gray-800">Email my valuation</p>
-                                <p class="text-xs text-gray-600">Get your free report plus the inputs we used.</p>
+                                <p class="text-xs text-gray-600">Enter your email to view and keep your results.</p>
                             </div>
                         </div>
                         <div>
-                            <label for="valuationEmail" class="block text-sm font-semibold text-gray-700 mb-1">Email address (optional)</label>
-                            <input type="email" id="valuationEmail" class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-500" placeholder="you@example.com" aria-describedby="valuationEmail-helper valuationEmail-error">
-                            <p id="valuationEmail-helper" class="text-xs text-gray-500 mt-1">We’ll send your numbers to our team via Formspree so you have a copy.</p>
-                            <p id="valuationEmail-error" class="text-red-500 text-xs mt-1 hidden">Enter a valid email to receive your valuation.</p>
+                            <label for="valuationEmail" class="block text-sm font-semibold text-gray-700 mb-1">Email address</label>
+                            <input type="email" id="valuationEmail" class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-500" placeholder="you@example.com" aria-describedby="valuationEmail-helper valuationEmail-error" required aria-required="true">
+                            <p id="valuationEmail-helper" class="text-xs text-gray-500 mt-1">We’ll send your valuation summary straight to your inbox.</p>
+                            <p id="valuationEmail-error" class="text-red-500 text-xs mt-1 hidden">Please enter a valid email to unlock your valuation.</p>
                             <p id="valuationEmail-status" class="text-xs mt-2 text-gray-600 hidden"></p>
                         </div>
                     </div>
@@ -1005,7 +1005,7 @@
                             <li>Security-ready data room templates and guidance</li>
                             <li>Integration support for your revenue and product data</li>
                         </ul>
-                        <p class="text-sm text-gray-500">Prefer email? Reach us directly at <a href="mailto:hello@saasvaluation.app" class="text-teal-600 font-semibold">hello@saasvaluation.app</a>.</p>
+                        <p class="text-sm text-gray-500">Prefer to talk? Send us a note through the contact form and we&rsquo;ll reply quickly.</p>
                     </div>
                     <form id="contact" action="https://formspree.io/f/mayydjvv" method="POST" class="bg-white rounded-xl shadow-lg p-6 space-y-4">
                         <div>
@@ -1141,7 +1141,7 @@
         if (valuationEmailInput) {
             valuationEmailInput.addEventListener('input', () => {
                 const emailValue = valuationEmailInput.value.trim();
-                const isEmailValid = emailValue === '' || isValidEmail(emailValue);
+                const isEmailValid = emailValue === '' ? true : isValidEmail(emailValue);
                 setFieldState(valuationEmailInput, valuationEmailError, isEmailValid);
                 if (!emailValue) {
                     document.getElementById('valuationEmail-status').classList.add('hidden');
@@ -1536,13 +1536,17 @@
             if (!validateStep(6)) return;
 
             const emailValue = valuationEmailInput ? valuationEmailInput.value.trim() : '';
-            const emailIsValid = emailValue === '' || isValidEmail(emailValue);
-            if (valuationEmailInput) {
-                setFieldState(valuationEmailInput, valuationEmailError, emailIsValid);
-                if (!emailIsValid) {
+            const emailIsValid = isValidEmail(emailValue);
+            if (!emailValue || !emailIsValid) {
+                if (valuationEmailInput) {
+                    setFieldState(valuationEmailInput, valuationEmailError, false);
+                    updateEmailStatus('Enter a valid email to see your valuation.', false);
                     valuationEmailInput.focus();
-                    return;
                 }
+                return;
+            }
+            if (valuationEmailInput) {
+                setFieldState(valuationEmailInput, valuationEmailError, true);
             }
 
             const methods = Array.from(document.querySelectorAll('input[type="checkbox"]:checked')).map(cb => cb.value);
@@ -1771,22 +1775,20 @@
                 });
             }
 
-            if (emailValue) {
-                const submissionPayload = {
-                    valuation_average: `$${Math.round(averageValuation).toLocaleString()}`,
-                    methods: methodSummaries.join('; '),
-                    projected_revenue: `$${projectedRevenue.toLocaleString()}`,
-                    growth_rate: `${growthRate}%`,
-                    churn_rate: `${churnRate}%`,
-                    ltv_cac_ratio: ltvCacRatio.toFixed(2),
-                    business_model: valuationData.factors['Business Model'],
-                    industry,
-                    factors: JSON.stringify(valuationData.factors),
-                    financials: JSON.stringify(valuationData.financials),
-                    note: 'Free valuation calculator submission'
-                };
-                sendValuationToFormspree(emailValue, submissionPayload);
-            }
+            const submissionPayload = {
+                valuation_average: `$${Math.round(averageValuation).toLocaleString()}`,
+                methods: methodSummaries.join('; '),
+                projected_revenue: `$${projectedRevenue.toLocaleString()}`,
+                growth_rate: `${growthRate}%`,
+                churn_rate: `${churnRate}%`,
+                ltv_cac_ratio: ltvCacRatio.toFixed(2),
+                business_model: valuationData.factors['Business Model'],
+                industry,
+                factors: JSON.stringify(valuationData.factors),
+                financials: JSON.stringify(valuationData.financials),
+                note: 'Free valuation calculator submission'
+            };
+            sendValuationToFormspree(emailValue, submissionPayload);
         };
 
         async function loadImageAsDataURL(url) {
@@ -1943,9 +1945,7 @@
             yPosition += 10;
             doc.setFontSize(12);
             doc.setTextColor(0, 0, 0);
-            doc.text('Email: support@saasvaluation.app', 20, yPosition);
-            yPosition += 6;
-            doc.text('Website: SaaSValuation.app', 20, yPosition);
+            doc.text('Website: SaaSValuation.app (contact us via the site form)', 20, yPosition);
             yPosition += 10;
 
             doc.setFontSize(14);
