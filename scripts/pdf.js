@@ -919,7 +919,7 @@ export async function generateValuationPdf(data, options = {}) {
       yPos = addPage('About & Disclaimer');
       yPos = sectionTitle('About The SaaS Valuation App™', yPos);
       doc.setFontSize(10);
-      const aboutText = 'The SaaS Valuation App™ delivers transparent valuations built on industry-standard methods and auditable calculations. Every figure in this report is tied to the inputs you provided and can be refreshed as metrics change. Contact us: support@saasvaluation.app | Visit: www.saasvaluation.app';
+      const aboutText = 'The SaaS Valuation App™ delivers transparent valuations built on industry-standard methods and auditable calculations. Every figure in this report is tied to the inputs you provided and can be refreshed as metrics change. Reach us via the contact form at www.saasvaluation.app.';
       doc.text(doc.splitTextToSize(aboutText, pageWidth - 2 * margin), margin, yPos);
       yPos += 40;
       yPos = sectionTitle('Why Trust Us', yPos + 2);
