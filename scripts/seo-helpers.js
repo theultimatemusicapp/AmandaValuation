@@ -116,7 +116,6 @@
   }, {});
 
   const pageConfig = {
-    'blog.html': { breadcrumbLabel: 'Blog' },
     'blogs.html': { breadcrumbLabel: 'Blog' },
     'resources.html': { breadcrumbLabel: 'Resources' }
   };

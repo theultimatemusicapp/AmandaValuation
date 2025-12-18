@@ -5,7 +5,6 @@
     { href: 'index.html#pricing', label: 'Pricing', ariaLabel: 'See pricing options' },
     { href: 'saas-growth-calculator.html', label: 'Growth Calculator', ariaLabel: 'Open the SaaS growth calculator' },
     { href: 'resources.html', label: 'Resources', ariaLabel: 'Browse resources and guides' },
-    { href: 'blog.html', label: 'Blog', ariaLabel: 'Read our latest posts' },
     { href: 'Support.html#contact-support', label: 'Support', ariaLabel: 'Contact or get support' }
   ];
 
@@ -78,7 +77,6 @@
               <h3 class="text-lg font-semibold mb-3">Resources</h3>
               <ul class="space-y-2 text-gray-300">
                 <li><a href="resources.html" class="hover:text-teal-300">Resources Hub</a></li>
-                <li><a href="blog.html" class="hover:text-teal-300">Blog</a></li>
                 <li><a href="valuation-guide.html" class="hover:text-teal-300">Valuation Guide</a></li>
                 <li><a href="Support.html#contact-support" class="hover:text-teal-300">Contact &amp; Support</a></li>
               </ul>
@@ -120,10 +118,6 @@
   function swapLayout() {
     ensureGlobalStyles();
     document.body.dataset.sharedLayout = 'true';
-
-    if (!document.querySelector('.skip-link')) {
-      document.body.insertAdjacentHTML('afterbegin', '<a class="skip-link" href="#main-content">Skip to main content</a>');
-    }
 
     const main = document.querySelector('main');
     if (main && !main.id) {
