@@ -1,5 +1,5 @@
 (function() {
-  const baseUrl = 'https://saasvaluation.app/';
+  const baseUrl = `${(typeof window !== 'undefined' && window.location?.origin) ? window.location.origin.replace(/\/$/, '') : 'https://saasvaluation.app'}/`;
   const brand = 'SaaS Valuation App';
   const articleDefaults = [
     {
