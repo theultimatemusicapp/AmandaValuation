@@ -4,44 +4,58 @@
   <!-- Home -->
   <url>
     <loc>https://saasvaluation.app/</loc>
-    <lastmod>2025-05-11</lastmod>
+    <lastmod>2025-12-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.00</priority>
   </url>
 
   <!-- Main articles & tools -->
-  <url><loc>https://saasvaluation.app/blog.html</loc><lastmod>2025-10-01</lastmod><changefreq>weekly</changefreq><priority>0.80</priority></url>
-  <url><loc>https://saasvaluation.app/about.html</loc><lastmod>2026-01-15</lastmod><changefreq>monthly</changefreq><priority>0.75</priority></url>
-  <url><loc>https://saasvaluation.app/boost-saas-revenue.html</loc><lastmod>2025-05-10</lastmod><changefreq>monthly</changefreq><priority>0.75</priority></url>
-  <url><loc>https://saasvaluation.app/grow-tactics-for-2025.html</loc><lastmod>2025-05-10</lastmod><changefreq>monthly</changefreq><priority>0.75</priority></url>
-  <url><loc>https://saasvaluation.app/how-to-value-saas.html</loc><lastmod>2025-05-10</lastmod><changefreq>monthly</changefreq><priority>0.80</priority></url>
-  <url><loc>https://saasvaluation.app/payment.html</loc><lastmod>2025-05-08</lastmod><changefreq>monthly</changefreq><priority>0.70</priority></url>
-  <url><loc>https://saasvaluation.app/free-valuation-calculator.html</loc><lastmod>2025-07-24</lastmod><changefreq>monthly</changefreq><priority>0.70</priority></url>
-  <url><loc>https://saasvaluation.app/saas-growth-calculator.html</loc><lastmod>2025-07-24</lastmod><changefreq>monthly</changefreq><priority>0.75</priority></url>
+  <url><loc>https://saasvaluation.app/blog.html</loc><lastmod>2025-12-18</lastmod><changefreq>weekly</changefreq><priority>0.80</priority></url>
+  <url><loc>https://saasvaluation.app/about.html</loc><lastmod>2025-12-18</lastmod><changefreq>monthly</changefreq><priority>0.75</priority></url>
+  <url><loc>https://saasvaluation.app/boost-saas-revenue.html</loc><lastmod>2025-12-18</lastmod><changefreq>monthly</changefreq><priority>0.75</priority></url>
+  <url><loc>https://saasvaluation.app/grow-tactics-for-2025.html</loc><lastmod>2025-12-18</lastmod><changefreq>monthly</changefreq><priority>0.75</priority></url>
+  <url><loc>https://saasvaluation.app/how-to-value-saas.html</loc><lastmod>2025-12-18</lastmod><changefreq>monthly</changefreq><priority>0.80</priority></url>
+  <url><loc>https://saasvaluation.app/payment.html</loc><lastmod>2025-12-18</lastmod><changefreq>monthly</changefreq><priority>0.70</priority></url>
+  <url><loc>https://saasvaluation.app/free-valuation-calculator.html</loc><lastmod>2025-12-18</lastmod><changefreq>monthly</changefreq><priority>0.70</priority></url>
+  <url><loc>https://saasvaluation.app/saas-growth-calculator.html</loc><lastmod>2025-12-18</lastmod><changefreq>monthly</changefreq><priority>0.75</priority></url>
   
-  <url><loc>https://saasvaluation.app/How-to-value-my-saas-company.html</loc><lastmod>2025-08-19</lastmod><changefreq>monthly</changefreq><priority>0.80</priority></url>
-  <url><loc>https://saasvaluation.app/the-rule-of-40.html</loc><lastmod>2025-08-19</lastmod><changefreq>monthly</changefreq><priority>0.75</priority></url>
-  <url><loc>https://saasvaluation.app/blogs.html</loc><lastmod>2025-10-01</lastmod><changefreq>weekly</changefreq><priority>0.80</priority></url>
-  <url><loc>https://saasvaluation.app/resources.html</loc><lastmod>2026-01-15</lastmod><changefreq>weekly</changefreq><priority>0.85</priority></url>
-  <url><loc>https://saasvaluation.app/how-much-is-my-saas-worth-10k-mrr.html</loc><lastmod>2025-10-01</lastmod><changefreq>monthly</changefreq><priority>0.75</priority></url>
-  <url><loc>https://saasvaluation.app/saas-valuation-for-bootstrapped-founders.html</loc><lastmod>2025-10-01</lastmod><changefreq>monthly</changefreq><priority>0.75</priority></url>
-  <url><loc>https://saasvaluation.app/what-multiple-do-saas-businesses-sell-for-2025.html</loc><lastmod>2025-10-01</lastmod><changefreq>monthly</changefreq><priority>0.75</priority></url>
-  <url><loc>https://saasvaluation.app/saas-valuation-with-no-profit.html</loc><lastmod>2025-10-01</lastmod><changefreq>monthly</changefreq><priority>0.75</priority></url>
-  <url><loc>https://saasvaluation.app/saas-valuation-one-customer-vs-many.html</loc><lastmod>2025-10-01</lastmod><changefreq>monthly</changefreq><priority>0.75</priority></url>
-  <url><loc>https://saasvaluation.app/micro-saas-valuation-under-1m-arr.html</loc><lastmod>2025-10-01</lastmod><changefreq>monthly</changefreq><priority>0.75</priority></url>
-  <url><loc>https://saasvaluation.app/saas-exit-valuation-calculator-explained.html</loc><lastmod>2025-10-01</lastmod><changefreq>monthly</changefreq><priority>0.75</priority></url>
-  <url><loc>https://saasvaluation.app/how-buyers-value-small-saas-businesses.html</loc><lastmod>2025-10-01</lastmod><changefreq>monthly</changefreq><priority>0.75</priority></url>
+  <url><loc>https://saasvaluation.app/How-to-value-my-saas-company.html</loc><lastmod>2025-12-18</lastmod><changefreq>monthly</changefreq><priority>0.80</priority></url>
+  <url><loc>https://saasvaluation.app/the-rule-of-40.html</loc><lastmod>2025-12-18</lastmod><changefreq>monthly</changefreq><priority>0.75</priority></url>
+  <url><loc>https://saasvaluation.app/blogs.html</loc><lastmod>2025-12-18</lastmod><changefreq>weekly</changefreq><priority>0.80</priority></url>
+  <url><loc>https://saasvaluation.app/resources.html</loc><lastmod>2025-12-18</lastmod><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://saasvaluation.app/how-much-is-my-saas-worth-10k-mrr.html</loc><lastmod>2025-12-18</lastmod><changefreq>monthly</changefreq><priority>0.75</priority></url>
+  <url><loc>https://saasvaluation.app/saas-valuation-for-bootstrapped-founders.html</loc><lastmod>2025-12-18</lastmod><changefreq>monthly</changefreq><priority>0.75</priority></url>
+  <url><loc>https://saasvaluation.app/what-multiple-do-saas-businesses-sell-for-2025.html</loc><lastmod>2025-12-18</lastmod><changefreq>monthly</changefreq><priority>0.75</priority></url>
+  <url><loc>https://saasvaluation.app/saas-valuation-with-no-profit.html</loc><lastmod>2025-12-18</lastmod><changefreq>monthly</changefreq><priority>0.75</priority></url>
+  <url><loc>https://saasvaluation.app/saas-valuation-one-customer-vs-many.html</loc><lastmod>2025-12-18</lastmod><changefreq>monthly</changefreq><priority>0.75</priority></url>
+  <url><loc>https://saasvaluation.app/micro-saas-valuation-under-1m-arr.html</loc><lastmod>2025-12-18</lastmod><changefreq>monthly</changefreq><priority>0.75</priority></url>
+  <url><loc>https://saasvaluation.app/saas-exit-valuation-calculator-explained.html</loc><lastmod>2025-12-18</lastmod><changefreq>monthly</changefreq><priority>0.75</priority></url>
+  <url><loc>https://saasvaluation.app/how-buyers-value-small-saas-businesses.html</loc><lastmod>2025-12-18</lastmod><changefreq>monthly</changefreq><priority>0.75</priority></url>
+
+
+  <!-- Deep dives & analyses -->
+  <url><loc>https://saasvaluation.app/How-to-value-your-saas-company.html</loc><lastmod>2025-12-18</lastmod><changefreq>monthly</changefreq><priority>0.78</priority></url>
+  <url><loc>https://saasvaluation.app/Saas-Valuation-Multiples.html</loc><lastmod>2025-12-18</lastmod><changefreq>monthly</changefreq><priority>0.78</priority></url>
+  <url><loc>https://saasvaluation.app/valuation-guide.html</loc><lastmod>2025-12-18</lastmod><changefreq>monthly</changefreq><priority>0.80</priority></url>
+  <url><loc>https://saasvaluation.app/due-diligence-checklist.html</loc><lastmod>2025-12-18</lastmod><changefreq>monthly</changefreq><priority>0.72</priority></url>
+  <url><loc>https://saasvaluation.app/ai-saas-valuation-bubble.html</loc><lastmod>2025-12-18</lastmod><changefreq>monthly</changefreq><priority>0.70</priority></url>
+  <url><loc>https://saasvaluation.app/capital-efficiency-2026-saas-valuations.html</loc><lastmod>2025-12-18</lastmod><changefreq>monthly</changefreq><priority>0.70</priority></url>
+  <url><loc>https://saasvaluation.app/why-a-new-generation-is-quietly-reshaping-the-saas-landscape.html</loc><lastmod>2025-12-18</lastmod><changefreq>monthly</changefreq><priority>0.70</priority></url>
+  <url><loc>https://saasvaluation.app/pro-valuation.html</loc><lastmod>2025-12-18</lastmod><changefreq>monthly</changefreq><priority>0.70</priority></url>
+  <url><loc>https://saasvaluation.app/Support.html</loc><lastmod>2025-12-18</lastmod><changefreq>weekly</changefreq><priority>0.65</priority></url>
+  <url><loc>https://saasvaluation.app/thank-you.html</loc><lastmod>2025-12-18</lastmod><changefreq>monthly</changefreq><priority>0.40</priority></url>
+  <url><loc>https://saasvaluation.app/404.html</loc><lastmod>2025-12-18</lastmod><changefreq>yearly</changefreq><priority>0.10</priority></url>
 
 
   <!-- Value-add guides -->
-  <url><loc>https://saasvaluation.app/selling-your-small-business.html</loc><lastmod>2025-05-10</lastmod><changefreq>monthly</changefreq><priority>0.70</priority></url>
-  <url><loc>https://saasvaluation.app/strategies-for-customer-retention.html</loc><lastmod>2025-05-10</lastmod><changefreq>monthly</changefreq><priority>0.70</priority></url>
-  <url><loc>https://saasvaluation.app/valuing-ai-driven-trends.html</loc><lastmod>2025-05-10</lastmod><changefreq>monthly</changefreq><priority>0.70</priority></url>
-  <url><loc>https://saasvaluation.app/business-model-feedback.html</loc><lastmod>2026-01-15</lastmod><changefreq>monthly</changefreq><priority>0.70</priority></url>
+  <url><loc>https://saasvaluation.app/selling-your-small-business.html</loc><lastmod>2025-12-18</lastmod><changefreq>monthly</changefreq><priority>0.70</priority></url>
+  <url><loc>https://saasvaluation.app/strategies-for-customer-retention.html</loc><lastmod>2025-12-18</lastmod><changefreq>monthly</changefreq><priority>0.70</priority></url>
+  <url><loc>https://saasvaluation.app/valuing-ai-driven-trends.html</loc><lastmod>2025-12-18</lastmod><changefreq>monthly</changefreq><priority>0.70</priority></url>
+  <url><loc>https://saasvaluation.app/business-model-feedback.html</loc><lastmod>2025-12-18</lastmod><changefreq>monthly</changefreq><priority>0.70</priority></url>
 
   <!-- Legal / system pages -->
-  <url><loc>https://saasvaluation.app/privacy-policy.html</loc><lastmod>2025-05-07</lastmod><changefreq>yearly</changefreq><priority>0.30</priority></url>
-  <url><loc>https://saasvaluation.app/terms-and-conditions.html</loc><lastmod>2025-05-07</lastmod><changefreq>yearly</changefreq><priority>0.30</priority></url>
-  <url><loc>https://saasvaluation.app/robots.txt</loc><lastmod>2025-05-07</lastmod><changefreq>yearly</changefreq><priority>0.10</priority></url>
+  <url><loc>https://saasvaluation.app/privacy-policy.html</loc><lastmod>2025-12-18</lastmod><changefreq>yearly</changefreq><priority>0.30</priority></url>
+  <url><loc>https://saasvaluation.app/terms-and-conditions.html</loc><lastmod>2025-12-18</lastmod><changefreq>yearly</changefreq><priority>0.30</priority></url>
+  <url><loc>https://saasvaluation.app/robots.txt</loc><lastmod>2025-12-18</lastmod><changefreq>yearly</changefreq><priority>0.10</priority></url>
 
 </urlset>

@@ -36,9 +36,37 @@
     .container { max-width: 1200px; margin: 0 auto; padding: 2rem; }
     .hidden { display: none; }
   </style>
+    <link rel="stylesheet" href="styles/global.css">
 </head>
 <body class="bg-gray-100">
-  <div class="container">
+    <a class="skip-link" href="#main-content">Skip to main content</a>
+    <header class="site-header bg-gray-900 text-white shadow-lg sticky top-0 z-50" role="banner">
+      <div class="container mx-auto px-6 flex justify-between items-center py-4">
+        <div class="flex items-center space-x-3">
+          <a href="/" class="flex items-center space-x-3" aria-label="SaaS Valuation App home">
+            <img src="favicon-96x96.png" alt="SaaS Valuation App logo" class="h-10 w-10 rounded" loading="lazy">
+            <span class="text-xl font-bold">SaaS Valuation App</span>
+          </a>
+        </div>
+        <nav class="hidden md:flex space-x-6 items-center" aria-label="Primary navigation">
+          <a href="index.html#valuation" class="hover:text-teal-300 nav-link" aria-label="Go to the valuation tool">Valuation Tool</a><a href="index.html#data-room" class="hover:text-teal-300 nav-link" aria-label="Learn about the AI data room">AI Data Room</a><a href="index.html#pricing" class="hover:text-teal-300 nav-link" aria-label="See pricing options">Pricing</a><a href="saas-growth-calculator.html" class="hover:text-teal-300 nav-link" aria-label="Open the SaaS growth calculator">Growth Calculator</a><a href="resources.html" class="hover:text-teal-300 nav-link" aria-label="Browse resources and guides">Resources</a><a href="blog.html" class="hover:text-teal-300 nav-link" aria-label="Read our latest posts">Blog</a><a href="Support.html#contact-support" class="hover:text-teal-300 nav-link" aria-label="Contact or get support">Support</a>
+          <a href="payment.html" class="ml-2 bg-white text-gray-900 font-semibold px-4 py-2 rounded-lg shadow hover:bg-teal-100" aria-label="Upgrade to the pro valuation">Go Pro</a>
+        </nav>
+        <button id="menu-toggle" type="button" class="md:hidden focus:outline-none" aria-expanded="false" aria-controls="mobile-menu" aria-label="Toggle navigation menu">
+          <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+        </button>
+      </div>
+      <div id="mobile-menu" class="md:hidden hidden border-t border-gray-800 bg-gray-900" role="dialog" aria-label="Mobile navigation">
+        <nav class="flex flex-col space-y-3 px-6 py-4" aria-label="Primary navigation mobile">
+          <a href="index.html#valuation" class="hover:text-teal-300 py-2 border-b border-gray-800 last:border-b-0" aria-label="Go to the valuation tool">Valuation Tool</a><a href="index.html#data-room" class="hover:text-teal-300 py-2 border-b border-gray-800 last:border-b-0" aria-label="Learn about the AI data room">AI Data Room</a><a href="index.html#pricing" class="hover:text-teal-300 py-2 border-b border-gray-800 last:border-b-0" aria-label="See pricing options">Pricing</a><a href="saas-growth-calculator.html" class="hover:text-teal-300 py-2 border-b border-gray-800 last:border-b-0" aria-label="Open the SaaS growth calculator">Growth Calculator</a><a href="resources.html" class="hover:text-teal-300 py-2 border-b border-gray-800 last:border-b-0" aria-label="Browse resources and guides">Resources</a><a href="blog.html" class="hover:text-teal-300 py-2 border-b border-gray-800 last:border-b-0" aria-label="Read our latest posts">Blog</a><a href="Support.html#contact-support" class="hover:text-teal-300 py-2 border-b border-gray-800 last:border-b-0" aria-label="Contact or get support">Support</a>
+          <a href="payment.html" class="mt-2 inline-flex items-center justify-center px-4 py-3 rounded-lg bg-white text-gray-900 font-semibold hover:bg-teal-100" aria-label="Upgrade to the pro valuation">Go Pro</a>
+        </nav>
+      </div>
+    </header>
+<main id="main-content">
+<div class="container">
     <h1 class="text-3xl font-bold text-teal-600 mb-6">SaaS Valuation Results</h1>
     <div id="no-results" class="hidden bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-6">
       No valuation results found. Please complete the valuation process in the main app.
@@ -58,8 +86,8 @@
       <button id="download-pdf" class="bg-teal-600 text-white px-4 py-2 rounded hover:bg-teal-700">Download PDF Report</button>
     </div>
   </div>
-
-  <script>
+</main>
+<script>
     // Chart instances
     let valuationChart;
     let revenueGrowthChart;
@@ -289,52 +317,66 @@
     </div>
 </section>
 
-  <footer class="bg-gray-800 text-white py-12">
-    <div class="container mx-auto px-6 space-y-8">
-      <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
-        <div>
-          <h3 class="text-lg font-bold mb-4">SaaS Valuation App</h3>
-          <p class="text-gray-300 text-sm">Investor-ready valuations and growth guidance for founder-led SaaS companies.</p>
-        </div>
-        <div>
-          <h3 class="text-lg font-bold mb-4">Product</h3>
-          <ul class="space-y-2 text-sm">
-            <li><a href="index.html#valuation" class="text-gray-300 hover:text-teal-300">Self Valuation</a></li>
-            <li><a href="index.html#data-room" class="text-gray-300 hover:text-teal-300">AI Data Room</a></li>
-            <li><a href="index.html#pricing" class="text-gray-300 hover:text-teal-300">Pricing</a></li>
-          </ul>
-        </div>
-        <div>
-          <h3 class="text-lg font-bold mb-4">Resources</h3>
-          <ul class="space-y-2 text-sm">
-            <li><a href="about.html" class="text-gray-300 hover:text-teal-300">About</a></li>
-            <li><a href="resources.html" class="text-gray-300 hover:text-teal-300">Blog</a></li>
-            <li><a href="valuation-guide.html" class="text-gray-300 hover:text-teal-300">Valuation Guide</a></li>
-          </ul>
-        </div>
-        <div>
-          <h3 class="text-lg font-bold mb-4">Legal</h3>
-          <ul class="space-y-2 text-sm">
-            <li><a href="privacy-policy.html" class="text-gray-300 hover:text-teal-300">Privacy Policy</a></li>
-            <li><a href="terms-and-conditions.html" class="text-gray-300 hover:text-teal-300">Terms and Conditions</a></li>
-          </ul>
-        </div>
-      </div>
-      <div class="bg-gray-900 rounded-xl p-6 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-        <div>
-          <h3 class="text-xl font-semibold">Contact &amp; Support</h3>
-          <p class="text-gray-300">Email us at <a class="text-teal-300 font-semibold hover:text-teal-200" href="mailto:support@saasvaluation.app">support@saasvaluation.app</a> or visit our support resources.</p>
-        </div>
-        <div class="flex flex-col sm:flex-row gap-3 text-sm">
-          <a href="Support.html" class="inline-flex items-center justify-center px-4 py-2 rounded-lg bg-gray-100 text-gray-900 font-semibold hover:bg-white">Support Center</a>
-          <a href="about.html" class="inline-flex items-center justify-center px-4 py-2 rounded-lg bg-teal-500 text-white font-semibold hover:bg-teal-600">Meet the Team</a>
-        </div>
-      </div>
-      <div class="border-t border-gray-700 pt-6 text-center text-sm text-gray-400">
-        © 2025 SaaS Valuation App. All rights reserved.
-      </div>
-    </div>
-  </footer>
+      
     <script src="scripts/seo-helpers.js"></script>
+    <script src="scripts/layout.js"></script>
+    <footer class="site-footer bg-gray-900 text-white py-12" role="contentinfo">
+      <div class="container mx-auto px-6 space-y-10">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-10 items-start">
+          <div class="space-y-4">
+            <div class="flex items-center space-x-3">
+              <img src="favicon-96x96.png" alt="SaaS Valuation App logo" class="h-10 w-10 rounded" loading="lazy">
+              <div>
+                <p class="text-lg font-bold">SaaS Valuation App</p>
+                <p class="text-gray-300 text-sm">Investor-ready valuations and growth tools for founders.</p>
+              </div>
+            </div>
+            <div class="text-sm text-gray-400 space-y-2" aria-label="Business information">
+              <p class="font-semibold text-gray-200">Registered business:</p>
+              <p>Amanda Valuation LLC — Delaware, USA</p>
+              <p>Registered agent mailing: 651 N Broad St, Suite 206, Middletown, DE 19709</p>
+              <p>Mailing address: 2261 Market Street #4178, San Francisco, CA 94114</p>
+            </div>
+          </div>
+          <div class="grid grid-cols-2 gap-6" aria-label="Site links">
+            <div>
+              <h3 class="text-lg font-semibold mb-3">Product</h3>
+              <ul class="space-y-2 text-gray-300">
+                <li><a href="index.html#valuation" class="hover:text-teal-300">Valuation Tool</a></li>
+                <li><a href="payment.html" class="hover:text-teal-300">Pro Valuation</a></li>
+                <li><a href="saas-growth-calculator.html" class="hover:text-teal-300">Growth Calculator</a></li>
+                <li><a href="index.html#pricing" class="hover:text-teal-300">Pricing</a></li>
+              </ul>
+            </div>
+            <div>
+              <h3 class="text-lg font-semibold mb-3">Resources</h3>
+              <ul class="space-y-2 text-gray-300">
+                <li><a href="resources.html" class="hover:text-teal-300">Resources Hub</a></li>
+                <li><a href="blog.html" class="hover:text-teal-300">Blog</a></li>
+                <li><a href="valuation-guide.html" class="hover:text-teal-300">Valuation Guide</a></li>
+                <li><a href="Support.html#contact-support" class="hover:text-teal-300">Contact &amp; Support</a></li>
+              </ul>
+            </div>
+          </div>
+          <div class="space-y-4" aria-label="Contact information">
+            <h3 class="text-lg font-semibold">Contact &amp; Support</h3>
+            <p class="text-gray-300">Email: <a class="text-teal-300 hover:text-teal-200" href="mailto:support@saasvaluation.app">support@saasvaluation.app</a></p>
+            <p class="text-gray-300">Support hours: Monday–Friday, 9:00 AM–5:00 PM PT</p>
+            <p class="text-gray-300">For filings or legal notices, use the registered address above.</p>
+            <div class="flex flex-col sm:flex-row gap-3">
+              <a href="Support.html" class="inline-flex items-center justify-center px-4 py-2 rounded-lg bg-white text-gray-900 font-semibold hover:bg-teal-100" aria-label="Go to the support page">Support Center</a>
+              <a href="Support.html#contact-support" class="inline-flex items-center justify-center px-4 py-2 rounded-lg bg-teal-500 text-white font-semibold hover:bg-teal-600" aria-label="Jump to the contact form">Contact Us</a>
+            </div>
+          </div>
+        </div>
+        <div class="border-t border-gray-800 pt-6 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+          <p class="text-gray-400 text-sm">© 2025 SaaS Valuation App. All rights reserved.</p>
+          <div class="flex gap-4 text-sm text-gray-300">
+            <a class="hover:text-teal-300" href="privacy-policy.html">Privacy Policy</a>
+            <a class="hover:text-teal-300" href="terms-and-conditions.html">Terms &amp; Conditions</a>
+          </div>
+        </div>
+      </div>
+    </footer>
 </body>
 </html>

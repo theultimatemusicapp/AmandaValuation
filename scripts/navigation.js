@@ -10,6 +10,7 @@ export function initNavigation(validation, calculateValuation) {
   const navLinks = document.querySelectorAll('.nav-link[data-section]');
   const stickyCta = document.getElementById('sticky-cta');
   const heroSection = document.getElementById('hero');
+  const skipMenuHandling = document.body.dataset.sharedLayout === 'true';
   const totalSteps = steps.length;
   if (totalStepsDisplay) totalStepsDisplay.textContent = totalSteps;
   let currentStep = 1;
@@ -40,13 +41,15 @@ export function initNavigation(validation, calculateValuation) {
     focusElement?.focus();
   }
 
-  if (menuToggle && mobileMenu) {
+  if (menuToggle && mobileMenu && !skipMenuHandling) {
     menuToggle.addEventListener('click', () => {
       const open = menuToggle.getAttribute('aria-expanded') === 'true';
       menuToggle.setAttribute('aria-expanded', String(!open));
       mobileMenu.hidden = open;
       (!open ? mobileMenu.querySelector('a') : menuToggle).focus();
     });
+  } else if (menuToggle && mobileMenu) {
+    mobileMenu.hidden = true;
   }
 
   document.querySelectorAll('a[href^="#"]').forEach(anchor => {
