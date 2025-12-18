@@ -66,9 +66,28 @@
         .btn-secondary:hover {
             background-color: #C05621;
         }
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        .step-hidden {
+            display: none;
+        }
+        .step-visible {
+            display: block;
+        }
         .input-error {
             border-color: #E53E3E !important;
             box-shadow: 0 0 0 2px rgba(229, 62, 62, 0.2) !important;
+        }
+        .input-valid {
+            border-color: #38A169 !important;
+            box-shadow: 0 0 0 2px rgba(56, 161, 105, 0.25) !important;
+        }
+        .saved-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
         }
         [data-tooltip] {
             position: relative;
@@ -87,15 +106,44 @@
             white-space: nowrap;
             z-index: 10;
         }
-        .step-hidden {
+        .tooltip-hidden {
             display: none;
         }
-        .step-visible {
-            display: block;
+        .dashboard-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            padding: 20px;
+            color: white;
+            text-align: left;
+            max-width: 600px;
+            margin: 0 auto;
         }
-        .progress-container {
-            max-width: 100%;
+        .value-bar {
+            height: 20px;
+            background: #4A5568;
+            border-radius: 10px;
             overflow: hidden;
+            position: relative;
+        }
+        .value-fill {
+            height: 100%;
+            background: #48BB78;
+            border-radius: 10px 0 0 10px;
+            transition: width 0.3s ease;
+        }
+        .metric-box {
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 10px;
+            padding: 10px;
+            margin: 10px 0;
+        }
+        .indicator {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 5px;
         }
     </style>
 </head>
@@ -138,63 +186,72 @@
             <a href="#valuation" class="btn-primary text-white font-bold py-3 px-8 rounded-lg" data-analytics-event="cta_click" data-analytics-label="free-valuation-hero">Get Your Valuation Now</a>
         </div>
     </section>
-<!-- Valuation Calculator (Steps 1-2) -->
-    <section id="valuation" class="py-16 bg-gray-50">
+<!-- Self Valuation Tool -->
+    <section id="valuation" class="py-20 bg-gray-50">
         <div class="container mx-auto px-6">
-            <div class="text-center mb-12">
-                <h2 class="text-3xl font-bold text-gray-800 mb-4">Free SaaS Valuation Calculator</h2>
-                <p class="text-lg text-gray-600 max-w-2xl mx-auto">Answer a few questions to get a detailed valuation report for your SaaS business in minutes. Our free tool provides accurate insights, and the Pro version offers advanced analytics.</p>
-            </div>
-            <div id="valuation-form" class="bg-white rounded-xl shadow-lg p-6 max-w-3xl mx-auto">
-                <!-- Progress Bar -->
-                <div class="mb-8 progress-container">
-                    <div class="relative pt-1">
-                        <div class="overflow-hidden h-2 mb-4 text-xs flex rounded bg-gray-200 w-full">
-                            <div id="progress-fill" class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-teal-500" style="width: 16.67%" role="progressbar" aria-valuemin="1" aria-valuemax="6" aria-valuenow="1"></div>
+            <div class="bg-white border border-gray-100 rounded-3xl shadow-xl p-8 md:p-12 space-y-12">
+                <div class="text-center">
+                    <h2 class="text-3xl font-bold text-gray-800 mb-4">FREE Self Valuation Tool</h2>
+                    <p class="text-lg text-gray-600 max-w-2xl mx-auto">Answer a few questions to get a detailed valuation report for your SaaS business in minutes.</p>
+              </div>
+                <div id="valuation-form" class="bg-white rounded-2xl shadow-lg p-6 md:p-8 max-w-5xl mx-auto">
+                    <div class="lg:grid lg:grid-cols-4 lg:gap-8 lg:gap-y-10">
+                        <div class="lg:col-span-3">
+                        <!-- Progress Bar -->
+                        <div class="mb-8">
+                            <div class="relative pt-1">
+                                <div class="overflow-hidden h-2 mb-4 text-xs flex rounded bg-gray-200">
+                                    <div id="progress-fill" class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-teal-500" style="width: 16.67%" role="progressbar" aria-valuemin="1" aria-valuemax="6" aria-valuenow="1"></div>
+                                </div>
+                                <div class="text-center">
+                                    <p class="text-gray-600">Step <span id="current-step">1</span> of 6</p>
+                                    <p id="current-step-label" class="text-sm text-teal-700 font-semibold">Currently: Select Valuation Method</p>
+                                    <p class="text-gray-500 text-sm flex items-center justify-center gap-2 mt-1"><i class="far fa-clock"></i>Estimated completion time: ~3 minutes</p>
+                                </div>
+                            </div>
                         </div>
-                        <p class="text-center text-gray-600">Step <span id="current-step">1</span> of 6</p>
-                    </div>
-                </div>
 
-                <!-- Step 1: Valuation Method -->
-                <div class="step step-visible">
-                    <h3 class="text-xl font-semibold text-gray-800 mb-4">
-                        Step 1: Select Valuation Method
-                        <span data-tooltip="Choose valuation methods to estimate your SaaS company's worth based on different financial perspectives." class="text-teal-500 underline cursor-pointer ml-2">?</span>
-                    </h3>
-                    <p class="text-gray-600 mb-4">Choose up to 3 methods for a comprehensive valuation. <span data-tooltip="Select methods based on your business model. Multiplier is best for established SaaS companies, while DCF suits those with predictable cash flows." class="text-teal-500 underline cursor-pointer">Learn more</span></p>
-                    <div class="space-y-2">
-                        <label class="flex items-center">
-                            <input type="checkbox" id="method-multiplier" value="multiplier" class="form-checkbox h-5 w-5 text-teal-500">
-                            <span class="ml-2 text-gray-600">Revenue Multiplier</span>
-                        </label>
-                        <label class="flex items-center">
-                            <input type="checkbox" id="method-income" value="income" class="form-checkbox h-5 w-5 text-teal-500">
-                            <span class="ml-2 text-gray-600">Income-Based Valuation</span>
-                        </label>
-                        <label class="flex items-center">
-                            <input type="checkbox" id="method-earnings" value="earnings" class="form-checkbox h-5 w-5 text-teal-500">
-                            <span class="ml-2 text-gray-600">Earnings-Based Valuation</span>
-                        </label>
-                        <label class="flex items-center">
-                            <input type="checkbox" id="method-dcf" value="dcf" class="form-checkbox h-5 w-5 text-teal-500">
-                            <span class="ml-2 text-gray-600">Discounted Cash Flow (DCF)</span>
-                        </label>
-                    </div>
-                    <p id="method-error" class="text-red-500 text-sm mt-2 hidden">Please select 1 to 3 methods.</p>
-                    <div class="mt-6 flex justify-end">
-                        <button id="next-btn-1" class="btn-primary text-white font-bold py-2 px-4 rounded-lg">Next</button>
-                    </div>
-                </div>
+                        <!-- Step 1: Valuation Method -->
+                        <div class="step step-visible">
+                            <h3 class="text-xl font-semibold text-gray-800 mb-4">Step 1: Select Valuation Method</h3>
+                            <p class="text-gray-600 mb-4">Choose up to 3 methods for a comprehensive valuation. <span data-tooltip="Select methods based on your business model. Multiplier is best for established SaaS companies, while DCF suits those with predictable cash flows." class="text-teal-500 underline cursor-pointer">Learn more</span></p>
+                            <div class="space-y-2">
+                                <label class="flex items-center">
+                                    <input type="checkbox" id="method-multiplier" value="multiplier" class="form-checkbox h-5 w-5 text-teal-500">
+                                    <span class="ml-2 text-gray-600">Revenue Multiplier</span>
+                                </label>
+                                <label class="flex items-center">
+                                    <input type="checkbox" id="method-income" value="income" class="form-checkbox h-5 w-5 text-teal-500">
+                                    <span class="ml-2 text-gray-600">Income-Based Valuation</span>
+                                </label>
+                                <label class="flex items-center">
+                                    <input type="checkbox" id="method-earnings" value="earnings" class="form-checkbox h-5 w-5 text-teal-500">
+                                    <span class="ml-2 text-gray-600">Earnings-Based Valuation</span>
+                                </label>
+                                <label class="flex items-center">
+                                    <input type="checkbox" id="method-dcf" value="dcf" class="form-checkbox h-5 w-5 text-teal-500">
+                                    <span class="ml-2 text-gray-600">Discounted Cash Flow (DCF)</span>
+                                </label>
+                            </div>
+                            <div class="mt-4">
+                                <label for="businessModel" class="block text-gray-700 font-semibold mb-1">Business Model</label>
+                                <select id="businessModel" class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-500">
+                                    <option value="saas" selected>SaaS (uses revenue multiples)</option>
+                                    <option value="non-saas">Non-SaaS (no revenue multiple)</option>
+                                </select>
+                                <p class="text-gray-500 text-sm mt-1">Use Non-SaaS if your business relies on services, inventory, or other models that are not valued on revenue multiples.</p>
+                            </div>
+                            <p id="method-error" class="text-red-500 text-sm mt-2 hidden">Please select 1 to 3 methods.</p>
+                            <div class="mt-6 flex justify-end">
+                                <button id="next-btn-1" class="btn-primary text-white font-bold py-2 px-4 rounded-lg">Next</button>
+                            </div>
+                        </div>
 
-                <!-- Step 2: Financial Information -->
+                        <!-- Step 2: Financial Information -->
                 <div class="step step-hidden">
-                    <h3 class="text-xl font-semibold text-gray-800 mb-4">
-                        Step 2: Financial Information
-                        <span data-tooltip="Provide key financial metrics to assess your company's revenue, expenses, and operational costs." class="text-teal-500 underline cursor-pointer ml-2">?</span>
-                    </h3>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-4">Step 2: Financial Information</h3>
                     <p class="text-gray-600 mb-4">Provide your financial details to help us calculate your valuation accurately.</p>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 gap-y-8">
                         <div>
                             <label for="ownerSalary" class="block text-gray-600 mb-1">Owner’s Salary ($/year)</label>
                             <input type="text" id="ownerSalary" class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-500" placeholder="e.g., 120,000">
@@ -246,32 +303,34 @@
                         <button id="next-btn-2" class="btn-primary text-white font-bold py-2 px-4 rounded-lg">Next</button>
                     </div>
                 </div>
+
                 <!-- Step 3: Customer Metrics -->
                 <div class="step step-hidden">
-                    <h3 class="text-xl font-semibold text-gray-800 mb-4">
-                        Step 3: Customer Metrics
-                        <span data-tooltip="Provide metrics about customer acquisition and retention to evaluate your business's customer value and growth potential." class="text-teal-500 underline cursor-pointer ml-2">?</span>
-                    </h3>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-4">Step 3: Customer Metrics</h3>
                     <p class="text-gray-600 mb-4">Tell us about your customer acquisition and retention metrics.</p>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 gap-y-8">
                         <div>
-                            <label for="ltv" class="block text-gray-600 mb-1">Customer Lifetime Value (LTV) ($)</label>
+                            <label for="ltv" class="block text-gray-600 mb-1">Customer Lifetime Value (LTV) ($) <span data-tooltip="Average revenue you expect from a customer across their entire relationship." class="text-teal-500 underline cursor-pointer">?</span></label>
                             <input type="text" id="ltv" class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-500" placeholder="e.g., 5,000">
+                            <p class="text-gray-500 text-sm mt-1">Estimate by multiplying ARPU by the average number of months a customer stays.</p>
                             <p id="ltv-error" class="text-red-500 text-sm mt-1 hidden">Please enter a valid number.</p>
                         </div>
                         <div>
-                            <label for="cac" class="block text-gray-600 mb-1">Customer Acquisition Cost (CAC) ($)</label>
+                            <label for="cac" class="block text-gray-600 mb-1">Customer Acquisition Cost (CAC) ($) <span data-tooltip="Average marketing + sales cost to land one new customer." class="text-teal-500 underline cursor-pointer">?</span></label>
                             <input type="text" id="cac" class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-500" placeholder="e.g., 1,000">
+                            <p class="text-gray-500 text-sm mt-1">Use your last month’s total acquisition spend divided by new customers won.</p>
                             <p id="cac-error" class="text-red-500 text-sm mt-1 hidden">Please enter a valid number.</p>
                         </div>
                         <div>
-                            <label for="churnRate" class="block text-gray-600 mb-1">Churn Rate (%)</label>
+                            <label for="churnRate" class="block text-gray-600 mb-1">Churn Rate (%) <span data-tooltip="Percentage of customers lost per month." class="text-teal-500 underline cursor-pointer">?</span></label>
                             <input type="number" id="churnRate" class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-500" placeholder="e.g., 5">
+                            <p class="text-gray-500 text-sm mt-1">Divide customers lost last month by customers at the start of the month.</p>
                             <p id="churnRate-error" class="text-red-500 text-sm mt-1 hidden">Please enter a valid percentage (0-100).</p>
                         </div>
                         <div>
-                            <label for="customerGrowthRate" class="block text-gray-600 mb-1">Customer Growth Rate (%)</label>
+                            <label for="customerGrowthRate" class="block text-gray-600 mb-1">Customer Growth Rate (%) <span data-tooltip="Net increase in customers month over month." class="text-teal-500 underline cursor-pointer">?</span></label>
                             <input type="number" id="customerGrowthRate" class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-500" placeholder="e.g., 10">
+                            <p class="text-gray-500 text-sm mt-1">Use average net new customers over the past quarter for a steady view.</p>
                             <p id="customerGrowthRate-error" class="text-red-500 text-sm mt-1 hidden">Please enter a valid percentage (0-100).</p>
                         </div>
                     </div>
@@ -283,12 +342,9 @@
 
                 <!-- Step 4: Industry Details -->
                 <div class="step step-hidden">
-                    <h3 class="text-xl font-semibold text-gray-800 mb-4">
-                        Step 4: Industry Details
-                        <span data-tooltip="Specify your industry and market dynamics to adjust your valuation based on market conditions and competition." class="text-teal-500 underline cursor-pointer ml-2">?</span>
-                    </h3>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-4">Step 4: Industry Details</h3>
                     <p class="text-gray-600 mb-4">Provide details about your industry and market position.</p>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 gap-y-8">
                         <div class="md:col-span-2">
                             <label for="industry" class="block text-gray-600 mb-1">Industry</label>
                             <select id="industry" class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-500">
@@ -334,14 +390,12 @@
                         <button id="next-btn-4" class="btn-primary text-white font-bold py-2 px-4 rounded-lg">Next</button>
                     </div>
                 </div>
-                <!-- Step 5: Technology and Intellectual Property -->
+
+                <!-- Step 5: Technology and IP -->
                 <div class="step step-hidden">
-                    <h3 class="text-xl font-semibold text-gray-800 mb-4">
-                        Step 5: Technology and Intellectual Property
-                        <span data-tooltip="Share details about your technology stack and intellectual property to assess their impact on your valuation." class="text-teal-500 underline cursor-pointer ml-2">?</span>
-                    </h3>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-4">Step 5: Technology and Intellectual Property</h3>
                     <p class="text-gray-600 mb-4">Tell us about your technology stack and intellectual property.</p>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 gap-y-8">
                         <div class="md:col-span-2">
                             <label for="aiReplaceable" class="block text-gray-600 mb-1">Can parts of your business be replaced by AI?</label>
                             <select id="aiReplaceable" onchange="toggleAIReplacement()" class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-500">
@@ -393,12 +447,9 @@
 
                 <!-- Step 6: Future Projections -->
                 <div class="step step-hidden">
-                    <h3 class="text-xl font-semibold text-gray-800 mb-4">
-                        Step 6: Future Projections
-                        <span data-tooltip="Provide revenue projections and additional financial data to estimate future business value." class="text-teal-500 underline cursor-pointer ml-2">?</span>
-                    </h3>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-4">Step 6: Future Projections</h3>
                     <p class="text-gray-600 mb-4">Provide your revenue projections and additional details based on your selected valuation methods.</p>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 gap-y-8">
                         <div>
                             <label for="projectedRevenue" class="block text-gray-600 mb-1">Projected Revenue ($/year)</label>
                             <input type="text" id="projectedRevenue" class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-500" placeholder="e.g., 500,000">
@@ -412,7 +463,7 @@
                     </div>
                     <div id="dcfFields" class="mt-4 hidden">
                         <h4 class="text-lg font-semibold text-gray-800 mb-2">DCF Inputs</h4>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 gap-y-8">
                             <div>
                                 <label for="cashFlow1" class="block text-gray-600 mb-1">Year 1 Cash Flow ($)</label>
                                 <input type="text" id="cashFlow1" class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-500" placeholder="e.g., 100,000">
@@ -452,7 +503,7 @@
                     </div>
                     <div id="earningsFields" class="mt-4 hidden">
                         <h4 class="text-lg font-semibold text-gray-800 mb-2">Earnings-Based Inputs</h4>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 gap-y-8">
                             <div>
                                 <label for="assets" class="block text-gray-600 mb-1">Total Assets ($)</label>
                                 <input type="text" id="assets" class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-500" placeholder="e.g., 300,000">
@@ -465,13 +516,62 @@
                         <button onclick="calculateValuation()" class="btn-primary text-white font-bold py-2 px-4 rounded-lg">Calculate Valuation</button>
                     </div>
                 </div>
+            </div>
+            <aside class="mt-8 lg:mt-0">
+                <div class="bg-gray-50 border border-gray-200 rounded-lg p-4 shadow-sm sticky top-4">
+                    <div class="flex items-center justify-between mb-3">
+                        <h4 class="text-lg font-semibold text-gray-800">Your summary</h4>
+                        <span class="text-xs text-gray-500">Auto-saves</span>
+                    </div>
+                    <div class="space-y-3 text-sm" id="summary-content">
+                        <div>
+                            <p class="text-gray-500">Valuation methods</p>
+                            <p class="font-semibold text-gray-800" data-summary-field="methods">Add at least one method</p>
+                        </div>
+                        <div class="border-t border-gray-200 pt-3">
+                            <p class="text-gray-500">Owner salary</p>
+                            <p class="font-semibold text-gray-800" data-summary-field="ownerSalary">Enter amount</p>
+                        </div>
+                        <div class="border-t border-gray-200 pt-3">
+                            <p class="text-gray-500">Operating expenses</p>
+                            <p class="font-semibold text-gray-800" data-summary-field="expenses">Enter amount</p>
+                        </div>
+                        <div class="border-t border-gray-200 pt-3">
+                            <p class="text-gray-500">Team size</p>
+                            <p class="font-semibold text-gray-800" data-summary-field="staffNumber">Add headcount</p>
+                        </div>
+                        <div class="border-t border-gray-200 pt-3">
+                            <p class="text-gray-500">Customer metrics</p>
+                            <p class="font-semibold text-gray-800" data-summary-field="customerMetrics">Add LTV, CAC, churn</p>
+                        </div>
+                        <div class="border-t border-gray-200 pt-3">
+                            <p class="text-gray-500">Projected revenue</p>
+                            <p class="font-semibold text-gray-800" data-summary-field="projectedRevenue">Add revenue & growth</p>
+                        </div>
+                    </div>
+                    <div class="mt-4 bg-white border border-gray-200 rounded-lg p-4 space-y-3">
+                        <div class="flex items-center gap-3">
+                            <img src="favicon-96x96.png" alt="SaaS Valuation App badge" class="h-10 w-10 rounded shadow-sm">
+                            <div>
+                                <p class="text-sm font-semibold text-gray-800">Email my valuation</p>
+                                <p class="text-xs text-gray-600">Enter your email to view and keep your results.</p>
+                            </div>
+                        </div>
+                        <div>
+                            <label for="valuationEmail" class="block text-sm font-semibold text-gray-700 mb-1">Email address</label>
+                            <input type="email" id="valuationEmail" class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-500" placeholder="you@example.com" aria-describedby="valuationEmail-helper valuationEmail-error" required aria-required="true">
+                            <p id="valuationEmail-helper" class="text-xs text-gray-500 mt-1">We’ll send your valuation summary straight to your inbox.</p>
+                            <p id="valuationEmail-error" class="text-red-500 text-xs mt-1 hidden">Please enter a valid email to unlock your valuation.</p>
+                            <p id="valuationEmail-status" class="text-xs mt-2 text-gray-600 hidden"></p>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+        </div>
 
-                <!-- Results -->
-                <div id="valuationResult" class="mt-8 hidden">
-                    <h3 class="text-xl font-semibold text-gray-800 mb-4">
-                        Your SaaS Valuation
-                        <span data-tooltip="View your calculated valuation based on the selected methods and provided data." class="text-teal-500 underline cursor-pointer ml-2">?</span>
-                    </h3>
+        <!-- Results -->
+        <div id="valuationResult" class="mt-8 hidden">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-4">Your SaaS Valuation</h3>
                     <p class="text-3xl font-bold text-teal-500 mb-4">Valuation: <span id="valuationAmount">$0</span></p>
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                         <div>
@@ -492,32 +592,12 @@
                         <button onclick="saveProgress()" class="btn-secondary font-bold py-2 px-4 rounded-lg">Save Progress</button>
                         <button id="start-over" class="btn-secondary font-bold py-2 px-4 rounded-lg">Start Over</button>
                     </div>
-                    <div class="mt-6 bg-gray-50 border border-gray-200 rounded-xl p-4">
-                        <h4 class="text-lg font-semibold text-gray-800 mb-2">Email these results to yourself</h4>
-                        <p class="text-gray-600 mb-4">Drop your email below and we&rsquo;ll send this valuation snapshot straight to your inbox.</p>
-                        <form id="valuation-email-form" action="https://formspree.io/f/mjkowkld" method="POST" class="space-y-3">
-                            <div>
-                                <label for="valuation-email" class="block text-sm font-medium text-gray-700 mb-1">Your Email</label>
-                                <input type="email" name="email" id="valuation-email" class="w-full border rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-teal-500" placeholder="you@example.com" required aria-required="true">
-                            </div>
-                            <input type="hidden" name="valuation_summary" id="valuationSummaryInput">
-                            <input type="hidden" name="valuation_details" id="valuationDetailsInput">
-                            <button type="submit" class="btn-primary text-white font-bold py-3 px-6 rounded-lg w-full sm:w-auto">Send my results</button>
-                            <p class="text-xs text-gray-500">We&rsquo;ll only use your email to send this report.</p>
-                        </form>
-                    </div>
-                    <div class="mt-6 text-center">
-                        <p class="text-gray-600">Want deeper insights? <a href="/payment.html" class="text-teal-500 underline">Check out the Pro version</a> for advanced analytics and AI-powered reports.</p>
-                    </div>
                 </div>
 
                 <!-- Charts -->
                 <div id="chartsSection" class="mt-8 hidden">
-                    <h3 class="text-xl font-semibold text-gray-800 mb-4">
-                        Valuation Insights
-                        <span data-tooltip="Visualize your valuation results and key metrics through charts for better understanding." class="text-teal-500 underline cursor-pointer ml-2">?</span>
-                    </h3>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-4">Valuation Insights</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 gap-y-8">
                         <div>
                             <h4 class="text-lg font-semibold text-gray-800 mb-2">Valuation Comparison</h4>
                             <canvas id="valuationChart" aria-label="Valuation comparison chart"></canvas>
@@ -531,6 +611,15 @@
                             <canvas id="dcfChart" aria-label="Discounted cash flow chart"></canvas>
                         </div>
                     </div>
+                </div>
+            </div>
+            <div class="mt-12 bg-teal-50 border border-teal-100 rounded-2xl p-6 text-center">
+                <p class="text-sm uppercase tracking-wide text-teal-700 font-semibold">Want the investor version?</p>
+                <h3 class="text-2xl font-bold text-gray-800 mt-1">Upgrade to Pro for the shareable PDF and AI commentary</h3>
+                <p class="text-gray-700 mt-2">Keep exploring the free valuation, then unlock benchmarks, risk notes, and a polished export when you're ready.</p>
+                <div class="mt-4 flex justify-center gap-3">
+                    <a href="payment.html" class="btn-primary text-white font-bold py-3 px-6 rounded-lg">Unlock Pro report</a>
+                    <a href="#pricing" class="btn-secondary font-bold py-3 px-6 rounded-lg">Compare plans</a>
                 </div>
             </div>
         </div>
@@ -581,6 +670,136 @@
         const totalSteps = 6;
         const steps = document.querySelectorAll('.step');
         const progressFill = document.getElementById('progress-fill');
+        const stepLabels = [
+            'Select Valuation Method',
+            'Financial Information',
+            'Customer Metrics',
+            'Industry Details',
+            'Technology & IP',
+            'Future Projections'
+        ];
+        const stepLabelDisplay = document.getElementById('current-step-label');
+
+        const savedIndicatorTargets = document.querySelectorAll('#valuation-form input[type="text"], #valuation-form input[type="number"], #valuation-form input[type="email"], #valuation-form select');
+        savedIndicatorTargets.forEach(field => {
+            if (!field.parentElement.querySelector('.saved-indicator')) {
+                const indicator = document.createElement('p');
+                indicator.className = 'text-green-600 text-xs mt-1 saved-indicator hidden';
+                indicator.innerHTML = '<i class="fas fa-check-circle"></i> Saved';
+                const errorElement = field.parentElement.querySelector(`#${field.id}-error`);
+                if (errorElement) {
+                    errorElement.insertAdjacentElement('beforebegin', indicator);
+                } else {
+                    field.insertAdjacentElement('afterend', indicator);
+                }
+            }
+        });
+
+        const valuationEmailInput = document.getElementById('valuationEmail');
+        const valuationEmailError = document.getElementById('valuationEmail-error');
+        if (valuationEmailInput) {
+            valuationEmailInput.addEventListener('input', () => {
+                const emailValue = valuationEmailInput.value.trim();
+                const isEmailValid = emailValue === '' ? true : isValidEmail(emailValue);
+                setFieldState(valuationEmailInput, valuationEmailError, isEmailValid);
+                if (!emailValue) {
+                    document.getElementById('valuationEmail-status').classList.add('hidden');
+                }
+            });
+        }
+
+        function cleanNumericInput(value, regex, allowEmpty = false) {
+            const cleanedValue = value.replace(/,/g, '').trim();
+            if (allowEmpty && cleanedValue === '') return true;
+            return regex.test(cleanedValue) && cleanedValue !== '';
+        }
+
+        function toggleSavedIndicator(element, isVisible) {
+            const indicator = element.parentElement.querySelector('.saved-indicator');
+            if (indicator) {
+                indicator.classList.toggle('hidden', !isVisible);
+            }
+        }
+
+        function setFieldState(element, errorElement, isFieldValid) {
+            const hasValue = element.value.trim() !== '';
+            if (!isFieldValid) {
+                element.classList.remove('input-valid');
+                element.classList.add('input-error');
+                if (errorElement) errorElement.classList.remove('hidden');
+                toggleSavedIndicator(element, false);
+                return;
+            }
+
+            element.classList.remove('input-error');
+            if (hasValue) {
+                element.classList.add('input-valid');
+                toggleSavedIndicator(element, true);
+            } else {
+                element.classList.remove('input-valid');
+                toggleSavedIndicator(element, false);
+            }
+            if (errorElement) errorElement.classList.add('hidden');
+        }
+
+        function isValidEmail(email) {
+            return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+        }
+
+        function updateEmailStatus(message, isSuccess = true) {
+            const statusEl = document.getElementById('valuationEmail-status');
+            if (!statusEl) return;
+            statusEl.textContent = message;
+            statusEl.classList.toggle('text-green-600', isSuccess);
+            statusEl.classList.toggle('text-red-600', !isSuccess);
+            statusEl.classList.remove('hidden');
+        }
+
+        const summaryFields = {
+            methods: document.querySelector('[data-summary-field="methods"]'),
+            ownerSalary: document.querySelector('[data-summary-field="ownerSalary"]'),
+            expenses: document.querySelector('[data-summary-field="expenses"]'),
+            staffNumber: document.querySelector('[data-summary-field="staffNumber"]'),
+            customerMetrics: document.querySelector('[data-summary-field="customerMetrics"]'),
+            projectedRevenue: document.querySelector('[data-summary-field="projectedRevenue"]')
+        };
+
+        function formatCurrencyDisplay(value) {
+            const cleaned = value.replace(/,/g, '').trim();
+            if (cleaned === '' || isNaN(parseFloat(cleaned))) return null;
+            return `$${Number(cleaned).toLocaleString()}`;
+        }
+
+        function formatPercentDisplay(value) {
+            const cleaned = value.trim();
+            if (cleaned === '' || isNaN(parseFloat(cleaned))) return null;
+            return `${cleaned}%`;
+        }
+
+        function updateSummary() {
+            if (!summaryFields.methods) return;
+            const methodsSelected = Array.from(document.querySelectorAll('input[type="checkbox"]:checked')).map(cb => cb.nextElementSibling.textContent.trim());
+            summaryFields.methods.textContent = methodsSelected.length ? methodsSelected.join(', ') : 'Add at least one method';
+
+            summaryFields.ownerSalary.textContent = formatCurrencyDisplay(document.getElementById('ownerSalary').value) || 'Enter amount';
+            summaryFields.expenses.textContent = formatCurrencyDisplay(document.getElementById('expenses').value) || 'Enter amount';
+
+            const staffValue = document.getElementById('staffNumber').value.trim();
+            summaryFields.staffNumber.textContent = staffValue ? `${staffValue} team members` : 'Add headcount';
+
+            const ltvText = formatCurrencyDisplay(document.getElementById('ltv').value);
+            const cacText = formatCurrencyDisplay(document.getElementById('cac').value);
+            const churnText = formatPercentDisplay(document.getElementById('churnRate').value);
+            summaryFields.customerMetrics.textContent = (ltvText || cacText || churnText)
+                ? `LTV ${ltvText || '—'}, CAC ${cacText || '—'}, Churn ${churnText || '—'}`
+                : 'Add LTV, CAC, churn';
+
+            const projectedText = formatCurrencyDisplay(document.getElementById('projectedRevenue').value);
+            const growthText = formatPercentDisplay(document.getElementById('expectedGrowthRate').value);
+            summaryFields.projectedRevenue.textContent = projectedText && growthText
+                ? `${projectedText} at ${growthText} growth`
+                : (projectedText || growthText || 'Add revenue & growth');
+        }
 
         function updateProgress() {
             const progress = (currentStep / totalSteps) * 100;
@@ -589,6 +808,9 @@
             progressFill.setAttribute('aria-valuemin', 1);
             progressFill.setAttribute('aria-valuemax', totalSteps);
             document.getElementById('current-step').textContent = currentStep;
+            if (stepLabelDisplay) {
+                stepLabelDisplay.textContent = `Currently: ${stepLabels[currentStep - 1] || ''}`;
+            }
         }
 
         function showStep(step) {
@@ -597,570 +819,825 @@
                 s.classList.toggle('step-hidden', index + 1 !== step);
             });
             updateProgress();
+            updateSummary();
         }
 
         function validateStep(step) {
             let isValid = true;
 
-            // Helper function to clean and validate numeric input
-            function cleanNumericInput(value, regex, allowEmpty = false) {
-                const cleanedValue = value.replace(/,/g, '').trim();
-                if (allowEmpty && cleanedValue === '') return true;
-                return regex.test(cleanedValue) && cleanedValue !== '';
+            if (step === 1) {
+                const methods = document.querySelectorAll('input[type="checkbox"]:checked');
+                const methodError = document.getElementById('method-error');
+                if (methods.length < 1 || methods.length > 3) {
+                    methodError.classList.remove('hidden');
+                    isValid = false;
+                } else {
+                    methodError.classList.add('hidden');
+                }
+
+                const dcfSelected = document.getElementById('method-dcf').checked;
+                const earningsSelected = document.getElementById('method-earnings').checked;
+                document.getElementById('dcfFields').classList.toggle('hidden', !dcfSelected);
+                document.getElementById('earningsFields').classList.toggle('hidden', !earningsSelected);
+                document.getElementById('dcfChartContainer').classList.toggle('hidden', !dcfSelected);
             }
 
-            try {
-                if (step === 1) {
-                    const methods = document.querySelectorAll('input[type="checkbox"]:checked');
-                    const methodError = document.getElementById('method-error');
-                    if (methods.length < 1 || methods.length > 3) {
-                        methodError.classList.remove('hidden');
-                        isValid = false;
-                    } else {
-                        methodError.classList.add('hidden');
-                    }
+            if (step === 2) {
+                const inputs = [
+                    { id: 'ownerSalary', error: 'ownerSalary-error', regex: /^\d+(\.\d{1,2})?$/ },
+                    { id: 'averageSalary', error: 'averageSalary-error', regex: /^\d+(\.\d{1,2})?$/ },
+                    { id: 'employeeBenefits', error: 'employeeBenefits-error', regex: /^\d+(\.\d{1,2})?$/ },
+                    { id: 'staffNumber', error: 'staffNumber-error', regex: /^\d+$/ },
+                    { id: 'expenses', error: 'expenses-error', regex: /^\d+(\.\d{1,2})?$/ },
+                    { id: 'debt', error: 'debt-error', regex: /^\d+(\.\d{1,2})?$/, allowEmpty: true },
+                    { id: 'growthRate', error: 'growthRate-error', regex: /^(100|[0-9]{1,2})$/ },
+                    { id: 'yearsOperating', error: 'yearsOperating-error', regex: /^\d+$/ }
+                ];
 
-                    const dcfSelected = document.getElementById('method-dcf').checked;
-                    const earningsSelected = document.getElementById('method-earnings').checked;
-                    document.getElementById('dcfFields').classList.toggle('hidden', !dcfSelected);
-                    document.getElementById('earningsFields').classList.toggle('hidden', !earningsSelected);
-                    document.getElementById('dcfChartContainer').classList.toggle('hidden', !dcfSelected);
+                inputs.forEach(input => {
+                    const element = document.getElementById(input.id);
+                    const errorElement = document.getElementById(input.error);
+                    const fieldValid = cleanNumericInput(element.value, input.regex, input.allowEmpty);
+                    setFieldState(element, errorElement, fieldValid);
+                    if (!fieldValid) isValid = false;
+                });
+            }
+
+            if (step === 3) {
+                const inputs = [
+                    { id: 'ltv', error: 'ltv-error', regex: /^\d+(\.\d{1,2})?$/ },
+                    { id: 'cac', error: 'cac-error', regex: /^\d+(\.\d{1,2})?$/ },
+                    { id: 'churnRate', error: 'churnRate-error', regex: /^(100|[0-9]{1,2})$/ },
+                    { id: 'customerGrowthRate', error: 'customerGrowthRate-error', regex: /^(100|[0-9]{1,2})$/ }
+                ];
+
+                inputs.forEach(input => {
+                    const element = document.getElementById(input.id);
+                    const errorElement = document.getElementById(input.error);
+                    const fieldValid = cleanNumericInput(element.value, input.regex);
+                    setFieldState(element, errorElement, fieldValid);
+                    if (!fieldValid) isValid = false;
+                });
+            }
+
+            if (step === 4) {
+                const industry = document.getElementById('industry');
+                const industryError = document.getElementById('industry-error');
+                const fieldValid = !!industry.value;
+                setFieldState(industry, industryError, fieldValid);
+                if (!fieldValid) isValid = false;
+            }
+
+            if (step === 5) {
+                const aiReplaceable = document.getElementById('aiReplaceable');
+                const aiReplaceableError = document.getElementById('aiReplaceable-error');
+                const hasIP = document.getElementById('hasIP');
+                const hasIPError = document.getElementById('hasIP-error');
+
+                const aiReplaceValid = !!aiReplaceable.value;
+                setFieldState(aiReplaceable, aiReplaceableError, aiReplaceValid);
+                if (!aiReplaceValid) isValid = false;
+
+                if (aiReplaceable.value === 'yes') {
+                    const aiReplaceCount = document.getElementById('aiReplaceCount');
+                    const aiReplaceCountError = document.getElementById('aiReplaceCount-error');
+                    const fieldValid = cleanNumericInput(aiReplaceCount.value, /^\d+$/);
+                    setFieldState(aiReplaceCount, aiReplaceCountError, fieldValid);
+                    if (!fieldValid) isValid = false;
                 }
 
-                if (step === 2) {
-                    const inputs = [
-                        { id: 'ownerSalary', error: 'ownerSalary-error', regex: /^\d+(\.\d{1,2})?$/ },
-                        { id: 'averageSalary', error: 'averageSalary-error', regex: /^\d+(\.\d{1,2})?$/ },
-                        { id: 'employeeBenefits', error: 'employeeBenefits-error', regex: /^\d+(\.\d{1,2})?$/ },
-                        { id: 'staffNumber', error: 'staffNumber-error', regex: /^\d+$/ },
-                        { id: 'expenses', error: 'expenses-error', regex: /^\d+(\.\d{1,2})?$/ },
-                        { id: 'debt', error: 'debt-error', regex: /^\d+(\.\d{1,2})?$/, allowEmpty: true },
-                        { id: 'growthRate', error: 'growthRate-error', regex: /^(100|[0-9]{1,2})$/ },
-                        { id: 'yearsOperating', error: 'yearsOperating-error', regex: /^\d+$/ }
+                const hasIPValid = !!hasIP.value;
+                setFieldState(hasIP, hasIPError, hasIPValid);
+                if (!hasIPValid) isValid = false;
+
+                if (hasIP.value === 'yes') {
+                    const ipValue = document.getElementById('ipValue');
+                    const ipValueError = document.getElementById('ipValue-error');
+                    const ipUnique = document.getElementById('ipUnique');
+                    const ipUniqueError = document.getElementById('ipUnique-error');
+
+                    const ipValueValid = cleanNumericInput(ipValue.value, /^\d+(\.\d{1,2})?$/);
+                    const ipUniqueValid = !!ipUnique.value;
+                    setFieldState(ipValue, ipValueError, ipValueValid);
+                    setFieldState(ipUnique, ipUniqueError, ipUniqueValid);
+                    if (!ipValueValid || !ipUniqueValid) isValid = false;
+                }
+            }
+
+            if (step === 6) {
+                const inputs = [
+                    { id: 'projectedRevenue', error: 'projectedRevenue-error', regex: /^\d+(\.\d{1,2})?$/ },
+                    { id: 'expectedGrowthRate', error: 'expectedGrowthRate-error', regex: /^(100|[0-9]{1,2})$/ }
+                ];
+
+                inputs.forEach(input => {
+                    const element = document.getElementById(input.id);
+                    const errorElement = document.getElementById(input.error);
+                    const fieldValid = cleanNumericInput(element.value, input.regex);
+                    setFieldState(element, errorElement, fieldValid);
+                    if (!fieldValid) isValid = false;
+                });
+
+                if (document.getElementById('method-dcf').checked) {
+                    const dcfInputs = [
+                        { id: 'cashFlow1', error: 'cashFlow1-error', regex: /^\d+(\.\d{1,2})?$/ },
+                        { id: 'cashFlow2', error: 'cashFlow2-error', regex: /^\d+(\.\d{1,2})?$/ },
+                        { id: 'cashFlow3', error: 'cashFlow3-error', regex: /^\d+(\.\d{1,2})?$/ },
+                        { id: 'cashFlow4', error: 'cashFlow4-error', regex: /^\d+(\.\d{1,2})?$/ },
+                        { id: 'cashFlow5', error: 'cashFlow5-error', regex: /^\d+(\.\d{1,2})?$/ },
+                        { id: 'discountRate', error: 'discountRate-error', regex: /^(100|[0-9]{1,2})$/ },
+                        { id: 'terminalGrowthRate', error: 'terminalGrowthRate-error', regex: /^(100|[0-9]{1,2})$/ }
                     ];
 
-                    inputs.forEach(input => {
+                    dcfInputs.forEach(input => {
                         const element = document.getElementById(input.id);
                         const errorElement = document.getElementById(input.error);
-                        if (!element || !cleanNumericInput(element.value, input.regex, input.allowEmpty)) {
-                            element?.classList.add('input-error');
-                            errorElement?.classList.remove('hidden');
-                            isValid = false;
-                        } else {
-                            element?.classList.remove('input-error');
-                            errorElement?.classList.add('hidden');
-                        }
+                        const fieldValid = cleanNumericInput(element.value, input.regex);
+                        setFieldState(element, errorElement, fieldValid);
+                        if (!fieldValid) isValid = false;
                     });
                 }
 
-                if (step === 3) {
-                    const inputs = [
-                        { id: 'ltv', error: 'ltv-error', regex: /^\d+(\.\d{1,2})?$/ },
-                        { id: 'cac', error: 'cac-error', regex: /^\d+(\.\d{1,2})?$/ },
-                        { id: 'churnRate', error: 'churnRate-error', regex: /^(100|[0-9]{1,2})$/ },
-                        { id: 'customerGrowthRate', error: 'customerGrowthRate-error', regex: /^(100|[0-9]{1,2})$/ }
-                    ];
-
-                    inputs.forEach(input => {
-                        const element = document.getElementById(input.id);
-                        const errorElement = document.getElementById(input.error);
-                        if (!element || !cleanNumericInput(element.value, input.regex)) {
-                            element?.classList.add('input-error');
-                            errorElement?.classList.remove('hidden');
-                            isValid = false;
-                        } else {
-                            element?.classList.remove('input-error');
-                            errorElement?.classList.add('hidden');
-                        }
-                    });
+                if (document.getElementById('method-earnings').checked) {
+                    const assets = document.getElementById('assets');
+                    const assetsError = document.getElementById('assets-error');
+                    const fieldValid = cleanNumericInput(assets.value, /^\d+(\.\d{1,2})?$/);
+                    setFieldState(assets, assetsError, fieldValid);
+                    if (!fieldValid) isValid = false;
                 }
-
-                if (step === 4) {
-                    const industry = document.getElementById('industry');
-                    const industryError = document.getElementById('industry-error');
-                    if (!industry || !industry.value) {
-                        industry?.classList.add('input-error');
-                        industryError?.classList.remove('hidden');
-                        isValid = false;
-                    } else {
-                        industry?.classList.remove('input-error');
-                        industryError?.classList.add('hidden');
-                    }
-                }
-
-                if (step === 5) {
-                    const aiReplaceable = document.getElementById('aiReplaceable');
-                    const aiReplaceableError = document.getElementById('aiReplaceable-error');
-                    const hasIP = document.getElementById('hasIP');
-                    const hasIPError = document.getElementById('hasIP-error');
-
-                    if (!aiReplaceable || !aiReplaceable.value) {
-                        aiReplaceable?.classList.add('input-error');
-                        aiReplaceableError?.classList.remove('hidden');
-                        isValid = false;
-                    } else {
-                        aiReplaceable?.classList.remove('input-error');
-                        aiReplaceableError?.classList.add('hidden');
-                    }
-
-                    if (aiReplaceable?.value === 'yes') {
-                        const aiReplaceCount = document.getElementById('aiReplaceCount');
-                        const aiReplaceCountError = document.getElementById('aiReplaceCount-error');
-                        if (!aiReplaceCount || !cleanNumericInput(aiReplaceCount.value, /^\d+$/)) {
-                            aiReplaceCount?.classList.add('input-error');
-                            aiReplaceCountError?.classList.remove('hidden');
-                            isValid = false;
-                        } else {
-                            aiReplaceCount?.classList.remove('input-error');
-                            aiReplaceCountError?.classList.add('hidden');
-                        }
-                    }
-
-                    if (!hasIP || !hasIP.value) {
-                        hasIP?.classList.add('input-error');
-                        hasIPError?.classList.remove('hidden');
-                        isValid = false;
-                    } else {
-                        hasIP?.classList.remove('input-error');
-                        hasIPError?.classList.add('hidden');
-                    }
-
-                    if (hasIP?.value === 'yes') {
-                        const ipValue = document.getElementById('ipValue');
-                        const ipValueError = document.getElementById('ipValue-error');
-                        const ipUnique = document.getElementById('ipUnique');
-                        const ipUniqueError = document.getElementById('ipUnique-error');
-
-                        if (!ipValue || !cleanNumericInput(ipValue.value, /^\d+(\.\d{1,2})?$/)) {
-                            ipValue?.classList.add('input-error');
-                            ipValueError?.classList.remove('hidden');
-                            isValid = false;
-                        } else {
-                            ipValue?.classList.remove('input-error');
-                            ipValueError?.classList.add('hidden');
-                        }
-
-                        if (!ipUnique || !ipUnique.value) {
-                            ipUnique?.classList.add('input-error');
-                            ipUniqueError?.classList.remove('hidden');
-                            isValid = false;
-                        } else {
-                            ipUnique?.classList.remove('input-error');
-                            ipUniqueError?.classList.add('hidden');
-                        }
-                    }
-                }
-
-                if (step === 6) {
-                    const inputs = [
-                        { id: 'projectedRevenue', error: 'projectedRevenue-error', regex: /^\d+(\.\d{1,2})?$/ },
-                        { id: 'expectedGrowthRate', error: 'expectedGrowthRate-error', regex: /^(100|[0-9]{1,2})$/ }
-                    ];
-
-                    inputs.forEach(input => {
-                        const element = document.getElementById(input.id);
-                        const errorElement = document.getElementById(input.error);
-                        if (!element || !cleanNumericInput(element.value, input.regex)) {
-                            element?.classList.add('input-error');
-                            errorElement?.classList.remove('hidden');
-                            isValid = false;
-                        } else {
-                            element?.classList.remove('input-error');
-                            errorElement?.classList.add('hidden');
-                        }
-                    });
-
-                    if (document.getElementById('method-dcf')?.checked) {
-                        const dcfInputs = [
-                            { id: 'cashFlow1', error: 'cashFlow1-error', regex: /^\d+(\.\d{1,2})?$/ },
-                            { id: 'cashFlow2', error: 'cashFlow2-error', regex: /^\d+(\.\d{1,2})?$/ },
-                            { id: 'cashFlow3', error: 'cashFlow3-error', regex: /^\d+(\.\d{1,2})?$/ },
-                            { id: 'cashFlow4', error: 'cashFlow4-error', regex: /^\d+(\.\d{1,2})?$/ },
-                            { id: 'cashFlow5', error: 'cashFlow5-error', regex: /^\d+(\.\d{1,2})?$/ },
-                            { id: 'discountRate', error: 'discountRate-error', regex: /^(100|[0-9]{1,2})$/ },
-                            { id: 'terminalGrowthRate', error: 'terminalGrowthRate-error', regex: /^(100|[0-9]{1,2})$/ }
-                        ];
-
-                        dcfInputs.forEach(input => {
-                            const element = document.getElementById(input.id);
-                            const errorElement = document.getElementById(input.error);
-                            if (!element || !cleanNumericInput(element.value, input.regex)) {
-                                element?.classList.add('input-error');
-                                errorElement?.classList.remove('hidden');
-                                isValid = false;
-                            } else {
-                                element?.classList.remove('input-error');
-                                errorElement?.classList.add('hidden');
-                            }
-                        });
-                    }
-
-                    if (document.getElementById('method-earnings')?.checked) {
-                        const assets = document.getElementById('assets');
-                        const assetsError = document.getElementById('assets-error');
-                        if (!assets || !cleanNumericInput(assets.value, /^\d+(\.\d{1,2})?$/)) {
-                            assets?.classList.add('input-error');
-                            assetsError?.classList.remove('hidden');
-                            isValid = false;
-                        } else {
-                            assets?.classList.remove('input-error');
-                            assetsError?.classList.add('hidden');
-                        }
-                    }
-                }
-            } catch (error) {
-                console.error('Validation error:', error);
-                isValid = false;
             }
 
             return isValid;
         }
 
-        // Event listeners for navigation buttons
-        ['1', '2', '3', '4', '5'].forEach(step => {
-            const nextBtn = document.getElementById(`next-btn-${step}`);
-            if (nextBtn) {
-                nextBtn.addEventListener('click', () => {
-                    if (validateStep(parseInt(step))) {
-                        currentStep = parseInt(step) + 1;
-                        showStep(currentStep);
-                    }
-                });
+        updateProgress();
+        updateSummary();
+
+        ['ownerSalary', 'expenses', 'staffNumber', 'ltv', 'cac', 'churnRate', 'projectedRevenue', 'expectedGrowthRate'].forEach(id => {
+            const field = document.getElementById(id);
+            if (field) {
+                field.addEventListener('input', updateSummary);
             }
         });
 
-        ['2', '3', '4', '5', '6'].forEach(step => {
-            const prevBtn = document.getElementById(`prev-btn-${step}`);
-            if (prevBtn) {
-                prevBtn.addEventListener('click', () => {
-                    currentStep = parseInt(step) - 1;
-                    showStep(currentStep);
-                });
+        ['method-multiplier', 'method-income', 'method-earnings', 'method-dcf'].forEach(id => {
+            const checkbox = document.getElementById(id);
+            if (checkbox) {
+                checkbox.addEventListener('change', updateSummary);
             }
+        });
+
+        document.getElementById('next-btn-1').addEventListener('click', () => {
+            if (validateStep(1)) {
+                currentStep = 2;
+                showStep(currentStep);
+            }
+        });
+
+        document.getElementById('next-btn-2').addEventListener('click', () => {
+            if (validateStep(2)) {
+                currentStep = 3;
+                showStep(currentStep);
+            }
+        });
+
+        document.getElementById('next-btn-3').addEventListener('click', () => {
+            if (validateStep(3)) {
+                currentStep = 4;
+                showStep(currentStep);
+            }
+        });
+
+        document.getElementById('next-btn-4').addEventListener('click', () => {
+            if (validateStep(4)) {
+                currentStep = 5;
+                showStep(currentStep);
+            }
+        });
+
+        document.getElementById('next-btn-5').addEventListener('click', () => {
+            if (validateStep(5)) {
+                currentStep = 6;
+                showStep(currentStep);
+            }
+        });
+
+        document.getElementById('prev-btn-2').addEventListener('click', () => {
+            currentStep = 1;
+            showStep(currentStep);
+        });
+
+        document.getElementById('prev-btn-3').addEventListener('click', () => {
+            currentStep = 2;
+            showStep(currentStep);
+        });
+
+        document.getElementById('prev-btn-4').addEventListener('click', () => {
+            currentStep = 3;
+            showStep(currentStep);
+        });
+
+        document.getElementById('prev-btn-5').addEventListener('click', () => {
+            currentStep = 4;
+            showStep(currentStep);
+        });
+
+        document.getElementById('prev-btn-6').addEventListener('click', () => {
+            currentStep = 5;
+            showStep(currentStep);
         });
 
         // Slider value display
         ['scalability', 'marketTrendImpact', 'competitivePositioning', 'marketVolatility', 'operationalEfficiency'].forEach(id => {
             const slider = document.getElementById(id);
             const valueDisplay = document.getElementById(`${id}Value`);
-            if (slider && valueDisplay) {
-                slider.addEventListener('input', () => {
-                    valueDisplay.textContent = slider.value;
-                });
-            }
+            slider.addEventListener('input', () => {
+                valueDisplay.textContent = slider.value;
+            });
         });
 
         // Toggle AI Replacement and IP fields
         window.toggleAIReplacement = function() {
-            const aiReplaceable = document.getElementById('aiReplaceable');
-            if (aiReplaceable) {
-                document.getElementById('aiReplaceCountSection')?.classList.toggle('hidden', aiReplaceable.value !== 'yes');
-            }
+            const aiReplaceable = document.getElementById('aiReplaceable').value;
+            document.getElementById('aiReplaceCountSection').classList.toggle('hidden', aiReplaceable !== 'yes');
         };
 
         window.toggleIPFields = function() {
-            const hasIP = document.getElementById('hasIP');
-            if (hasIP) {
-                document.getElementById('ipValueSection')?.classList.toggle('hidden', hasIP.value !== 'yes');
-                document.getElementById('ipUniqueSection')?.classList.toggle('hidden', hasIP.value !== 'yes');
-            }
+            const hasIP = document.getElementById('hasIP').value;
+            document.getElementById('ipValueSection').classList.toggle('hidden', hasIP !== 'yes');
+            document.getElementById('ipUniqueSection').classList.toggle('hidden', hasIP !== 'yes');
         };
 
         // Valuation calculation
         let valuationData = {};
 
+        async function sendValuationToFormspree(email, payload) {
+            try {
+                updateEmailStatus('Sending your valuation…', true);
+                const response = await fetch('https://formspree.io/f/mayydjvv', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, ...payload })
+                });
+
+                if (response.ok) {
+                    updateEmailStatus('Sent! Check your inbox for a copy of your valuation inputs.', true);
+                } else {
+                    updateEmailStatus('We could not send your valuation right now. Please try again.', false);
+                }
+            } catch (error) {
+                console.error('Formspree error', error);
+                updateEmailStatus('We could not send your valuation right now. Please try again.', false);
+            }
+        }
+
         window.calculateValuation = function() {
             if (!validateStep(6)) return;
 
-            try {
-                const methods = Array.from(document.querySelectorAll('input[type="checkbox"]:checked')).map(cb => cb.value);
-                const ownerSalary = parseFloat(document.getElementById('ownerSalary').value.replace(/,/g, '')) || 0;
-                const averageSalary = parseFloat(document.getElementById('averageSalary').value.replace(/,/g, '')) || 0;
-                const employeeBenefits = parseFloat(document.getElementById('employeeBenefits').value.replace(/,/g, '')) || 0;
-                const staffNumber = parseInt(document.getElementById('staffNumber').value) || 0;
-                const expenses = parseFloat(document.getElementById('expenses').value.replace(/,/g, '')) || 0;
-                const debt = parseFloat(document.getElementById('debt').value.replace(/,/g, '')) || 0;
-                const growthRate = parseFloat(document.getElementById('growthRate').value) || 0;
-                const yearsOperating = parseInt(document.getElementById('yearsOperating').value) || 0;
-                const scalability = parseInt(document.getElementById('scalability').value) || 5;
-                const ltv = parseFloat(document.getElementById('ltv').value.replace(/,/g, '')) || 0;
-                const cac = parseFloat(document.getElementById('cac').value.replace(/,/g, '')) || 0;
-                const churnRate = parseFloat(document.getElementById('churnRate').value) || 0;
-                const customerGrowthRate = parseFloat(document.getElementById('customerGrowthRate').value) || 0;
-                const industry = document.getElementById('industry').value || '';
-                const marketTrendImpact = parseInt(document.getElementById('marketTrendImpact').value) || 5;
-                const competitivePositioning = parseInt(document.getElementById('competitivePositioning').value) || 5;
-                const marketVolatility = parseInt(document.getElementById('marketVolatility').value) || 5;
-                const aiReplaceable = document.getElementById('aiReplaceable').value || 'no';
-                const aiReplaceCount = aiReplaceable === 'yes' ? parseInt(document.getElementById('aiReplaceCount').value) || 0 : 0;
-                const hasIP = document.getElementById('hasIP').value || 'no';
-                const ipValue = hasIP === 'yes' ? parseFloat(document.getElementById('ipValue').value.replace(/,/g, '')) || 0 : 0;
-                const ipUnique = hasIP === 'yes' ? document.getElementById('ipUnique').value || 'not-unique' : 'not-unique';
-                const operationalEfficiency = parseInt(document.getElementById('operationalEfficiency').value) || 5;
-                const projectedRevenue = parseFloat(document.getElementById('projectedRevenue').value.replace(/,/g, '')) || 0;
-                const expectedGrowthRate = parseFloat(document.getElementById('expectedGrowthRate').value) || 0;
+            const emailValue = valuationEmailInput ? valuationEmailInput.value.trim() : '';
+            const emailIsValid = isValidEmail(emailValue);
+            if (!emailValue || !emailIsValid) {
+                if (valuationEmailInput) {
+                    setFieldState(valuationEmailInput, valuationEmailError, false);
+                    updateEmailStatus('Enter a valid email to see your valuation.', false);
+                    valuationEmailInput.focus();
+                }
+                return;
+            }
+            if (valuationEmailInput) {
+                setFieldState(valuationEmailInput, valuationEmailError, true);
+            }
 
-                let valuations = {};
-                let baseMultiplier = 3;
-                const highGrowthIndustries = ['Technology', 'Healthcare', 'Finance'];
+            const methods = Array.from(document.querySelectorAll('input[type="checkbox"]:checked')).map(cb => cb.value);
+            const businessModel = document.getElementById('businessModel').value || 'saas';
+            const ownerSalary = parseFloat(document.getElementById('ownerSalary').value.replace(/,/g, '')) || 0;
+            const averageSalary = parseFloat(document.getElementById('averageSalary').value.replace(/,/g, '')) || 0;
+            const employeeBenefits = parseFloat(document.getElementById('employeeBenefits').value.replace(/,/g, '')) || 0;
+            const staffNumber = parseInt(document.getElementById('staffNumber').value) || 0;
+            const expenses = parseFloat(document.getElementById('expenses').value.replace(/,/g, '')) || 0;
+            const debt = parseFloat(document.getElementById('debt').value.replace(/,/g, '')) || 0;
+            const growthRate = parseFloat(document.getElementById('growthRate').value) || 0;
+            const yearsOperating = parseInt(document.getElementById('yearsOperating').value) || 0;
+            const scalability = parseInt(document.getElementById('scalability').value) || 5;
+            const ltv = parseFloat(document.getElementById('ltv').value.replace(/,/g, '')) || 0;
+            const cac = parseFloat(document.getElementById('cac').value.replace(/,/g, '')) || 0;
+            const churnRate = parseFloat(document.getElementById('churnRate').value) || 0;
+            const customerGrowthRate = parseFloat(document.getElementById('customerGrowthRate').value) || 0;
+            const industry = document.getElementById('industry').value || '';
+            const marketTrendImpact = parseInt(document.getElementById('marketTrendImpact').value) || 5;
+            const competitivePositioning = parseInt(document.getElementById('competitivePositioning').value) || 5;
+            const marketVolatility = parseInt(document.getElementById('marketVolatility').value) || 5;
+            const aiReplaceable = document.getElementById('aiReplaceable').value || 'no';
+            const aiReplaceCount = aiReplaceable === 'yes' ? parseInt(document.getElementById('aiReplaceCount').value) || 0 : 0;
+            const hasIP = document.getElementById('hasIP').value || 'no';
+            const ipValue = hasIP === 'yes' ? parseFloat(document.getElementById('ipValue').value.replace(/,/g, '')) || 0 : 0;
+            const ipUnique = hasIP === 'yes' ? document.getElementById('ipUnique').value || 'not-unique' : 'not-unique';
+            const operationalEfficiency = parseInt(document.getElementById('operationalEfficiency').value) || 5;
+            const projectedRevenue = parseFloat(document.getElementById('projectedRevenue').value.replace(/,/g, '')) || 0;
+            const expectedGrowthRate = parseFloat(document.getElementById('expectedGrowthRate').value) || 0;
+
+            let valuations = {};
+            const usesMultipliers = businessModel === 'saas';
+            let baseMultiplier = usesMultipliers ? 3 : 1;
+            const highGrowthIndustries = ['Technology', 'Healthcare', 'Finance'];
+
+            // Adjust multiplier based on SaaS metrics
+            const ltvCacRatio = cac > 0 ? ltv / cac : 0;
+            if (usesMultipliers) {
+                if (ltvCacRatio > 3) baseMultiplier += 1;
+                if (ltvCacRatio < 1) baseMultiplier -= 1;
+                if (churnRate < 5) baseMultiplier += 0.5;
+                if (churnRate > 10) baseMultiplier -= 0.5;
+                if (growthRate > 20) baseMultiplier += 1;
+                if (customerGrowthRate > 15) baseMultiplier += 0.5;
+                if (scalability > 7) baseMultiplier += 0.5;
+                if (marketTrendImpact > 7) baseMultiplier += 0.5;
+                if (competitivePositioning > 7) baseMultiplier += 0.5;
+                if (marketVolatility > 7) baseMultiplier -= 0.5;
+                if (aiReplaceable === 'yes' && aiReplaceCount > 0) baseMultiplier -= 0.5;
+                if (hasIP === 'yes' && ipUnique === 'unique') baseMultiplier += 1;
+                if (operationalEfficiency > 7) baseMultiplier += 0.5;
                 if (highGrowthIndustries.includes(industry)) baseMultiplier += 0.5;
-                if (growthRate > 20) baseMultiplier += 0.5;
-                if (churnRate < 5) baseMultiplier += 0.3;
-                if (marketVolatility > 7) baseMultiplier -= 0.2;
-                if (competitivePositioning > 7) baseMultiplier += 0.4;
-                if (ipUnique === 'unique') baseMultiplier += 0.5;
-                if (aiReplaceCount > staffNumber * 0.5) baseMultiplier -= 0.3;
+            }
+            baseMultiplier = Math.max(1, baseMultiplier);
 
-                if (methods.includes('multiplier')) {
-                    valuations.multiplier = projectedRevenue * baseMultiplier;
-                }
-
-                if (methods.includes('income')) {
-                    const ltvCacRatio = ltv / (cac || 1);
-                    const incomeValuation = projectedRevenue * ltvCacRatio * (1 - churnRate / 100);
-                    valuations.income = incomeValuation > 0 ? incomeValuation : 0;
-                }
-
-                if (methods.includes('earnings')) {
-                    const assets = parseFloat(document.getElementById('assets').value.replace(/,/g, '')) || 0;
-                    const netAssets = assets - debt;
-                    const earningsMultiplier = baseMultiplier * (1 + scalability / 10);
-                    valuations.earnings = netAssets * earningsMultiplier;
-                }
-
-                if (methods.includes('dcf')) {
-                    const cashFlows = [
-                        parseFloat(document.getElementById('cashFlow1').value.replace(/,/g, '')) || 0,
-                        parseFloat(document.getElementById('cashFlow2').value.replace(/,/g, '')) || 0,
-                        parseFloat(document.getElementById('cashFlow3').value.replace(/,/g, '')) || 0,
-                        parseFloat(document.getElementById('cashFlow4').value.replace(/,/g, '')) || 0,
-                        parseFloat(document.getElementById('cashFlow5').value.replace(/,/g, '')) || 0
-                    ];
-                    const discountRate = parseFloat(document.getElementById('discountRate').value) / 100 || 0.1;
-                    const terminalGrowthRate = parseFloat(document.getElementById('terminalGrowthRate').value) / 100 || 0.03;
-                    let dcfValue = 0;
-                    for (let i = 0; i < cashFlows.length; i++) {
-                        dcfValue += cashFlows[i] / Math.pow(1 + discountRate, i + 1);
-                    }
-                    const terminalValue = cashFlows[cashFlows.length - 1] * (1 + terminalGrowthRate) / (discountRate - terminalGrowthRate);
-                    dcfValue += terminalValue / Math.pow(1 + discountRate, cashFlows.length);
-                    valuations.dcf = dcfValue > 0 ? dcfValue : 0;
-                }
-
-                const valuationValues = Object.values(valuations).filter(val => val > 0);
-                const averageValuation = valuationValues.length > 0 ? valuationValues.reduce((a, b) => a + b, 0) / valuationValues.length : 0;
-
-                valuationData = {
-                    valuations,
-                    averageValuation,
-                    ltvCacRatio: ltv / (cac || 1),
-                    churnRate,
-                    growthRate,
-                    scalability,
-                    competitivePositioning,
-                    marketVolatility,
-                    operationalEfficiency,
-                    projectedRevenue,
-                    cashFlows: methods.includes('dcf') ? [
-                        parseFloat(document.getElementById('cashFlow1').value.replace(/,/g, '')) || 0,
-                        parseFloat(document.getElementById('cashFlow2').value.replace(/,/g, '')) || 0,
-                        parseFloat(document.getElementById('cashFlow3').value.replace(/,/g, '')) || 0,
-                        parseFloat(document.getElementById('cashFlow4').value.replace(/,/g, '')) || 0,
-                        parseFloat(document.getElementById('cashFlow5').value.replace(/,/g, '')) || 0
-                    ] : []
+            if (methods.includes('multiplier')) {
+                const multiplierValuation = projectedRevenue * baseMultiplier;
+                valuations['Revenue Multiplier'] = {
+                    value: usesMultipliers ? multiplierValuation : 0,
+                    range: usesMultipliers ? [multiplierValuation * 0.9, multiplierValuation * 1.1] : [0, 0],
+                    explanation: usesMultipliers
+                        ? `The Revenue Multiplier method calculates your valuation by applying a multiplier of ${baseMultiplier.toFixed(1)} to your projected revenue (${projectedRevenue.toLocaleString()}). This is adjusted based on your LTV:CAC ratio (${ltvCacRatio.toFixed(1)}), churn rate (${churnRate}%), and growth rate (${growthRate}%). Factors like scalability (${scalability}/10) and competitive positioning (${competitivePositioning}/10) also influence the result, making it ideal for SaaS companies with stable revenue, though it may not fully account for future risks or growth potential.`
+                        : 'Revenue multiples are disabled for non-SaaS models. Consider using income, earnings, or DCF methods instead.'
                 };
+            }
 
-                document.getElementById('valuationAmount').textContent = `$${Math.round(averageValuation).toLocaleString()}`;
-                document.getElementById('financialMetrics').innerHTML = `
-                    <p>LTV/CAC Ratio: ${valuationData.ltvCacRatio.toFixed(2)}</p>
-                    <p>Churn Rate: ${churnRate}%</p>
-                    <p>Annual Growth Rate: ${growthRate}%</p>
-                    <p>Projected Revenue: $${projectedRevenue.toLocaleString()}</p>
-                `;
-                document.getElementById('valuationRanges').innerHTML = Object.entries(valuations).map(([method, value]) =>
-                    `<p>${method.charAt(0).toUpperCase() + method.slice(1)}: $${Math.round(value).toLocaleString()}</p>`
-                ).join('');
-                document.getElementById('valuationFactors').innerHTML = `
-                    <p>Scalability: ${scalability}/10</p>
-                    <p>Competitive Positioning: ${competitivePositioning}/10</p>
-                    <p>Market Volatility: ${marketVolatility}/10</p>
-                    <p>Operational Efficiency: ${operationalEfficiency}/10</p>
-                `;
+            if (methods.includes('income')) {
+                const netIncome = projectedRevenue - expenses - (averageSalary * staffNumber) - employeeBenefits - ownerSalary - debt;
+                const incomeValuation = netIncome * (baseMultiplier + 1);
+                valuations['Income-Based'] = {
+                    value: incomeValuation,
+                    range: [incomeValuation * 0.85, incomeValuation * 1.15],
+                    explanation: `The Income-Based method uses your net income (${netIncome.toLocaleString()}), calculated from projected revenue (${projectedRevenue.toLocaleString()}) minus expenses (${expenses.toLocaleString()}) and staff costs (${(averageSalary * staffNumber + employeeBenefits + ownerSalary).toLocaleString()}), multiplied by ${baseMultiplier + 1}. Adjustments for operational efficiency (${operationalEfficiency}/10) and market volatility (${marketVolatility}/10) are included. This suits profitable businesses but may undervalue high-growth SaaS firms due to reinvestment, with debt (${debt.toLocaleString()}) factored in as a reduction.`
+                };
+            }
 
-                const valuationSummaryField = document.getElementById('valuationSummaryInput');
-                const valuationDetailsField = document.getElementById('valuationDetailsInput');
-                if (valuationSummaryField) {
-                    valuationSummaryField.value = `Average valuation: $${Math.round(averageValuation).toLocaleString()} (methods: ${methods.join(', ') || 'none selected'})`;
+            if (methods.includes('earnings')) {
+                const assets = parseFloat(document.getElementById('assets').value.replace(/,/g, '')) || 0;
+                const earningsValuation = (projectedRevenue * (baseMultiplier - 1)) + assets - debt;
+                valuations['Earnings-Based'] = {
+                    value: earningsValuation,
+                    range: [earningsValuation * 0.9, earningsValuation * 1.1],
+                    explanation: `The Earnings-Based method combines your adjusted revenue (${(projectedRevenue * (baseMultiplier - 1)).toLocaleString()}) with assets (${assets.toLocaleString()}) and subtracts debt (${debt.toLocaleString()}), yielding ${earningsValuation.toLocaleString()}. It considers years in operation (${yearsOperating}) and competitive positioning (${competitivePositioning}/10). This is effective for asset-rich firms but may overlook intangible value like brand strength in SaaS, with market trends (${marketTrendImpact}/10) also influencing the result.`
+                };
+            }
+
+            if (methods.includes('dcf')) {
+                const cashFlows = [
+                    parseFloat(document.getElementById('cashFlow1').value.replace(/,/g, '')) || 0,
+                    parseFloat(document.getElementById('cashFlow2').value.replace(/,/g, '')) || 0,
+                    parseFloat(document.getElementById('cashFlow3').value.replace(/,/g, '')) || 0,
+                    parseFloat(document.getElementById('cashFlow4').value.replace(/,/g, '')) || 0,
+                    parseFloat(document.getElementById('cashFlow5').value.replace(/,/g, '')) || 0
+                ];
+                const discountRate = (parseFloat(document.getElementById('discountRate').value) || 10) / 100;
+                const terminalGrowthRate = (parseFloat(document.getElementById('terminalGrowthRate').value) || 3) / 100;
+
+                let dcfValuation = 0;
+                for (let i = 0; i < cashFlows.length; i++) {
+                    dcfValuation += cashFlows[i] / Math.pow(1 + discountRate, i + 1);
                 }
-                if (valuationDetailsField) {
-                    const valuationBreakdown = Object.entries(valuations)
-                        .map(([method, value]) => `${method}: $${Math.round(value).toLocaleString()}`)
-                        .join('; ');
-                    valuationDetailsField.value = `Projected revenue: $${projectedRevenue.toLocaleString()}, LTV/CAC: ${valuationData.ltvCacRatio.toFixed(2)}, churn: ${churnRate}%, growth: ${growthRate}%, factors - scalability: ${scalability}/10, competitive positioning: ${competitivePositioning}/10, market volatility: ${marketVolatility}/10, operational efficiency: ${operationalEfficiency}/10. Breakdown: ${valuationBreakdown}`;
-                }
+                const terminalValue = (cashFlows[4] * (1 + terminalGrowthRate)) / (discountRate - terminalGrowthRate);
+                dcfValuation += terminalValue / Math.pow(1 + discountRate, 5);
 
-                // Show results and charts
-                document.getElementById('valuationResult').classList.remove('hidden');
-                document.getElementById('chartsSection').classList.remove('hidden');
-                steps.forEach(s => s.classList.add('step-hidden'));
+                valuations['DCF'] = {
+                    value: dcfValuation,
+                    range: [dcfValuation * 0.95, dcfValuation * 1.05],
+                    explanation: `The DCF method discounts your projected cash flows (e.g., Year 1: ${cashFlows[0].toLocaleString()}, Year 5: ${cashFlows[4].toLocaleString()}) at a ${discountRate * 100}% rate, adding a terminal value based on a ${terminalGrowthRate * 100}% growth rate, resulting in ${dcfValuation.toLocaleString()}. This captures future cash flow potential, ideal for predictable SaaS models, but is sensitive to discount rate and growth assumptions. Market volatility (${marketVolatility}/10) was factored in to refine the estimate.`
+                };
+            }
 
-                // Render charts
-                const valuationChart = new Chart(document.getElementById('valuationChart'), {
-                    type: 'bar',
-                    data: {
-                        labels: Object.keys(valuations),
-                        datasets: [{
-                            label: 'Valuation ($)',
-                            data: Object.values(valuations),
-                            backgroundColor: '#38B2AC'
-                        }]
-                    },
-                    options: {
-                        scales: {
-                            y: { beginAtZero: true }
+            const valuationValues = Object.values(valuations).map(v => v.value);
+            const averageValuation = valuationValues.length ? valuationValues.reduce((a, b) => a + b, 0) / valuationValues.length : 0;
+            const methodSummaries = Object.entries(valuations).map(([method, data]) => `${method}: $${Math.round(data.value).toLocaleString()}`);
+
+            valuationData = {
+                methods: valuations,
+                average: averageValuation,
+                financials: {
+                    'Projected Revenue': projectedRevenue.toLocaleString(),
+                    'Net Income': (projectedRevenue - expenses - (averageSalary * staffNumber) - employeeBenefits - ownerSalary - debt).toLocaleString(),
+                    'LTV:CAC Ratio': ltvCacRatio.toFixed(2),
+                    'Churn Rate': `${churnRate}%`,
+                    'Growth Rate': `${growthRate}%`
+                },
+                factors: {
+                    'Business Model': usesMultipliers ? 'SaaS (multiples applied)' : 'Non-SaaS (multiples disabled)',
+                    'Scalability': `${scalability}/10`,
+                    'Market Trends': `${marketTrendImpact}/10`,
+                    'Competitive Positioning': `${competitivePositioning}/10`,
+                    'Market Volatility': `${marketVolatility}/10`,
+                    'Operational Efficiency': `${operationalEfficiency}/10`
+                },
+                cashFlows: methods.includes('dcf') ? cashFlows : []
+            };
+
+            document.getElementById('valuationAmount').textContent = `$${Math.round(averageValuation).toLocaleString()}`;
+
+            const financialMetrics = document.getElementById('financialMetrics');
+            financialMetrics.innerHTML = '';
+            for (const [key, value] of Object.entries(valuationData.financials)) {
+                financialMetrics.innerHTML += `<p>${key}: ${value}</p>`;
+            }
+
+            const valuationRanges = document.getElementById('valuationRanges');
+            valuationRanges.innerHTML = '';
+            for (const [method, data] of Object.entries(valuations)) {
+                valuationRanges.innerHTML += `<p>${method}: $${Math.round(data.range[0]).toLocaleString()} - $${Math.round(data.range[1]).toLocaleString()}</p>`;
+            }
+
+            const valuationFactors = document.getElementById('valuationFactors');
+            valuationFactors.innerHTML = '';
+            for (const [key, value] of Object.entries(valuationData.factors)) {
+                valuationFactors.innerHTML += `<p>${key}: ${value}</p>`;
+            }
+
+            document.getElementById('valuationResult').classList.remove('hidden');
+            document.getElementById('chartsSection').classList.remove('hidden');
+            steps.forEach(s => {
+                s.classList.add('step-hidden');
+                s.classList.remove('step-visible');
+            });
+
+            const valuationChart = new Chart(document.getElementById('valuationChart'), {
+                type: 'bar',
+                data: {
+                    labels: Object.keys(valuations),
+                    datasets: [{
+                        label: 'Valuation ($)',
+                        data: Object.values(valuations).map(v => v.value),
+                        backgroundColor: 'rgba(56, 178, 172, 0.6)',
+                        borderColor: 'rgba(56, 178, 172, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: { display: true, text: 'Valuation ($)' }
                         }
-                    }
-                });
+                    },
+                    plugins: { title: { display: true, text: 'Valuation Comparison' } }
+                }
+            });
 
-                const incomeChart = new Chart(document.getElementById('incomeChart'), {
+            const incomeChart = new Chart(document.getElementById('incomeChart'), {
+                type: 'line',
+                data: {
+                    labels: ['Current', 'Projected'],
+                    datasets: [{
+                        label: 'Revenue ($)',
+                        data: [projectedRevenue / (1 + expectedGrowthRate / 100), projectedRevenue],
+                        fill: false,
+                        borderColor: 'rgba(56, 178, 172, 1)',
+                        tension: 0.1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: { beginAtZero: true, title: { display: true, text: 'Revenue ($)' } }
+                    },
+                    plugins: { title: { display: true, text: 'Revenue Comparison' } }
+                }
+            });
+
+            if (methods.includes('dcf')) {
+                const dcfChart = new Chart(document.getElementById('dcfChart'), {
                     type: 'line',
                     data: {
-                        labels: ['Current', 'Projected'],
+                        labels: ['Year 1', 'Year 2', 'Year 3', 'Year 4', 'Year 5'],
                         datasets: [{
-                            label: 'Revenue ($)',
-                            data: [0, projectedRevenue],
-                            borderColor: '#38B2AC',
-                            fill: false
+                            label: 'Cash Flow ($)',
+                            data: valuationData.cashFlows,
+                            fill: false,
+                            borderColor: 'rgba(56, 178, 172, 1)',
+                            tension: 0.1
                         }]
                     },
                     options: {
                         scales: {
-                            y: { beginAtZero: true }
-                        }
+                            y: { beginAtZero: true, title: { display: true, text: 'Cash Flow ($)' } }
+                        },
+                        plugins: { title: { display: true, text: 'DCF Valuation Analysis' } }
                     }
                 });
-
-                if (methods.includes('dcf')) {
-                    const dcfChart = new Chart(document.getElementById('dcfChart'), {
-                        type: 'line',
-                        data: {
-                            labels: ['Year 1', 'Year 2', 'Year 3', 'Year 4', 'Year 5'],
-                            datasets: [{
-                                label: 'Cash Flow ($)',
-                                data: valuationData.cashFlows,
-                                borderColor: '#38B2AC',
-                                fill: false
-                            }]
-                        },
-                        options: {
-                            scales: {
-                                y: { beginAtZero: true }
-                            }
-                        }
-                    });
-                }
-            } catch (error) {
-                console.error('Calculation error:', error);
             }
+
+            const submissionPayload = {
+                valuation_average: `$${Math.round(averageValuation).toLocaleString()}`,
+                methods: methodSummaries.join('; '),
+                projected_revenue: `$${projectedRevenue.toLocaleString()}`,
+                growth_rate: `${growthRate}%`,
+                churn_rate: `${churnRate}%`,
+                ltv_cac_ratio: ltvCacRatio.toFixed(2),
+                business_model: valuationData.factors['Business Model'],
+                industry,
+                factors: JSON.stringify(valuationData.factors),
+                financials: JSON.stringify(valuationData.financials),
+                note: 'Free valuation calculator submission'
+            };
+            sendValuationToFormspree(emailValue, submissionPayload);
         };
 
-        window.exportResults = function() {
+        async function loadImageAsDataURL(url) {
+            const response = await fetch(url);
+            const blob = await response.blob();
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onloadend = () => resolve(reader.result);
+                reader.onerror = reject;
+                reader.readAsDataURL(blob);
+            });
+        }
+
+        // Export to PDF
+        window.exportResults = async function() {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+
+            doc.setFontSize(18);
+            doc.setTextColor(255, 255, 255);
+            doc.setFillColor(56, 178, 172);
+            doc.rect(0, 0, 210, 40, 'F');
+            doc.text('SaaS Valuation Report', 105, 25, { align: 'center' });
+
             try {
-                const { jsPDF } = window.jspdf;
-                const doc = new jsPDF();
-                doc.text('SaaS Valuation Report', 10, 10);
-                doc.text(`Valuation: ${document.getElementById('valuationAmount').textContent}`, 10, 20);
-                doc.text('Key Financial Metrics:', 10, 30);
-                doc.text(document.getElementById('financialMetrics').innerText, 10, 40);
-                doc.text('Valuation Ranges:', 10, 60);
-                doc.text(document.getElementById('valuationRanges').innerText, 10, 70);
-                doc.text('Valuation Factors:', 10, 90);
-                doc.text(document.getElementById('valuationFactors').innerText, 10, 100);
-                doc.save('SaaS_Valuation_Report.pdf');
-            } catch (error) {
-                console.error('Export error:', error);
+                const logoDataUrl = await loadImageAsDataURL('favicon-96x96.png');
+                doc.addImage(logoDataUrl, 'PNG', 180, 8, 16, 16);
+            } catch (e) {
+                console.warn('Logo could not be loaded for PDF', e);
             }
+
+            doc.setFontSize(12);
+            doc.setTextColor(0, 0, 0);
+            let yPosition = 50;
+
+            doc.setFontSize(16);
+            doc.setTextColor(56, 178, 172);
+            doc.text('Your SaaS Valuation Overview', 20, yPosition);
+            yPosition += 5;
+            doc.setLineWidth(0.5);
+            doc.setDrawColor(56, 178, 172);
+            doc.line(20, yPosition, 190, yPosition);
+            yPosition += 10;
+
+            doc.setFontSize(14);
+            doc.setTextColor(0, 0, 0);
+            doc.text(`Valuation: $${Math.round(valuationData.average).toLocaleString()}`, 20, yPosition);
+            yPosition += 10;
+            doc.setFontSize(12);
+            doc.text('Business snapshot:', 20, yPosition);
+            yPosition += 8;
+            const snapshotItems = [
+                `Projected revenue: $${valuationData.financials['Projected Revenue']}`,
+                `Growth rate: ${valuationData.financials['Growth Rate']}`,
+                `Churn rate: ${valuationData.financials['Churn Rate']}`,
+                `LTV:CAC ratio: ${valuationData.financials['LTV:CAC Ratio']}`,
+                `Model: ${valuationData.factors['Business Model']}`
+            ];
+            snapshotItems.forEach(item => {
+                doc.text(`• ${item}`, 20, yPosition);
+                yPosition += 6;
+            });
+            const overviewParagraph = doc.splitTextToSize('We averaged your selected valuation methods, weighting growth, churn, and efficiency scores so investors see how the number was built.', 170);
+            overviewParagraph.forEach(line => {
+                doc.text(line, 20, yPosition);
+                yPosition += 6;
+            });
+            yPosition += 4;
+
+            doc.setFontSize(14);
+            doc.setTextColor(56, 178, 172);
+            doc.text('Valuation Methods', 20, yPosition);
+            yPosition += 5;
+            doc.line(20, yPosition, 190, yPosition);
+            yPosition += 10;
+            doc.setFontSize(12);
+            doc.setTextColor(0, 0, 0);
+            for (const [method, data] of Object.entries(valuationData.methods)) {
+                doc.text(`${method}: $${Math.round(data.value).toLocaleString()}`, 20, yPosition);
+                yPosition += 6;
+                const explanationLines = doc.splitTextToSize(data.explanation, 170);
+                explanationLines.forEach(line => {
+                    doc.text(line, 20, yPosition);
+                    yPosition += 6;
+                });
+                yPosition += 5;
+            }
+
+            doc.addPage();
+            yPosition = 20;
+
+            doc.setFontSize(14);
+            doc.setTextColor(56, 178, 172);
+            doc.text('Valuation Insights', 20, yPosition);
+            yPosition += 5;
+            doc.line(20, yPosition, 190, yPosition);
+            yPosition += 10;
+
+            const valuationCanvas = document.getElementById('valuationChart');
+            const valuationImg = valuationCanvas.toDataURL('image/png');
+            doc.addImage(valuationImg, 'PNG', 20, yPosition, 170, 80);
+            yPosition += 90;
+
+            const incomeCanvas = document.getElementById('incomeChart');
+            const incomeImg = incomeCanvas.toDataURL('image/png');
+            doc.addImage(incomeImg, 'PNG', 20, yPosition, 170, 80);
+            yPosition += 90;
+
+            if (document.getElementById('method-dcf').checked) {
+                doc.addPage();
+                yPosition = 20;
+                const dcfCanvas = document.getElementById('dcfChart');
+                const dcfImg = dcfCanvas.toDataURL('image/png');
+                doc.addImage(dcfImg, 'PNG', 20, yPosition, 170, 80);
+                yPosition += 90;
+            }
+
+            doc.addPage();
+            yPosition = 20;
+
+            doc.setFontSize(14);
+            doc.setTextColor(56, 178, 172);
+            doc.text('Key Financial Metrics', 20, yPosition);
+            yPosition += 5;
+            doc.line(20, yPosition, 190, yPosition);
+            yPosition += 10;
+            doc.setFontSize(12);
+            doc.setTextColor(0, 0, 0);
+            for (const [key, value] of Object.entries(valuationData.financials)) {
+                doc.text(`${key}: ${value}`, 20, yPosition);
+                yPosition += 6;
+            }
+            yPosition += 10;
+
+            doc.setFontSize(14);
+            doc.setTextColor(56, 178, 172);
+            doc.text('Valuation Factors', 20, yPosition);
+            yPosition += 5;
+            doc.line(20, yPosition, 190, yPosition);
+            yPosition += 10;
+            doc.setFontSize(12);
+            doc.setTextColor(0, 0, 0);
+            for (const [key, value] of Object.entries(valuationData.factors)) {
+                doc.text(`${key}: ${value}`, 20, yPosition);
+                yPosition += 6;
+            }
+            yPosition += 10;
+
+            doc.setFontSize(14);
+            doc.setTextColor(56, 178, 172);
+            doc.text('Contact Information', 20, yPosition);
+            yPosition += 5;
+            doc.line(20, yPosition, 190, yPosition);
+            yPosition += 10;
+            doc.setFontSize(12);
+            doc.setTextColor(0, 0, 0);
+            doc.text('Website: SaaSValuation.app (contact us via the site form)', 20, yPosition);
+            yPosition += 10;
+
+            doc.setFontSize(14);
+            doc.setTextColor(56, 178, 172);
+            doc.text('Disclaimer', 20, yPosition);
+            yPosition += 5;
+            doc.line(20, yPosition, 190, yPosition);
+            yPosition += 10;
+            doc.setFontSize(10);
+            doc.setTextColor(0, 0, 0);
+            const disclaimerText = 'This valuation report is for informational purposes only and does not constitute financial, legal, or investment advice. Calculations are based on user-provided data and industry standards, which may not reflect your company’s unique circumstances. SaaS Valuation App is not liable for decisions made using this report. Consult a qualified financial advisor before making business or investment decisions.';
+            const disclaimerLines = doc.splitTextToSize(disclaimerText, 170);
+            disclaimerLines.forEach(line => {
+                doc.text(line, 20, yPosition);
+                yPosition += 5;
+            });
+
+            const pageCount = doc.internal.getNumberOfPages();
+            for (let i = 1; i <= pageCount; i++) {
+                doc.setPage(i);
+                doc.setFontSize(10);
+                doc.setTextColor(128, 128, 128);
+                doc.text(`Page ${i} of ${pageCount}`, 190, 287, { align: 'right' });
+            }
+
+            doc.save('SaaS_Valuation_Report.pdf');
         };
 
+        // Save progress
         window.saveProgress = function() {
-            try {
-                const formData = {
-                    methods: Array.from(document.querySelectorAll('input[type="checkbox"]:checked')).map(cb => cb.value),
-                    ownerSalary: document.getElementById('ownerSalary')?.value || '',
-                    averageSalary: document.getElementById('averageSalary')?.value || '',
-                    employeeBenefits: document.getElementById('employeeBenefits')?.value || '',
-                    staffNumber: document.getElementById('staffNumber')?.value || '',
-                    expenses: document.getElementById('expenses')?.value || '',
-                    debt: document.getElementById('debt')?.value || '',
-                    growthRate: document.getElementById('growthRate')?.value || '',
-                    yearsOperating: document.getElementById('yearsOperating')?.value || '',
-                    scalability: document.getElementById('scalability')?.value || '',
-                    ltv: document.getElementById('ltv')?.value || '',
-                    cac: document.getElementById('cac')?.value || '',
-                    churnRate: document.getElementById('churnRate')?.value || '',
-                    customerGrowthRate: document.getElementById('customerGrowthRate')?.value || '',
-                    industry: document.getElementById('industry')?.value || '',
-                    marketTrendImpact: document.getElementById('marketTrendImpact')?.value || '',
-                    competitivePositioning: document.getElementById('competitivePositioning')?.value || '',
-                    marketVolatility: document.getElementById('marketVolatility')?.value || '',
-                    aiReplaceable: document.getElementById('aiReplaceable')?.value || '',
-                    aiReplaceCount: document.getElementById('aiReplaceCount')?.value || '',
-                    hasIP: document.getElementById('hasIP')?.value || '',
-                    ipValue: document.getElementById('ipValue')?.value || '',
-                    ipUnique: document.getElementById('ipUnique')?.value || '',
-                    operationalEfficiency: document.getElementById('operationalEfficiency')?.value || '',
-                    projectedRevenue: document.getElementById('projectedRevenue')?.value || '',
-                    expectedGrowthRate: document.getElementById('expectedGrowthRate')?.value || '',
-                    cashFlow1: document.getElementById('cashFlow1')?.value || '',
-                    cashFlow2: document.getElementById('cashFlow2')?.value || '',
-                    cashFlow3: document.getElementById('cashFlow3')?.value || '',
-                    cashFlow4: document.getElementById('cashFlow4')?.value || '',
-                    cashFlow5: document.getElementById('cashFlow5')?.value || '',
-                    discountRate: document.getElementById('discountRate')?.value || '',
-                    terminalGrowthRate: document.getElementById('terminalGrowthRate')?.value || '',
-                    assets: document.getElementById('assets')?.value || ''
-                };
-                localStorage.setItem('valuationFormData', JSON.stringify(formData));
-                alert('Progress saved!');
-            } catch (error) {
-                console.error('Save progress error:', error);
-            }
+            const formData = {
+                methods: Array.from(document.querySelectorAll('input[type="checkbox"]:checked')).map(cb => cb.value),
+                ownerSalary: document.getElementById('ownerSalary').value,
+                averageSalary: document.getElementById('averageSalary').value,
+                employeeBenefits: document.getElementById('employeeBenefits').value,
+                staffNumber: document.getElementById('staffNumber').value,
+                expenses: document.getElementById('expenses').value,
+                debt: document.getElementById('debt').value,
+                growthRate: document.getElementById('growthRate').value,
+                yearsOperating: document.getElementById('yearsOperating').value,
+                scalability: document.getElementById('scalability').value,
+                ltv: document.getElementById('ltv').value,
+                cac: document.getElementById('cac').value,
+                churnRate: document.getElementById('churnRate').value,
+                customerGrowthRate: document.getElementById('customerGrowthRate').value,
+                industry: document.getElementById('industry').value,
+                marketTrendImpact: document.getElementById('marketTrendImpact').value,
+                competitivePositioning: document.getElementById('competitivePositioning').value,
+                marketVolatility: document.getElementById('marketVolatility').value,
+                aiReplaceable: document.getElementById('aiReplaceable').value,
+                aiReplaceCount: document.getElementById('aiReplaceCount').value,
+                hasIP: document.getElementById('hasIP').value,
+                ipValue: document.getElementById('ipValue').value,
+                ipUnique: document.getElementById('ipUnique').value,
+                operationalEfficiency: document.getElementById('operationalEfficiency').value,
+                projectedRevenue: document.getElementById('projectedRevenue').value,
+                expectedGrowthRate: document.getElementById('expectedGrowthRate').value,
+                cashFlow1: document.getElementById('cashFlow1').value,
+                cashFlow2: document.getElementById('cashFlow2').value,
+                cashFlow3: document.getElementById('cashFlow3').value,
+                cashFlow4: document.getElementById('cashFlow4').value,
+                cashFlow5: document.getElementById('cashFlow5').value,
+                discountRate: document.getElementById('discountRate').value,
+                terminalGrowthRate: document.getElementById('terminalGrowthRate').value,
+                assets: document.getElementById('assets').value,
+                valuationEmail: valuationEmailInput ? valuationEmailInput.value : ''
+            };
+            localStorage.setItem('valuationFormData', JSON.stringify(formData));
+            alert('Progress saved! You can return to this page to continue.');
         };
-
-        document.getElementById('start-over')?.addEventListener('click', () => {
-            try {
-                document.getElementById('valuation-form').reset();
-                document.getElementById('valuationResult').classList.add('hidden');
-                document.getElementById('chartsSection').classList.add('hidden');
-                currentStep = 1;
-                showStep(currentStep);
-            } catch (error) {
-                console.error('Start over error:', error);
-            }
-        });
 
         // Load saved progress
-        window.addEventListener('load', () => {
-            try {
-                const savedData = localStorage.getItem('valuationFormData');
-                if (savedData) {
-                    const formData = JSON.parse(savedData);
-                    Object.keys(formData).forEach(key => {
-                        const element = document.getElementById(key);
-                        if (element) {
-                            if (element.type === 'checkbox') {
-                                element.checked = formData[key].includes(element.value);
-                            } else {
-                                element.value = formData[key];
-                            }
-                        }
-                    });
-                    toggleAIReplacement();
-                    toggleIPFields();
+        window.onload = function() {
+            const savedData = localStorage.getItem('valuationFormData');
+            if (savedData) {
+                const formData = JSON.parse(savedData);
+                document.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = formData.methods.includes(cb.value));
+                document.getElementById('ownerSalary').value = formData.ownerSalary || '';
+                document.getElementById('averageSalary').value = formData.averageSalary || '';
+                document.getElementById('employeeBenefits').value = formData.employeeBenefits || '';
+                document.getElementById('staffNumber').value = formData.staffNumber || '';
+                document.getElementById('expenses').value = formData.expenses || '';
+                document.getElementById('debt').value = formData.debt || '';
+                document.getElementById('growthRate').value = formData.growthRate || '';
+                document.getElementById('yearsOperating').value = formData.yearsOperating || '';
+                document.getElementById('scalability').value = formData.scalability || 5;
+                document.getElementById('scalabilityValue').textContent = formData.scalability || 5;
+                document.getElementById('ltv').value = formData.ltv || '';
+                document.getElementById('cac').value = formData.cac || '';
+                document.getElementById('churnRate').value = formData.churnRate || '';
+                document.getElementById('customerGrowthRate').value = formData.customerGrowthRate || '';
+                document.getElementById('industry').value = formData.industry || '';
+                document.getElementById('marketTrendImpact').value = formData.marketTrendImpact || 5;
+                document.getElementById('marketTrendImpactValue').textContent = formData.marketTrendImpact || 5;
+                document.getElementById('competitivePositioning').value = formData.competitivePositioning || 5;
+                document.getElementById('competitivePositioningValue').textContent = formData.competitivePositioning || 5;
+                document.getElementById('marketVolatility').value = formData.marketVolatility || 5;
+                document.getElementById('marketVolatilityValue').textContent = formData.marketVolatility || 5;
+                document.getElementById('aiReplaceable').value = formData.aiReplaceable || '';
+                document.getElementById('aiReplaceCount').value = formData.aiReplaceCount || '';
+                document.getElementById('hasIP').value = formData.hasIP || '';
+                document.getElementById('ipValue').value = formData.ipValue || '';
+                document.getElementById('ipUnique').value = formData.ipUnique || '';
+                document.getElementById('operationalEfficiency').value = formData.operationalEfficiency || 5;
+                document.getElementById('operationalEfficiencyValue').textContent = formData.operationalEfficiency || 5;
+                document.getElementById('projectedRevenue').value = formData.projectedRevenue || '';
+                document.getElementById('expectedGrowthRate').value = formData.expectedGrowthRate || '';
+                document.getElementById('cashFlow1').value = formData.cashFlow1 || '';
+                document.getElementById('cashFlow2').value = formData.cashFlow2 || '';
+                document.getElementById('cashFlow3').value = formData.cashFlow3 || '';
+                document.getElementById('cashFlow4').value = formData.cashFlow4 || '';
+                document.getElementById('cashFlow5').value = formData.cashFlow5 || '';
+                document.getElementById('discountRate').value = formData.discountRate || '';
+                document.getElementById('terminalGrowthRate').value = formData.terminalGrowthRate || '';
+                document.getElementById('assets').value = formData.assets || '';
+                if (valuationEmailInput) {
+                    valuationEmailInput.value = formData.valuationEmail || '';
                 }
-            } catch (error) {
-                console.error('Load progress error:', error);
+
+                const dcfSelected = formData.methods.includes('dcf');
+                const earningsSelected = formData.methods.includes('earnings');
+                document.getElementById('dcfFields').classList.toggle('hidden', !dcfSelected);
+                document.getElementById('earningsFields').classList.toggle('hidden', !earningsSelected);
+                document.getElementById('dcfChartContainer').classList.toggle('hidden', !dcfSelected);
+                toggleAIReplacement();
+                toggleIPFields();
             }
+        };
+
+        // Start over
+        document.getElementById('start-over').addEventListener('click', () => {
+            localStorage.removeItem('valuationFormData');
+            location.reload();
         });
     </script>
     </main>
