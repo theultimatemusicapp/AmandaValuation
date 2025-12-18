@@ -1031,15 +1031,22 @@
         });
 
         // Demo modal
-        document.querySelector('a[href="#demo"]').addEventListener('click', (e) => {
-            e.preventDefault();
-            document.getElementById('demo-modal').classList.remove('hidden');
-        });
+        const demoTrigger = document.querySelector('a[href="#demo"]');
+        const demoModal = document.getElementById('demo-modal');
+        const demoVideo = document.getElementById('demo-video');
+        const closeModalButton = document.getElementById('close-modal');
 
-        document.getElementById('close-modal').addEventListener('click', () => {
-            document.getElementById('demo-modal').classList.add('hidden');
-            document.getElementById('demo-video').src = document.getElementById('demo-video').src;
-        });
+        if (demoTrigger && demoModal && closeModalButton && demoVideo) {
+            demoTrigger.addEventListener('click', (e) => {
+                e.preventDefault();
+                demoModal.classList.remove('hidden');
+            });
+
+            closeModalButton.addEventListener('click', () => {
+                demoModal.classList.add('hidden');
+                demoVideo.src = demoVideo.src;
+            });
+        }
 
         // Valuation form navigation
         let currentStep = 1;
