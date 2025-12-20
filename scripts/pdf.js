@@ -7,6 +7,11 @@ const config = {
     'Fintech SaaS': { low: 3, high: 8 },
     'Developer Tools': { low: 3, high: 7 },
     Other: { low: 1, high: 3.5 }
+  },
+  metricBenchmarks: {
+    ltvToCacTarget: 3,
+    churnTarget: 5,
+    grossMarginTarget: 70
   }
 };
 
@@ -299,6 +304,7 @@ export async function generateValuationPdf(data, options = {}) {
       const displayedMethods = methodsUsed.length ? methodsUsed : sanitizedData.methods;
       const headlineMethod = methodsUsed[0] || displayedMethods[0] || 'Selected methods';
       const methodList = displayedMethods.length ? displayedMethods.join(', ') : 'None selected';
+      const ltvToCac = sanitizedData.cac ? sanitizedData.ltv / sanitizedData.cac : 0;
 
       const doc = new jsPDF({ compress: true });
       doc.setProperties({
@@ -607,7 +613,6 @@ export async function generateValuationPdf(data, options = {}) {
       yPos = addPage('Metrics & Health');
       yPos = sectionTitle('Key Metrics Overview', yPos);
       yPos = sectionSubtitle('Importance shows why each KPI matters; insight provides an immediate recommendation.', yPos);
-      const ltvToCac = sanitizedData.cac ? sanitizedData.ltv / sanitizedData.cac : 0;
       // Each metric now includes an "importance" explanation to show why it matters.
       const metrics = [
         {
@@ -810,6 +815,42 @@ export async function generateValuationPdf(data, options = {}) {
       doc.text(`Your applied multiple: ${sanitizedData.multiplier}× (within the ${bandPosition} part of this band).`, margin, yPos);
       yPos += 10;
 
+      yPos = sectionTitle('Benchmark Callouts', yPos);
+      const benchmarkRows = [
+        [
+          'LTV/CAC',
+          ltvToCac ? `${ltvToCac.toFixed(1)}×` : 'n/a',
+          `${config.metricBenchmarks.ltvToCacTarget.toFixed(1)}×+`,
+          ltvToCac >= config.metricBenchmarks.ltvToCacTarget ? 'Above target' : 'Below target'
+        ],
+        [
+          'Customer churn',
+          formatPercent(sanitizedData.customerChurn),
+          `≤ ${config.metricBenchmarks.churnTarget.toFixed(1)}%`,
+          sanitizedData.customerChurn <= config.metricBenchmarks.churnTarget ? 'In range' : 'Above target'
+        ],
+        [
+          'Gross margin',
+          formatPercent(sanitizedData.grossMargin),
+          `${config.metricBenchmarks.grossMarginTarget.toFixed(0)}%+`,
+          sanitizedData.grossMargin >= config.metricBenchmarks.grossMarginTarget ? 'In range' : 'Below target'
+        ]
+      ];
+      doc.autoTable({
+        head: [['Metric', 'Your score', 'Target', 'Callout']],
+        body: benchmarkRows,
+        startY: yPos,
+        theme: 'striped',
+        styles: { fillColor: palette.soft, textColor: palette.ink, cellPadding: 3 },
+        headStyles: { fillColor: palette.brand, textColor: [255, 255, 255] }
+      });
+      yPos = doc.lastAutoTable.finalY + 6;
+      doc.setFontSize(10);
+      doc.setTextColor(...palette.slate);
+      doc.text('Benchmark targets reflect common SaaS diligence expectations; improving gaps here tends to lift the achievable multiple.', margin, yPos, { maxWidth: pageWidth - 2 * margin });
+      doc.setTextColor(...palette.ink);
+      yPos += 12;
+
       yPos = sectionTitle('Confidence Breakdown', yPos);
       doc.autoTable({
         head: [['Factor', 'Score (0-100)']],
@@ -985,4 +1026,3 @@ export async function generateValuationPdf(data, options = {}) {
     }
   };
 }
-

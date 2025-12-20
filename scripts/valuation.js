@@ -206,6 +206,8 @@ export async function calculateValuation(deps = {}) {
       });
 
       const financialCanvas = document.getElementById('financial-chart');
+      const ltvTarget = cac > 0 ? cac * 3 : ltv || 0;
+      const cacTarget = ltv > 0 ? ltv / 3 : cac || 0;
       new Chart(financialCanvas, {
         type: 'bar',
         data: {
@@ -216,6 +218,13 @@ export async function calculateValuation(deps = {}) {
             backgroundColor: ['rgba(56, 178, 172, 0.7)', 'rgba(251, 191, 36, 0.7)', 'rgba(45, 55, 72, 0.7)', 'rgba(255, 99, 132, 0.7)'],
             borderColor: ['#38b2ac', '#fbbf24', '#2d3748', '#ff6384'],
             borderWidth: 1
+          }, {
+            label: 'Benchmark Target',
+            data: [null, null, ltvTarget, cacTarget],
+            backgroundColor: 'rgba(59, 130, 246, 0.2)',
+            borderColor: '#3b82f6',
+            borderWidth: 2,
+            borderDash: [6, 4]
           }]
         },
         options: buildOptions('Amount ($)')
@@ -237,6 +246,13 @@ export async function calculateValuation(deps = {}) {
             backgroundColor: ['rgba(56, 178, 172, 0.7)', 'rgba(251, 191, 36, 0.7)', 'rgba(255, 99, 132, 0.7)', 'rgba(45, 55, 72, 0.7)'],
             borderColor: ['#38b2ac', '#fbbf24', '#ff6384', '#2d3748'],
             borderWidth: 1
+          }, {
+            label: 'Benchmark Target',
+            data: [20, 5, 5, 3],
+            backgroundColor: 'rgba(59, 130, 246, 0.2)',
+            borderColor: '#3b82f6',
+            borderWidth: 2,
+            borderDash: [6, 4]
           }]
         },
         options: buildOptions('Rate (%)', 100)
@@ -273,11 +289,11 @@ export async function calculateValuation(deps = {}) {
           ? 'Methods are cross-checked; alignments within range improve confidence.'
           : 'Single-method result—add another approach to validate the headline number.',
         'financial-chart': ltv && cac
-          ? `LTV/CAC balance guides buyer confidence; LTV ${formatCurrency(ltv)} vs CAC ${formatCurrency(cac)}.`
+          ? `LTV/CAC balance guides buyer confidence; LTV ${formatCurrency(ltv)} vs CAC ${formatCurrency(cac)} with a 3x benchmark.`
           : 'Populate LTV and CAC to show acquisition efficiency clearly.',
         'growth-churn-chart': growthYoy > customerChurn
-          ? 'Growth outpaces churn, supporting the applied multiple.'
-          : 'Churn is eroding growth—improve retention to defend the valuation.',
+          ? 'Growth outpaces churn, supporting the applied multiple versus the benchmark band.'
+          : 'Churn is eroding growth—improve retention to defend the valuation against benchmarks.',
         'risk-chart': `Risk inputs reflect legal (${legalIssues}), IP (${ipOwnership}), and debt ${formatCurrency(debtLevel)}.`
       };
 
