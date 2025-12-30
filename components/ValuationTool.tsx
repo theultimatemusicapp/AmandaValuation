@@ -341,7 +341,7 @@ export default function ValuationWizard() {
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
                                         <button
                                             onClick={() => {
-                                                generateFreePDF(result, formData.companyName || 'Your SaaS');
+                                                generateFreePDF(result, formData);
                                             }}
                                             className="flex items-center justify-center gap-2 px-6 py-4 bg-slate-800 hover:bg-slate-700 text-white rounded-xl font-semibold transition-all border border-slate-700 hover:border-slate-600"
                                         >
@@ -422,7 +422,7 @@ export default function ValuationWizard() {
                                     return (
                                         <div key={step.id} className={`flex items-center gap-3 transition-colors ${isActive ? 'opacity-100' : 'opacity-40'}`}>
                                             <div className={`w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-bold border ${isActive ? 'bg-brand-500 border-brand-500 text-white' :
-                                                    isCompleted ? 'bg-brand-500/20 border-brand-500 text-brand-400' : 'bg-transparent border-slate-600 text-slate-400'
+                                                isCompleted ? 'bg-brand-500/20 border-brand-500 text-brand-400' : 'bg-transparent border-slate-600 text-slate-400'
                                                 }`}>
                                                 {isCompleted ? '✓' : idx + 1}
                                             </div>
@@ -471,7 +471,7 @@ export default function ValuationWizard() {
     );
 }
 
-function InputGroup({ label, sub, value, onChange, type = "text", prefix, suffix }: { label: string; sub?: string; value: any; onChange: (v: string) => void; type?: string; prefix?: string; suffix?: string }) {
+function InputGroup({ label, sub, value, onChange, type = "text", prefix, suffix, placeholder }: { label: string; sub?: string; value: any; onChange: (v: string) => void; type?: string; prefix?: string; suffix?: string; placeholder?: string }) {
     return (
         <div>
             <div className="flex items-center gap-2 mb-2">
@@ -499,7 +499,7 @@ function InputGroup({ label, sub, value, onChange, type = "text", prefix, suffix
              focus:ring-2 focus:ring-brand-500 focus:border-transparent outline-none transition-all placeholder-slate-600
              ${prefix ? 'pl-8' : 'pl-4'} ${suffix ? 'pr-8' : 'pr-4'}
           `}
-                    placeholder="0"
+                    placeholder={placeholder || "0"}
                 />
                 {suffix && (
                     <div className="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none">

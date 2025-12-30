@@ -1,12 +1,13 @@
 import jsPDF from 'jspdf';
-import { ValuationResult, formatCurrency } from './valuation';
+import { ValuationResult, ValuationInputs, formatCurrency } from './valuation';
 
 /**
  * Generate a basic FREE PDF report (1-2 pages)
  */
-export function generateFreePDF(data: ValuationResult, companyName: string = 'Your SaaS') {
+export function generateFreePDF(data: ValuationResult, inputs: ValuationInputs) {
     const doc = new jsPDF();
     const pageWidth = doc.internal.pageSize.getWidth();
+    const companyName = inputs.companyName || 'Your SaaS';
 
     // Header
     doc.setFillColor(14, 165, 233); // Brand teal
@@ -29,12 +30,12 @@ export function generateFreePDF(data: ValuationResult, companyName: string = 'Yo
     doc.setFont('helvetica', 'normal');
     doc.setTextColor(100, 100, 100);
     let subHeaderY = 62;
-    if (data.email) {
-        doc.text(`Email: ${data.email}`, 20, subHeaderY);
+    if (inputs.email) {
+        doc.text(`Email: ${inputs.email}`, 20, subHeaderY);
         subHeaderY += 5;
     }
-    if ((data as any).website) {
-        doc.text(`Website: ${(data as any).website}`, 20, subHeaderY);
+    if (inputs.website) {
+        doc.text(`Website: ${inputs.website}`, 20, subHeaderY);
         subHeaderY += 5;
     }
     doc.text(`Generated: ${new Date().toLocaleDateString()}`, 20, subHeaderY);
