@@ -1,5 +1,6 @@
 import jsPDF from 'jspdf';
 import { ValuationResult, ValuationInputs, formatCurrency } from './valuation';
+import { generateAIAnalysis } from './ai-assistant';
 
 /**
  * Generate a basic FREE PDF report (1-2 pages)
@@ -73,6 +74,19 @@ export function generateFreePDF(data: ValuationResult, inputs: ValuationInputs) 
         doc.text(`• ${val.method}: ${formatCurrency(val.value)}`, 25, yPos);
         yPos += 8;
     });
+
+    // AI Analysis (New Section)
+    doc.setFontSize(12);
+    doc.setTextColor(14, 165, 233); // Brand color
+    doc.text('🤖 AI Expert Analysis', 20, 220);
+
+    doc.setFontSize(9);
+    doc.setTextColor(70, 70, 70);
+    doc.setFont('helvetica', 'italic');
+
+    const analysis = generateAIAnalysis(inputs, companyName);
+    const splitAnalysis = doc.splitTextToSize(analysis.replace(/\*\*/g, ''), pageWidth - 40); // Remove markdown bold for simple text
+    doc.text(splitAnalysis, 20, 228);
 
     // Upgrade CTA
     doc.setFillColor(251, 191, 36); // Amber
