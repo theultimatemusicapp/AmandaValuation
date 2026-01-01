@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useRouter } from 'next/navigation';
 import { ArrowRight, ArrowLeft, Info, Download, Sparkles, Building2, Calculator, DollarSign, TrendingUp, Users, Code2, Scale, Lock } from 'lucide-react';
@@ -94,6 +94,23 @@ export default function ProValuationWizard() {
         dataPrivacy: 'full', cyberInsurance: 'yes', debtLevel: 0,
     });
 
+    useEffect(() => {
+        const params = new URLSearchParams(window.location.search);
+        const isPaid = params.get('paid') === 'true';
+        const savedData = localStorage.getItem('pro_valuation_data');
+
+        if (isPaid && savedData) {
+            try {
+                const { data, result: savedResult } = JSON.parse(savedData);
+                setFormData(data);
+                setResult(savedResult);
+                setCurrentStep(PRO_STEPS.length);
+            } catch (err) {
+                console.error('Failed to parse saved valuation data:', err);
+            }
+        }
+    }, []);
+
     const updateField = (field: keyof ValuationInputs, value: any) => {
         setFormData(prev => ({ ...prev, [field]: value }));
     };
@@ -102,6 +119,13 @@ export default function ProValuationWizard() {
         if (currentStep === PRO_STEPS.length - 1) {
             const valuationResult = calculateSaaSValuation(formData);
             setResult(valuationResult);
+
+            // Save to localStorage for retrieval after payment
+            localStorage.setItem('pro_valuation_data', JSON.stringify({
+                data: formData,
+                result: valuationResult,
+                timestamp: new Date().toISOString()
+            }));
 
             // Submit to Formspree
             try {
@@ -117,6 +141,10 @@ export default function ProValuationWizard() {
             } catch (err) {
                 console.error('Formspree submission failed:', err);
             }
+
+            // Redirect to payment
+            router.push('/payment');
+            return;
         }
         setCurrentStep(currentStep + 1);
     };
@@ -160,15 +188,7 @@ export default function ProValuationWizard() {
     };
 
     if (result && currentStep === PRO_STEPS.length) {
-        // Redirect to payment page instead of showing dashboard
-        router.push('/payment');
-        return (
-            <div className="flex flex-col items-center justify-center min-h-[400px] text-center">
-                <div className="w-12 h-12 border-4 border-brand-500 border-t-transparent rounded-full animate-spin mb-4"></div>
-                <h2 className="text-xl font-bold text-white mb-2">Calculating Your Report...</h2>
-                <p className="text-slate-400">Redirecting to checkout to unlock full insights.</p>
-            </div>
-        );
+        return <ProDashboard data={result} inputs={formData} />;
     }
 
     return (

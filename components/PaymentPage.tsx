@@ -18,7 +18,7 @@ export default function PaymentPage() {
             setCouponSuccess(true);
             setCouponError('');
             setTimeout(() => {
-                window.location.href = '/pro';
+                window.location.href = '/pro?paid=true';
             }, 2000);
         } else {
             setCouponError('Invalid coupon code. Please try again.');

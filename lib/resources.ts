@@ -223,5 +223,93 @@ export const RESOURCES: Resource[] = [
                 <li><strong>Secure IP:</strong> Ensure all code and trademarks are properly owned by the entity.</li>
             </ul>
         `
+    },
+    {
+        id: 'free-valuation-calculator',
+        title: 'Free Valuation Calculator: How it Works',
+        description: 'A deep dive into the methodology behind our free valuation tool. Learn how we weight growth, churn, and margins.',
+        category: 'Guide',
+        author: 'Michael Chen',
+        date: 'Oct 12, 2025',
+        readTime: '4 min read',
+        content: `
+            <h3>Methodology Overview</h3>
+            <p>Our free valuation tool uses a "Revenue Multiple" approach, adjusted for your specific growth and churn profiles. Unlike basic calculators that just use a fixed number, we benchmark your metrics against a dataset of 5,000+ recent SaaS acquisitions.</p>
+            
+            <h3>The Core Inputs</h3>
+            <ul>
+                <li><strong>ARR (Annual Recurring Revenue):</strong> The foundation of your valuation. We focus on "pure" recurring revenue.</li>
+                <li><strong>Growth Rate:</strong> The #1 driver of high multiples. Companies growing >50% YoY command a significant premium.</li>
+                <li><strong>Churn Rate:</strong> The "leaky bucket" factor. High churn (>10% annual) can cut your multiple in half.</li>
+            </ul>
+
+            <h3>Why Accuracy Matters</h3>
+            <p>A realistic valuation helps you set expectations with investors or potential buyers. By understanding the "why" behind the number, you can focus on the specific levers (like improving retention) that will yield the highest ROI for your exit value.</p>
+        `
+    },
+    {
+        id: 'saas-growth-calculator',
+        title: 'SaaS Growth Calculator Guide',
+        description: 'How to use growth modeling to project your path to $10M ARR and beyond. Master the variables that move the needle.',
+        category: 'Guide',
+        author: 'Michael Chen',
+        date: 'Nov 5, 2025',
+        readTime: '5 min read',
+        content: `
+            <h3>Projecting Your Future</h3>
+            <p>Growth isn't just about adding new users. It's about cumulative momentum. This guide explains how to model your ARR growth using three main levers: New Logo Acquisition, Expansion Revenue, and Churn Mitigation.</p>
+            
+            <h3>Key Growth Variables</h3>
+            <ul>
+                <li><strong>Net New ARR:</strong> Revenue from brand new customers.</li>
+                <li><strong>Expansion ARR:</strong> Upselling existing customers (the "Holy Grail" of SaaS growth).</li>
+                <li><strong>Churn Impact:</strong> The negative drag that slows your climb.</li>
+            </ul>
+
+            <h3>The Path to $10M ARR</h3>
+            <p>Crossing the $10M mark usually requires a shift from founder-led sales to a repeatable, scalable sales engine. Use our growth calculator to see where your bottleneck lies—is it lead generation, or is it retention?</p>
+        `
+    },
+    {
+        id: 'nrr-mastery',
+        title: 'NRR Mastery: The Metric Builders Care About',
+        description: 'Why Net Revenue Retention is the ultimate proof of product-market fit and how to drive it above 110%.',
+        category: 'Metrics',
+        author: 'Amanda White',
+        date: 'Dec 1, 2025',
+        readTime: '8 min read',
+        content: `
+            <h3>What is NRR?</h3>
+            <p>Net Revenue Retention measures how much your revenue grows (or shrinks) from your *existing* customer base. If you have 110% NRR, you are growing 10% annually even if you never sign a single new customer.</p>
+            
+            <h3>Why Acquirers Prize High NRR</h3>
+            <p>High NRR proves that your product is "sticky" and that you have natural expansion pathways. It significantly reduces the risk for a new owner, which directly results in a higher valuation multiple.</p>
+            
+            <h3>How to Boost NRR</h3>
+            <ul>
+                <li>Implement usage-based pricing.</li>
+                <li>Launch tiered feature sets (standard vs pro).</li>
+                <li>Proactive customer success outreach for accounts with high activity.</li>
+            </ul>
+        `
+    },
+    {
+        id: 'exit-strategy',
+        title: 'Exit Strategy: When to Sell vs. Hold',
+        description: 'A framework for SaaS founders to decide between taking a life-changing exit today or building for a larger payday tomorrow.',
+        category: 'Exit',
+        author: 'Amanda White',
+        date: 'Dec 15, 2025',
+        readTime: '6 min read',
+        content: `
+            <h3>The Founders Dilemma</h3>
+            <p>Deciding when to sell is often more emotional than financial. This article provides a quantitative framework to help you decide when the "multiple" is too good to pass up.</p>
+            
+            <h3>The Rule of 3x Multiple</h3>
+            <p>If a buyer offers you 3x your current projected earnings over the next 5 years (discounted), it's often a "derisked" exit that allows you to start your next venture with capital in hand.</p>
+            
+            <h3>When to Hold</h3>
+            <p>Hold if your growth is accelerating, your market is expanding, and you haven't hit the "ceiling" of your current acquisition channels. Selling during a period of high momentum can be profitable, but leaving 2x growth on the table might be a mistake if you have the energy to continue.</p>
+        `
     }
 ];
