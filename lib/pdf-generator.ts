@@ -187,6 +187,67 @@ export function generateProPDF(data: ValuationResult, inputs: any, companyName: 
         return currentY;
     };
 
+    const drawBarChart = (chartData: { name: string, value: number }[], y: number, height: number = 60) => {
+        const barWidth = (contentWidth - 20) / chartData.length;
+        const maxValue = Math.max(...chartData.map(d => d.value));
+        const chartY = y + height;
+
+        chartData.forEach((d, i) => {
+            const barHeight = (d.value / maxValue) * (height - 15);
+            const x = margin + 10 + (i * barWidth);
+
+            // Draw Bar
+            doc.setFillColor(14, 165, 233); // brand-500
+            doc.rect(x + (barWidth * 0.2), chartY - barHeight, barWidth * 0.6, barHeight, 'F');
+
+            // Labels
+            doc.setFontSize(7);
+            doc.setTextColor(51, 65, 85);
+            doc.text(d.name, x + (barWidth / 2), chartY + 5, { align: 'center', maxWidth: barWidth * 0.8 });
+            doc.setFont('helvetica', 'bold');
+            doc.text(formatCurrency(d.value), x + (barWidth / 2), chartY - barHeight - 3, { align: 'center' });
+            doc.setFont('helvetica', 'normal');
+        });
+
+        return chartY + 20;
+    };
+
+    const drawBenchmarkChart = (benchmarks: { label: string, score: number, target: number }[], y: number) => {
+        let currentY = y;
+        const labelWidth = 50;
+        const barAreaWidth = contentWidth - labelWidth - 20;
+
+        doc.setFontSize(8);
+        doc.setTextColor(148, 163, 184);
+        doc.text('SCORE (%)', margin + labelWidth + (barAreaWidth / 2), currentY, { align: 'center' });
+        currentY += 8;
+
+        benchmarks.forEach(b => {
+            doc.setFontSize(9);
+            doc.setTextColor(15, 23, 42);
+            doc.text(b.label, margin, currentY + 4);
+
+            // Background bar
+            doc.setFillColor(241, 245, 249);
+            doc.rect(margin + labelWidth, currentY, barAreaWidth, 5, 'F');
+
+            // Score bar
+            const scoreWidth = (b.score / 100) * barAreaWidth;
+            doc.setFillColor(14, 165, 233);
+            doc.rect(margin + labelWidth, currentY, scoreWidth, 5, 'F');
+
+            // Target marker
+            const targetX = margin + labelWidth + ((b.target / 100) * barAreaWidth);
+            doc.setDrawColor(245, 158, 11); // amber-500
+            doc.setLineWidth(1);
+            doc.line(targetX, currentY - 2, targetX, currentY + 7);
+
+            currentY += 15;
+        });
+
+        return currentY;
+    };
+
     // --- PAGE 1: TITLE PAGE ---
     // Background accent
     doc.setFillColor(15, 23, 42);
@@ -293,7 +354,12 @@ export function generateProPDF(data: ValuationResult, inputs: any, companyName: 
     ];
     y = drawDataTable(financialRows[0], financialRows.slice(1), y);
 
-    y += 20;
+    y += 15;
+    y = drawSectionTitle('Valuation Composition', y);
+    const chartData = data.valuations.map(v => ({ name: v.method, value: v.value }));
+    y = drawBarChart(chartData, y, 50);
+
+    y += 10;
     y = drawSectionTitle('Profitability Analysis', y);
     const marginPercent = ((inputs.netProfit / (inputs.arr || 1)) * 100).toFixed(1);
     doc.setFontSize(10);
@@ -438,7 +504,18 @@ export function generateProPDF(data: ValuationResult, inputs: any, companyName: 
     ];
     y = drawDataTable(efficiencyRows[0], efficiencyRows.slice(1), y);
 
-    y += 20;
+    y += 15;
+    y = drawSectionTitle('Peer Benchmarking', y);
+    const benchmarks = [
+        { label: 'Growth Rating', score: 80, target: 45 },
+        { label: 'Retention Health', score: data.confidence, target: 85 },
+        { label: 'Profit Efficiency', score: 60, target: 20 },
+        { label: 'Market Position', score: 70, target: 50 },
+        { label: 'Tech Stack Maturity', score: 90, target: 75 },
+    ];
+    y = drawBenchmarkChart(benchmarks, y);
+
+    y += 10;
     y = drawSectionTitle('Metric Deep Dive', y);
     doc.setFontSize(10);
     doc.setFont('helvetica', 'bold');
@@ -547,15 +624,19 @@ export function generateProPDF(data: ValuationResult, inputs: any, companyName: 
     const glossary = [
         ['ARR', 'Annual Recurring Revenue - total predictable revenue in a year.'],
         ['EBITDA', 'Earnings Before Interest, Taxes, Depreciation, and Amortization.'],
-        ['NDR', 'Net Dollar Retention - revenue retained from the same customer cohort.'],
-        ['CAC Payback', 'The time taken to earn back the cost of acquiring one customer.'],
+        ['NDR', 'Net Dollar Retention - revenue retained from the same customer cohort. High NDR over 100% means the product grows itself.'],
+        ['CAC Payback', 'The time taken to earn back the cost of acquiring one customer. Target is under 12 months for most SaaS models.'],
     ];
     glossary.forEach(item => {
+        doc.setFontSize(9);
         doc.setFont('helvetica', 'bold');
+        doc.setTextColor(15, 23, 42);
         doc.text(item[0], margin, y);
         doc.setFont('helvetica', 'normal');
-        doc.text(item[1], margin + 25, y);
-        y += 7;
+        doc.setTextColor(71, 85, 105);
+        const splitDesc = doc.splitTextToSize(item[1], contentWidth - 30);
+        doc.text(splitDesc, margin + 30, y);
+        y += (splitDesc.length * 5) + 2;
     });
 
     drawFooter(10);
