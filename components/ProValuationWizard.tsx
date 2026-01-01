@@ -71,6 +71,7 @@ const PRO_INSIGHTS = [
 ];
 
 export default function ProValuationWizard() {
+    const router = useRouter();
     const [currentStep, setCurrentStep] = useState(0);
     const [result, setResult] = useState<any>(null);
     const [formData, setFormData] = useState<ValuationInputs>({
@@ -189,7 +190,7 @@ export default function ProValuationWizard() {
 
     const progress = ((currentStep) / PRO_STEPS.length) * 100;
 
-    const router = useRouter();
+
 
     const downloadSampleReport = () => {
         // Generate a sample report with dummy data
