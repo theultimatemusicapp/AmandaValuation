@@ -160,15 +160,7 @@ export default function ProValuationWizard() {
     };
 
     if (result && currentStep === PRO_STEPS.length) {
-        // Redirect to payment page instead of showing dashboard
-        router.push('/payment');
-        return (
-            <div className="flex flex-col items-center justify-center min-h-[400px] text-center">
-                <div className="w-12 h-12 border-4 border-brand-500 border-t-transparent rounded-full animate-spin mb-4"></div>
-                <h2 className="text-xl font-bold text-white mb-2">Calculating Your Report...</h2>
-                <p className="text-slate-400">Redirecting to checkout to unlock full insights.</p>
-            </div>
-        );
+        return <ProDashboard data={result} inputs={formData} />;
     }
 
     return (

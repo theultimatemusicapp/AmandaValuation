@@ -62,22 +62,22 @@ export default function Footer() {
                         <h3 className="text-sm font-semibold text-white mb-4 uppercase tracking-wider">Resources</h3>
                         <ul className="space-y-3">
                             <li>
-                                <Link href="/resources" className="text-gray-400 hover:text-white transition-colors text-sm">
+                                <Link href="/resources#how-to-value-saas" className="text-gray-400 hover:text-white transition-colors text-sm">
                                     Valuation Guides
                                 </Link>
                             </li>
                             <li>
-                                <Link href="/resources" className="text-gray-400 hover:text-white transition-colors text-sm">
+                                <Link href="/resources#micro-saas-valuation" className="text-gray-400 hover:text-white transition-colors text-sm">
                                     Exit Readiness
                                 </Link>
                             </li>
                             <li>
-                                <Link href="/resources" className="text-gray-400 hover:text-white transition-colors text-sm">
+                                <Link href="/resources#rule-of-40" className="text-gray-400 hover:text-white transition-colors text-sm">
                                     Growth Strategies
                                 </Link>
                             </li>
                             <li>
-                                <Link href="/resources" className="text-gray-400 hover:text-white transition-colors text-sm">
+                                <Link href="/resources#ai-valuation-bubble" className="text-gray-400 hover:text-white transition-colors text-sm">
                                     Market Insights
                                 </Link>
                             </li>
