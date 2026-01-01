@@ -97,35 +97,67 @@ export default function ProValuationWizard() {
     useEffect(() => {
         const params = new URLSearchParams(window.location.search);
         const isPaid = params.get('paid') === 'true';
-        const savedData = localStorage.getItem('pro_valuation_data');
 
-        if (isPaid && savedData) {
+        // Initial detection: if paid, override with saved result
+        if (isPaid) {
+            const savedFullData = localStorage.getItem('pro_valuation_data');
+            if (savedFullData) {
+                try {
+                    const { data, result: savedResult } = JSON.parse(savedFullData);
+                    setFormData(data);
+                    setResult(savedResult);
+                    setCurrentStep(PRO_STEPS.length);
+                    return; // Stop here if we are showing results
+                } catch (err) {
+                    console.error('Failed to parse saved valuation data:', err);
+                }
+            }
+        }
+
+        // Normal persistence: resume from where the user left off
+        const savedStep = localStorage.getItem('pro_valuation_current_step');
+        const savedDraft = localStorage.getItem('pro_valuation_draft');
+
+        if (savedStep) setCurrentStep(Number(savedStep));
+        if (savedDraft) {
             try {
-                const { data, result: savedResult } = JSON.parse(savedData);
-                setFormData(data);
-                setResult(savedResult);
-                setCurrentStep(PRO_STEPS.length);
+                setFormData(prev => ({ ...prev, ...JSON.parse(savedDraft) }));
             } catch (err) {
-                console.error('Failed to parse saved valuation data:', err);
+                console.error('Failed to parse saved draft:', err);
             }
         }
     }, []);
+
+    // Save state on every change
+    useEffect(() => {
+        if (currentStep < PRO_STEPS.length) {
+            localStorage.setItem('pro_valuation_current_step', currentStep.toString());
+            localStorage.setItem('pro_valuation_draft', JSON.stringify(formData));
+        }
+    }, [currentStep, formData]);
 
     const updateField = (field: keyof ValuationInputs, value: any) => {
         setFormData(prev => ({ ...prev, [field]: value }));
     };
 
+    const [isSubmitting, setIsSubmitting] = useState(false);
+
     const handleNext = async () => {
         if (currentStep === PRO_STEPS.length - 1) {
+            setIsSubmitting(true);
             const valuationResult = calculateSaaSValuation(formData);
             setResult(valuationResult);
 
-            // Save to localStorage for retrieval after payment
+            // Final save for retrieval after payment
             localStorage.setItem('pro_valuation_data', JSON.stringify({
                 data: formData,
                 result: valuationResult,
                 timestamp: new Date().toISOString()
             }));
+
+            // Clear draft state so it doesn't resume the form later
+            localStorage.removeItem('pro_valuation_current_step');
+            localStorage.removeItem('pro_valuation_draft');
 
             // Submit to Formspree
             try {
@@ -146,7 +178,7 @@ export default function ProValuationWizard() {
             router.push('/payment');
             return;
         }
-        setCurrentStep(currentStep + 1);
+        setCurrentStep(prev => prev + 1);
     };
 
     const stepVariants = {
@@ -406,8 +438,12 @@ export default function ProValuationWizard() {
                                         <button onClick={() => setCurrentStep(currentStep - 1)} className="px-6 py-3 bg-slate-800 hover:bg-slate-700 text-white rounded-xl font-bold flex items-center gap-2">
                                             <ArrowLeft className="w-5 h-5" /> Back
                                         </button>
-                                        <button onClick={handleNext} className="flex-1 py-3 bg-gradient-to-r from-brand-500 to-amber-500 hover:from-brand-400 hover:to-amber-400 text-white rounded-xl font-bold flex items-center justify-center gap-2 shadow-lg">
-                                            View Pro Dashboard <ArrowRight className="w-5 h-5" />
+                                        <button
+                                            onClick={handleNext}
+                                            disabled={isSubmitting}
+                                            className={`flex-1 py-3 bg-gradient-to-r from-brand-500 to-amber-500 hover:from-brand-400 hover:to-amber-400 text-white rounded-xl font-bold flex items-center justify-center gap-2 shadow-lg ${isSubmitting ? 'opacity-70 cursor-not-allowed' : ''}`}
+                                        >
+                                            {isSubmitting ? 'Processing...' : 'View Pro Dashboard'} <ArrowRight className="w-5 h-5" />
                                         </button>
                                     </div>
                                 </motion.div>
