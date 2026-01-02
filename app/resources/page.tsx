@@ -3,12 +3,12 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 
 export const metadata = {
-    title: 'Resources Hub | SaaS Valuation App',
-    description: 'Browse SaaS valuation resources organized by pillar and cluster topics. Jump to valuation fundamentals, exit readiness, efficiency tactics, and AI market shifts.',
-    keywords: 'SaaS valuation resources, valuation guides, SaaS pricing, exit readiness, SaaS multiples, AI SaaS trends',
+    title: 'SaaS Valuation Multiples 2026 | Free Calculator & Exit Guide',
+    description: 'Master SaaS valuation with 2026 multiples data, free calculator, and exit strategies. Learn how to value your SaaS business from $500K to $10M+ ARR with proven frameworks.',
+    keywords: 'SaaS valuation calculator 2026, SaaS business valuation multiples, how to value a SaaS company, SaaS exit strategy, ARR multiples, Rule of 40, SaaS metrics',
     openGraph: {
-        title: 'Resources Hub | SaaS Valuation App',
-        description: 'Browse SaaS valuation resources organized by pillar and cluster topics, including valuation guides, exit prep checklists, and pricing playbooks.',
+        title: 'SaaS Valuation Multiples 2026 | Free Calculator & Resources',
+        description: 'Get accurate SaaS valuation multiples for 2026. Free calculator, exit guides, and proven strategies to maximize your SaaS business value.',
     },
 };
 

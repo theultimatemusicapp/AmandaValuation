@@ -222,6 +222,12 @@ export const RESOURCES: Resource[] = [
                 <li><strong>Outsource Maintenance:</strong> Free up founder time to increase "transferability".</li>
                 <li><strong>Secure IP:</strong> Ensure all code and trademarks are properly owned by the entity.</li>
             </ul>
+            
+            <div style="background: linear-gradient(135deg, #0f766e 0%, #0891b2 100%); border-radius: 12px; padding: 24px; margin: 32px 0; text-align: center; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+                <h4 style="color: white; font-size: 1.5rem; margin: 0 0 12px 0; font-weight: 700;">Ready to Calculate Your Specific Valuation?</h4>
+                <p style="color: rgba(255,255,255,0.95); margin: 0 0 20px 0; font-size: 1.05rem;">Get a personalized valuation report in minutes using industry-specific multiples and your actual metrics.</p>
+                <a href="/" style="display: inline-block; background: white; color: #0f766e; padding: 14px 32px; border-radius: 8px; font-weight: 700; text-decoration: none; font-size: 1.1rem; box-shadow: 0 2px 8px rgba(0,0,0,0.15); transition: transform 0.2s;">Calculate My Valuation Now →</a>
+            </div>
         `
     },
     {

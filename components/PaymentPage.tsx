@@ -168,39 +168,48 @@ export default function PaymentPage() {
                         <div className="text-center mb-6">
                             <p className="text-slate-400 text-sm mb-2">One-time payment · No subscription</p>
                             <div className="flex items-center justify-center gap-3 mb-2">
-                                <span className="text-slate-500 line-through text-lg">$99</span>
-                                <span className="text-4xl font-bold text-white">$19</span>
+                                <span className="text-slate-500 line-through text-lg">$99 USD</span>
+                                <span className="text-4xl font-bold text-white">$19 USD</span>
                             </div>
                             <p className="text-brand-400 text-sm font-semibold">Save 80% · Limited Time</p>
+                            <div className="flex items-center justify-center gap-4 mt-3 text-xs text-slate-400">
+                                <span className="flex items-center gap-1"><Shield className="w-3 h-3 text-emerald-400" /> Secure Checkout</span>
+                                <span className="flex items-center gap-1">💯 Money-Back Guarantee</span>
+                            </div>
                         </div>
 
-                        {/* Coupon Code Input */}
+                        {/* Coupon Code Input - Minimized */}
                         <div className="mb-6">
-                            <label htmlFor="coupon" className="block text-sm font-medium text-slate-300 mb-2">
-                                Have a Coupon Code?
-                            </label>
-                            <div className="flex gap-2">
-                                <input
-                                    type="text"
-                                    id="coupon"
-                                    value={couponCode}
-                                    onChange={(e) => setCouponCode(e.target.value)}
-                                    placeholder="Enter coupon code"
-                                    className="flex-1 px-4 py-3 bg-slate-800 border border-slate-700 rounded-xl text-white placeholder:text-slate-600 focus:outline-none focus:border-brand-500"
-                                />
-                                <button
-                                    onClick={handleApplyCoupon}
-                                    className="px-6 py-3 bg-brand-500 hover:bg-brand-400 text-white rounded-xl font-semibold transition-colors"
-                                >
-                                    Apply
-                                </button>
+                            <button
+                                onClick={() => document.getElementById('coupon-section')?.classList.toggle('hidden')}
+                                className="text-xs text-slate-400 hover:text-slate-300 underline mb-2"
+                            >
+                                Have a coupon code?
+                            </button>
+                            <div id="coupon-section" className="hidden">
+                                <div className="flex gap-2 mt-2">
+                                    <input
+                                        type="text"
+                                        id="coupon"
+                                        value={couponCode}
+                                        onChange={(e) => setCouponCode(e.target.value)}
+                                        placeholder="Enter coupon code"
+                                        className="flex-1 px-4 py-3 bg-slate-800 border border-slate-700 rounded-xl text-white placeholder:text-slate-600 focus:outline-none focus:border-brand-500"
+                                    />
+                                    <button
+                                        onClick={handleApplyCoupon}
+                                        className="px-6 py-3 bg-brand-500 hover:bg-brand-400 text-white rounded-xl font-semibold transition-colors"
+                                    >
+                                        Apply
+                                    </button>
+                                </div>
+                                {couponError && (
+                                    <p className="text-red-400 text-sm mt-2">{couponError}</p>
+                                )}
+                                {couponSuccess && (
+                                    <p className="text-emerald-400 text-sm mt-2">✓ Coupon applied! Redirecting to Pro Valuation...</p>
+                                )}
                             </div>
-                            {couponError && (
-                                <p className="text-red-400 text-sm mt-2">{couponError}</p>
-                            )}
-                            {couponSuccess && (
-                                <p className="text-emerald-400 text-sm mt-2">✓ Coupon applied! Redirecting to Pro Valuation...</p>
-                            )}
                         </div>
 
                         {/* Stripe Buy Button */}
@@ -220,15 +229,7 @@ export default function PaymentPage() {
                                         }}
                                     />
                                 </div>
-                                <div className="mt-4 pt-4 border-t border-slate-700 text-center">
-                                    <p className="text-slate-400 text-xs mb-3">Or try the demo:</p>
-                                    <a
-                                        href="/pro"
-                                        className="inline-block px-6 py-3 bg-slate-800 hover:bg-slate-700 text-white rounded-xl font-semibold transition-all border border-slate-700"
-                                    >
-                                        Try Pro Demo →
-                                    </a>
-                                </div>
+
                             </div>
                         )}
 

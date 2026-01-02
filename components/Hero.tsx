@@ -68,6 +68,29 @@ export default function Hero() {
                         <span className="flex items-center gap-1.5"><Lock className="w-4 h-4 text-brand-500" /> 100% Private & Secure</span>
                         <span className="flex items-center gap-1.5"><CheckCircle2 className="w-4 h-4 text-brand-500" /> No Card Required</span>
                     </motion.div>
+
+                    {/* Demo Video Section */}
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.5, delay: 0.6 }}
+                        className="mt-16"
+                    >
+                        <p className="text-sm text-slate-500 mb-4">See it in action →</p>
+                        <div className="relative max-w-3xl mx-auto rounded-2xl overflow-hidden border-2 border-slate-700/50 bg-slate-900 shadow-2xl">
+                            <img
+                                src="/demo-recording.webp"
+                                alt="Watch the valuation tool demo"
+                                className="w-full h-auto"
+                            />
+                            <div className="absolute bottom-4 left-4 bg-slate-900/90 backdrop-blur-sm px-4 py-2 rounded-lg border border-slate-700">
+                                <p className="text-white text-sm font-semibold flex items-center gap-2">
+                                    <span className="flex h-2 w-2 rounded-full bg-brand-400 animate-pulse"></span>
+                                    Get Your Valuation in 60 Seconds
+                                </p>
+                            </div>
+                        </div>
+                    </motion.div>
                 </div>
 
                 {/* Dashboard Preview / Hero Image */}
