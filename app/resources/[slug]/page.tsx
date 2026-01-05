@@ -1,21 +1,25 @@
-import { getResource, RESOURCES } from '@/lib/resources';
+import { MDXRemote } from 'next-mdx-remote/rsc';
+import { getResourceBySlug, getResourceSlugs } from '@/lib/mdx';
 import { notFound } from 'next/navigation';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import Link from 'next/link';
-import { ArrowLeft, Calendar, Clock, User, Share2 } from 'lucide-react';
+import { ArrowLeft, Calendar, Share2 } from 'lucide-react';
 import { Metadata } from 'next';
+import ResourceAnalytics from '@/components/ResourceAnalytics';
+import TrackedLink from '@/components/TrackedLink';
 
 // Generate static params for all resources to pre-build them (optional but good for SEO)
 export async function generateStaticParams() {
-    return RESOURCES.map((resource) => ({
-        slug: resource.id,
+    const slugs = getResourceSlugs();
+    return slugs.map((slug) => ({
+        slug,
     }));
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
     const { slug } = await params;
-    const resource = getResource(slug);
+    const resource = getResourceBySlug(slug);
 
     if (!resource) {
         return {
@@ -24,21 +28,21 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     }
 
     return {
-        title: `${resource.title} | SaaS Valuation Resources`,
-        description: resource.description,
+        title: `${resource.meta.title} | SaaS Valuation Resources`,
+        description: resource.meta.description,
         openGraph: {
-            title: resource.title,
-            description: resource.description,
+            title: resource.meta.title,
+            description: resource.meta.description,
             type: 'article',
-            publishedTime: resource.date, // Note: Date format might need parsing if strict ISO
-            authors: [resource.author],
+            publishedTime: resource.meta.date,
+            authors: [resource.meta.author],
         },
     };
 }
 
 export default async function ResourceArticle({ params }: { params: Promise<{ slug: string }> }) {
     const { slug } = await params;
-    const resource = getResource(slug);
+    const resource = getResourceBySlug(slug);
 
     if (!resource) {
         notFound();
@@ -49,47 +53,40 @@ export default async function ResourceArticle({ params }: { params: Promise<{ sl
             <Header />
 
             <main className="pt-24 pb-16">
+                <ResourceAnalytics slug={slug} />
                 <article className="max-w-3xl mx-auto px-6">
                     {/* Breadcrumb / Back */}
-                    <div className="mb-8">
-                        <Link href="/resources" className="inline-flex items-center gap-2 text-slate-500 hover:text-brand-600 transition-colors text-sm font-medium">
+                    <div className="mb-8 flex items-center gap-2 text-sm">
+                        <Link href="/resources" className="inline-flex items-center gap-2 text-slate-600 hover:text-brand-600 transition-colors font-medium">
                             <ArrowLeft className="w-4 h-4" /> Back to Resources
                         </Link>
+                        <span className="text-slate-400">/</span>
+                        <span className="text-slate-900 font-medium truncate max-w-[200px] sm:max-w-md">{resource.meta.title}</span>
                     </div>
 
                     {/* Header */}
                     <header className="mb-10">
                         <div className="flex items-center gap-3 mb-4">
                             <span className="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-teal-100 text-teal-800">
-                                {resource.category}
+                                {resource.meta.category}
                             </span>
                             <span className="text-slate-400 text-sm">•</span>
-                            <span className="text-slate-500 text-sm font-medium">{resource.readTime}</span>
+                            <span className="text-slate-600 text-sm font-medium">{resource.meta.readTime}</span>
                         </div>
 
-                        {resource.image && (
-                            <div className="mb-8 rounded-2xl overflow-hidden shadow-lg border border-slate-100">
-                                <img
-                                    src={resource.image}
-                                    alt={resource.title}
-                                    className="w-full h-auto object-cover max-h-[400px]"
-                                />
-                            </div>
-                        )}
-
                         <h1 className="text-3xl md:text-5xl font-bold font-display text-slate-900 mb-6 leading-tight">
-                            {resource.title}
+                            {resource.meta.title}
                         </h1>
 
                         <div className="flex items-center justify-between border-y border-slate-200 py-6">
                             <div className="flex items-center gap-3">
                                 <div className="w-10 h-10 rounded-full bg-brand-100 flex items-center justify-center text-brand-700 font-bold text-lg">
-                                    {resource.author.charAt(0)}
+                                    {resource.meta.author.charAt(0)}
                                 </div>
                                 <div>
-                                    <div className="font-semibold text-slate-900 text-sm">{resource.author}</div>
-                                    <div className="text-slate-500 text-xs flex items-center gap-1">
-                                        <Calendar className="w-3 h-3" /> {resource.date}
+                                    <div className="font-semibold text-slate-900 text-sm">{resource.meta.author}</div>
+                                    <div className="text-slate-600 text-xs flex items-center gap-1">
+                                        <Calendar className="w-3 h-3" /> {resource.meta.date}
                                     </div>
                                 </div>
                             </div>
@@ -99,14 +96,25 @@ export default async function ResourceArticle({ params }: { params: Promise<{ sl
                         </div>
                     </header>
 
+                    {resource.meta.image && (
+                        <div className="mb-8 rounded-2xl overflow-hidden shadow-lg border border-slate-100">
+                            <img
+                                src={resource.meta.image}
+                                alt={resource.meta.title}
+                                className="w-full h-auto object-cover max-h-[400px]"
+                            />
+                        </div>
+                    )}
+
                     {/* Content */}
                     <div
-                        className="prose prose-lg prose-slate prose-teal max-w-none 
+                        className="prose prose-lg prose-slate prose-headings:text-slate-900 prose-p:text-slate-700 prose-li:text-slate-700 prose-strong:text-slate-900 prose-teal max-w-none 
                         prose-headings:font-display prose-headings:font-bold prose-h2:text-2xl prose-h2:mt-12 prose-h3:text-xl
                         prose-a:text-brand-600 prose-a:no-underline hover:prose-a:underline
                         prose-img:rounded-xl prose-img:shadow-lg"
-                        dangerouslySetInnerHTML={{ __html: resource.content }}
-                    />
+                    >
+                        <MDXRemote source={resource.content} components={{ a: TrackedLink }} />
+                    </div>
 
                     {/* CTA Box */}
                     <div className="mt-16 bg-slate-900 rounded-2xl p-8 md:p-12 text-center relative overflow-hidden">

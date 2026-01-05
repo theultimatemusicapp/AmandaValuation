@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "validate-content": "tsx scripts/validate-content.ts"
   },
   "dependencies": {
     "clsx": "^2.1.1",
@@ -21,12 +22,16 @@
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
-    "@types/node": "^20",
+    "@types/node": "^20.19.27",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "cheerio": "^1.1.2",
     "eslint": "^9",
     "eslint-config-next": "16.1.1",
+    "gray-matter": "^4.0.3",
+    "next-mdx-remote": "^5.0.0",
     "tailwindcss": "^4",
+    "tsx": "^4.21.0",
     "typescript": "^5"
   }
 }
