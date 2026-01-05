@@ -1,4 +1,11 @@
 
+declare global {
+    interface Window {
+        gtag: (option: string, gaTrackingId: string, options: Record<string, any>) => void;
+        dataLayer: Record<string, any>[];
+    }
+}
+
 export const GA_TRACKING_ID = 'G-772JV93TYR';
 
 type GTagEvent = {
