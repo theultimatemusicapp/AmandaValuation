@@ -67,6 +67,16 @@ export default async function ResourceArticle({ params }: { params: Promise<{ sl
                             <span className="text-slate-500 text-sm font-medium">{resource.readTime}</span>
                         </div>
 
+                        {resource.image && (
+                            <div className="mb-8 rounded-2xl overflow-hidden shadow-lg border border-slate-100">
+                                <img
+                                    src={resource.image}
+                                    alt={resource.title}
+                                    className="w-full h-auto object-cover max-h-[400px]"
+                                />
+                            </div>
+                        )}
+
                         <h1 className="text-3xl md:text-5xl font-bold font-display text-slate-900 mb-6 leading-tight">
                             {resource.title}
                         </h1>

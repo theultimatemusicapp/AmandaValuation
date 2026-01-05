@@ -23,6 +23,7 @@ export const RESOURCES: Resource[] = [
         author: 'Michael Chen',
         date: 'Aug 19, 2025',
         readTime: '6 min read',
+        image: '/images/resources/rule_of_40.png',
         content: `
             <h3>What Is the Rule of 40?</h3>
             <p>Add your year-over-year revenue growth percentage to your profit margin. A combined score of 40 or higher shows that you are scaling efficiently. Public SaaS leaders typically sit between 35% and 60%, while bootstrapped products often post lower growth with higher margins.</p>
@@ -82,6 +83,7 @@ export const RESOURCES: Resource[] = [
         author: 'Amanda White',
         date: 'Aug 26, 2025',
         readTime: '7 min read',
+        image: '/images/resources/ai_valuation_bubble.png',
         content: `
             <p>For much of the past two years, adding the phrase “AI-powered” to a SaaS product felt like an act of financial alchemy. Founders rewrote landing pages, updated pitch decks, and reframed ordinary automation as intelligence, and in many cases the market rewarded them for it.</p>
             
@@ -109,6 +111,7 @@ export const RESOURCES: Resource[] = [
         author: 'Amanda White',
         date: 'Jan 15, 2026',
         readTime: '5 min read',
+        image: '/images/resources/micro_saas.png',
         content: `
             <h3>Typical Micro-SaaS Multiples</h3>
             <p>For businesses between $100k and $1M ARR, buyers focus on stability and ease of ownership:</p>
@@ -177,6 +180,7 @@ export const RESOURCES: Resource[] = [
         author: 'Amanda White',
         date: 'Jul 12, 2025',
         readTime: '12 min read',
+        image: '/images/resources/valuation_guide.png',
         content: `
             <h3>Market Overview in 2025</h3>
             <p>The global SaaS market reached a valuation of $247 billion in 2025, with projections estimating a rise to $908.21 billion by 2030. Driven by a compound annual growth rate (CAGR) of 18.7% from 2024 to 2030. Marc Andreessen’s famous assertion that "software is eating the world" remains relevant.</p>
@@ -311,6 +315,7 @@ export const RESOURCES: Resource[] = [
         author: 'Amanda White',
         date: 'Dec 15, 2025',
         readTime: '6 min read',
+        image: '/images/resources/exit_strategy.png',
         content: `
             <h3>The Founders Dilemma</h3>
             <p>Deciding when to sell is often more emotional than financial. This article provides a quantitative framework to help you decide when the "multiple" is too good to pass up.</p>

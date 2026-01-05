@@ -46,21 +46,21 @@ export default function ResourcesPage() {
                                     <BookOpen className="w-4 h-4" /> Map
                                 </span>
                             </div>
-                            <ul className="space-y-3 text-gray-700 text-sm">
+                            <ul className="space-y-3 text-slate-900 text-sm font-medium">
                                 <li className="flex items-start gap-3">
-                                    <span className="text-teal-600">✓</span>
+                                    <span className="text-teal-700 font-bold">✓</span>
                                     <span>Pricing your SaaS: valuation multiples and the 2025 valuation guide.</span>
                                 </li>
                                 <li className="flex items-start gap-3">
-                                    <span className="text-teal-600">✓</span>
+                                    <span className="text-teal-700 font-bold">✓</span>
                                     <span>Exit readiness: buyer scorecards and exit calculator walkthroughs.</span>
                                 </li>
                                 <li className="flex items-start gap-3">
-                                    <span className="text-teal-600">✓</span>
+                                    <span className="text-teal-700 font-bold">✓</span>
                                     <span>Efficiency & pricing: burn multiples plus pricing lifts.</span>
                                 </li>
                                 <li className="flex items-start gap-3">
-                                    <span className="text-teal-600">✓</span>
+                                    <span className="text-teal-700 font-bold">✓</span>
                                     <span>Market shifts: AI multiples reset and new founder playbooks.</span>
                                 </li>
                             </ul>
@@ -74,8 +74,8 @@ export default function ResourcesPage() {
                 <div className="max-w-7xl mx-auto px-6 lg:px-12 space-y-10">
                     <div className="space-y-3">
                         <p className="text-sm font-semibold text-teal-700 uppercase">Pillar tracks</p>
-                        <h2 className="text-3xl font-bold text-gray-900 font-display">Start with a pillar page</h2>
-                        <p className="text-gray-700 max-w-3xl">
+                        <h2 className="text-3xl font-bold text-slate-900 font-display">Start with a pillar page</h2>
+                        <p className="text-slate-700 max-w-3xl text-lg">
                             Each pillar frames the story buyers expect. Use the paired cluster articles to go deeper on risks, pricing moves, and diligence readiness.
                         </p>
                     </div>
@@ -144,8 +144,8 @@ export default function ResourcesPage() {
                 <div className="max-w-7xl mx-auto px-6 lg:px-12 grid md:grid-cols-3 gap-8 items-start">
                     <div className="md:col-span-1 space-y-3">
                         <p className="text-sm font-semibold text-teal-700 uppercase">Cluster deep-dives</p>
-                        <h2 className="text-3xl font-bold text-gray-900 font-display">Pick your next step</h2>
-                        <p className="text-gray-700">
+                        <h2 className="text-3xl font-bold text-slate-900 font-display">Pick your next step</h2>
+                        <p className="text-slate-700 text-lg">
                             Choose a theme to find related posts that reinforce the same narrative and metrics.
                         </p>
                     </div>
@@ -195,10 +195,10 @@ export default function ResourcesPage() {
                 <div className="max-w-7xl mx-auto px-6 lg:px-12 grid lg:grid-cols-2 gap-10 items-center">
                     <div className="bg-white p-8 rounded-2xl shadow-lg border border-gray-200 space-y-4">
                         <p className="text-sm font-semibold text-teal-700 uppercase">Need a shortcut?</p>
-                        <h2 className="text-3xl font-bold text-gray-900 font-display">
+                        <h2 className="text-3xl font-bold text-slate-900 font-display">
                             Use the calculators + exit checklists together
                         </h2>
-                        <p className="text-gray-700">
+                        <p className="text-slate-700 text-lg">
                             Pair the valuation calculators with the diligence checklist and buyer scorecard articles to ship a complete, investor-ready story.
                         </p>
                         <div className="grid sm:grid-cols-2 gap-3 text-sm font-semibold">
@@ -275,21 +275,21 @@ function ResourceCard({ id, title, badge, icon, description, links = [], resourc
     return (
         <div id={id} className="bg-white border border-gray-200 rounded-xl p-6 space-y-4 hover:shadow-lg transition-shadow scroll-mt-20">
             <div className="flex items-center justify-between">
-                <h3 className="text-xl font-bold text-gray-900">{title}</h3>
-                <span className="inline-flex items-center gap-2 bg-gray-100 text-gray-900 px-3 py-1 rounded-full text-sm font-semibold">
+                <h3 className="text-xl font-bold text-slate-900">{title}</h3>
+                <span className="inline-flex items-center gap-2 bg-slate-100 text-slate-900 px-3 py-1 rounded-full text-sm font-bold">
                     {icon} {badge}
                 </span>
             </div>
-            <p className="text-gray-700">{description}</p>
+            <p className="text-slate-700 font-medium">{description}</p>
             <ul className="space-y-2">
                 {resources.map((resource: any) => (
                     <li key={resource.id}>
                         <Link
                             href={`/resources/${resource.id}`}
-                            className="text-teal-700 font-semibold hover:text-teal-800 cursor-pointer text-sm flex items-start gap-2 group"
+                            className="text-teal-700 font-bold hover:text-teal-900 cursor-pointer text-sm flex items-start gap-2 group"
                         >
-                            <span className="mt-1.5 w-1.5 h-1.5 bg-teal-500 rounded-full flex-shrink-0 group-hover:scale-125 transition-transform" />
-                            <span className="group-hover:underline">{resource.title}</span>
+                            <span className="mt-1.5 w-1.5 h-1.5 bg-teal-600 rounded-full flex-shrink-0 group-hover:scale-125 transition-transform" />
+                            <span className="group-hover:underline decoration-2">{resource.title}</span>
                         </Link>
                     </li>
                 ))}
@@ -299,10 +299,10 @@ function ResourceCard({ id, title, badge, icon, description, links = [], resourc
                         <li key={index}>
                             <Link
                                 href={href}
-                                className="text-teal-700 font-semibold hover:text-teal-800 cursor-pointer text-sm flex items-start gap-2 group"
+                                className="text-teal-700 font-bold hover:text-teal-900 cursor-pointer text-sm flex items-start gap-2 group"
                             >
-                                <span className="mt-1.5 w-1.5 h-1.5 bg-teal-500 rounded-full flex-shrink-0 group-hover:scale-125 transition-transform" />
-                                <span className="group-hover:underline">{link}</span>
+                                <span className="mt-1.5 w-1.5 h-1.5 bg-teal-600 rounded-full flex-shrink-0 group-hover:scale-125 transition-transform" />
+                                <span className="group-hover:underline decoration-2">{link}</span>
                             </Link>
                         </li>
                     );
@@ -324,12 +324,12 @@ function ClusterCard({ title, description, links }: any) {
     return (
         <div className="bg-white border border-gray-200 rounded-xl p-5 space-y-3 hover:shadow-lg transition-shadow">
             <div className="flex items-center justify-between">
-                <h3 className="text-lg font-bold text-gray-900">{title}</h3>
-                <span className="inline-flex items-center gap-1 bg-gray-100 text-gray-900 px-2 py-1 rounded-full text-xs font-semibold">
+                <h3 className="text-lg font-bold text-slate-900">{title}</h3>
+                <span className="inline-flex items-center gap-1 bg-slate-100 text-slate-900 px-2 py-1 rounded-full text-xs font-bold">
                     <Zap className="w-3 h-3" /> Cluster
                 </span>
             </div>
-            <p className="text-gray-700 text-sm">{description}</p>
+            <p className="text-slate-700 text-sm font-medium">{description}</p>
             <ul className="space-y-2">
                 {links.map((link: string, index: number) => {
                     const href = getLinkHref(link);
@@ -337,10 +337,10 @@ function ClusterCard({ title, description, links }: any) {
                         <li key={index}>
                             <Link
                                 href={href}
-                                className="text-teal-700 font-semibold hover:text-teal-800 cursor-pointer text-sm flex items-start gap-2 group"
+                                className="text-teal-700 font-bold hover:text-teal-900 cursor-pointer text-sm flex items-start gap-2 group"
                             >
-                                <span className="mt-1.5 w-1.5 h-1.5 bg-teal-500 rounded-full flex-shrink-0 group-hover:scale-125 transition-transform" />
-                                <span className="group-hover:underline">{link}</span>
+                                <span className="mt-1.5 w-1.5 h-1.5 bg-teal-600 rounded-full flex-shrink-0 group-hover:scale-125 transition-transform" />
+                                <span className="group-hover:underline decoration-2">{link}</span>
                             </Link>
                         </li>
                     );
