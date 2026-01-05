@@ -1,0 +1,129 @@
+---
+title: 'SaaS Exit Calculator Logic: How We Do The Math'
+description: 'Understand the math behind valuation tools and how to sanity-check your exit numbers before negotiating.'
+canonicalUrl: 'https://saasvaluation.app/resources/valuation-calculator-explained'
+date: 'Jan 15, 2026'
+author: 'Amanda White'
+readTime: '10 min read'
+category: 'Guide'
+image: '/images/resources/valuation_guide.png'
+---
+
+# SaaS Exit Calculator Logic: The Math Behind the Curtain
+
+You plug in your Annual Recurring Revenue (ARR), your growth rate, and your churn, and a number pops out. "Your SaaS is worth $4.2M."
+
+But where did that number come from? Is it real? Is it optimistic? Or is it a lowball?
+
+Understanding the logic behind valuation calculators gives you leverage. If you know *how* the machine weights your inputs, you know exactly which levers to pull to increase the output before you sit down with a buyer. It transforms valuation from a "black box" into a manageable operational goal.
+
+## What you’ll learn
+
+*   **The Weighting Algorithm:** Why Growth matters 3x more than Age in most models.
+*   **The "Penalty Box":** How high churn triggers a valuation discount that destroys multiples.
+*   **The SDE Switch:** When the calculator switches from Revenue Multiples to Profit Multiples.
+*   **Sanity Checking:** How to know if the calculator is lying to you.
+
+<div className="bg-slate-100 p-6 rounded-xl my-8 border border-slate-200">
+    <h3 className="text-lg font-bold text-slate-900 mb-2 mt-0">TL;DR</h3>
+    <p className="mb-0 text-slate-700">
+        Most calculators use a baseline <strong>Revenue Multiple</strong> (e.g., 4x) derived from public market comps, then apply <strong>modifiers</strong> based on your Growth (+), Churn (-), and Market Size (+). However, if your ARR is under $1M, the logic often flips to <strong>SDE Multiples</strong> (Profit-based) because buyers in that range are seeking stabilized cash flow, not speculative growth.
+    </p>
+</div>
+
+## The Core Equation
+
+While every firm has a proprietary model, the backbone of almost all SaaS valuation logic looks like this:
+
+`Valuation = (Base Multiple × Modifiers) × ARR`
+
+Let's break down each variable.
+
+### 1. The Base Multiple
+We pull this quarterly from aggregated deal data (Acquire.com, FE International, definitive public comps).
+*   *Current Base:* ~4.5x ARR for private B2B SaaS growing at 30% YoY.
+*   *Public Comps:* Public SaaS might trade at 8-10x, but private companies trade at a **Liquidity Discount** (usually 30-50% lower) because you cannot instantly sell your shares on the NASDAQ.
+
+### 2. The Modifiers
+These are the multipliers that adjust your Base up or down.
+
+*   **Growth Rate (&gt;50%):** Adds +1.0x to +3.0x to the multiple. Growth is the strongest correlation to value.
+*   **Churn (&gt;10%):** Subtracts -0.5x to -2.0x. A leaky bucket makes projected future cash flows insecure, lowering the Net Present Value (NPV).
+*   **Niche (B2B vs B2C):** B2B commands a +0.5x premium due to higher LTV and contract stability. B2C is viewed as more fickle and trend-driven.
+
+## Revenue vs. SDE: The Critical Switch
+
+This is the part most founders miss.
+
+If you enter an ARR under $500k (or sometimes $1M), the calculator logic adapts. Small buyers don't pay 6x Revenue for a break-even tool. They can't afford to burn cash. They pay for **Profit**.
+
+*   **Logic:** `Valuation = SDE (Seller Discretionary Earnings) × 3.5`
+*   *Why?* The buyer is often an individual buying a job or an income stream to replace their salary. They need to know the "Payback Period" (usually 3-4 years).
+
+If your ARR is $400k but you spend $500k (Net Loss), a calculator using SDE logic might value you at **$0** (Liquidation value), whereas a Revenue Multiple model would say **$2M**. Knowing which game you are playing is vital.
+
+## Sanity Checking the Output
+
+Calculators are estimation tools, not appraisals. They lack context. Use these checks to validate the number:
+
+1.  **The "Common Sense" Test:** If the calculator says your $50k ARR tool is worth $5M (100x multiple), it's broken or you put in a typo. (Unless you have a patent on cold fusion).
+2.  **The Peer Check:** Look at Flippa or Acquire.com sold listings. Filter for your niche and size. Are similar tools selling for 3x or 10x? Real confirmed sales beats algorithms every time.
+3.  **The Asset Value:** If your code cost $100k to write, and you have $0 revenue, your value is closer to $20k (distressed asset), not $100k (cost basis).
+
+## Examples: Logic in Action
+
+How small changes impact the score:
+
+### Scenario A: High Churn Rate
+*   ARR: $1M
+*   Growth: 20%
+*   Churn: 15% (High)
+*   **Calculation:** Base (4x) - Churn Penalty (0.5x) = 3.5x.
+*   **Result:** $3.5M Valuation.
+*   **Insight:** The high churn implies the business will shrink without constant aggressive sales, spooking buyers.
+
+### Scenario B: Low Churn Rate
+*   ARR: $1M
+*   Growth: 20%
+*   Churn: 2% (Low)
+*   **Calculation:** Base (4x) + Retention Premium (1.5x) = 5.5x.
+*   **Result:** $5.5M Valuation.
+*   **Insight:** Retention creates a 60% increase in value! This business is an annuity; buyers will pay a premium for that security.
+
+![Valuation Logic Flowchart](/images/resources/valuation_guide.png)
+
+## Checklist: Prepare Your Inputs
+
+Before running the full valuation, have these ready to ensure accuracy:
+- [ ] **TTM Revenue:** Trailing Twelve Months revenue. Do not just take "Last Month x 12" if your business is highly seasonal is lumpy.
+- [ ] **Gross Margin:** Revenue minus server costs, APIs, and support staff. Do not include engineering or sales costs here.
+- [ ] **CAC:** Average cost to acquire a customer.
+- [ ] **Growth Trend:** Is growth accelerating or decelerating? Calculators hate deceleration.
+
+## FAQ
+
+**Q: Can I use this for fundraising from VCs?**
+A: You can use it as a data point ("Our calculator estimates..."), but VCs will do their own deeper math based on Total Addressable Market (TAM) and team pedigree. They care less about current multiples and more about "Can this be a $1B company?"
+
+**Q: Why is my value lower than my competitor?**
+A: They might have lower churn, higher margins, or cleaner IP ownership. Or they might just be lying about their numbers in press releases.
+
+**Q: Does technical debt lower my calculator score?**
+A: The calculator can't *see* your code, so no. But the *human* buyer will absolutely lower their offer during due diligence if they find a mess. The calculator gives you the "Pre-Diligence" price.
+
+## Valuation Calculator
+
+<div className="bg-slate-900 rounded-xl p-8 text-center my-12">
+    <h3 className="text-2xl font-bold text-white mb-4">Run the Numbers</h3>
+    <p className="text-slate-300 mb-6">Now that you know the logic, see where you stand.</p>
+    <a href="/" className="inline-block bg-teal-500 hover:bg-teal-400 text-white font-bold py-3 px-8 rounded-lg transition-colors">
+        Calculate Valuation
+    </a>
+</div>
+
+## Related Resources
+*   [How to Value a SaaS](/resources/how-to-value-saas) - Deep dive on methodology.
+*   [Micro-SaaS Valuation](/resources/micro-saas-valuation) - Logic for small tools &lt;$1M ARR.
+*   [Free Valuation Calculator](/resources/free-valuation-calculator) - The tool itself.
+
+![Logic Diagram](/images/resources/valuation_guide.png)

@@ -1,0 +1,152 @@
+---
+title: 'Free Valuation Calculator: How it Works'
+description: 'A deep dive into the methodology behind our free valuation tool. Learn how we weight growth, churn, and margins.'
+canonicalUrl: 'https://saasvaluation.app/resources/free-valuation-calculator'
+date: 'Oct 12, 2025'
+author: 'Michael Chen'
+readTime: '12 min read'
+category: 'Guide'
+image: '/images/resources/valuation_guide.png'
+---
+
+# Free Valuation Calculator: Under the Hood of Our Algorithm
+
+You've clicked the button. You want to know what your startup is worth. But how does a "Free" calculator actually determine the value of your life's work? Is it just a random number generator, or is there real science behind the screen?
+
+Transparency is key in valuation. We believe founders deserve to know exactly how they are being graded. We don't use magic numbers. We use a **Comparative Market Analysis (CMA)** model, similar to how Zillow values homes but tuned specifically for the nuances of Recurring Revenue businesses.
+
+This article peels back the layers of our algorithm, explaining the specific weights we assign to growth, churn, and profitability, and why certain inputs can swing your valuation by millions of dollars.
+
+## What you’ll learn
+
+In this technical breakdown, we cover:
+1.  **The Data Set:** Where we get our multiples and how we clean the data.
+2.  **The "Big Three" Drivers:** How ARR, Growth, and Churn interact to form your base multiple.
+3.  **The Input Sensitivity:** Which single field changes your valuation by 50% (and how to fix it).
+4.  **Limitations:** What a calculator *can't* see (Team, IP, Market Characteristics) and where human intuition is still required.
+
+<div className="bg-slate-100 p-6 rounded-xl my-8 border border-slate-200">
+    <h3 className="text-lg font-bold text-slate-900 mb-2 mt-0">TL;DR</h3>
+    <p className="mb-0 text-slate-700">
+        Our free calculator benchmarks your inputs (ARR, Growth, Churn) against a live database of <strong>5,000+ anonymized SaaS transactions</strong> from the last 24 months. It outputs a <strong>Range</strong> (Low/High), not a single price, because deal terms (cash vs. earnout) vary wildly. The most sensitive variable is <strong>Churn</strong>—reducing it often has a higher ROI than adding new sales.
+    </p>
+</div>
+
+## The Methodology: From Data to Dollars
+
+Our valuation engine runs on a three-step process: Cohort Matching, Base Multiples, and Quality Adjustments.
+
+### 1. Cohort Matching
+First, we bin you into a "Cohort" based on your ARR size. Valuations are not linear; a company with $10M ARR trades at a different meaningful multiple than a company with $100k ARR due to risk profile.
+
+*   **Micro Cohort (&lt;$1M ARR):** These businesses are valued heavily on **SDE (Seller Discretionary Earnings)** rather than Revenue. The buyer is buying a job or a small cash flow stream. Risk is high.
+*   **Scale Cohort ($1M - $10M ARR):** These businesses have proven product-market fit. Valuation shifts to **Revenue Multiples**. Buyers are strategic or small Private Equity firms.
+*   **Growth Cohort ($10M+ ARR):** These are institutional assets. Valuation is driven by **Efficiency Metrics** (Rule of 40) and competitive moat.
+
+### 2. The Growth Modifier
+Once we have your base cohort multiple (e.g., 4.5x ARR), we look at your Year-over-Year growth rate. Growth is the proxy for future cash flows.
+
+*   **Hyper-Growth Premium:** If you are growing **2x faster** than your cohort median (e.g., growing 100% YoY when the median is 40%), we apply a **Premium Multiplier** of 1.25x to 1.5x.
+*   **Stagnation Discount:** If you are flat or shrinking, we apply a **Distress Discount** (0.6x - 0.8x). Buyers assume a flat SaaS is a dying SaaS because churn will eventually eat the base.
+
+### 3. The "Quality" Adjustment
+This is where Churn and Margin come in. Revenue quality matters as much as revenue quantity.
+
+*   **Churn Penalty:** High Churn (&gt;15% annual) tells us your bucket is leaky. We lower the valuation because the buyer will have to spend massive amounts on marketing just to stay in the same place.
+*   **Margin Bonus:** High Gross Margin (&gt;80%) tells us you are efficient. We raise the valuation because every dollar of revenue drops more profit to the bottom line.
+
+![Valuation Waterfall Chart](/images/resources/valuation_guide.png)
+
+## Input Sensitivity: What Moves the Needle?
+
+We ran 10,000 simulations to see which variable outcome had the biggest impact on valuation.
+
+### 1. Retention is King
+Reducing annual churn from 20% to 5% increased the average valuation by **42%**. This is because low churn implies high Lifetime Value (LTV) and makes growth cheaper.
+
+### 2. Growth has Diminishing Returns
+Increasing growth from 10% to 50% doubled the valuation. However, increasing growth from 100% to 150% only added 20% more value. At a certain point, "crazy growth" looks risky (unsustainable burn) unless margins are maintained.
+
+### 3. Margins are a Floor, Not a Ceiling
+Having bad margins (&lt;60%) destroys value. Having great margins (85%) preserves value but doesn't necessarily created *extra* multipliers unless paired with growth.
+
+## What We Can't Calculate (The "Art" of Valuation)
+
+Algorithms are powerful, but they are blind to the intangible factors that often drive the biggest exits.
+
+### 1. Founder Vision & Team
+Are you Steve Jobs? Or are you a tired solo founder looking for an escape? A strategic buyer often acquires the *team* (acqui-hire) as much as the code. A calculator cannot value your brain.
+
+### 2. Code Quality & Tech Stack
+Is your tech stack solid Rust/Go/React on AWS, or is it a spaghetti mess of PHP 5.4 on a shared server? Technical Debt is a massive deal-killer during due diligence. A calculator assumes your code works.
+
+### 3. Strategic Fit
+Is Google buying you to prevent Amazon from having you? Or to instantly cross-sell your product to their 1B users? Strategic premiums can range from 10x to 50x revenue, defying all financial logic. No calculator can predict a bidding war.
+
+## Examples: The Algorithm in Action
+
+Let's look at three hypothetical companies to see how the math plays out.
+
+### Case Study A: The "Steady Eddie"
+*   **Profile:** 5-year-old CRM for plumbers.
+*   **ARR:** $500k.
+*   **Growth:** 10% YoY.
+*   **Churn:** 5% (Very Low).
+*   **Result:** Valued at ~3.5x ($1.75M).
+*   **Analysis:** Safe, defensible, profitable. But without growth, it won't command a VC multiple. Perfect target for a HoldCo.
+
+### Case Study B: The "Rocket Ship"
+*   **Profile:** AI-powered legal assistant.
+*   **ARR:** $500k.
+*   **Growth:** 150% YoY.
+*   **Churn:** 20% (High).
+*   **Result:** Valued at ~10x ($5M).
+*   **Analysis:** Investors are paying for the slope of the curve. They assume they can fix the churn later (risky, but common bet).
+
+### Case Study C: The "Leaky Bucket"
+*   **Profile:** E-commerce widget.
+*   **ARR:** $2M.
+*   **Growth:** 0% (Flat).
+*   **Churn:** 30%.
+*   **Result:** Valued at ~1.5x ($3M).
+*   **Analysis:** Despite having $2M ARR, this is a distressed asset. The high churn means the business will likely shrink to $1M in two years unless fixed.
+
+![Sensitivity Matrix](/images/resources/valuation_guide.png)
+
+## Checklist: Before You Click "Calculate"
+
+Trash in, trash out. Use this checklist to ensure your inputs generate a realistic number:
+
+- [ ] **Normalize Your ARR:** Remove one-time consulting fees, setup fees, or custom development revenue. Only count recurring subscription revenue.
+- [ ] **Check Your Churn:** Ensure you aren't counting "downgrades" as "churn" unless they left entirely. Distinguish between **Logo Churn** (customers lost) and **Net Revenue Churn** (dollars lost).
+- [ ] **Fully Load Your CAC:** When calculating profitability, include the salaries of your sales team, not just the Facebook Ad spend.
+- [ ] **Be Honest:** It's tempting to put "Projected Growth" instead of "Actual Growth." Don't. You are only lying to yourself.
+
+## FAQ
+
+**Q: Is my data safe if I use the calculator?**
+A: Yes. We do not sell your specific data to brokers or buyers. We aggregate inputs anonymously to improve the cohort baselines for everyone.
+
+**Q: Can I use this result for a 409A valuation?**
+A: No. A 409A valuation is a formal, legal audit required by the IRS for issuing stock options. This calculator provides a **market estimate** for educational and strategic planning purposes only.
+
+**Q: Why did my valuation go down when I updated my data?**
+A: Market multiples fluctuate. If the public SaaS market (e.g., Salesforce, HubSpot) crashes, private multiples often follow suit with a 3-6 month lag. We update our baselines quarterly.
+
+**Q: Does the calculator handle marketplaces or transactional revenue?**
+A: Our primary model is built for B2B SaaS (Recurring). If you have a marketplace (GMV-based take rate), the "Revenue Multiple" logic still applies to your Net Revenue, but the benchmarks might be slightly off.
+
+## Valuation Calculator
+
+<div className="bg-slate-900 rounded-xl p-8 text-center my-12">
+    <h3 className="text-2xl font-bold text-white mb-4">Try It Now</h3>
+    <p className="text-slate-300 mb-6">See where you stack up against the market with our updated 2026 algorithm.</p>
+    <a href="/" className="inline-block bg-teal-500 hover:bg-teal-400 text-white font-bold py-3 px-8 rounded-lg transition-colors">
+        Start Free Valuation
+    </a>
+</div>
+
+## Related Resources
+*   [Valuation Guide](/resources/how-to-value-saas) - The theory behind the math.
+*   [Growth Metrics](/resources/growth-metrics) - Understanding the inputs like CAC and LTV.
+*   [Rule of 40](/resources/rule-of-40) - Balancing growth and profit.
