@@ -64,6 +64,9 @@ export default function ValuationWizard() {
         ipOwnership: 'fully-owned',
         businessTypeMultiplier: 5,
         discountRate: 0.1,
+        grossMargin: 70,
+        ltv: 0,
+        cac: 0,
     });
 
     const [result, setResult] = useState<any>(null);
@@ -186,6 +189,14 @@ export default function ValuationWizard() {
                                             type="number"
                                             suffix="%"
                                         />
+                                        <InputGroup
+                                            label="Gross Margin"
+                                            sub="The percentage of revenue retained after Cost of Goods Sold (COGS). For SaaS, >80% is excellent. High margins justify higher multiples."
+                                            value={formData.grossMargin}
+                                            onChange={(v) => handleInputChange('grossMargin', Number(v))}
+                                            type="number"
+                                            suffix="%"
+                                        />
                                     </div>
                                 </motion.div>
                             )}
@@ -218,6 +229,24 @@ export default function ValuationWizard() {
                                             onChange={(v) => handleInputChange('nps', Number(v))}
                                             type="number"
                                         />
+                                        <div className="grid grid-cols-2 gap-4">
+                                            <InputGroup
+                                                label="CAC"
+                                                sub="Customer Acquisition Cost."
+                                                value={formData.cac}
+                                                onChange={(v) => handleInputChange('cac', Number(v))}
+                                                type="number"
+                                                prefix="$"
+                                            />
+                                            <InputGroup
+                                                label="LTV"
+                                                sub="Lifetime Value."
+                                                value={formData.ltv}
+                                                onChange={(v) => handleInputChange('ltv', Number(v))}
+                                                type="number"
+                                                prefix="$"
+                                            />
+                                        </div>
                                     </div>
                                 </motion.div>
                             )}

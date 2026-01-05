@@ -10,6 +10,10 @@ export interface Resource {
     image?: string;
 }
 
+export const getResource = (slug: string) => {
+    return RESOURCES.find(r => r.id === slug);
+};
+
 export const RESOURCES: Resource[] = [
     {
         id: 'rule-of-40',

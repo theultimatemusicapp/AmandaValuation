@@ -113,6 +113,16 @@ export const calculateSaaSValuation = (inputs: ValuationInputs): ValuationResult
     if (legalIssues !== 'none') multiplier -= 1;
     if (ipOwnership === 'fully-owned') multiplier += 0.5;
 
+    // New Inputs Logic
+    if (inputs.grossMargin && inputs.grossMargin > 80) multiplier += 0.5;
+    if (inputs.grossMargin && inputs.grossMargin < 60) multiplier -= 0.5;
+
+    if (inputs.ltv && inputs.cac && inputs.cac > 0) {
+        const ratio = inputs.ltv / inputs.cac;
+        if (ratio > 3) multiplier += 0.5;
+        if (ratio < 1) multiplier -= 1;
+    }
+
     if (ruleOf40 >= 40) multiplier += 1;
     else multiplier -= 1;
 
