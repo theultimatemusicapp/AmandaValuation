@@ -266,14 +266,21 @@ function DefinitionBox({
     categoryTitle: string;
     lastUpdated: string;
 }) {
+    const definitionParagraphs = definition
+        .split(/\n\n+/)
+        .map(paragraph => paragraph.trim())
+        .filter(Boolean);
+
     return (
         <div className="article-card border-teal-100 space-y-3">
             <div className="flex items-center justify-between gap-3">
                 <h3 className="text-lg font-semibold text-teal-900">Quick definition (TL;DR)</h3>
                 <span className="text-xs px-3 py-1 rounded-full bg-teal-100 text-teal-800 font-semibold">{categoryTitle}</span>
             </div>
-            <div className="article-prose text-teal-900">
-                <p className="mb-2">{definition}</p>
+            <div className="article-prose text-teal-900 leading-relaxed space-y-3 max-w-3xl">
+                {definitionParagraphs.map((paragraph, index) => (
+                    <p key={`${categoryTitle}-definition-${index}`}>{paragraph}</p>
+                ))}
             </div>
             <div className="flex flex-wrap gap-3 text-sm text-teal-900/80">
                 <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-white border border-teal-200 font-semibold">
@@ -301,7 +308,7 @@ function RelatedSection({ related }: { related: ResourceArticle[] }) {
                                 {item.title}
                             </Link>
                         </h3>
-                        <p className="text-gray-700 text-sm mt-1">{item.excerpt}</p>
+                        <p className="text-gray-700 text-sm mt-1 leading-relaxed">{item.excerpt}</p>
                     </div>
                 ))}
             </div>
