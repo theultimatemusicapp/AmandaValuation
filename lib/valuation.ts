@@ -79,6 +79,12 @@ export type ValuationResult = {
     confidence: number;
     multiplier: number;
     warnings: string[];
+    ruleOf40: number;
+    netProfitMargin: number;
+    revenueMultiple: number;
+    churnRisk: string;
+    retentionSignal: string;
+    npsSignal: string;
 };
 
 export const calculateSaaSValuation = (inputs: ValuationInputs): ValuationResult => {
@@ -173,6 +179,10 @@ export const calculateSaaSValuation = (inputs: ValuationInputs): ValuationResult
     if (customerChurn < 5) confidence += 10;
     confidence = Math.min(95, confidence);
 
+    const churnRisk = customerChurn < 3 ? 'Best-in-class churn profile' : customerChurn < 7 ? 'Manageable churn' : 'High churn risk';
+    const retentionSignal = retentionRate >= 110 ? 'Expansion revenue driving NDR' : retentionRate >= 90 ? 'Healthy logo retention' : 'Retention drag on growth';
+    const npsSignal = nps >= 50 ? 'Evangelist-level customer love' : nps >= 30 ? 'Promising loyalty' : 'Improve experience to lift NPS';
+
     return {
         valuations,
         avgValuation,
@@ -180,7 +190,13 @@ export const calculateSaaSValuation = (inputs: ValuationInputs): ValuationResult
         rangeHigh,
         confidence,
         multiplier,
-        warnings
+        warnings,
+        ruleOf40,
+        netProfitMargin,
+        revenueMultiple: multiplier,
+        churnRisk,
+        retentionSignal,
+        npsSignal
     };
 };
 
