@@ -7,6 +7,12 @@ function normalizeParagraphs(content: string | string[]): string[] {
     return content.split(/\n\n+/).map(paragraph => paragraph.trim()).filter(Boolean);
 }
 
+function renderParagraphs(content: string | string[], keyPrefix: string) {
+    return normalizeParagraphs(content).map((paragraph, index) => (
+        <p key={`${keyPrefix}-${index}`}>{paragraph}</p>
+    ));
+}
+
 type ArticleProps = {
     children: ReactNode;
     className?: string;
@@ -47,8 +53,6 @@ type ArticleSectionProps = {
 };
 
 export function ArticleSection({ title, content, kicker }: ArticleSectionProps) {
-    const paragraphs = normalizeParagraphs(content);
-
     return (
         <section className="article-card" aria-labelledby={title.replace(/\s+/g, '-').toLowerCase()}>
             <div className="space-y-2">
@@ -57,10 +61,8 @@ export function ArticleSection({ title, content, kicker }: ArticleSectionProps) 
                     {title}
                 </h2>
             </div>
-            <div className="article-prose">
-                {paragraphs.map((paragraph, index) => (
-                    <p key={`${title}-${index}`}>{paragraph}</p>
-                ))}
+            <div className="article-prose space-y-4 leading-relaxed">
+                {renderParagraphs(content, title)}
             </div>
         </section>
     );
@@ -77,7 +79,7 @@ export function ArticleListSection({ title, items }: ArticleListSectionProps) {
             <h2 id={title.replace(/\s+/g, '-').toLowerCase()} className="text-2xl font-bold text-gray-900 mb-2">
                 {title}
             </h2>
-            <ul className="article-prose list-disc pl-5 space-y-2">
+            <ul className="article-prose list-disc pl-5 space-y-2 leading-relaxed">
                 {items.map(item => (
                     <li key={item}>
                         <p>{item}</p>
@@ -108,8 +110,8 @@ export function ArticleExamplesSection({ examples }: ArticleExamplesSectionProps
                 {examples.map(example => (
                     <article key={example.title} className="border border-gray-200 rounded-lg p-4 bg-gray-50 space-y-2">
                         <h3 className="text-lg font-semibold text-gray-900">{example.title}</h3>
-                        <div className="article-prose">
-                            <p>{example.content}</p>
+                        <div className="article-prose space-y-3 leading-relaxed">
+                            {renderParagraphs(example.content, `${example.title}-example`)}
                         </div>
                     </article>
                 ))}
@@ -128,7 +130,7 @@ export function ArticleChecklistSection({ checklist }: ArticleChecklistSectionPr
             <h2 id="checklist" className="text-2xl font-bold text-gray-900 mb-2">
                 Checklist (copy/paste)
             </h2>
-            <ul className="article-prose list-disc pl-5 space-y-2">
+            <ul className="article-prose list-disc pl-5 space-y-2 leading-relaxed">
                 {checklist.map(item => (
                     <li key={item}>
                         <p>{item}</p>
@@ -153,8 +155,8 @@ export function ArticleFAQSection({ faqs }: ArticleFAQSectionProps) {
                 {faqs.map(faq => (
                     <article key={faq.question} className="border border-gray-200 rounded-lg p-4 bg-white">
                         <h3 className="text-gray-900 font-semibold text-lg">{faq.question}</h3>
-                        <div className="article-prose">
-                            <p>{faq.answer}</p>
+                        <div className="article-prose space-y-3 leading-relaxed">
+                            {renderParagraphs(faq.answer, `${faq.question}-answer`)}
                         </div>
                     </article>
                 ))}
