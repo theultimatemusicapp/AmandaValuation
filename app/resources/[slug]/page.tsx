@@ -3,6 +3,15 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import {
+    ArticleExamplesSection,
+    ArticleFAQSection,
+    ArticleFrame,
+    ArticleHeader,
+    ArticleListSection,
+    ArticleSection,
+    ArticleChecklistSection,
+} from '@/components/Article';
 import { RESOURCE_ARTICLES, RESOURCE_CATEGORIES, ResourceArticle, ResourceCategory } from '@/lib/resource-data';
 
 const baseUrl = 'https://saasvaluation.app';
@@ -137,38 +146,36 @@ export default function ResourcePage({ params }: PageParams) {
     return (
         <>
             <Header />
-            <article className="bg-slate-50">
-                <Breadcrumbs
-                    items={[
-                        { label: 'Home', href: '/' },
-                        { label: 'Resources', href: '/resources' },
-                        { label: categoryInfo.title, href: `/resources/${categoryInfo.slug}` },
-                        { label: article!.title },
-                    ]}
-                />
-
-                <section className="bg-white py-12">
-                    <div className="max-w-5xl mx-auto px-6 lg:px-10 space-y-6">
-                        <div className="flex items-center gap-3 flex-wrap">
-                            <span className="px-3 py-1 rounded-full bg-gray-100 text-gray-800 text-sm font-semibold">
-                                {article!.badge}
-                            </span>
-                            <span className="text-sm text-gray-600">Category: {categoryInfo.title}</span>
-                            <span className="text-sm text-gray-600">Last updated: {article!.lastUpdated}</span>
-                            <Link
-                                href={`/resources/${categoryInfo.slug}`}
-                                className="text-teal-700 font-semibold text-sm hover:underline"
-                            >
+            <ArticleFrame
+                breadcrumbs={[
+                    { label: 'Home', href: '/' },
+                    { label: 'Resources', href: '/resources' },
+                    { label: categoryInfo.title, href: `/resources/${categoryInfo.slug}` },
+                    { label: article!.title },
+                ]}
+            >
+                <section className="bg-white py-10">
+                    <div className="article-container px-6 lg:px-0 space-y-6">
+                        <ArticleHeader
+                            badge={article!.badge}
+                            category={categoryInfo.title}
+                            updated={article!.lastUpdated}
+                            title={article!.title}
+                            intro={article!.excerpt}
+                        />
+                        <div className="flex gap-4 text-sm font-semibold flex-wrap text-teal-700">
+                            <Link href={`/resources/${categoryInfo.slug}`} className="hover:underline">
                                 View category
                             </Link>
+                            <Link href="/resources" className="text-gray-700 hover:underline">
+                                Back to resources
+                            </Link>
                         </div>
-                        <h1 className="text-4xl font-bold text-gray-900 font-display">{article!.title}</h1>
-                        <p className="text-lg text-gray-700 max-w-4xl leading-relaxed">{article!.excerpt}</p>
                     </div>
                 </section>
 
                 <section className="py-12 bg-slate-50">
-                    <div className="max-w-6xl mx-auto px-6 lg:px-10 space-y-8">
+                    <div className="article-container px-6 lg:px-0 space-y-8">
                         <div className="grid lg:grid-cols-[1.6fr_1fr] gap-6">
                             <ArticleSection title="What you'll learn" content={article!.whatYouLearn} />
                             <DefinitionBox
@@ -179,25 +186,25 @@ export default function ResourcePage({ params }: PageParams) {
                         </div>
 
                         <div className="grid md:grid-cols-2 gap-6">
-                            <BulletSection title="Why it matters" items={article!.whyItMatters} />
+                            <ArticleListSection title="Why it matters" items={article!.whyItMatters} />
                             <ArticleSection title="The metric or formula" content={article!.metricOrFormula} />
                         </div>
 
                         <div className="grid md:grid-cols-2 gap-6">
-                            <BulletSection title="Benchmarks & ranges" items={article!.benchmarks} />
-                            <BulletSection title="Common mistakes" items={article!.commonMistakes} />
+                            <ArticleListSection title="Benchmarks & ranges" items={article!.benchmarks} />
+                            <ArticleListSection title="Common mistakes" items={article!.commonMistakes} />
                         </div>
 
-                        <BulletSection title="How to improve it" items={article!.improvements} />
+                        <ArticleListSection title="How to improve it" items={article!.improvements} />
 
-                        <ExamplesSection examples={article!.examples} />
-                        <ChecklistSection checklist={article!.checklist} />
-                        <FAQSection faqs={article!.faqs} />
+                        <ArticleExamplesSection examples={article!.examples} />
+                        <ArticleChecklistSection checklist={article!.checklist} />
+                        <ArticleFAQSection faqs={article!.faqs} />
                         <RelatedSection related={relatedArticles} />
                         <CTASection lastUpdated={article!.lastUpdated} />
                     </div>
                 </section>
-            </article>
+            </ArticleFrame>
             <Footer />
             <StructuredData article={article!} category={categoryInfo} />
         </>
@@ -250,15 +257,6 @@ function Breadcrumbs({ items }: { items: { label: string; href?: string }[] }) {
     );
 }
 
-function ArticleSection({ title, content }: { title: string; content: string }) {
-    return (
-        <div className="bg-white border border-gray-200 rounded-2xl p-6 shadow-sm space-y-2">
-            <h2 className="text-2xl font-bold text-gray-900">{title}</h2>
-            <p className="text-gray-700 leading-relaxed">{content}</p>
-        </div>
-    );
-}
-
 function DefinitionBox({
     definition,
     categoryTitle,
@@ -269,12 +267,14 @@ function DefinitionBox({
     lastUpdated: string;
 }) {
     return (
-        <div className="bg-white border border-teal-100 rounded-2xl p-6 shadow-sm space-y-3">
+        <div className="article-card border-teal-100 space-y-3">
             <div className="flex items-center justify-between gap-3">
                 <h3 className="text-lg font-semibold text-teal-900">Quick definition (TL;DR)</h3>
                 <span className="text-xs px-3 py-1 rounded-full bg-teal-100 text-teal-800 font-semibold">{categoryTitle}</span>
             </div>
-            <p className="text-teal-900 leading-relaxed">{definition}</p>
+            <div className="article-prose text-teal-900">
+                <p className="mb-2">{definition}</p>
+            </div>
             <div className="flex flex-wrap gap-3 text-sm text-teal-900/80">
                 <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-white border border-teal-200 font-semibold">
                     <span className="text-teal-600">•</span> Updated {lastUpdated}
@@ -282,69 +282,6 @@ function DefinitionBox({
                 <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-white border border-teal-200 font-semibold">
                     <span className="text-teal-600">•</span> Save for deal prep
                 </span>
-            </div>
-        </div>
-    );
-}
-
-function BulletSection({ title, items }: { title: string; items: string[] }) {
-    return (
-        <div className="bg-white border border-gray-200 rounded-2xl p-6 shadow-sm space-y-3">
-            <h2 className="text-2xl font-bold text-gray-900">{title}</h2>
-            <ul className="list-disc pl-5 space-y-2 text-gray-700">
-                {items.map(item => (
-                    <li key={item} className="leading-relaxed">
-                        {item}
-                    </li>
-                ))}
-            </ul>
-        </div>
-    );
-}
-
-function ExamplesSection({ examples }: { examples: { title: string; content: string }[] }) {
-    return (
-        <div className="bg-white border border-gray-200 rounded-2xl p-6 shadow-sm space-y-4">
-            <div className="flex items-center justify-between">
-                <h2 className="text-2xl font-bold text-gray-900">Examples</h2>
-                <span className="text-sm text-gray-500">Copyable narratives for your deck</span>
-            </div>
-            <div className="grid md:grid-cols-2 gap-4">
-                {examples.map(example => (
-                    <div key={example.title} className="border border-gray-200 rounded-lg p-4 bg-gray-50">
-                        <h3 className="text-lg font-semibold text-gray-900">{example.title}</h3>
-                        <p className="text-gray-700 mt-2 leading-relaxed">{example.content}</p>
-                    </div>
-                ))}
-            </div>
-        </div>
-    );
-}
-
-function ChecklistSection({ checklist }: { checklist: string[] }) {
-    return (
-        <div className="bg-white border border-gray-200 rounded-2xl p-6 shadow-sm space-y-3">
-            <h2 className="text-2xl font-bold text-gray-900">Checklist (copy/paste)</h2>
-            <ul className="list-disc pl-5 space-y-2 text-gray-700">
-                {checklist.map(item => (
-                    <li key={item}>{item}</li>
-                ))}
-            </ul>
-        </div>
-    );
-}
-
-function FAQSection({ faqs }: { faqs: { question: string; answer: string }[] }) {
-    return (
-        <div className="bg-white border border-gray-200 rounded-2xl p-6 shadow-sm space-y-4">
-            <h2 className="text-2xl font-bold text-gray-900">FAQs</h2>
-            <div className="space-y-3">
-                {faqs.map(faq => (
-                    <div key={faq.question} className="border border-gray-200 rounded-lg p-4 bg-white">
-                        <p className="text-gray-900 font-semibold">{faq.question}</p>
-                        <p className="text-gray-700 mt-1 leading-relaxed">{faq.answer}</p>
-                    </div>
-                ))}
             </div>
         </div>
     );
