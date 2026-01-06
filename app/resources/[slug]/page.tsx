@@ -163,25 +163,38 @@ export default function ResourcePage({ params }: PageParams) {
                             </Link>
                         </div>
                         <h1 className="text-4xl font-bold text-gray-900 font-display">{article!.title}</h1>
-                        <p className="text-lg text-gray-700 max-w-4xl">{article!.excerpt}</p>
+                        <p className="text-lg text-gray-700 max-w-4xl leading-relaxed">{article!.excerpt}</p>
                     </div>
                 </section>
 
-                <section className="py-10">
-                    <div className="max-w-5xl mx-auto px-6 lg:px-10 space-y-10 bg-white rounded-2xl shadow-sm border border-gray-100 p-6 md:p-10">
-                        <ArticleSection title="What you'll learn" content={article!.whatYouLearn} />
-                        <DefinitionBox definition={article!.definition} />
-                        <BulletSection title="Why it matters" items={article!.whyItMatters} />
-                        <ArticleSection title="The metric or formula" content={article!.metricOrFormula} />
-                        <BulletSection title="Benchmarks & ranges" items={article!.benchmarks} />
-                        <BulletSection title="Common mistakes" items={article!.commonMistakes} />
+                <section className="py-12 bg-slate-50">
+                    <div className="max-w-6xl mx-auto px-6 lg:px-10 space-y-8">
+                        <div className="grid lg:grid-cols-[1.6fr_1fr] gap-6">
+                            <ArticleSection title="What you'll learn" content={article!.whatYouLearn} />
+                            <DefinitionBox
+                                definition={article!.definition}
+                                categoryTitle={categoryInfo.title}
+                                lastUpdated={article!.lastUpdated}
+                            />
+                        </div>
+
+                        <div className="grid md:grid-cols-2 gap-6">
+                            <BulletSection title="Why it matters" items={article!.whyItMatters} />
+                            <ArticleSection title="The metric or formula" content={article!.metricOrFormula} />
+                        </div>
+
+                        <div className="grid md:grid-cols-2 gap-6">
+                            <BulletSection title="Benchmarks & ranges" items={article!.benchmarks} />
+                            <BulletSection title="Common mistakes" items={article!.commonMistakes} />
+                        </div>
+
                         <BulletSection title="How to improve it" items={article!.improvements} />
+
                         <ExamplesSection examples={article!.examples} />
                         <ChecklistSection checklist={article!.checklist} />
                         <FAQSection faqs={article!.faqs} />
                         <RelatedSection related={relatedArticles} />
-                        <CTASection />
-                        <p className="text-sm text-gray-500">Last updated: {article!.lastUpdated}</p>
+                        <CTASection lastUpdated={article!.lastUpdated} />
                     </div>
                 </section>
             </article>
@@ -239,25 +252,44 @@ function Breadcrumbs({ items }: { items: { label: string; href?: string }[] }) {
 
 function ArticleSection({ title, content }: { title: string; content: string }) {
     return (
-        <div className="space-y-2">
+        <div className="bg-white border border-gray-200 rounded-2xl p-6 shadow-sm space-y-2">
             <h2 className="text-2xl font-bold text-gray-900">{title}</h2>
             <p className="text-gray-700 leading-relaxed">{content}</p>
         </div>
     );
 }
 
-function DefinitionBox({ definition }: { definition: string }) {
+function DefinitionBox({
+    definition,
+    categoryTitle,
+    lastUpdated,
+}: {
+    definition: string;
+    categoryTitle: string;
+    lastUpdated: string;
+}) {
     return (
-        <div className="border border-teal-100 bg-teal-50 rounded-xl p-4">
-            <h3 className="text-lg font-semibold text-teal-900 mb-1">Quick definition (TL;DR)</h3>
-            <p className="text-teal-900">{definition}</p>
+        <div className="bg-white border border-teal-100 rounded-2xl p-6 shadow-sm space-y-3">
+            <div className="flex items-center justify-between gap-3">
+                <h3 className="text-lg font-semibold text-teal-900">Quick definition (TL;DR)</h3>
+                <span className="text-xs px-3 py-1 rounded-full bg-teal-100 text-teal-800 font-semibold">{categoryTitle}</span>
+            </div>
+            <p className="text-teal-900 leading-relaxed">{definition}</p>
+            <div className="flex flex-wrap gap-3 text-sm text-teal-900/80">
+                <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-white border border-teal-200 font-semibold">
+                    <span className="text-teal-600">•</span> Updated {lastUpdated}
+                </span>
+                <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-white border border-teal-200 font-semibold">
+                    <span className="text-teal-600">•</span> Save for deal prep
+                </span>
+            </div>
         </div>
     );
 }
 
 function BulletSection({ title, items }: { title: string; items: string[] }) {
     return (
-        <div className="space-y-3">
+        <div className="bg-white border border-gray-200 rounded-2xl p-6 shadow-sm space-y-3">
             <h2 className="text-2xl font-bold text-gray-900">{title}</h2>
             <ul className="list-disc pl-5 space-y-2 text-gray-700">
                 {items.map(item => (
@@ -272,8 +304,11 @@ function BulletSection({ title, items }: { title: string; items: string[] }) {
 
 function ExamplesSection({ examples }: { examples: { title: string; content: string }[] }) {
     return (
-        <div className="space-y-3">
-            <h2 className="text-2xl font-bold text-gray-900">Examples</h2>
+        <div className="bg-white border border-gray-200 rounded-2xl p-6 shadow-sm space-y-4">
+            <div className="flex items-center justify-between">
+                <h2 className="text-2xl font-bold text-gray-900">Examples</h2>
+                <span className="text-sm text-gray-500">Copyable narratives for your deck</span>
+            </div>
             <div className="grid md:grid-cols-2 gap-4">
                 {examples.map(example => (
                     <div key={example.title} className="border border-gray-200 rounded-lg p-4 bg-gray-50">
@@ -288,7 +323,7 @@ function ExamplesSection({ examples }: { examples: { title: string; content: str
 
 function ChecklistSection({ checklist }: { checklist: string[] }) {
     return (
-        <div className="space-y-3">
+        <div className="bg-white border border-gray-200 rounded-2xl p-6 shadow-sm space-y-3">
             <h2 className="text-2xl font-bold text-gray-900">Checklist (copy/paste)</h2>
             <ul className="list-disc pl-5 space-y-2 text-gray-700">
                 {checklist.map(item => (
@@ -301,7 +336,7 @@ function ChecklistSection({ checklist }: { checklist: string[] }) {
 
 function FAQSection({ faqs }: { faqs: { question: string; answer: string }[] }) {
     return (
-        <div className="space-y-3">
+        <div className="bg-white border border-gray-200 rounded-2xl p-6 shadow-sm space-y-4">
             <h2 className="text-2xl font-bold text-gray-900">FAQs</h2>
             <div className="space-y-3">
                 {faqs.map(faq => (
@@ -318,7 +353,7 @@ function FAQSection({ faqs }: { faqs: { question: string; answer: string }[] }) 
 function RelatedSection({ related }: { related: ResourceArticle[] }) {
     if (!related.length) return null;
     return (
-        <div className="space-y-3">
+        <div className="bg-white border border-gray-200 rounded-2xl p-6 shadow-sm space-y-3">
             <h2 className="text-2xl font-bold text-gray-900">Related resources</h2>
             <div className="grid md:grid-cols-2 gap-4">
                 {related.map(item => (
@@ -337,20 +372,23 @@ function RelatedSection({ related }: { related: ResourceArticle[] }) {
     );
 }
 
-function CTASection() {
+function CTASection({ lastUpdated }: { lastUpdated: string }) {
     return (
-        <div className="border border-teal-200 bg-teal-50 rounded-xl p-5 space-y-2">
-            <h3 className="text-xl font-bold text-teal-900">Run the SaaS valuation calculator</h3>
-            <p className="text-teal-900">
+        <div className="bg-gradient-to-r from-teal-600 to-blue-600 rounded-2xl p-6 shadow-sm space-y-3 text-white">
+            <div className="flex items-center justify-between gap-3 flex-wrap">
+                <h3 className="text-xl font-bold">Run the SaaS valuation calculator</h3>
+                <span className="text-xs px-3 py-1 rounded-full bg-white/20 font-semibold">Updated {lastUpdated}</span>
+            </div>
+            <p className="text-white/90 leading-relaxed">
                 Plug your ARR, growth, retention, and margin into the calculator to see how these playbooks translate into value. No login required.
             </p>
             <div className="flex flex-wrap gap-3">
-                <Link href="/" className="px-4 py-2 bg-teal-600 text-white rounded-lg font-semibold hover:bg-teal-700">
+                <Link href="/" className="px-4 py-2 bg-white text-teal-800 rounded-lg font-semibold hover:bg-teal-50">
                     Open calculator
                 </Link>
                 <Link
                     href="/resources/tools-calculators"
-                    className="px-4 py-2 border border-teal-200 text-teal-900 rounded-lg font-semibold hover:bg-white"
+                    className="px-4 py-2 border border-white/40 text-white rounded-lg font-semibold hover:bg-white/10"
                 >
                     See tools & checklists
                 </Link>
