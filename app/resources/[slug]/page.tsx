@@ -331,7 +331,7 @@ function CTASection({ lastUpdated }: { lastUpdated: string }) {
                     Open calculator
                 </Link>
                 <Link
-                    href="/resources/tools-calculators"
+                    href="/resources/tools"
                     className="px-4 py-2 border border-white/40 text-white rounded-lg font-semibold hover:bg-white/10"
                 >
                     See tools & checklists
