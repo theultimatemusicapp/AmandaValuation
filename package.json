@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "qa:crawl": "node scripts/qa-crawl.mjs http://localhost:3000"
   },
   "dependencies": {
     "clsx": "^2.1.1",

@@ -74,6 +74,12 @@ export default function ResourcesHub() {
                                 >
                                     Explore clusters
                                 </Link>
+                                <Link
+                                    href="/resources/tools"
+                                    className="border border-white/40 text-white px-4 py-2 rounded-lg font-semibold hover:bg-white/10"
+                                >
+                                    Tools & calculators
+                                </Link>
                             </div>
                         </div>
                         <div className="bg-white/10 border border-white/20 rounded-2xl p-6 backdrop-blur">
