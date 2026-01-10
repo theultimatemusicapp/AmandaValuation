@@ -79,7 +79,7 @@ export default function Hero() {
                         <p className="text-sm text-slate-500 mb-4">See it in action →</p>
                         <div className="relative max-w-3xl mx-auto rounded-2xl overflow-hidden border-2 border-slate-700/50 bg-slate-900 shadow-2xl">
                             <img
-                                src="/demo-recording.webp"
+                                src="/pro-demo-recording.webp"
                                 alt="Watch the valuation tool demo"
                                 className="w-full h-auto"
                             />
