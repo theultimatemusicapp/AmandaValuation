@@ -25,6 +25,25 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${inter.variable} ${outfit.variable} antialiased bg-slate-950 text-slate-100 font-sans`}>
         {children}
+        <Script id="schema-org" type="application/ld+json" strategy="afterInteractive">
+          {JSON.stringify({
+            '@context': 'https://schema.org',
+            '@graph': [
+              {
+                '@type': 'Organization',
+                name: 'SaaS Valuation',
+                url: 'https://saasvaluation.app',
+                logo: 'https://saasvaluation.app/favicon.ico',
+                sameAs: [],
+              },
+              {
+                '@type': 'WebSite',
+                name: 'SaaS Valuation',
+                url: 'https://saasvaluation.app',
+              },
+            ],
+          })}
+        </Script>
         <Script
           strategy="afterInteractive"
           src={`https://www.googletagmanager.com/gtag/js?id=G-772JV93TYR`}

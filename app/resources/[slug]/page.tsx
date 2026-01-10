@@ -16,10 +16,10 @@ import { RESOURCE_ARTICLES, RESOURCE_CATEGORIES, ResourceArticle, ResourceCatego
 
 const baseUrl = 'https://saasvaluation.app';
 
-type PageParams = { params: { slug: string } };
+type PageParams = { params: Promise<{ slug: string }> };
 
 export async function generateMetadata({ params }: PageParams, parent: ResolvingMetadata): Promise<Metadata> {
-    const { slug } = params;
+    const { slug } = await params;
     const category = RESOURCE_CATEGORIES.find(item => item.slug === slug);
     const article = RESOURCE_ARTICLES.find(item => item.slug === slug);
 
@@ -75,8 +75,8 @@ export function generateStaticParams() {
     return slugs.map(slug => ({ slug }));
 }
 
-export default function ResourcePage({ params }: PageParams) {
-    const { slug } = params;
+export default async function ResourcePage({ params }: PageParams) {
+    const { slug } = await params;
     const category = RESOURCE_CATEGORIES.find(item => item.slug === slug);
     const article = RESOURCE_ARTICLES.find(item => item.slug === slug);
 
@@ -142,6 +142,20 @@ export default function ResourcePage({ params }: PageParams) {
 
     const categoryInfo = RESOURCE_CATEGORIES.find(item => item.slug === article!.categorySlug)!;
     const relatedArticles = RESOURCE_ARTICLES.filter(item => article!.relatedSlugs.includes(item.slug));
+    const tocItems = [
+        { id: createSectionId("What you'll learn"), label: "What you'll learn" },
+        { id: createSectionId('Why it matters'), label: 'Why it matters' },
+        { id: createSectionId('The metric or formula'), label: 'The metric or formula' },
+        { id: createSectionId('Benchmarks & ranges'), label: 'Benchmarks & ranges' },
+        { id: createSectionId('Common mistakes'), label: 'Common mistakes' },
+        { id: createSectionId('How to improve it'), label: 'How to improve it' },
+        { id: 'examples', label: 'Examples' },
+        { id: 'checklist', label: 'Checklist' },
+        { id: 'faqs', label: 'FAQs' },
+        { id: 'next-steps', label: 'Next steps' },
+        { id: 'related-resources', label: 'Related resources' },
+        { id: 'calculator-cta', label: 'Run the calculator' },
+    ];
 
     return (
         <>
@@ -170,6 +184,10 @@ export default function ResourcePage({ params }: PageParams) {
                             <Link href="/resources" className="text-gray-700 hover:underline">
                                 Back to resources
                             </Link>
+                        </div>
+                        <div className="grid lg:grid-cols-[1.4fr_1fr] gap-6 pt-2">
+                            <TrustModule author={article!.author} updated={article!.lastUpdated} />
+                            <TableOfContents items={tocItems} />
                         </div>
                     </div>
                 </section>
@@ -200,8 +218,14 @@ export default function ResourcePage({ params }: PageParams) {
                         <ArticleExamplesSection examples={article!.examples} />
                         <ArticleChecklistSection checklist={article!.checklist} />
                         <ArticleFAQSection faqs={article!.faqs} />
-                        <RelatedSection related={relatedArticles} />
-                        <CTASection lastUpdated={article!.lastUpdated} />
+                        <NextStepsSection category={categoryInfo} />
+                        <section id="related-resources">
+                            <RelatedSection related={relatedArticles} />
+                        </section>
+                        <EmailCaptureSection />
+                        <section id="calculator-cta">
+                            <CTASection lastUpdated={article!.lastUpdated} />
+                        </section>
                     </div>
                 </section>
             </ArticleFrame>
@@ -257,6 +281,53 @@ function Breadcrumbs({ items }: { items: { label: string; href?: string }[] }) {
     );
 }
 
+function createSectionId(title: string) {
+    return title.replace(/\s+/g, '-').toLowerCase();
+}
+
+function TableOfContents({ items }: { items: { id: string; label: string }[] }) {
+    return (
+        <div className="bg-white border border-gray-200 rounded-2xl p-5 shadow-sm">
+            <p className="text-sm font-semibold text-teal-700 uppercase">On this page</p>
+            <ul className="mt-3 space-y-2 text-sm text-gray-700">
+                {items.map(item => (
+                    <li key={item.id}>
+                        <a href={`#${item.id}`} className="hover:text-teal-700 hover:underline">
+                            {item.label}
+                        </a>
+                    </li>
+                ))}
+            </ul>
+            <p className="text-xs text-gray-500 mt-4">
+                Jump to the section you need, or keep scrolling for the full playbook.
+            </p>
+        </div>
+    );
+}
+
+function TrustModule({ author, updated }: { author: string; updated: string }) {
+    return (
+        <div className="bg-white border border-gray-200 rounded-2xl p-5 shadow-sm space-y-3">
+            <p className="text-sm font-semibold text-teal-700 uppercase">Trust & methodology</p>
+            <div className="text-sm text-gray-700 space-y-2">
+                <p>
+                    <span className="font-semibold text-gray-900">Author:</span> {author}
+                </p>
+                <p>
+                    <span className="font-semibold text-gray-900">Last updated:</span> {updated}
+                </p>
+                <p>
+                    <span className="font-semibold text-gray-900">Methodology:</span> Benchmarks are cross-checked across market reports,
+                    transaction comps, and founder-level operating data.
+                </p>
+            </div>
+            <Link href="/editorial-standards" className="text-sm font-semibold text-teal-700 hover:underline">
+                Review our editorial standards
+            </Link>
+        </div>
+    );
+}
+
 function DefinitionBox({
     definition,
     categoryTitle,
@@ -294,6 +365,41 @@ function DefinitionBox({
     );
 }
 
+function NextStepsSection({ category }: { category: ResourceCategory }) {
+    return (
+        <section id="next-steps" className="bg-white border border-gray-200 rounded-2xl p-6 shadow-sm space-y-4">
+            <div className="flex items-center justify-between gap-3 flex-wrap">
+                <h2 className="text-2xl font-bold text-gray-900">Next steps to act on this guide</h2>
+                <span className="text-xs px-3 py-1 rounded-full bg-teal-50 text-teal-700 font-semibold">Recommended</span>
+            </div>
+            <p className="text-gray-700 leading-relaxed">
+                Translate the insights into a valuation narrative by running the calculator, then use the tools and category playbooks to
+                tighten your metrics before you talk to buyers or investors.
+            </p>
+            <div className="grid md:grid-cols-3 gap-4 text-sm font-semibold">
+                <Link
+                    href="/"
+                    className="border border-gray-200 rounded-xl p-4 hover:border-teal-500 hover:shadow-sm transition text-gray-900"
+                >
+                    Run the free valuation calculator
+                </Link>
+                <Link
+                    href="/resources/tools"
+                    className="border border-gray-200 rounded-xl p-4 hover:border-teal-500 hover:shadow-sm transition text-gray-900"
+                >
+                    Use tools & calculators
+                </Link>
+                <Link
+                    href={`/resources/${category.slug}`}
+                    className="border border-gray-200 rounded-xl p-4 hover:border-teal-500 hover:shadow-sm transition text-gray-900"
+                >
+                    Explore the {category.title} hub
+                </Link>
+            </div>
+        </section>
+    );
+}
+
 function RelatedSection({ related }: { related: ResourceArticle[] }) {
     if (!related.length) return null;
     return (
@@ -313,6 +419,34 @@ function RelatedSection({ related }: { related: ResourceArticle[] }) {
                 ))}
             </div>
         </div>
+    );
+}
+
+function EmailCaptureSection() {
+    return (
+        <section className="bg-gray-900 text-white rounded-2xl p-6 shadow-sm space-y-4">
+            <p className="text-sm font-semibold text-teal-200 uppercase">Valuation updates</p>
+            <h3 className="text-2xl font-bold">Get new benchmarks and exit playbooks</h3>
+            <p className="text-white/80 leading-relaxed">
+                Subscribe for valuation updates, deal prep checklists, and new calculators. No spam, just actionable insights.
+            </p>
+            <form action="https://formspree.io/f/mjkowkld" method="POST" className="flex flex-col sm:flex-row gap-3">
+                <input
+                    type="email"
+                    name="email"
+                    required
+                    placeholder="you@company.com"
+                    className="flex-1 rounded-lg px-4 py-3 text-gray-900"
+                />
+                <button
+                    type="submit"
+                    className="bg-teal-500 hover:bg-teal-400 text-white font-semibold px-5 py-3 rounded-lg"
+                >
+                    Get the updates
+                </button>
+            </form>
+            <p className="text-xs text-white/60">By subscribing, you agree to our Privacy Policy.</p>
+        </section>
     );
 }
 

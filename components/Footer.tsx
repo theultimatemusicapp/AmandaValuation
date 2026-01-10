@@ -99,6 +99,11 @@ export default function Footer() {
                                 </Link>
                             </li>
                             <li>
+                                <Link href="/editorial-standards" className="text-gray-400 hover:text-white transition-colors text-sm">
+                                    Editorial Standards
+                                </Link>
+                            </li>
+                            <li>
                                 <Link href="/privacy" className="text-gray-400 hover:text-white transition-colors text-sm">
                                     Privacy Policy
                                 </Link>
