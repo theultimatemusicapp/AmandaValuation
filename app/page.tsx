@@ -4,6 +4,7 @@ import Hero from '@/components/Hero';
 import ValuationWizard from '@/components/ValuationTool';
 import Pricing from '@/components/Pricing';
 import Testimonials from '@/components/Testimonials';
+import SaaSNews from '@/components/SaaSNews';
 import Link from 'next/link';
 import { ArrowRight, Sparkles } from 'lucide-react';
 
@@ -39,6 +40,16 @@ export default function Home() {
       </div>
 
       <ValuationWizard />
+
+      <section className="max-w-5xl mx-auto px-4 py-16">
+        <div className="space-y-6">
+          <div className="text-center space-y-2">
+            <p className="text-sm uppercase tracking-widest text-slate-400">Current SaaS News</p>
+            <h2 className="text-3xl font-bold text-white">Current SaaS News</h2>
+          </div>
+          <SaaSNews />
+        </div>
+      </section>
 
       <Footer />
     </div>
