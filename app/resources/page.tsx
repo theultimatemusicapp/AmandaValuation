@@ -2,6 +2,7 @@ import Link from 'next/link';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { RESOURCE_ARTICLES, RESOURCE_CATEGORIES } from '@/lib/resource-data';
+import SaaSNews from '@/components/SaaSNews';
 
 const baseUrl = 'https://saasvaluation.app';
 
@@ -231,6 +232,18 @@ export default function ResourcesHub() {
                                 <p className="text-xs text-gray-300">By subscribing, you agree to our Privacy Policy.</p>
                             </form>
                         </div>
+                    </div>
+                </section>
+
+                <section className="py-14 bg-gray-50">
+                    <div className="max-w-6xl mx-auto px-6 lg:px-12 space-y-6">
+                        <div className="space-y-2">
+                            <p className="text-sm font-semibold text-teal-700 uppercase">Latest SaaS + Tech Business Trends</p>
+                            <h2 className="text-3xl font-bold text-gray-900 font-display">
+                                Latest SaaS + Tech Business Trends
+                            </h2>
+                        </div>
+                        <SaaSNews />
                     </div>
                 </section>
             </div>
