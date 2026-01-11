@@ -1,119 +1,90 @@
-'use client';
+"use client";
 
-import { useEffect, useMemo, useState } from 'react';
-import Link from 'next/link';
-import type { NewsItem } from '@/lib/news';
+import { useEffect, useMemo, useState } from "react";
 
-const MAX_ITEMS = 15;
-
-type NewsResponse = {
-  items: NewsItem[];
+type NewsItem = {
+  title: string;
+  url: string;
+  source: string;
+  publishedAt?: string;
+  score?: number;
 };
 
-const formatDate = (value: string) => {
-  const date = new Date(value);
-  if (Number.isNaN(date.getTime())) {
-    return 'Recent';
-  }
-  return date.toLocaleDateString(undefined, {
-    month: 'short',
-    day: 'numeric',
-    year: 'numeric',
-  });
-};
+function formatDate(iso?: string) {
+  if (!iso) return "";
+  const d = new Date(iso);
+  if (Number.isNaN(d.getTime())) return "";
+  return d.toLocaleDateString(undefined, { year: "numeric", month: "short", day: "numeric" });
+}
 
-export default function SaaSNews() {
+export default function SaaSNews({ limit = 10 }: { limit?: number }) {
   const [items, setItems] = useState<NewsItem[]>([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    let isMounted = true;
-    const controller = new AbortController();
-
-    const loadNews = async () => {
+    let alive = true;
+    (async () => {
       try {
-        const response = await fetch('/api/news', { signal: controller.signal });
-        if (!response.ok) {
-          throw new Error('Failed to load news');
-        }
-        const data = (await response.json()) as NewsResponse;
-        if (isMounted) {
-          setItems(data.items || []);
-        }
-      } catch (err) {
-        if (isMounted) {
-          setError(err instanceof Error ? err.message : 'Failed to load news');
-        }
+        setLoading(true);
+        const res = await fetch("/api/news", { cache: "no-store" });
+        const data = await res.json();
+        if (!alive) return;
+        setItems(Array.isArray(data.items) ? data.items : []);
+      } catch {
+        if (!alive) return;
+        setItems([]);
       } finally {
-        if (isMounted) {
-          setLoading(false);
-        }
+        if (!alive) return;
+        setLoading(false);
       }
-    };
-
-    loadNews();
-
+    })();
     return () => {
-      isMounted = false;
-      controller.abort();
+      alive = false;
     };
   }, []);
 
-  const visibleItems = useMemo(() => items.slice(0, MAX_ITEMS), [items]);
-
-  if (loading) {
-    return (
-      <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-        <p className="text-sm text-slate-500">Loading SaaS news…</p>
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div className="rounded-2xl border border-red-200 bg-red-50 p-6 shadow-sm">
-        <p className="text-sm text-red-700">{error}</p>
-      </div>
-    );
-  }
-
-  if (!visibleItems.length) {
-    return (
-      <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-        <p className="text-sm text-slate-500">No SaaS headlines right now. Check back soon.</p>
-      </div>
-    );
-  }
+  const visible = useMemo(() => items.slice(0, limit), [items, limit]);
 
   return (
-    <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-      <ul className="space-y-4">
-        {visibleItems.map(item => (
-          <li key={`${item.source}-${item.url}`} className="border-b border-slate-100 pb-4 last:border-b-0 last:pb-0">
-            <div className="flex flex-wrap items-start justify-between gap-3">
-              <Link
-                href={item.url}
+    <div className="w-full rounded-2xl border border-neutral-200 bg-white p-5 shadow-sm">
+      <div className="mb-4 flex items-center justify-between gap-3">
+        <h3 className="text-lg font-semibold">Current SaaS News</h3>
+        <span className="text-xs text-neutral-500">
+          {loading ? "Updating…" : `Showing ${visible.length} items`}
+        </span>
+      </div>
+
+      {loading ? (
+        <div className="text-sm text-neutral-600">Pulling fresh items from free sources…</div>
+      ) : visible.length === 0 ? (
+        <div className="text-sm text-neutral-600">
+          No items right now. (Could be rate limiting — refresh later.)
+        </div>
+      ) : (
+        <ul className="space-y-3">
+          {visible.map((it) => (
+            <li key={it.url} className="rounded-xl border border-neutral-100 p-3 hover:bg-neutral-50">
+              <a
+                href={it.url}
                 target="_blank"
                 rel="noreferrer"
-                className="text-lg font-semibold text-slate-900 hover:text-teal-700 hover:underline"
+                className="block text-sm font-medium text-neutral-900 hover:underline"
               >
-                {item.title}
-              </Link>
-              {typeof item.score === 'number' && (
-                <span className="inline-flex items-center gap-1 rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-700">
-                  {item.score} HN points
-                </span>
-              )}
-            </div>
-            <div className="mt-2 flex flex-wrap items-center gap-2 text-sm text-slate-500">
-              <span className="font-medium text-slate-600">{item.source}</span>
-              <span className="text-slate-300">•</span>
-              <span>{formatDate(item.publishedAt)}</span>
-            </div>
-          </li>
-        ))}
-      </ul>
+                {it.title}
+              </a>
+              <div className="mt-1 text-xs text-neutral-500">
+                {it.source}
+                {it.publishedAt ? ` • ${formatDate(it.publishedAt)}` : ""}
+                {typeof it.score === "number" ? ` • ${it.score} pts` : ""}
+              </div>
+            </li>
+          ))}
+        </ul>
+      )}
+
+      <div className="mt-4 text-xs text-neutral-500">
+        Sources: Hacker News, Reddit RSS, Techmeme (filtered for SaaS/tech business).
+      </div>
     </div>
   );
 }
