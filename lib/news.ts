@@ -1,69 +1,54 @@
-import { load } from 'cheerio';
-
 export type NewsItem = {
   title: string;
   url: string;
   source: string;
-  publishedAt: string;
+  publishedAt?: string;
   score?: number;
 };
 
-const ALLOWLIST = [
+const ALLOW_KEYWORDS = [
   'saas',
   'startup',
-  'startups',
-  'software',
-  'cloud',
-  'enterprise',
-  'b2b',
-  'ai',
-  'ml',
-  'automation',
-  'platform',
-  'product',
-  'growth',
-  'revenue',
-  'subscription',
-  'recurring',
-  'tech',
-  'business',
-  'fintech',
-  'devtools',
-  'security',
-  'data',
-  'analytics',
-  'funding',
-  'venture',
-  'vc',
-  'seed',
-  'series',
-  'acquisition',
-  'launch',
   'founder',
+  'mrr',
+  'arr',
+  'subscription',
+  'pricing',
+  'cloud',
+  'devops',
   'api',
+  'open source',
+  'open-source',
+  'security',
+  'breach',
+  'funding',
+  'acquisition',
+  'ipo',
+  'ai',
+  'llm',
+  'gpt',
+  'claude',
+  'gemini',
+  'automation',
+  'b2b',
+  'enterprise',
+  'productivity',
+  'crm',
+  'erp',
 ];
 
-const BLOCKLIST = [
+const BLOCK_KEYWORDS = [
   'celebrity',
-  'hollywood',
   'kardashian',
-  'gossip',
-  'music',
-  'movie',
-  'tv',
-  'oscars',
-  'sports',
-  'soccer',
+  'taylor swift',
   'football',
   'nba',
-  'nfl',
-  'mlb',
-  'nhl',
-  'ufc',
-  'politics',
-  'election',
-  'war',
-  'crime',
+  'soccer',
+  'minecraft',
+  'fortnite',
+  'movie trailer',
+  'dating',
+  'astrology',
 ];
 
 const HN_TOP_STORIES_URL = 'https://hacker-news.firebaseio.com/v0/topstories.json';
@@ -76,92 +61,91 @@ const REDDIT_RSS = [
 
 const LIMIT = 20;
 
-const matchesList = (title: string, list: string[]) => {
-  const normalized = title.toLowerCase();
-  return list.some(keyword => normalized.includes(keyword));
-};
+export function isRelevant(title: string, url: string) {
+  const text = `${title} ${url}`.toLowerCase();
 
-const isRelevant = (title: string) => {
-  if (matchesList(title, BLOCKLIST)) {
-    return false;
+  if (BLOCK_KEYWORDS.some(keyword => text.includes(keyword))) return false;
+  return ALLOW_KEYWORDS.some(keyword => text.includes(keyword));
+}
+
+export function normalizeUrl(url: string) {
+  try {
+    const parsed = new URL(url);
+    return parsed.toString();
+  } catch {
+    return url;
   }
-  return matchesList(title, ALLOWLIST);
-};
+}
 
-const toIsoDate = (value?: string | null) => {
-  if (!value) {
-    return new Date().toISOString();
+export async function fetchJson<T>(url: string): Promise<T> {
+  const response = await fetch(url, { headers: { 'user-agent': 'Mozilla/5.0' } });
+  if (!response.ok) throw new Error(`Failed fetch ${url}: ${response.status}`);
+  return response.json() as Promise<T>;
+}
+
+export async function fetchText(url: string): Promise<string> {
+  const response = await fetch(url, { headers: { 'user-agent': 'Mozilla/5.0' } });
+  if (!response.ok) throw new Error(`Failed fetch ${url}: ${response.status}`);
+  return response.text();
+}
+
+/**
+ * Minimal RSS parser (no extra deps).
+ * It’s “good enough” for common RSS feeds.
+ */
+export function parseRssItems(xml: string): Array<{ title: string; link: string; pubDate?: string }> {
+  const items: Array<{ title: string; link: string; pubDate?: string }> = [];
+  const itemBlocks = xml.split('<item').slice(1).map(block => '<item' + block);
+
+  for (const block of itemBlocks) {
+    const title = matchTag(block, 'title');
+    const link = matchTag(block, 'link');
+    const pubDate = matchTag(block, 'pubDate') || matchTag(block, 'published');
+
+    if (title && link) items.push({ title: decodeHtml(title), link: decodeHtml(link), pubDate });
   }
-  const parsed = new Date(value);
-  if (Number.isNaN(parsed.getTime())) {
-    return new Date().toISOString();
-  }
-  return parsed.toISOString();
-};
-
-const parseRssItems = (xml: string, source: string): NewsItem[] => {
-  const $ = load(xml, { xmlMode: true });
-  const items: NewsItem[] = [];
-
-  const feedItems = $('item');
-  if (feedItems.length > 0) {
-    feedItems.each((_, element) => {
-      const title = $(element).find('title').first().text().trim();
-      const url = $(element).find('link').first().text().trim();
-      const publishedAt = toIsoDate(
-        $(element).find('pubDate').first().text().trim() ||
-          $(element).find('dc\\:date').first().text().trim(),
-      );
-      if (!title || !url || !isRelevant(title)) {
-        return;
-      }
-      items.push({
-        title,
-        url,
-        source,
-        publishedAt,
-      });
-    });
-    return items;
-  }
-
-  $('entry').each((_, element) => {
-    const title = $(element).find('title').first().text().trim();
-    const linkElement = $(element).find('link[rel="alternate"]').first();
-    const url = (linkElement.attr('href') || $(element).find('link').first().attr('href') || '').trim();
-    const publishedAt = toIsoDate(
-      $(element).find('updated').first().text().trim() ||
-        $(element).find('published').first().text().trim(),
-    );
-    if (!title || !url || !isRelevant(title)) {
-      return;
-    }
-    items.push({
-      title,
-      url,
-      source,
-      publishedAt,
-    });
-  });
-
   return items;
-};
+}
+
+function matchTag(xml: string, tag: string) {
+  const re = new RegExp(`<${tag}[^>]*>([\\s\\S]*?)<\\/${tag}>`, 'i');
+  const match = xml.match(re);
+  return match?.[1]?.trim();
+}
+
+function decodeHtml(value: string) {
+  return value
+    .replace(/&amp;/g, '&')
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;/g, "'");
+}
+
+export function toIsoDate(dateStr?: string) {
+  if (!dateStr) return undefined;
+  const parsed = new Date(dateStr);
+  if (Number.isNaN(parsed.getTime())) return undefined;
+  return parsed.toISOString();
+}
 
 const fetchRssFeed = async (url: string, source: string) => {
   try {
-    const response = await fetch(url, {
-      headers: {
-        'User-Agent': 'SaaSValuationBot/1.0',
-      },
-      next: { revalidate: 0 },
-    });
-
-    if (!response.ok) {
-      return [] as NewsItem[];
-    }
-
-    const xml = await response.text();
-    return parseRssItems(xml, source);
+    const xml = await fetchText(url);
+    return parseRssItems(xml)
+      .map(item => {
+        const normalizedUrl = normalizeUrl(item.link);
+        if (!isRelevant(item.title, normalizedUrl)) {
+          return null;
+        }
+        return {
+          title: item.title,
+          url: normalizedUrl,
+          source,
+          publishedAt: toIsoDate(item.pubDate),
+        } as NewsItem;
+      })
+      .filter(Boolean) as NewsItem[];
   } catch (error) {
     console.warn(`Failed to fetch RSS feed from ${url}`, error);
     return [] as NewsItem[];
@@ -170,33 +154,34 @@ const fetchRssFeed = async (url: string, source: string) => {
 
 const fetchHackerNews = async () => {
   try {
-    const response = await fetch(HN_TOP_STORIES_URL, { next: { revalidate: 0 } });
-    if (!response.ok) {
-      return [] as NewsItem[];
-    }
-
-    const ids = (await response.json()) as number[];
+    const ids = await fetchJson<number[]>(HN_TOP_STORIES_URL);
     const topIds = ids.slice(0, 30);
 
     const items = await Promise.all(
       topIds.map(async id => {
         try {
-          const itemResponse = await fetch(`${HN_ITEM_URL}/${id}.json`, { next: { revalidate: 0 } });
-          if (!itemResponse.ok) {
-            return null;
-          }
-          const item = await itemResponse.json();
+          const item = await fetchJson<Record<string, unknown>>(`${HN_ITEM_URL}/${id}.json`);
           if (!item || item.type !== 'story') {
             return null;
           }
 
           const title = String(item.title || '').trim();
-          if (!title || !isRelevant(title)) {
+          if (!title) {
             return null;
           }
 
-          const url = item.url || `https://news.ycombinator.com/item?id=${item.id}`;
-          const publishedAt = toIsoDate(item.time ? new Date(item.time * 1000).toISOString() : undefined);
+          const url = normalizeUrl(
+            typeof item.url === 'string' && item.url.length > 0
+              ? item.url
+              : `https://news.ycombinator.com/item?id=${item.id}`,
+          );
+          if (!isRelevant(title, url)) {
+            return null;
+          }
+
+          const publishedAt = toIsoDate(
+            typeof item.time === 'number' ? new Date(item.time * 1000).toISOString() : undefined,
+          );
 
           return {
             title,
@@ -219,6 +204,12 @@ const fetchHackerNews = async () => {
   }
 };
 
+const getPublishedTime = (value?: string) => {
+  if (!value) return 0;
+  const parsed = new Date(value).getTime();
+  return Number.isNaN(parsed) ? 0 : parsed;
+};
+
 export const fetchAllNews = async () => {
   const [hnItems, techmemeItems, ...redditItems] = await Promise.all([
     fetchHackerNews(),
@@ -236,6 +227,6 @@ export const fetchAllNews = async () => {
   });
 
   return Array.from(deduped.values())
-    .sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime())
+    .sort((a, b) => getPublishedTime(b.publishedAt) - getPublishedTime(a.publishedAt))
     .slice(0, LIMIT);
 };
