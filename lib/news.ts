@@ -6,6 +6,27 @@ export type NewsItem = {
   score?: number;
 };
 
+export const DEMO_NEWS: NewsItem[] = [
+  {
+    title: 'SaaS pricing benchmarks: what top ARR companies charge in 2024',
+    url: 'https://example.com/saas-news/pricing-benchmarks-2024',
+    source: 'Demo',
+    publishedAt: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString(),
+  },
+  {
+    title: 'How AI copilots are changing B2B product roadmaps',
+    url: 'https://example.com/saas-news/ai-copilots-b2b-roadmaps',
+    source: 'Demo',
+    publishedAt: new Date(Date.now() - 4 * 24 * 60 * 60 * 1000).toISOString(),
+  },
+  {
+    title: 'The best SaaS onboarding flows we saw this quarter',
+    url: 'https://example.com/saas-news/onboarding-flows-quarter',
+    source: 'Demo',
+    publishedAt: new Date(Date.now() - 6 * 24 * 60 * 60 * 1000).toISOString(),
+  },
+];
+
 const ALLOW_KEYWORDS = [
   'saas',
   'startup',
@@ -218,6 +239,9 @@ export const fetchAllNews = async () => {
   ]);
 
   const combined = [...hnItems, ...techmemeItems, ...redditItems.flat()];
+  if (combined.length === 0) {
+    return DEMO_NEWS;
+  }
 
   const deduped = new Map<string, NewsItem>();
   combined.forEach(item => {

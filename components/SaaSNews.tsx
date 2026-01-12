@@ -20,6 +20,9 @@ export default function SaaSNews({ limit = 10, initialItems = [] }: SaaSNewsProp
   const [items, setItems] = useState<NewsItem[]>(initialItems);
   const [loading, setLoading] = useState(!hasInitialItems);
   const [hasError, setHasError] = useState(false);
+  const [isDemo, setIsDemo] = useState(
+    hasInitialItems && initialItems.every(item => item.source === "Demo"),
+  );
 
   useEffect(() => {
     let alive = true;
@@ -33,6 +36,7 @@ export default function SaaSNews({ limit = 10, initialItems = [] }: SaaSNewsProp
         const data = await res.json();
         if (!alive) return;
         setItems(Array.isArray(data.items) ? data.items : []);
+        setIsDemo(Boolean(data.demo));
       } catch {
         if (!alive) return;
         setHasError(true);
@@ -61,6 +65,10 @@ export default function SaaSNews({ limit = 10, initialItems = [] }: SaaSNewsProp
       {hasError ? (
         <div className="mb-3 rounded-lg border border-amber-200 bg-amber-50 px-3 py-2 text-xs text-amber-700">
           Live sources are temporarily unavailable. Showing the last available items.
+        </div>
+      ) : isDemo ? (
+        <div className="mb-3 rounded-lg border border-sky-200 bg-sky-50 px-3 py-2 text-xs text-sky-700">
+          Showing demo headlines while live sources warm up.
         </div>
       ) : null}
 
