@@ -86,6 +86,16 @@ const REDDIT_RSS = [
 ];
 
 const LIMIT = 20;
+const DEFAULT_TIMEOUT_MS = 8000;
+const DEFAULT_USER_AGENT =
+  'Mozilla/5.0 (compatible; AmandaValuation/1.0; +https://amandavaluation.com)';
+const IS_DEV = process.env.NODE_ENV !== 'production';
+
+const logDevWarn = (...args: unknown[]) => {
+  if (IS_DEV) {
+    console.warn(...args);
+  }
+};
 
 export function isRelevant(title: string, url: string) {
   const text = `${title} ${url}`.toLowerCase();
@@ -103,16 +113,51 @@ export function normalizeUrl(url: string) {
   }
 }
 
+async function fetchWithTimeout(url: string, init: RequestInit, timeoutMs = DEFAULT_TIMEOUT_MS) {
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
+
+  try {
+    return await fetch(url, { ...init, signal: controller.signal });
+  } finally {
+    clearTimeout(timeoutId);
+  }
+}
+
 export async function fetchJson<T>(url: string): Promise<T> {
-  const response = await fetch(url, { headers: { 'user-agent': 'Mozilla/5.0' } });
-  if (!response.ok) throw new Error(`Failed fetch ${url}: ${response.status}`);
-  return response.json() as Promise<T>;
+  try {
+    const response = await fetchWithTimeout(url, {
+      headers: {
+        'User-Agent': DEFAULT_USER_AGENT,
+        Accept: 'application/json',
+      },
+    });
+    if (!response.ok) throw new Error(`Failed fetch ${url}: ${response.status}`);
+    return response.json() as Promise<T>;
+  } catch (error) {
+    if (error instanceof Error && error.name === 'AbortError') {
+      throw new Error(`Timeout fetching ${url}`);
+    }
+    throw error;
+  }
 }
 
 export async function fetchText(url: string): Promise<string> {
-  const response = await fetch(url, { headers: { 'user-agent': 'Mozilla/5.0' } });
-  if (!response.ok) throw new Error(`Failed fetch ${url}: ${response.status}`);
-  return response.text();
+  try {
+    const response = await fetchWithTimeout(url, {
+      headers: {
+        'User-Agent': DEFAULT_USER_AGENT,
+        Accept: 'application/rss+xml, application/xml;q=0.9, text/xml;q=0.8, */*;q=0.7',
+      },
+    });
+    if (!response.ok) throw new Error(`Failed fetch ${url}: ${response.status}`);
+    return response.text();
+  } catch (error) {
+    if (error instanceof Error && error.name === 'AbortError') {
+      throw new Error(`Timeout fetching ${url}`);
+    }
+    throw error;
+  }
 }
 
 /**
@@ -173,7 +218,7 @@ const fetchRssFeed = async (url: string, source: string) => {
       })
       .filter(Boolean) as NewsItem[];
   } catch (error) {
-    console.warn(`Failed to fetch RSS feed from ${url}`, error);
+    logDevWarn(`Failed to fetch RSS feed from ${url}`, error);
     return [] as NewsItem[];
   }
 };
@@ -217,7 +262,7 @@ const fetchHackerNews = async () => {
             score: typeof item.score === 'number' ? item.score : undefined,
           } as NewsItem;
         } catch (error) {
-          console.warn(`Failed to fetch HN story ${id}`, error);
+          logDevWarn(`Failed to fetch HN story ${id}`, error);
           return null;
         }
       }),
@@ -225,7 +270,7 @@ const fetchHackerNews = async () => {
 
     return items.filter(Boolean) as NewsItem[];
   } catch (error) {
-    console.warn('Failed to fetch Hacker News stories', error);
+    logDevWarn('Failed to fetch Hacker News stories', error);
     return [] as NewsItem[];
   }
 };
