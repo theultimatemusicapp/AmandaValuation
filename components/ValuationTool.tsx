@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowRight, ArrowLeft, Activity, Info, DollarSign, Shield, Percent, TrendingUp, ShieldCheck, Calculator } from 'lucide-react';
 import { generateFreePDF } from '@/lib/pdf-generator';
-import { calculateSaaSValuation, ValuationInputs, formatCurrency } from '@/lib/valuation';
+import { calculateSaaSValuation, ValuationInputs, ValuationResult, formatCurrency } from '@/lib/valuation';
 import ProDashboard from './ProDashboard';
 
 const STEPS = [
@@ -69,7 +69,7 @@ export default function ValuationWizard() {
         cac: 0,
     });
 
-    const [result, setResult] = useState<any>(null);
+    const [result, setResult] = useState<ValuationResult | null>(null);
 
     const handleInputChange = (field: keyof ValuationInputs, value: any) => {
         setFormData(prev => ({ ...prev, [field]: value }));
@@ -349,6 +349,42 @@ export default function ValuationWizard() {
                                             <div className="inline-flex items-center gap-2 bg-slate-900/50 px-4 py-2 rounded-full">
                                                 <Activity className="w-4 h-4 text-brand-400" />
                                                 <span className="text-sm text-slate-300">Confidence: <span className="font-bold text-white">{result.confidence}%</span></span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {/* Enhanced Metric Snapshot */}
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                                        <div className="bg-slate-900/60 border border-slate-800 rounded-xl p-4 flex items-start gap-3">
+                                            <TrendingUp className="w-5 h-5 text-brand-400 mt-1" />
+                                            <div>
+                                                <p className="text-xs uppercase tracking-wide text-slate-500">Applied Revenue Multiple</p>
+                                                <p className="text-xl font-semibold text-white">{result.revenueMultiple.toFixed(1)}x</p>
+                                                <p className="text-xs text-slate-400">Factoring growth, churn, retention, and IP strength—about half way to our Pro depth.</p>
+                                            </div>
+                                        </div>
+                                        <div className="bg-slate-900/60 border border-slate-800 rounded-xl p-4 flex items-start gap-3">
+                                            <Percent className="w-5 h-5 text-brand-400 mt-1" />
+                                            <div>
+                                                <p className="text-xs uppercase tracking-wide text-slate-500">Rule of 40 Score</p>
+                                                <p className="text-xl font-semibold text-white">{result.ruleOf40.toFixed(1)}%</p>
+                                                <p className="text-xs text-slate-400">Growth + margin efficiency. 40%+ typically commands premium SaaS multiples.</p>
+                                            </div>
+                                        </div>
+                                        <div className="bg-slate-900/60 border border-slate-800 rounded-xl p-4 flex items-start gap-3">
+                                            <DollarSign className="w-5 h-5 text-brand-400 mt-1" />
+                                            <div>
+                                                <p className="text-xs uppercase tracking-wide text-slate-500">Net Profit Margin</p>
+                                                <p className="text-xl font-semibold text-white">{result.netProfitMargin.toFixed(1)}%</p>
+                                                <p className="text-xs text-slate-400">Signals how much cash flow you keep after costs—key for strategic buyers.</p>
+                                            </div>
+                                        </div>
+                                        <div className="bg-slate-900/60 border border-slate-800 rounded-xl p-4 flex items-start gap-3">
+                                            <Shield className="w-5 h-5 text-brand-400 mt-1" />
+                                            <div>
+                                                <p className="text-xs uppercase tracking-wide text-slate-500">Retention & Risk</p>
+                                                <p className="text-sm font-semibold text-white">{result.retentionSignal}</p>
+                                                <p className="text-xs text-slate-400">{result.churnRisk}. {result.npsSignal}.</p>
                                             </div>
                                         </div>
                                     </div>

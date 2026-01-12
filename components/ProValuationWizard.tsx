@@ -70,7 +70,11 @@ const PRO_INSIGHTS = [
     }
 ];
 
-export default function ProValuationWizard() {
+type ProValuationWizardProps = {
+    paid?: string;
+};
+
+export default function ProValuationWizard({ paid }: ProValuationWizardProps) {
     const router = useRouter();
     const [currentStep, setCurrentStep] = useState(0);
     const [result, setResult] = useState<any>(null);
@@ -96,8 +100,7 @@ export default function ProValuationWizard() {
     });
 
     useEffect(() => {
-        const params = new URLSearchParams(window.location.search);
-        const isPaid = params.get('paid') === 'true';
+        const isPaid = paid === 'true';
 
         // Initial detection: if paid, override with saved result
         if (isPaid) {
@@ -105,9 +108,12 @@ export default function ProValuationWizard() {
             if (savedFullData) {
                 try {
                     const { data, result: savedResult } = JSON.parse(savedFullData);
+                    const resolvedResult = savedResult ?? calculateSaaSValuation(data);
                     setFormData(data);
-                    setResult(savedResult);
+                    setResult(resolvedResult);
                     setCurrentStep(PRO_STEPS.length);
+                    localStorage.removeItem('pro_valuation_current_step');
+                    localStorage.removeItem('pro_valuation_draft');
 
                     // Fire GA4 purchase event for revenue tracking
                     if (typeof window !== 'undefined' && (window as any).gtag) {
@@ -130,13 +136,22 @@ export default function ProValuationWizard() {
                     console.error('Failed to parse saved valuation data:', err);
                 }
             }
+
+            localStorage.removeItem('pro_valuation_current_step');
+            localStorage.removeItem('pro_valuation_draft');
+            return;
         }
 
         // Normal persistence: resume from where the user left off
         const savedStep = localStorage.getItem('pro_valuation_current_step');
         const savedDraft = localStorage.getItem('pro_valuation_draft');
 
-        if (savedStep) setCurrentStep(Number(savedStep));
+        if (savedStep) {
+            const parsedStep = Number(savedStep);
+            if (!Number.isNaN(parsedStep)) {
+                setCurrentStep(Math.min(Math.max(parsedStep, 0), PRO_STEPS.length - 1));
+            }
+        }
         if (savedDraft) {
             try {
                 setFormData(prev => ({ ...prev, ...JSON.parse(savedDraft) }));
@@ -144,7 +159,7 @@ export default function ProValuationWizard() {
                 console.error('Failed to parse saved draft:', err);
             }
         }
-    }, []);
+    }, [paid]);
 
     // Save state on every change
     useEffect(() => {

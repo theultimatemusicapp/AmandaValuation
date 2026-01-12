@@ -23,6 +23,7 @@ export default function Header() {
                     {/* Desktop Navigation */}
                     <nav className="hidden md:flex items-center space-x-1">
                         <NavLink href="/">Valuation Tool</NavLink>
+                        <NavLink href="/pro">Pro Valuation</NavLink>
                         <NavLink href="/resources">Resources</NavLink>
                         <NavLink href="/payment">Pricing</NavLink>
                         <Link
@@ -50,6 +51,9 @@ export default function Header() {
                     <nav className="px-4 py-4 space-y-2">
                         <MobileNavLink href="/" onClick={() => setMobileMenuOpen(false)}>
                             Valuation Tool
+                        </MobileNavLink>
+                        <MobileNavLink href="/pro" onClick={() => setMobileMenuOpen(false)}>
+                            Pro Valuation
                         </MobileNavLink>
                         <MobileNavLink href="/resources" onClick={() => setMobileMenuOpen(false)}>
                             Resources

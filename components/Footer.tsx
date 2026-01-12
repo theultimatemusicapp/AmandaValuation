@@ -62,22 +62,22 @@ export default function Footer() {
                         <h3 className="text-sm font-semibold text-white mb-4 uppercase tracking-wider">Resources</h3>
                         <ul className="space-y-3">
                             <li>
-                                <Link href="/resources#how-to-value-saas" className="text-gray-400 hover:text-white transition-colors text-sm">
+                                <Link href="/resources/how-to-value-a-saas" className="text-gray-400 hover:text-white transition-colors text-sm">
                                     Valuation Guides
                                 </Link>
                             </li>
                             <li>
-                                <Link href="/resources#micro-saas-valuation" className="text-gray-400 hover:text-white transition-colors text-sm">
+                                <Link href="/resources/founder-pathways-to-exit" className="text-gray-400 hover:text-white transition-colors text-sm">
                                     Exit Readiness
                                 </Link>
                             </li>
                             <li>
-                                <Link href="/resources#rule-of-40" className="text-gray-400 hover:text-white transition-colors text-sm">
+                                <Link href="/resources/rule-of-40-saas" className="text-gray-400 hover:text-white transition-colors text-sm">
                                     Growth Strategies
                                 </Link>
                             </li>
                             <li>
-                                <Link href="/resources#ai-valuation-bubble" className="text-gray-400 hover:text-white transition-colors text-sm">
+                                <Link href="/resources/ai-saas-valuation-bubble" className="text-gray-400 hover:text-white transition-colors text-sm">
                                     Market Insights
                                 </Link>
                             </li>
@@ -94,8 +94,13 @@ export default function Footer() {
                                 </Link>
                             </li>
                             <li>
-                                <Link href="/about" className="text-gray-400 hover:text-white transition-colors text-sm">
+                                <Link href="/contact" className="text-gray-400 hover:text-white transition-colors text-sm">
                                     Contact
+                                </Link>
+                            </li>
+                            <li>
+                                <Link href="/editorial-standards" className="text-gray-400 hover:text-white transition-colors text-sm">
+                                    Editorial Standards
                                 </Link>
                             </li>
                             <li>
