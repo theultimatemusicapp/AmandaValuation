@@ -5,10 +5,15 @@ import ValuationWizard from '@/components/ValuationTool';
 import Pricing from '@/components/Pricing';
 import Testimonials from '@/components/Testimonials';
 import SaaSNews from '@/components/SaaSNews';
+import { fetchAllNews } from '@/lib/news';
 import Link from 'next/link';
 import { ArrowRight, Sparkles } from 'lucide-react';
+import { unstable_noStore as noStore } from 'next/cache';
 
-export default function Home() {
+export default async function Home() {
+  noStore();
+  const initialNews = await fetchAllNews().catch(() => []);
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950">
       <Header />
@@ -47,7 +52,7 @@ export default function Home() {
             <p className="text-sm uppercase tracking-widest text-slate-400">Current SaaS News</p>
             <h2 className="text-3xl font-bold text-white">Current SaaS News</h2>
           </div>
-          <SaaSNews />
+          <SaaSNews initialItems={initialNews} />
         </div>
       </section>
 
