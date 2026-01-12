@@ -29,7 +29,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
     const articlePages: MetadataRoute.Sitemap = RESOURCE_ARTICLES.map(article => ({
         url: `${base}/resources/${article.slug}`,
-        lastModified: new Date(article.lastUpdated),
+        lastModified: new Date(article.updatedAt),
         changeFrequency: 'monthly',
         priority: 0.6,
     }));

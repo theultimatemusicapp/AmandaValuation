@@ -48,21 +48,21 @@ export async function generateMetadata({ params }: PageParams, parent: Resolving
     }
 
     const categoryInfo = RESOURCE_CATEGORIES.find(item => item.slug === article!.categorySlug);
-    const title = `${article!.title} | SaaS Valuation Resources`;
+    const title = `${article!.metaTitle} | SaaS Valuation Resources`;
     return {
         title: title,
-        description: article!.excerpt,
+        description: article!.metaDescription,
         keywords: article!.keywords.join(', '),
         alternates: { canonical: `${baseUrl}/resources/${article!.slug}` },
         openGraph: {
             title,
-            description: article!.excerpt,
+            description: article!.metaDescription,
             url: `${baseUrl}/resources/${article!.slug}`,
         },
         twitter: {
             card: 'summary_large_image',
             title,
-            description: article!.excerpt,
+            description: article!.metaDescription,
         },
         other: {
             'article:section': categoryInfo?.title ?? 'Resources',
@@ -152,6 +152,9 @@ export default async function ResourcePage({ params }: PageParams) {
         { id: 'examples', label: 'Examples' },
         { id: 'checklist', label: 'Checklist' },
         { id: 'faqs', label: 'FAQs' },
+        { id: 'summary', label: 'Summary' },
+        { id: 'sources', label: 'Sources & further reading' },
+        { id: 'internal-links', label: 'Internal links' },
         { id: 'next-steps', label: 'Next steps' },
         { id: 'related-resources', label: 'Related resources' },
         { id: 'calculator-cta', label: 'Run the calculator' },
@@ -173,7 +176,7 @@ export default async function ResourcePage({ params }: PageParams) {
                         <ArticleHeader
                             badge={article!.badge}
                             category={categoryInfo.title}
-                            updated={article!.lastUpdated}
+                            updated={article!.updatedAt}
                             title={article!.title}
                             intro={article!.excerpt}
                         />
@@ -186,7 +189,7 @@ export default async function ResourcePage({ params }: PageParams) {
                             </Link>
                         </div>
                         <div className="grid lg:grid-cols-[1.4fr_1fr] gap-6 pt-2">
-                            <TrustModule author={article!.author} updated={article!.lastUpdated} />
+                            <TrustModule author={article!.author} updated={article!.updatedAt} reviewed={article!.reviewedAt} />
                             <TableOfContents items={tocItems} />
                         </div>
                     </div>
@@ -199,7 +202,7 @@ export default async function ResourcePage({ params }: PageParams) {
                             <DefinitionBox
                                 definition={article!.definition}
                                 categoryTitle={categoryInfo.title}
-                                lastUpdated={article!.lastUpdated}
+                                lastUpdated={article!.updatedAt}
                             />
                         </div>
 
@@ -218,13 +221,16 @@ export default async function ResourcePage({ params }: PageParams) {
                         <ArticleExamplesSection examples={article!.examples} />
                         <ArticleChecklistSection checklist={article!.checklist} />
                         <ArticleFAQSection faqs={article!.faqs} />
+                        <ArticleSummarySection summary={article!.summary} />
+                        <ArticleSourcesSection sources={article!.sources} />
+                        <InternalLinksSection links={article!.internalLinks} />
                         <NextStepsSection category={categoryInfo} />
                         <section id="related-resources">
                             <RelatedSection related={relatedArticles} />
                         </section>
                         <EmailCaptureSection />
                         <section id="calculator-cta">
-                            <CTASection lastUpdated={article!.lastUpdated} />
+                            <CTASection lastUpdated={article!.updatedAt} />
                         </section>
                     </div>
                 </section>
@@ -240,7 +246,7 @@ function ArticleCard({ article, category }: { article: ResourceArticle; category
         <div className="bg-white border border-gray-200 rounded-xl p-6 space-y-3 hover:shadow-lg transition-shadow">
             <div className="flex items-center gap-2 text-sm text-teal-700 font-semibold">
                 <span className="px-2 py-0.5 rounded-full bg-teal-100 text-teal-800 text-xs">{article.badge}</span>
-                <span>{article.lastUpdated}</span>
+                <span>{article.updatedAt}</span>
             </div>
             <h3 className="text-xl font-bold text-gray-900">
                 <Link href={`/resources/${article.slug}`} className="hover:underline">
@@ -305,7 +311,7 @@ function TableOfContents({ items }: { items: { id: string; label: string }[] }) 
     );
 }
 
-function TrustModule({ author, updated }: { author: string; updated: string }) {
+function TrustModule({ author, updated, reviewed }: { author: string; updated: string; reviewed: string }) {
     return (
         <div className="bg-white border border-gray-200 rounded-2xl p-5 shadow-sm space-y-3">
             <p className="text-sm font-semibold text-teal-700 uppercase">Trust & methodology</p>
@@ -317,8 +323,14 @@ function TrustModule({ author, updated }: { author: string; updated: string }) {
                     <span className="font-semibold text-gray-900">Last updated:</span> {updated}
                 </p>
                 <p>
+                    <span className="font-semibold text-gray-900">Last reviewed:</span> {reviewed}
+                </p>
+                <p>
                     <span className="font-semibold text-gray-900">Methodology:</span> Benchmarks are cross-checked across market reports,
                     transaction comps, and founder-level operating data.
+                </p>
+                <p>
+                    <span className="font-semibold text-gray-900">Disclosure:</span> This content is general information, not financial advice.
                 </p>
             </div>
             <Link href="/editorial-standards" className="text-sm font-semibold text-teal-700 hover:underline">
@@ -475,6 +487,58 @@ function CTASection({ lastUpdated }: { lastUpdated: string }) {
     );
 }
 
+function ArticleSummarySection({ summary }: { summary: string }) {
+    const paragraphs = summary
+        .split(/\n\n+/)
+        .map(paragraph => paragraph.trim())
+        .filter(Boolean);
+
+    return (
+        <section id="summary" className="article-card">
+            <h2 className="text-2xl font-bold text-gray-900 mb-2">Summary</h2>
+            <div className="article-prose space-y-4 leading-relaxed">
+                {paragraphs.map((paragraph, index) => (
+                    <p key={`summary-${index}`}>{paragraph}</p>
+                ))}
+            </div>
+        </section>
+    );
+}
+
+function ArticleSourcesSection({ sources }: { sources: { label: string; url: string }[] }) {
+    return (
+        <section id="sources" className="article-card">
+            <h2 className="text-2xl font-bold text-gray-900 mb-2">Sources &amp; further reading</h2>
+            <ul className="article-prose list-disc pl-5 space-y-2 leading-relaxed">
+                {sources.map(source => (
+                    <li key={source.url}>
+                        <a href={source.url} className="text-teal-700 hover:underline" target="_blank" rel="noreferrer">
+                            {source.label}
+                        </a>
+                    </li>
+                ))}
+            </ul>
+        </section>
+    );
+}
+
+function InternalLinksSection({ links }: { links: { label: string; href: string }[] }) {
+    return (
+        <section id="internal-links" className="article-card">
+            <h2 className="text-2xl font-bold text-gray-900 mb-2">Continue exploring</h2>
+            <ul className="article-prose list-disc pl-5 space-y-2 leading-relaxed">
+                {links.map(link => (
+                    <li key={link.href}>
+                        <Link href={link.href} className="text-teal-700 hover:underline">
+                            {link.label}
+                        </Link>
+                    </li>
+                ))}
+            </ul>
+        </section>
+    );
+}
+
 function StructuredData({ article, category }: { article: ResourceArticle; category: ResourceCategory }) {
     const breadcrumbList = {
         '@context': 'https://schema.org',
@@ -503,15 +567,30 @@ function StructuredData({ article, category }: { article: ResourceArticle; categ
         headline: article.title,
         description: article.excerpt,
         author: { '@type': 'Person', name: article.author },
-        dateModified: article.lastUpdated,
+        datePublished: article.publishedAt,
+        dateModified: article.updatedAt,
         mainEntityOfPage: `${baseUrl}/resources/${article.slug}`,
         about: article.keywords,
+    };
+
+    const faqSchema = {
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        mainEntity: article.faqs.map(faq => ({
+            '@type': 'Question',
+            name: faq.question,
+            acceptedAnswer: {
+                '@type': 'Answer',
+                text: faq.answer,
+            },
+        })),
     };
 
     return (
         <>
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbList) }} />
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }} />
+            <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
         </>
     );
 }
