@@ -107,26 +107,35 @@ export async function GET() {
       }
     }
 
-    // 3) Techmeme RSS (free)
-    try {
-      const xml = await fetchText('https://www.techmeme.com/feed.xml');
-      const rssItems = parseRssItems(xml);
+    // 3) RSS feeds (free)
+    const rssFeeds = [
+      { name: 'Techmeme', url: 'https://www.techmeme.com/feed.xml' },
+      { name: 'SaaStr', url: 'https://www.saastr.com/feed/' },
+      { name: 'TechCrunch', url: 'https://techcrunch.com/feed/' },
+      { name: 'VentureBeat', url: 'https://venturebeat.com/feed/' },
+    ];
 
-      for (const t of rssItems.slice(0, 40)) {
-        const url = normalizeUrl(t.link);
-        if (!isRelevant(t.title, url)) continue;
+    for (const feed of rssFeeds) {
+      try {
+        const xml = await fetchText(feed.url);
+        const rssItems = parseRssItems(xml);
 
-        items.push({
-          title: t.title,
-          url,
-          source: 'Techmeme',
-          publishedAt: toIsoDate(t.pubDate),
-        });
+        for (const t of rssItems.slice(0, 40)) {
+          const url = normalizeUrl(t.link);
+          if (!isRelevant(t.title, url)) continue;
+
+          items.push({
+            title: t.title,
+            url,
+            source: feed.name,
+            publishedAt: toIsoDate(t.pubDate),
+          });
+        }
+      } catch (error: unknown) {
+        errors.push(
+          `${feed.name}: ${error instanceof Error ? error.message : String(error)}`,
+        );
       }
-    } catch (error: unknown) {
-      errors.push(
-        `Techmeme: ${error instanceof Error ? error.message : String(error)}`,
-      );
     }
 
     // Deduplicate by URL
