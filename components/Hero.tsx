@@ -55,7 +55,7 @@ export default function Hero() {
                             Start Free Valuation
                             <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                         </a>
-                        <a href="#sample-report" className="w-full sm:w-auto px-8 py-4 bg-slate-800/50 hover:bg-slate-800 text-slate-200 border border-slate-700 hover:border-slate-600 rounded-xl font-medium transition-all flex items-center justify-center gap-2">
+                        <a href="/pro" className="w-full sm:w-auto px-8 py-4 bg-slate-800/50 hover:bg-slate-800 text-slate-200 border border-slate-700 hover:border-slate-600 rounded-xl font-medium transition-all flex items-center justify-center gap-2">
                             View Sample Report
                         </a>
                     </motion.div>
