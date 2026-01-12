@@ -15,7 +15,7 @@ type SaaSNewsProps = {
   initialItems?: NewsItem[];
 };
 
-export default function SaaSNews({ limit = 10, initialItems = [] }: SaaSNewsProps) {
+export default function SaaSNews({ limit = 6, initialItems = [] }: SaaSNewsProps) {
   const hasInitialItems = initialItems.length > 0;
   const [items, setItems] = useState<NewsItem[]>(initialItems);
   const [loading, setLoading] = useState(!hasInitialItems);
@@ -79,7 +79,7 @@ export default function SaaSNews({ limit = 10, initialItems = [] }: SaaSNewsProp
           No items right now. (Could be rate limiting — refresh later.)
         </div>
       ) : (
-        <ul className="space-y-3">
+        <ul className="grid gap-3 md:grid-cols-2">
           {visible.map((it) => (
             <li key={it.url} className="rounded-xl border border-neutral-100 p-3 hover:bg-neutral-50">
               <a
@@ -101,7 +101,7 @@ export default function SaaSNews({ limit = 10, initialItems = [] }: SaaSNewsProp
       )}
 
       <div className="mt-4 text-xs text-neutral-500">
-        Sources: Hacker News, Reddit RSS, Techmeme (filtered for SaaS/tech business).
+        Sources: Hacker News, Reddit RSS, Techmeme, SaaStr, TechCrunch, VentureBeat (filtered for SaaS/tech business).
       </div>
     </div>
   );

@@ -74,7 +74,12 @@ const BLOCK_KEYWORDS = [
 
 const HN_TOP_STORIES_URL = 'https://hacker-news.firebaseio.com/v0/topstories.json';
 const HN_ITEM_URL = 'https://hacker-news.firebaseio.com/v0/item';
-const TECHMEME_RSS = 'https://www.techmeme.com/feed.xml';
+const RSS_FEEDS = [
+  { url: 'https://www.techmeme.com/feed.xml', source: 'Techmeme' },
+  { url: 'https://www.saastr.com/feed/', source: 'SaaStr' },
+  { url: 'https://techcrunch.com/feed/', source: 'TechCrunch' },
+  { url: 'https://venturebeat.com/feed/', source: 'VentureBeat' },
+];
 const REDDIT_RSS = [
   { url: 'https://www.reddit.com/r/SaaS/.rss', source: 'Reddit r/SaaS' },
   { url: 'https://www.reddit.com/r/startups/.rss', source: 'Reddit r/startups' },
@@ -232,13 +237,13 @@ const getPublishedTime = (value?: string) => {
 };
 
 export const fetchAllNews = async () => {
-  const [hnItems, techmemeItems, ...redditItems] = await Promise.all([
+  const [hnItems, ...rssItems] = await Promise.all([
     fetchHackerNews(),
-    fetchRssFeed(TECHMEME_RSS, 'Techmeme'),
+    ...RSS_FEEDS.map(feed => fetchRssFeed(feed.url, feed.source)),
     ...REDDIT_RSS.map(feed => fetchRssFeed(feed.url, feed.source)),
   ]);
 
-  const combined = [...hnItems, ...techmemeItems, ...redditItems.flat()];
+  const combined = [...hnItems, ...rssItems.flat()];
   if (combined.length === 0) {
     return DEMO_NEWS;
   }
