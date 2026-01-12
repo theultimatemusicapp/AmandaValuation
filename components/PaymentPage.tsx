@@ -69,7 +69,7 @@ export default function PaymentPage() {
                         Unlock Your <span className="text-gradient bg-gradient-to-r from-brand-500 to-amber-500 bg-clip-text text-transparent">Pro Valuation</span>
                     </h1>
                     <p className="text-xl text-slate-400 max-w-2xl mx-auto">
-                        Get investor-grade insights with Pro's comprehensive 50+ data point analysis and professional PDF reports
+                        Get investor-grade insights with Pro's comprehensive 50+ data point analysis and a professional 10-page PDF report
                     </p>
                 </div>
 
@@ -133,7 +133,7 @@ export default function PaymentPage() {
                                 10 PAGES
                             </div>
                         </div>
-                        <h3 className="text-xl font-bold text-white mb-2">Detailed Investor Grade Report</h3>
+                        <h3 className="text-xl font-bold text-white mb-2">Detailed 10-Page Investor Grade Report</h3>
                         <p className="text-slate-400 text-sm mb-6">Transparent methodology with multi-method valuation logic and custom uplift actions.</p>
                         <button
                             onClick={downloadSampleReport}
@@ -177,6 +177,7 @@ export default function PaymentPage() {
                             <p className="text-brand-400 text-sm font-semibold">Save 80% · Limited Time</p>
                             <div className="flex items-center justify-center gap-4 mt-3 text-xs text-slate-400">
                                 <span className="flex items-center gap-1"><Shield className="w-3 h-3 text-emerald-400" /> Secure Checkout</span>
+                                <span className="flex items-center gap-1"><Sparkles className="w-3 h-3 text-amber-400" /> Instant access</span>
                             </div>
                         </div>
 
@@ -255,7 +256,7 @@ export default function PaymentPage() {
                         quote="The most comprehensive SaaS valuation tool I've found. Worth every penny."
                         author="Marcus Thorne"
                         role="CEO, HR-Nexus"
-                        image="/avatar_michael.png"
+                        image="/david-miller.jpg"
                     />
                     <TestimonialCard
                         quote="As a sub-$1M ARR founder, the insights were incredibly helpful for my exit planning."
