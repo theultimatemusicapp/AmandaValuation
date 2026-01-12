@@ -1,14 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-
-type NewsItem = {
-  title: string;
-  url: string;
-  source: string;
-  publishedAt?: string;
-  score?: number;
-};
+import { NewsItem } from "@/lib/news";
 
 function formatDate(iso?: string) {
   if (!iso) return "";
@@ -17,22 +10,33 @@ function formatDate(iso?: string) {
   return d.toLocaleDateString(undefined, { year: "numeric", month: "short", day: "numeric" });
 }
 
-export default function SaaSNews({ limit = 10 }: { limit?: number }) {
-  const [items, setItems] = useState<NewsItem[]>([]);
-  const [loading, setLoading] = useState(true);
+type SaaSNewsProps = {
+  limit?: number;
+  initialItems?: NewsItem[];
+};
+
+export default function SaaSNews({ limit = 10, initialItems = [] }: SaaSNewsProps) {
+  const hasInitialItems = initialItems.length > 0;
+  const [items, setItems] = useState<NewsItem[]>(initialItems);
+  const [loading, setLoading] = useState(!hasInitialItems);
+  const [hasError, setHasError] = useState(false);
 
   useEffect(() => {
     let alive = true;
     (async () => {
       try {
-        setLoading(true);
+        setHasError(false);
+        if (!hasInitialItems) {
+          setLoading(true);
+        }
         const res = await fetch("/api/news", { cache: "no-store" });
         const data = await res.json();
         if (!alive) return;
         setItems(Array.isArray(data.items) ? data.items : []);
       } catch {
         if (!alive) return;
-        setItems([]);
+        setHasError(true);
+        if (hasInitialItems) setItems(initialItems);
       } finally {
         if (!alive) return;
         setLoading(false);
@@ -41,7 +45,7 @@ export default function SaaSNews({ limit = 10 }: { limit?: number }) {
     return () => {
       alive = false;
     };
-  }, []);
+  }, [hasInitialItems, initialItems]);
 
   const visible = useMemo(() => items.slice(0, limit), [items, limit]);
 
@@ -53,6 +57,12 @@ export default function SaaSNews({ limit = 10 }: { limit?: number }) {
           {loading ? "Updating…" : `Showing ${visible.length} items`}
         </span>
       </div>
+
+      {hasError ? (
+        <div className="mb-3 rounded-lg border border-amber-200 bg-amber-50 px-3 py-2 text-xs text-amber-700">
+          Live sources are temporarily unavailable. Showing the last available items.
+        </div>
+      ) : null}
 
       {loading ? (
         <div className="text-sm text-neutral-600">Pulling fresh items from free sources…</div>
