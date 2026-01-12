@@ -109,7 +109,7 @@ export default function PaymentPage() {
                                 <ComparisonRow feature="Interactive charts & benchmarking" free={false} pro={true} highlight />
                                 <ComparisonRow feature="50+ detailed input fields" free={false} pro={true} highlight />
                                 <ComparisonRow feature="AI recommendations to boost value" free={false} pro={true} highlight />
-                                <ComparisonRow feature="Professional 5-page PDF report" free={false} pro={true} highlight />
+                                <ComparisonRow feature="Professional 10-page PDF report" free={false} pro={true} highlight />
                                 <ComparisonRow feature="Exit scenario modeling" free={false} pro={true} highlight />
                                 <ComparisonRow feature="Investor readiness checklist" free={false} pro={true} />
                                 <ComparisonRow feature="Priority email support" free={false} pro={true} />
@@ -130,7 +130,7 @@ export default function PaymentPage() {
                             />
                             <div className="absolute -bottom-4 -right-4 bg-amber-500 text-slate-950 px-4 py-2 rounded-lg font-bold shadow-lg z-20 flex items-center gap-2">
                                 <Sparkles className="w-4 h-4" />
-                                5+ PAGES
+                                10 PAGES
                             </div>
                         </div>
                         <h3 className="text-xl font-bold text-white mb-2">Detailed Investor Grade Report</h3>
@@ -145,7 +145,7 @@ export default function PaymentPage() {
                     </div>
                     <FeatureCard
                         icon={<FileText className="w-6 h-6" />}
-                        title="Comprehensive 5-Page PDF"
+                        title="Comprehensive 10-Page PDF"
                         description="Download a professional investor-ready report with charts, benchmarking, and actionable insights"
                     />
                     <FeatureCard
@@ -177,7 +177,6 @@ export default function PaymentPage() {
                             <p className="text-brand-400 text-sm font-semibold">Save 80% · Limited Time</p>
                             <div className="flex items-center justify-center gap-4 mt-3 text-xs text-slate-400">
                                 <span className="flex items-center gap-1"><Shield className="w-3 h-3 text-emerald-400" /> Secure Checkout</span>
-                                <span className="flex items-center gap-1">💯 Money-Back Guarantee</span>
                             </div>
                         </div>
 
