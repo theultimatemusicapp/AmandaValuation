@@ -36,6 +36,16 @@ export default function ResourcesHub() {
     const tools = RESOURCE_CATEGORIES.filter(category => category.type === 'tools');
 
     const featuredArticles = RESOURCE_ARTICLES.slice(0, 3);
+    const valuationCluster = RESOURCE_CATEGORIES.find(category => category.slug === 'saas-valuation');
+    const startHere = RESOURCE_ARTICLES.filter(article =>
+        [
+            'how-to-value-a-saas-company',
+            'saas-valuation-101',
+            'arr-mrr-and-valuation-multiples',
+            'valuation-multiples-by-growth-rate',
+            'saas-valuation-checklist-template',
+        ].includes(article.slug),
+    );
 
     return (
         <>
@@ -117,6 +127,60 @@ export default function ResourcesHub() {
                     </div>
                 </section>
 
+                {valuationCluster && (
+                    <section className="py-14 bg-white border-b border-gray-200">
+                        <div className="max-w-7xl mx-auto px-6 lg:px-12 space-y-10">
+                            <div className="grid lg:grid-cols-[1.3fr_1fr] gap-8 items-start">
+                                <div className="space-y-4">
+                                    <p className="text-sm font-semibold text-teal-700 uppercase">New valuation cluster</p>
+                                    <h2 className="text-3xl font-bold text-gray-900 font-display">{valuationCluster.title}</h2>
+                                    <p className="text-gray-700 max-w-3xl">{valuationCluster.description}</p>
+                                    <div className="flex flex-wrap gap-3">
+                                        <Link
+                                            href={`/resources/${valuationCluster.slug}`}
+                                            className="bg-teal-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-teal-700"
+                                        >
+                                            View the full cluster
+                                        </Link>
+                                        <Link href="/resources/clusters" className="text-teal-700 font-semibold hover:underline">
+                                            Explore all clusters
+                                        </Link>
+                                    </div>
+                                </div>
+                                <div className="bg-gray-50 border border-gray-200 rounded-2xl p-6 space-y-4">
+                                    <p className="text-sm font-semibold text-gray-600 uppercase">Start here</p>
+                                    <ul className="space-y-3">
+                                        {startHere.map(article => (
+                                            <li key={article.slug} className="text-sm font-semibold text-teal-700">
+                                                <Link href={`/resources/${article.slug}`} className="hover:underline">
+                                                    {article.title}
+                                                </Link>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </div>
+                            </div>
+                            <div className="flex flex-wrap gap-3">
+                                <Link
+                                    href="/resources"
+                                    className="px-3 py-2 rounded-full border border-gray-200 text-sm font-semibold text-gray-700 hover:bg-gray-100"
+                                >
+                                    All categories
+                                </Link>
+                                {RESOURCE_CATEGORIES.map(category => (
+                                    <Link
+                                        key={category.slug}
+                                        href={`/resources/${category.slug}`}
+                                        className="px-3 py-2 rounded-full border border-gray-200 text-sm font-semibold text-gray-700 hover:bg-gray-100"
+                                    >
+                                        {category.title}
+                                    </Link>
+                                ))}
+                            </div>
+                        </div>
+                    </section>
+                )}
+
                 <section className="py-14 bg-white">
                     <div className="max-w-7xl mx-auto px-6 lg:px-12 space-y-10">
                         <div className="space-y-3">
@@ -178,7 +242,7 @@ export default function ResourcesHub() {
                                             <span className="px-2 py-0.5 rounded-full bg-teal-100 text-teal-800 text-xs">
                                                 {article.badge}
                                             </span>
-                                            <span>{article.lastUpdated}</span>
+                                            <span>{article.updatedAt}</span>
                                         </div>
                                         <h3 className="text-xl font-semibold mt-2 text-gray-900">
                                             <Link href={`/resources/${article.slug}`} className="hover:underline">
