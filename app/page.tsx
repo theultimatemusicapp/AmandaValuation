@@ -10,6 +10,8 @@ import Link from 'next/link';
 import { ArrowRight, Sparkles } from 'lucide-react';
 import { unstable_noStore as noStore } from 'next/cache';
 
+export const dynamic = 'force-dynamic';
+
 export default async function Home() {
   noStore();
   const initialNews = await fetchAllNews().catch(() => []);
