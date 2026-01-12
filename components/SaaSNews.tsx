@@ -15,7 +15,9 @@ type SaaSNewsProps = {
   initialItems?: NewsItem[];
 };
 
-export default function SaaSNews({ limit = 6, initialItems = [] }: SaaSNewsProps) {
+const COLUMN_SIZE = 5;
+
+export default function SaaSNews({ limit = 10, initialItems = [] }: SaaSNewsProps) {
   const hasInitialItems = initialItems.length > 0;
   const [items, setItems] = useState<NewsItem[]>(initialItems);
   const [loading, setLoading] = useState(!hasInitialItems);
@@ -52,11 +54,16 @@ export default function SaaSNews({ limit = 6, initialItems = [] }: SaaSNewsProps
   }, [hasInitialItems, initialItems]);
 
   const visible = useMemo(() => items.slice(0, limit), [items, limit]);
+  const columns = useMemo(() => {
+    const left = visible.slice(0, COLUMN_SIZE);
+    const right = visible.slice(COLUMN_SIZE, COLUMN_SIZE * 2);
+    return [left, right];
+  }, [visible]);
 
   return (
     <div className="w-full rounded-2xl border border-neutral-200 bg-white p-5 shadow-sm">
       <div className="mb-4 flex items-center justify-between gap-3">
-        <h3 className="text-lg font-semibold">Current SaaS News</h3>
+        <h3 className="text-lg font-semibold text-neutral-900">Current SaaS News</h3>
         <span className="text-xs text-neutral-500">
           {loading ? "Updating…" : `Showing ${visible.length} items`}
         </span>
@@ -79,25 +86,29 @@ export default function SaaSNews({ limit = 6, initialItems = [] }: SaaSNewsProps
           No items right now. (Could be rate limiting — refresh later.)
         </div>
       ) : (
-        <ul className="grid gap-3 md:grid-cols-2">
-          {visible.map((it) => (
-            <li key={it.url} className="rounded-xl border border-neutral-100 p-3 hover:bg-neutral-50">
-              <a
-                href={it.url}
-                target="_blank"
-                rel="noreferrer"
-                className="block text-sm font-medium text-neutral-900 hover:underline"
-              >
-                {it.title}
-              </a>
-              <div className="mt-1 text-xs text-neutral-500">
-                {it.source}
-                {it.publishedAt ? ` • ${formatDate(it.publishedAt)}` : ""}
-                {typeof it.score === "number" ? ` • ${it.score} pts` : ""}
-              </div>
-            </li>
+        <div className="grid gap-3 md:grid-cols-2">
+          {columns.map((column, columnIndex) => (
+            <ul key={`column-${columnIndex}`} className="space-y-3">
+              {column.map((it) => (
+                <li key={it.url} className="rounded-xl border border-neutral-100 p-3 hover:bg-neutral-50">
+                  <a
+                    href={it.url}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="block text-sm font-medium text-neutral-900 hover:underline"
+                  >
+                    {it.title}
+                  </a>
+                  <div className="mt-1 text-xs text-neutral-500">
+                    {it.source}
+                    {it.publishedAt ? ` • ${formatDate(it.publishedAt)}` : ""}
+                    {typeof it.score === "number" ? ` • ${it.score} pts` : ""}
+                  </div>
+                </li>
+              ))}
+            </ul>
           ))}
-        </ul>
+        </div>
       )}
 
       <div className="mt-4 text-xs text-neutral-500">
