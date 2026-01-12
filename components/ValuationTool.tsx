@@ -433,7 +433,7 @@ export default function ValuationWizard() {
                                                     <li>✓ Interactive charts & benchmarking</li>
                                                     <li>✓ Actionable recommendations to boost value</li>
                                                     <li>✓ Exit scenario modeling</li>
-                                                    <li>✓ Comprehensive 5-page PDF report</li>
+                                                    <li>✓ Comprehensive 10-page PDF report</li>
                                                     <li>✓ 50+ data points for investor-grade accuracy</li>
                                                 </ul>
                                             </div>
