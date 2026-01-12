@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { ArrowRight, ArrowLeft, Info, Download, Sparkles, Building2, Calculator, DollarSign, TrendingUp, Users, Code2, Scale, Lock } from 'lucide-react';
 import { generateProPDF } from '@/lib/pdf-generator';
 import { calculateSaaSValuation, ValuationInputs, formatCurrency } from '@/lib/valuation';
@@ -70,9 +70,12 @@ const PRO_INSIGHTS = [
     }
 ];
 
-export default function ProValuationWizard() {
+type ProValuationWizardProps = {
+    paid?: string;
+};
+
+export default function ProValuationWizard({ paid }: ProValuationWizardProps) {
     const router = useRouter();
-    const searchParams = useSearchParams();
     const [currentStep, setCurrentStep] = useState(0);
     const [result, setResult] = useState<any>(null);
     const [formData, setFormData] = useState<ValuationInputs>({
@@ -97,7 +100,7 @@ export default function ProValuationWizard() {
     });
 
     useEffect(() => {
-        const isPaid = searchParams.get('paid') === 'true';
+        const isPaid = paid === 'true';
 
         // Initial detection: if paid, override with saved result
         if (isPaid) {
@@ -156,7 +159,7 @@ export default function ProValuationWizard() {
                 console.error('Failed to parse saved draft:', err);
             }
         }
-    }, [searchParams]);
+    }, [paid]);
 
     // Save state on every change
     useEffect(() => {
