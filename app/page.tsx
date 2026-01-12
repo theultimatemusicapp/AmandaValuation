@@ -48,7 +48,7 @@ export default async function Home() {
 
       <ValuationWizard />
 
-      <section className="max-w-5xl mx-auto px-4 py-16">
+      <section className="max-w-4xl mx-auto px-4 py-12">
         <div className="space-y-6">
           <div className="text-center space-y-2">
             <p className="text-sm uppercase tracking-widest text-slate-400">Current SaaS News</p>

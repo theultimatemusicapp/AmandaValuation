@@ -61,9 +61,9 @@ export default function SaaSNews({ limit = 10, initialItems = [] }: SaaSNewsProp
   }, [visible]);
 
   return (
-    <div className="w-full rounded-2xl border border-neutral-200 bg-white p-5 shadow-sm">
+    <div className="w-full rounded-2xl border border-neutral-200 bg-white p-4 shadow-sm">
       <div className="mb-4 flex items-center justify-between gap-3">
-        <h3 className="text-lg font-semibold text-neutral-900">Current SaaS News</h3>
+        <h3 className="text-base font-semibold text-neutral-900">Current SaaS News</h3>
         <span className="text-xs text-neutral-500">
           {loading ? "Updating…" : `Showing ${visible.length} items`}
         </span>
@@ -86,7 +86,7 @@ export default function SaaSNews({ limit = 10, initialItems = [] }: SaaSNewsProp
           No items right now. (Could be rate limiting — refresh later.)
         </div>
       ) : (
-        <div className="grid gap-3 md:grid-cols-2">
+        <div className="grid gap-3 sm:grid-cols-2">
           {columns.map((column, columnIndex) => (
             <ul key={`column-${columnIndex}`} className="space-y-3">
               {column.map((it) => (
