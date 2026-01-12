@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import {
   NewsItem,
+  DEMO_NEWS,
   fetchJson,
   fetchText,
   isRelevant,
@@ -146,11 +147,14 @@ export async function GET() {
 
     const finalItems = deduped.slice(0, 20);
 
-    cache = { ts: Date.now(), data: finalItems };
+    const output = finalItems.length > 0 ? finalItems : DEMO_NEWS;
+
+    cache = { ts: Date.now(), data: output };
 
     return NextResponse.json({
-      items: finalItems,
+      items: output,
       cached: false,
+      demo: finalItems.length === 0,
       partialFailures: errors.length ? errors : undefined,
     });
   } catch (error: unknown) {
