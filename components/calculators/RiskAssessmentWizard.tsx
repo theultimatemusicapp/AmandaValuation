@@ -2,13 +2,24 @@
 
 import React, { useState } from 'react';
 import { RISK_FACTORS, calculateRiskScore, RiskResult } from '@/lib/risk-engine';
-import { ArrowRight, ArrowLeft, AlertTriangle, ShieldCheck, HelpCircle } from 'lucide-react';
+import { calculateValuation, ValuationInputs } from '@/lib/valuation-engine';
+import { ArrowRight, ArrowLeft, AlertTriangle, ShieldCheck, HelpCircle, Calculator } from 'lucide-react';
 import Link from 'next/link';
 
 export default function RiskAssessmentWizard() {
     const [currentStep, setCurrentStep] = useState(0);
     const [answers, setAnswers] = useState<Record<string, number>>({});
     const [result, setResult] = useState<RiskResult | null>(null);
+    const [showValuationInput, setShowValuationInput] = useState(false);
+    const [valuationInputs, setValuationInputs] = useState<ValuationInputs>({
+        revenue: 0,
+        netProfit: 0,
+        growthRate: 20,
+        churnRate: 5,
+        ownerPay: 0,
+        personalExpenses: 0
+    });
+    const [finalValuation, setFinalValuation] = useState<{ raw: number, adjusted: number } | null>(null);
 
     const questions = RISK_FACTORS;
     const totalSteps = questions.length;
@@ -65,6 +76,65 @@ export default function RiskAssessmentWizard() {
                         Investors may reduce their offer by this amount to account for risk.
                     </p>
                 </div>
+
+                {!showValuationInput ? (
+                    <button
+                        onClick={() => setShowValuationInput(true)}
+                        className="mb-8 inline-flex items-center gap-2 text-brand-400 hover:text-brand-300 font-medium transition-colors text-sm"
+                    >
+                        <Calculator className="w-4 h-4" /> Calculate Dollar Value Impact
+                    </button>
+                ) : (
+                    <div className="bg-slate-900/50 p-6 rounded-xl border border-slate-800 mb-8 text-left animate-in slide-in-from-top-4">
+                        <h3 className="text-white font-bold mb-4">Enter Financials (Annual)</h3>
+                        <div className="grid grid-cols-2 gap-4 mb-4">
+                            <div>
+                                <label className="block text-xs text-slate-400 mb-1">Net Profit ($)</label>
+                                <input
+                                    type="number"
+                                    className="w-full bg-slate-950 border border-slate-700 rounded px-3 py-2 text-white text-sm"
+                                    placeholder="100000"
+                                    onChange={(e) => setValuationInputs(prev => ({ ...prev, netProfit: Number(e.target.value) }))}
+                                />
+                            </div>
+                            <div>
+                                <label className="block text-xs text-slate-400 mb-1">Owner Pay ($)</label>
+                                <input
+                                    type="number"
+                                    className="w-full bg-slate-950 border border-slate-700 rounded px-3 py-2 text-white text-sm"
+                                    placeholder="50000"
+                                    onChange={(e) => setValuationInputs(prev => ({ ...prev, ownerPay: Number(e.target.value) }))}
+                                />
+                            </div>
+                        </div>
+                        <button
+                            onClick={() => {
+                                const valResult = calculateValuation(valuationInputs);
+                                const discountFactor = 1 - result.valuationDiscount;
+                                setFinalValuation({
+                                    raw: valResult.baseValuation,
+                                    adjusted: valResult.baseValuation * discountFactor
+                                });
+                            }}
+                            className="w-full py-2 bg-brand-600 hover:bg-brand-500 text-white rounded-lg font-bold text-sm"
+                        >
+                            Calculate Adjusted Valuation
+                        </button>
+
+                        {finalValuation && (
+                            <div className="mt-6 pt-6 border-t border-slate-700">
+                                <div className="flex justify-between items-end mb-2">
+                                    <span className="text-slate-400 text-sm">Risk-Adjusted Value:</span>
+                                    <span className="text-2xl font-bold text-emerald-400">${Math.round(finalValuation.adjusted).toLocaleString()}</span>
+                                </div>
+                                <div className="flex justify-between items-center text-xs text-slate-500">
+                                    <span>Raw Valuation (SDE Multiple):</span>
+                                    <span className="line-through">${Math.round(finalValuation.raw).toLocaleString()}</span>
+                                </div>
+                            </div>
+                        )}
+                    </div>
+                )}
 
                 <div className="flex gap-4 justify-center">
                     <button
