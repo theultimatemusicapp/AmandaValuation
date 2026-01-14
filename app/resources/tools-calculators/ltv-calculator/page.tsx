@@ -19,7 +19,7 @@ export default function LTVCalculatorPage() {
                 <div className="max-w-4xl mx-auto">
                     {/* Breadcrumb */}
                     <div className="mb-8 flex items-center gap-2 text-sm">
-                        <Link href="/resources/tools" className="inline-flex items-center gap-2 text-slate-400 hover:text-brand-400 transition-colors font-medium">
+                        <Link href="/resources/tools-calculators" className="inline-flex items-center gap-2 text-slate-400 hover:text-brand-400 transition-colors font-medium">
                             <ArrowLeft className="w-4 h-4" /> Tools
                         </Link>
                         <span className="text-slate-600">/</span>

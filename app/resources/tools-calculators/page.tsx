@@ -12,7 +12,7 @@ const tools = [
     {
         title: 'Churn Calculator',
         description: 'Calculate your logo and revenue churn rates. Understand how many customers you are losing and the impact on your revenue.',
-        href: '/resources/tools/churn-calculator',
+        href: '/resources/tools-calculators/churn-calculator',
         icon: TrendingDown,
         color: 'text-rose-400',
         bgColor: 'bg-rose-500/10',
@@ -21,7 +21,7 @@ const tools = [
     {
         title: 'LTV / CAC Calculator',
         description: 'Determine your Customer Lifetime Value and acquisition efficiency. See if your unit economics are healthy enough to scale.',
-        href: '/resources/tools/ltv-calculator',
+        href: '/resources/tools-calculators/ltv-calculator',
         icon: DollarSign,
         color: 'text-emerald-400',
         bgColor: 'bg-emerald-500/10',
@@ -30,7 +30,7 @@ const tools = [
     {
         title: 'Burn Rate & Runway',
         description: 'Calculate your monthly burn rate and runway. Know exactly how much time you have left before you need to raise capital or become profitable.',
-        href: '/resources/tools/burn-rate-calculator',
+        href: '/resources/tools-calculators/burn-rate-calculator',
         icon: Activity,
         color: 'text-amber-400',
         bgColor: 'bg-amber-500/10',
