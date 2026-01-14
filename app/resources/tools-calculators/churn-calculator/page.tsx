@@ -6,15 +6,38 @@ import { ArrowLeft, TrendingDown } from 'lucide-react';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-    title: 'SaaS Churn Calculator: Logo & Revenue Churn - Free Tool',
-    description: 'Calculate your monthly SaaS churn rate for both logos and revenue. Understand the impact of lost customers on your annual revenue.',
+    title: 'SaaS Churn Calculator 2026 | Revenue & Logo Churn Formula',
+    description: 'Calculate your monthly and annual churn rates instantly. See the impact of lost customers on your revenue. Free tool for SaaS founders.',
+    keywords: ['churn calculator', 'saas churn rate', 'logo churn', 'revenue churn', 'churn formula'],
+    openGraph: {
+        title: 'Free SaaS Churn Calculator | Stop Losing Revenue',
+        description: 'Instant analysis of your Logo and Revenue Churn. Compare against benchmarks and see how much growth you are losing.',
+        url: 'https://saasvaluation.app/resources/tools-calculators/churn-calculator',
+    }
+};
+
+const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'SoftwareApplication',
+    name: 'SaaS Churn Calculator',
+    applicationCategory: 'BusinessApplication',
+    operatingSystem: 'Any',
+    offers: {
+        '@type': 'Offer',
+        price: '0',
+        priceCurrency: 'USD'
+    },
+    description: 'Calculate monthly and annual churn rates for SaaS businesses.'
 };
 
 export default function ChurnCalculatorPage() {
     return (
         <div className="min-h-screen bg-slate-950 text-slate-50">
             <Header />
-
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+            />
             <main className="pt-32 pb-24 px-6">
                 <div className="max-w-4xl mx-auto">
                     {/* Breadcrumb */}

@@ -952,6 +952,9 @@ export const RESOURCE_ARTICLES: ResourceArticle[] = [
         summary:
             'Micro-SaaS valuation hinges on stability and transferability. Buyers pay more when revenue is predictable, operations are automated, and the founder is not a single point of failure.\n\nThe best way to lift your multiple is to reduce operational risk. Document the business, diversify acquisition, and show that churn and support are under control.',
         internalLinks: [
+            { label: 'Run the free Churn Impact Calculator', href: '/resources/tools-calculators/churn-calculator' },
+            { label: 'Calculate your LTV', href: '/resources/tools-calculators/ltv-calculator' },
+            { label: 'How to value a SaaS company', href: '/resources/how-to-value-a-saas-company' },
             { label: 'How to value a SaaS company', href: '/resources/how-to-value-a-saas' },
             { label: 'Common SaaS valuation mistakes', href: '/resources/common-saas-valuation-mistakes' },
             { label: 'SaaS valuation checklist template', href: '/resources/saas-valuation-checklist-template' },

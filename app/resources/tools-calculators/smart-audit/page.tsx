@@ -7,14 +7,38 @@ import { ArrowLeft, Search } from 'lucide-react';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-    title: 'Smart Audit Tool: AI-Powered Due Diligence',
-    description: 'Free instant document audit for SaaS founders. Scan your pitch deck or P&L for red flags before investors see them.',
+    title: 'Smart Audit Tool: AI-Powered Due Diligence Scanner',
+    description: 'Free instant document audit for SaaS founders. Scan your pitch deck, P&L, or updates for investor "red flags" before you fundraise.',
+    keywords: ['due diligence scanner', 'investor red flags', 'pitch deck audit', 'saas fundraising', 'smart audit'],
+    openGraph: {
+        title: 'Smart Audit Tool | Find Deal Killers Instantly',
+        description: 'AI-powered heuristic scanner that finds "red flags" in your business documents. 100% private and client-side.',
+        url: 'https://saasvaluation.app/resources/tools-calculators/smart-audit',
+    }
+};
+
+const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'SoftwareApplication',
+    name: 'Smart Audit Tool',
+    applicationCategory: 'BusinessApplication',
+    operatingSystem: 'Any',
+    offers: {
+        '@type': 'Offer',
+        price: '0',
+        priceCurrency: 'USD'
+    },
+    description: 'Client-side analyzer that detects risk keywords in SaaS business documents.'
 };
 
 export default function SmartAuditPage() {
     return (
         <div className="min-h-screen bg-slate-950 text-slate-50">
             <Header />
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+            />
 
             <main className="pt-32 pb-24 px-6">
                 <div className="max-w-6xl mx-auto">
