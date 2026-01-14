@@ -1,6 +1,6 @@
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
-import { ArrowRight, Calculator, TrendingDown, TrendingUp, DollarSign, Activity } from 'lucide-react';
+import { ArrowRight, Calculator, TrendingDown, TrendingUp, DollarSign, Activity, ShieldAlert } from 'lucide-react';
 import { Metadata } from 'next';
 import Link from 'next/link';
 
@@ -36,6 +36,15 @@ const tools = [
         color: 'text-amber-400',
         bgColor: 'bg-amber-500/10',
         borderColor: 'border-amber-500/20'
+    },
+    {
+        title: 'Risk Assessment',
+        description: 'Find the red flags in your business before investors do. Get a breakdown of Market, Product, and Team risks.',
+        href: '/resources/tools-calculators/risk-assessment',
+        icon: ShieldAlert,
+        color: 'text-violet-400',
+        bgColor: 'bg-violet-500/10',
+        borderColor: 'border-violet-500/20'
     }
 ];
 
