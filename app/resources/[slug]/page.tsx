@@ -151,6 +151,7 @@ export default async function ResourcePage({ params }: PageParams) {
         { id: createSectionId('How to improve it'), label: 'How to improve it' },
         { id: 'examples', label: 'Examples' },
         { id: 'checklist', label: 'Checklist' },
+        ...(article?.keyTakeaways?.length ? [{ id: createSectionId('Key takeaways'), label: 'Key takeaways' }] : []),
         { id: 'faqs', label: 'FAQs' },
         { id: 'summary', label: 'Summary' },
         { id: 'sources', label: 'Sources & further reading' },
@@ -216,10 +217,15 @@ export default async function ResourcePage({ params }: PageParams) {
                             <ArticleListSection title="Common mistakes" items={article!.commonMistakes} />
                         </div>
 
+                        {article!.midCta && <MidCTASection cta={article!.midCta} />}
+
                         <ArticleListSection title="How to improve it" items={article!.improvements} />
 
                         <ArticleExamplesSection examples={article!.examples} />
                         <ArticleChecklistSection checklist={article!.checklist} />
+                        {article!.keyTakeaways?.length ? (
+                            <ArticleListSection title="Key takeaways" items={article!.keyTakeaways} />
+                        ) : null}
                         <ArticleFAQSection faqs={article!.faqs} />
                         <ArticleSummarySection summary={article!.summary} />
                         <ArticleSourcesSection sources={article!.sources} />
@@ -462,11 +468,30 @@ function EmailCaptureSection() {
     );
 }
 
+function MidCTASection({
+    cta,
+}: {
+    cta: { title: string; description: string; ctaLabel: string; href: string };
+}) {
+    return (
+        <section className="bg-white border border-teal-200 rounded-2xl p-6 shadow-sm space-y-3">
+            <div className="flex items-center justify-between gap-3 flex-wrap">
+                <h2 className="text-2xl font-bold text-gray-900">{cta.title}</h2>
+                <span className="text-xs px-3 py-1 rounded-full bg-teal-50 text-teal-700 font-semibold">Calculator CTA</span>
+            </div>
+            <p className="text-gray-700 leading-relaxed">{cta.description}</p>
+            <Link href={cta.href} className="inline-flex px-4 py-2 rounded-lg bg-teal-600 text-white font-semibold hover:bg-teal-700">
+                {cta.ctaLabel}
+            </Link>
+        </section>
+    );
+}
+
 function CTASection({ lastUpdated }: { lastUpdated: string }) {
     return (
         <div className="bg-gradient-to-r from-teal-600 to-blue-600 rounded-2xl p-6 shadow-sm space-y-3 text-white">
             <div className="flex items-center justify-between gap-3 flex-wrap">
-                <h3 className="text-xl font-bold">Run the SaaS valuation calculator</h3>
+                <h3 className="text-xl font-bold">Use the free SaaS valuation calculator</h3>
                 <span className="text-xs px-3 py-1 rounded-full bg-white/20 font-semibold">Updated {lastUpdated}</span>
             </div>
             <p className="text-white/90 leading-relaxed">
@@ -474,7 +499,7 @@ function CTASection({ lastUpdated }: { lastUpdated: string }) {
             </p>
             <div className="flex flex-wrap gap-3">
                 <Link href="/" className="px-4 py-2 bg-white text-teal-800 rounded-lg font-semibold hover:bg-teal-50">
-                    Open calculator
+                    Use the free SaaS valuation calculator
                 </Link>
                 <Link
                     href="/resources/tools"
