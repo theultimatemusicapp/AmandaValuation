@@ -2,6 +2,7 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { ArrowRight, Calculator, TrendingDown, TrendingUp, DollarSign, Activity } from 'lucide-react';
 import { Metadata } from 'next';
+import Link from 'next/link';
 
 export const metadata: Metadata = {
     title: 'Free SaaS Valuation Tools & Calculators | SaaS Valuation',

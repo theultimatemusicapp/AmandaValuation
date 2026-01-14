@@ -65,7 +65,7 @@ export default function ChurnCalculatorPage() {
                                         <span className="text-white font-medium">1% - 2% / mo</span>
                                     </li>
                                     <li className="flex justify-between">
-                                        <span>SMB / Prosumer (<$1k ACV)</span>
+                                        <span>SMB / Prosumer (&lt;$1k ACV)</span>
                                         <span className="text-white font-medium">3% - 7% / mo</span>
                                     </li>
                                 </ul>
