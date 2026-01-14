@@ -6,15 +6,38 @@ import { ArrowLeft, DollarSign } from 'lucide-react';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-    title: 'SaaS LTV Calculator: Customer Lifetime Value - Free Tool',
-    description: 'Calculate your SaaS Customer Lifetime Value (LTV). Determine how much a customer is worth to your business over time.',
+    title: 'SaaS LTV Calculator | Customer Lifetime Value Formula',
+    description: 'Calculate Customer Lifetime Value (LTV) and LTV:CAC ratio. Understand how long your customers stay and what they are worth. Free tool.',
+    keywords: ['ltv calculator', 'customer lifetime value', 'saas ltv', 'ltv cac ratio'],
+    openGraph: {
+        title: 'SaaS LTV Calculator | Know Your Customer Value',
+        description: 'Instant LTV calculation based on ARPA, Churn, and Gross Margin. Optimize your acquisition spend today.',
+        url: 'https://saasvaluation.app/resources/tools-calculators/ltv-calculator',
+    }
+};
+
+const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'SoftwareApplication',
+    name: 'SaaS LTV Calculator',
+    applicationCategory: 'BusinessApplication',
+    operatingSystem: 'Any',
+    offers: {
+        '@type': 'Offer',
+        price: '0',
+        priceCurrency: 'USD'
+    },
+    description: 'Calculate Customer Lifetime Value (LTV) for SaaS businesses.'
 };
 
 export default function LTVCalculatorPage() {
     return (
         <div className="min-h-screen bg-slate-950 text-slate-50">
             <Header />
-
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+            />
             <main className="pt-32 pb-24 px-6">
                 <div className="max-w-4xl mx-auto">
                     {/* Breadcrumb */}

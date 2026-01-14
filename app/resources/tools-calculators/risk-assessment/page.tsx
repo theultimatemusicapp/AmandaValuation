@@ -7,15 +7,38 @@ import { ArrowLeft, ShieldAlert } from 'lucide-react';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-    title: 'SaaS Risk Assessment: Identify Valuation Killers',
-    description: 'Free guided risk assessment for SaaS startups. Discover the hidden risks that are lowering your valuation and how to fix them.',
+    title: 'SaaS Risk Assessment & Valuation Engine | Free Tool',
+    description: 'Diagnose valuation risks and calculate your "Risk-Adjusted" SDE multiple. Covers market concentration, IP, and key person dependency.',
+    keywords: ['business valuation', 'risk assessment', 'sde multiple', 'valuation discount', 'due diligence'],
+    openGraph: {
+        title: 'Guided Risk Assessment for SaaS Founders',
+        description: 'How risky is your business to a buyer? Get a score and a dollar-value impact analysis in minutes.',
+        url: 'https://saasvaluation.app/resources/tools-calculators/risk-assessment',
+    }
+};
+
+const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'SoftwareApplication',
+    name: 'SaaS Risk Assessment Tool',
+    applicationCategory: 'BusinessApplication',
+    operatingSystem: 'Any',
+    offers: {
+        '@type': 'Offer',
+        price: '0',
+        priceCurrency: 'USD'
+    },
+    description: 'Analyze business risks and calculate valuation impact for SaaS companies.'
 };
 
 export default function RiskAssessmentPage() {
     return (
         <div className="min-h-screen bg-slate-950 text-slate-50">
             <Header />
-
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+            />
             <main className="pt-32 pb-24 px-6">
                 <div className="max-w-4xl mx-auto">
                     {/* Breadcrumb */}

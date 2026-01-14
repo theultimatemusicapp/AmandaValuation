@@ -6,15 +6,38 @@ import { ArrowLeft, Activity } from 'lucide-react';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-    title: 'Startup Burn Rate & Runway Calculator - Free Tool',
-    description: 'Calculate your startup runway and monthly burn rate. Determine your cash-out date and plan your next fundraising milestones.',
+    title: 'Burn Rate & Runway Calculator | SaaS Cash Flow Tool',
+    description: 'How long until you run out of cash? Calculate your startup runway and zero date based on monthly burn. Essential for founders.',
+    keywords: ['burn rate calculator', 'startup runway', 'cash flow', 'zero date', 'saas finance'],
+    openGraph: {
+        title: 'Burn Rate & Runway Calculator | Survival Metrics',
+        description: 'Visualize your cash runway. Know exactly when you need to raise or break even.',
+        url: 'https://saasvaluation.app/resources/tools-calculators/burn-rate-calculator',
+    }
+};
+
+const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'SoftwareApplication',
+    name: 'Burn Rate Calculator',
+    applicationCategory: 'FinanceApplication',
+    operatingSystem: 'Any',
+    offers: {
+        '@type': 'Offer',
+        price: '0',
+        priceCurrency: 'USD'
+    },
+    description: 'Calculate cash runway and burn rate for startups.'
 };
 
 export default function BurnRatePage() {
     return (
         <div className="min-h-screen bg-slate-950 text-slate-50">
             <Header />
-
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+            />
             <main className="pt-32 pb-24 px-6">
                 <div className="max-w-4xl mx-auto">
                     {/* Breadcrumb */}
