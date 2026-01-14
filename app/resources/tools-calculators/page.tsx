@@ -1,6 +1,6 @@
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
-import { ArrowRight, Calculator, TrendingDown, TrendingUp, DollarSign, Activity, ShieldAlert } from 'lucide-react';
+import { ArrowRight, Calculator, TrendingDown, TrendingUp, DollarSign, Activity, ShieldAlert, Search } from 'lucide-react';
 import { Metadata } from 'next';
 import Link from 'next/link';
 
@@ -45,6 +45,15 @@ const tools = [
         color: 'text-violet-400',
         bgColor: 'bg-violet-500/10',
         borderColor: 'border-violet-500/20'
+    },
+    {
+        title: 'Smart Audit',
+        description: 'Instant "Red Flag" scanner for your documents. Paste your P&L or pitch deck text to spot deal-killers.',
+        href: '/resources/tools-calculators/smart-audit',
+        icon: Search,
+        color: 'text-cyan-400',
+        bgColor: 'bg-cyan-500/10',
+        borderColor: 'border-cyan-500/20'
     }
 ];
 
