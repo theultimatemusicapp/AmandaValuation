@@ -115,23 +115,27 @@ export default function ProValuationWizard({ paid }: ProValuationWizardProps) {
                     localStorage.removeItem('pro_valuation_current_step');
                     localStorage.removeItem('pro_valuation_draft');
 
-                    // Fire GA4 purchase event for revenue tracking
-                    if (typeof window !== 'undefined' && (window as any).gtag) {
-                        (window as any).gtag('event', 'purchase', {
-                            transaction_id: `pro_${Date.now()}`,
-                            value: 19.00,
-                            currency: 'USD',
-                            items: [{
-                                item_id: 'pro_valuation',
-                                item_name: 'Pro Valuation Report',
-                                item_category: 'SaaS Tools',
-                                price: 19.00,
-                                quantity: 1
-                            }]
-                        });
-                    }
+                    if (data && savedResult) {
+                        setFormData(data);
+                        setResult(savedResult);
+                        setCurrentStep(PRO_STEPS.length);
 
-                    return; // Stop here if we are showing results
+                        // Fire GA4 purchase event for revenue tracking
+                        if (typeof window !== 'undefined' && (window as any).gtag) {
+                            (window as any).gtag('event', 'purchase', {
+                                transaction_id: `pro_${Date.now()}`,
+                                value: 19.00,
+                                currency: 'USD',
+                                items: [{
+                                    item_id: 'pro_valuation',
+                                    item_name: 'Pro Valuation Report',
+                                    item_category: 'SaaS Tools',
+                                    price: 19.00,
+                                    quantity: 1
+                                }]
+                            });
+                        }
+                    }
                 } catch (err) {
                     console.error('Failed to parse saved valuation data:', err);
                 }
@@ -252,7 +256,8 @@ export default function ProValuationWizard({ paid }: ProValuationWizardProps) {
         generateProPDF(sampleResult, sampleInputs, sampleInputs.companyName);
     };
 
-    if (result && currentStep === PRO_STEPS.length) {
+    // If we have a result and we're on the final step (or beyond), show the dashboard
+    if (result && (currentStep >= PRO_STEPS.length)) {
         return <ProDashboard data={result} inputs={formData} />;
     }
 
