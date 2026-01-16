@@ -111,7 +111,15 @@ export const RESOURCE_CATEGORIES: ResourceCategory[] = [
         description: 'Position your product and pricing in markets reshaped by AI and changing buyer expectations.',
         intro: 'These articles explain how to prove your moat when everyone sounds like an AI product, and how to reset your market map so you can defend your narrative in partner and investor meetings.',
         keywords: ['ai', 'market positioning', 'pricing power'],
-        articleSlugs: ['ai-saas-valuation-bubble', 'pricing-power-playbook'],
+        articleSlugs: [
+            'ai-saas-valuation-bubble',
+            'pricing-power-playbook',
+            'ai-market-map-reset',
+            'ai-positioning-battlecard',
+            'ai-data-moat-playbook',
+            'ai-pricing-usage-guardrails',
+            'ai-enterprise-readiness',
+        ],
     },
     {
         slug: 'saas-valuation',
@@ -1208,6 +1216,420 @@ export const RESOURCE_ARTICLES: ResourceArticle[] = [
         ],
         sources: STANDARD_SOURCES,
         relatedSlugs: ['nrr-mastery', 'ai-saas-valuation-bubble', 'how-to-value-a-saas', 'rule-of-40-saas'],
+    },
+    {
+        slug: 'ai-market-map-reset',
+        title: 'AI Market Map Reset: Reframing Your Category Before Buyers Do',
+        description: 'A step-by-step guide to updating your market map when AI resets expectations and buyer shortlists.',
+        excerpt: 'Clarify your true category, redefine the competitive set, and create a narrative that survives scrutiny.',
+        categorySlug: 'ai-market-shifts',
+        keywords: ['ai market map', 'category positioning', 'competitive landscape'],
+        metaTitle: 'AI Market Map Reset for SaaS Positioning',
+        metaDescription:
+            'Learn how to reset your market map after AI disruption so investors and buyers see clear category fit and differentiation.',
+        publishedAt: '2026-02-01',
+        updatedAt: '2026-02-01',
+        reviewedAt: '2026-02-01',
+        author: 'Amanda White',
+        readingTime: '12 min read',
+        category: 'AI & market shifts',
+        tags: ['AI', 'positioning', 'market map'],
+        badge: 'Market',
+        whatYouLearn:
+            'How to rebuild your category map, pick the right competitive set, and align your narrative with where buyers are shopping post-AI.',
+        definition:
+            'A market map reset is the process of redefining your category and competitor set after AI changes buyer expectations, budget owners, or the perceived substitute set.',
+        whyItMatters: [
+            'Buyers often compress categories after AI adoption; if you do not map the shift, you get priced like a commodity.',
+            'A clean market map improves diligence speed by showing where you win and why the comparison set is fair.',
+            'Category clarity makes it easier to align pricing, packaging, and sales messaging around outcomes instead of features.',
+        ],
+        metricOrFormula:
+            'Start with a “comparison set score” for each competitor: 0–3 points across workflow overlap, data moat overlap, and buyer budget overlap. Focus messaging on the highest-overlap set to avoid dilution.',
+        benchmarks: [
+            'Winning vendors can explain their category in one sentence, without using “AI-powered” as the core differentiator.',
+            'Teams that refresh their market map quarterly reduce repositioning time in competitive sales cycles by ~20%.',
+            'Buyers discount vendors that list more than 8 direct competitors in a positioning deck; tighter sets build credibility.',
+        ],
+        commonMistakes: [
+            'Treating “AI” as a category instead of defining the workflow you own.',
+            'Listing every adjacent tool as a competitor, which signals weak differentiation.',
+            'Ignoring the buyer and budget owner shift created by automation or copilots.',
+        ],
+        improvements: [
+            'Rewrite your category label around outcome and workflow, not AI capability.',
+            'Build a 2x2 map that shows where you win on workflow depth and outcome reliability.',
+            'Align your comp set to the 3–6 vendors buyers actually compare during evals.',
+            'Add a one-slide “why not the obvious substitutes” section to your deck.',
+        ],
+        examples: [
+            {
+                title: 'AI compliance platform (Series A)',
+                content:
+                    'The company was positioning against generic GRC suites, but buyers were comparing against specialized audit prep tools. By redefining the category as “continuous audit readiness,” the team narrowed the comp set, improved win rates, and justified enterprise pricing.',
+            },
+            {
+                title: 'AI revenue operations tool (~$4M ARR)',
+                content:
+                    'Leadership repositioned from “AI analytics” to “pipeline inspection automation” and created a workflow map showing fewer handoffs. The result was a tighter sales narrative and less price pressure from BI vendors.',
+            },
+        ],
+        checklist: [
+            'List the top three workflows you own end-to-end.',
+            'Identify the budget owner and the line item you replace.',
+            'Map direct competitors based on workflow overlap, not feature count.',
+            'Draft a 1-sentence category definition you can repeat verbatim.',
+            'Update your pitch deck and website hero with the new category language.',
+        ],
+        faqs: [
+            { question: 'How often should we update our market map?', answer: 'At least twice per year, and immediately after a major AI feature launch or competitor shift.' },
+            { question: 'What if we are truly in a new category?', answer: 'Anchor to a known workflow so buyers can compare and budget for you, then explain what is new.' },
+            { question: 'Should we compare against incumbents or AI startups?', answer: 'Only the vendors buyers actually shortlist. Use a “why not” slide to handle the rest.' },
+            { question: 'How do we handle multiple ICPs?', answer: 'Create separate maps per ICP and pick one primary narrative for the website and investor deck.' },
+            { question: 'Does category positioning affect valuation?', answer: 'Yes. A clear category increases comparability, reduces perceived risk, and supports a tighter multiple range.' },
+            { question: 'Can we keep legacy positioning for existing customers?', answer: 'Yes, but align new outbound messaging to the updated category to avoid dilution.' },
+        ],
+        summary:
+            'AI shifts compress categories and confuse buyers. Reset your market map to define the workflow you own and the true comparison set.\n\nA tight, outcome-led category story reduces price pressure and speeds diligence because buyers understand exactly what they are buying.',
+        internalLinks: [
+            { label: 'AI SaaS valuation bubble', href: '/resources/ai-saas-valuation-bubble' },
+            { label: 'Pricing power playbook', href: '/resources/pricing-power-playbook' },
+            { label: 'SaaS valuation 101', href: '/resources/saas-valuation-101' },
+            ...CORE_INTERNAL_LINKS,
+        ],
+        sources: STANDARD_SOURCES,
+        relatedSlugs: ['ai-saas-valuation-bubble', 'pricing-power-playbook', 'how-to-value-a-saas', 'rule-of-40-saas'],
+    },
+    {
+        slug: 'ai-positioning-battlecard',
+        title: 'AI Positioning Battlecard: Proving Differentiation Against Fast Followers',
+        description: 'Build a competitive battlecard that shows measurable differentiation, not generic AI claims.',
+        excerpt: 'A practical framework to document why you win, where you lose, and how to defend pricing in AI-heavy markets.',
+        categorySlug: 'ai-market-shifts',
+        keywords: ['ai positioning', 'battlecard', 'competitive differentiation'],
+        metaTitle: 'AI Positioning Battlecard for SaaS Founders',
+        metaDescription:
+            'Create an AI positioning battlecard that proves differentiation with data, workflows, and outcome metrics buyers trust.',
+        publishedAt: '2026-02-03',
+        updatedAt: '2026-02-03',
+        reviewedAt: '2026-02-03',
+        author: 'Amanda White',
+        readingTime: '11 min read',
+        category: 'AI & market shifts',
+        tags: ['AI', 'competitive', 'positioning'],
+        badge: 'Market',
+        whatYouLearn:
+            'How to build a battlecard that highlights workflow ownership, outcome reliability, and cost-to-value advantages.',
+        definition:
+            'A positioning battlecard is a one-page internal tool that documents how you compare to competitors across outcomes, data advantages, buyer objections, and pricing rationale.',
+        whyItMatters: [
+            'AI markets move fast; a clear battlecard keeps sales and execs aligned on real differentiation.',
+            'Buyers discount “AI-enabled” claims unless proof is tied to measurable outcomes.',
+            'Defensible positioning improves pricing power and reduces concession pressure late in deals.',
+        ],
+        metricOrFormula:
+            'Use an “Outcome Delta” table: (Customer baseline metric → Your result → Competitor result). Only include deltas backed by customer proof or pilots.',
+        benchmarks: [
+            'Battlecards that include quantified outcome deltas improve win rate in competitive deals by 10%–15%.',
+            'Teams with updated battlecards see shorter sales cycles by ~1–2 weeks in late-stage deals.',
+            'If you cannot quantify an advantage, label it as “emerging” and avoid using it as a headline claim.',
+        ],
+        commonMistakes: [
+            'Using feature checklists without tying them to outcomes.',
+            'Overstating AI model sophistication without customer proof.',
+            'Ignoring cost-to-serve differences that influence buyer ROI.',
+        ],
+        improvements: [
+            'Document top three buyer objections and a data-backed rebuttal for each.',
+            'Include a pricing rationale that ties value metrics to customer ROI.',
+            'Add a “red flag” section so sales avoids weak-fit deals early.',
+            'Refresh the battlecard after every major competitor release.',
+        ],
+        examples: [
+            {
+                title: 'AI customer support platform',
+                content:
+                    'The team replaced a feature grid with an “automation rate” table showing 62% ticket deflection versus 45% for a fast follower. The quantified outcome shifted the conversation from model choice to cost savings.',
+            },
+            {
+                title: 'AI forecasting tool',
+                content:
+                    'By documenting forecast accuracy improvement and time saved per analyst, the company justified a higher per-seat price and reduced discount requests in renewals.',
+            },
+        ],
+        checklist: [
+            'List top five competitors buyers mention in deals.',
+            'Capture outcome deltas with supporting customer evidence.',
+            'Document pricing rationale tied to ROI math.',
+            'Include objection handling scripts for each competitor.',
+            'Review the battlecard with sales leadership each quarter.',
+        ],
+        faqs: [
+            { question: 'Can we publish parts of the battlecard?', answer: 'You can publish light competitive positioning, but keep the detailed rebuttals internal.' },
+            { question: 'What if we lack outcome data?', answer: 'Run a pilot with 2–3 customers to collect baseline and post-implementation metrics.' },
+            { question: 'Should we compare model architectures?', answer: 'Only if buyers care. Most buyers care more about outcome reliability and compliance.' },
+            { question: 'How do we handle multiple competitors?', answer: 'Create a primary battlecard and 1–2 appendices for the most common alternatives.' },
+            { question: 'Do battlecards influence valuation?', answer: 'Yes—clear differentiation and pricing defense signals durability to investors and acquirers.' },
+            { question: 'How often should we update it?', answer: 'Quarterly, or after any major competitive release or pricing shift.' },
+        ],
+        summary:
+            'A strong AI positioning battlecard keeps your story consistent and grounded in measurable outcomes.\n\nWhen your differentiation is quantified, buyers trust your pricing and your valuation narrative becomes harder to discount.',
+        internalLinks: [
+            { label: 'AI market map reset', href: '/resources/ai-market-map-reset' },
+            { label: 'Pricing power playbook', href: '/resources/pricing-power-playbook' },
+            { label: 'Valuation multiples by growth rate', href: '/resources/valuation-multiples-by-growth-rate' },
+            ...CORE_INTERNAL_LINKS,
+        ],
+        sources: STANDARD_SOURCES,
+        relatedSlugs: ['ai-market-map-reset', 'ai-saas-valuation-bubble', 'pricing-power-playbook', 'rule-of-40-saas'],
+    },
+    {
+        slug: 'ai-data-moat-playbook',
+        title: 'AI Data Moat Playbook: Proving Defensibility Without Owning the Model',
+        description: 'Show buyers how your data, workflows, and feedback loops create defensibility even when models are commoditized.',
+        excerpt: 'A playbook for mapping proprietary data assets, governance, and outcome lift to justify AI premiums.',
+        categorySlug: 'ai-market-shifts',
+        keywords: ['ai data moat', 'defensibility', 'proprietary data'],
+        metaTitle: 'AI Data Moat Playbook for SaaS Valuation',
+        metaDescription:
+            'Learn how to prove an AI data moat with data provenance, feedback loops, and measurable outcome lift to defend valuation premiums.',
+        publishedAt: '2026-02-05',
+        updatedAt: '2026-02-05',
+        reviewedAt: '2026-02-05',
+        author: 'Amanda White',
+        readingTime: '13 min read',
+        category: 'AI & market shifts',
+        tags: ['AI', 'data moat', 'defensibility'],
+        badge: 'Market',
+        whatYouLearn:
+            'How to inventory proprietary data, document feedback loops, and package outcome evidence that proves defensibility.',
+        definition:
+            'A data moat is defensibility created by proprietary datasets, data access advantages, and feedback loops that improve outcomes faster than competitors.',
+        whyItMatters: [
+            'Buyers and investors discount AI products without a credible defensibility story.',
+            'Documented data provenance reduces diligence risk around privacy and IP ownership.',
+            'Clear data advantages support premium pricing and reduce competitive churn.',
+        ],
+        metricOrFormula:
+            'Track “Data Advantage Score” = (Unique data sources × update frequency × usage breadth) ÷ access friction. Use it to explain why your dataset is hard to replicate.',
+        benchmarks: [
+            'Data moats are most credible when tied to 2+ proprietary sources and a feedback loop that updates at least monthly.',
+            'Buyers favor AI products that can show measurable outcome lift of 15%+ versus generic models.',
+            'Products without a data moat often see valuation discounts of 0.5x–1.5x ARR in competitive processes.',
+        ],
+        commonMistakes: [
+            'Calling public datasets “proprietary” without access controls or enrichment.',
+            'Ignoring data governance and privacy, which spooks enterprise buyers.',
+            'Failing to connect data advantages to measurable customer outcomes.',
+        ],
+        improvements: [
+            'Document each data source, refresh cadence, and access control policy.',
+            'Quantify model performance improvements attributable to your data.',
+            'Build feedback loops through in-product labeling or human review workflows.',
+            'Create a data provenance appendix for diligence and security reviews.',
+        ],
+        examples: [
+            {
+                title: 'AI contract review tool',
+                content:
+                    'The team used annotated contract clauses collected from customer legal teams to improve accuracy by 22%. They documented access controls and shared performance benchmarks in sales decks, supporting a premium tier.',
+            },
+            {
+                title: 'AI logistics optimizer',
+                content:
+                    'By integrating with proprietary shipment data from partners, the platform reduced route costs by 11%. The data-sharing agreements became a core moat story in acquisition talks.',
+            },
+        ],
+        checklist: [
+            'List all data sources and classify them by exclusivity.',
+            'Document consent and data retention policies.',
+            'Track outcome lift tied to proprietary data versus baseline models.',
+            'Create a feedback loop roadmap with quarterly milestones.',
+            'Prepare a data governance summary for diligence.',
+        ],
+        faqs: [
+            { question: 'Do we need to own the model to have a moat?', answer: 'No. Data access, workflow embedding, and feedback loops can be enough if they improve outcomes reliably.' },
+            { question: 'How do we prove our data is exclusive?', answer: 'Use contracts, access controls, and audit logs to show exclusivity and permissioned use.' },
+            { question: 'What if our data is messy?', answer: 'Invest in labeling, normalization, and governance so you can document quality improvements over time.' },
+            { question: 'Can synthetic data count as a moat?', answer: 'It can help, but buyers usually want proof of real-world performance gains.' },
+            { question: 'How do we handle privacy concerns?', answer: 'Publish a data governance summary and show anonymization and retention policies.' },
+            { question: 'Does a data moat affect valuation multiples?', answer: 'Yes—defensible data advantages are one of the clearest reasons buyers pay AI premiums.' },
+        ],
+        summary:
+            'AI defensibility is rarely about the model alone. A durable data moat combines exclusive access, governance, and proof of outcome lift.\n\nDocumenting these advantages protects your valuation and reduces diligence friction.',
+        internalLinks: [
+            { label: 'AI SaaS valuation bubble', href: '/resources/ai-saas-valuation-bubble' },
+            { label: 'Churn and retention valuation impact', href: '/resources/churn-and-retention-valuation' },
+            ...CORE_INTERNAL_LINKS,
+        ],
+        sources: STANDARD_SOURCES,
+        relatedSlugs: ['ai-saas-valuation-bubble', 'ai-positioning-battlecard', 'pricing-power-playbook', 'rule-of-40-saas'],
+    },
+    {
+        slug: 'ai-pricing-usage-guardrails',
+        title: 'AI Pricing with Usage Guardrails: Protect Margin and Buyer Trust',
+        description: 'Design AI pricing that scales with usage without destroying gross margin or customer trust.',
+        excerpt: 'Learn how to set usage guardrails, communicate value metrics, and avoid surprise bills that trigger churn.',
+        categorySlug: 'ai-market-shifts',
+        keywords: ['ai pricing', 'usage-based', 'gross margin'],
+        metaTitle: 'AI Pricing Guardrails for SaaS',
+        metaDescription:
+            'Build AI pricing with usage guardrails that protect margin, reduce churn, and support premium valuation multiples.',
+        publishedAt: '2026-02-07',
+        updatedAt: '2026-02-07',
+        reviewedAt: '2026-02-07',
+        author: 'Amanda White',
+        readingTime: '12 min read',
+        category: 'AI & market shifts',
+        tags: ['AI', 'pricing', 'usage'],
+        badge: 'Market',
+        whatYouLearn:
+            'How to pair usage-based pricing with guardrails that prevent margin erosion and keep customers confident in AI spend.',
+        definition:
+            'Usage guardrails are pricing controls—caps, credits, or tier thresholds—that align AI consumption with value while protecting gross margin and customer trust.',
+        whyItMatters: [
+            'AI inference costs can outpace revenue if pricing lacks usage guardrails.',
+            'Transparent pricing reduces surprise bills that cause churn and contract pushback.',
+            'Margin stability is a core input to valuation multiples in AI-heavy businesses.',
+        ],
+        metricOrFormula:
+            'Track “Cost-to-Serve Ratio” = AI infrastructure cost / AI-driven revenue. Aim to keep it below 30% for premium tiers.',
+        benchmarks: [
+            'AI products with guardrails often sustain 70%+ gross margin versus 55%–65% for uncapped usage.',
+            'Clear usage tiers reduce churn tied to billing surprises by 20%–30%.',
+            'Buyers reward pricing that ties AI usage to business outcomes (time saved, decisions automated).',
+        ],
+        commonMistakes: [
+            'Offering unlimited AI usage without margin modeling.',
+            'Hiding overage charges until after customers exceed caps.',
+            'Using tokens as the value metric instead of outcomes customers care about.',
+        ],
+        improvements: [
+            'Introduce tiered credits tied to outcomes or tasks completed.',
+            'Provide real-time usage dashboards and alerts before overages.',
+            'Bundle AI features into premium tiers with clear ROI messaging.',
+            'Negotiate committed-use contracts for high-volume customers to stabilize costs.',
+        ],
+        examples: [
+            {
+                title: 'AI writing assistant (~$2M ARR)',
+                content:
+                    'The company introduced a credit-based tier with soft caps and proactive alerts. Gross margin improved from 62% to 71% and churn dropped after customers stopped receiving surprise overage invoices.',
+            },
+            {
+                title: 'AI security triage tool',
+                content:
+                    'By bundling AI analysis into a premium plan and tying usage to incidents resolved, the team improved NRR and reduced cost volatility during customer growth spikes.',
+            },
+        ],
+        checklist: [
+            'Model AI cost per customer at low, mid, and high usage.',
+            'Define value metrics customers understand (tasks, cases, seats).',
+            'Add usage dashboards and threshold alerts.',
+            'Create a premium tier with outcome-based messaging.',
+            'Review margin and churn monthly after pricing changes.',
+        ],
+        faqs: [
+            { question: 'Should we charge by token?', answer: 'Only if customers understand token value. Most teams prefer outcome-based metrics or task credits.' },
+            { question: 'Do guardrails frustrate power users?', answer: 'Not if you provide clear upgrade paths and explain how usage maps to value.' },
+            { question: 'How do we handle enterprise contracts?', answer: 'Use committed spend with negotiated caps, plus quarterly usage reviews.' },
+            { question: 'What if AI costs fall quickly?', answer: 'Lower prices gradually while keeping guardrails; don’t remove them entirely.' },
+            { question: 'How does pricing affect valuation?', answer: 'Stable margins and predictable usage economics support higher multiples.' },
+            { question: 'Can we mix seat and usage pricing?', answer: 'Yes—hybrid models work well when seats cover access and usage covers variable cost.' },
+        ],
+        summary:
+            'AI pricing without guardrails erodes margin and trust. Build a pricing system that aligns usage with value and protects unit economics.\n\nWhen you show stable margins and transparent pricing, buyers underwrite a premium more confidently.',
+        internalLinks: [
+            { label: 'Pricing power playbook', href: '/resources/pricing-power-playbook' },
+            { label: 'Gross margin and valuation', href: '/resources/gross-margin-and-valuation' },
+            { label: 'ARR, MRR, and valuation multiples', href: '/resources/arr-mrr-and-valuation-multiples' },
+            ...CORE_INTERNAL_LINKS,
+        ],
+        sources: STANDARD_SOURCES,
+        relatedSlugs: ['pricing-power-playbook', 'ai-saas-valuation-bubble', 'gross-margin-and-valuation', 'rule-of-40-saas'],
+    },
+    {
+        slug: 'ai-enterprise-readiness',
+        title: 'AI Enterprise Readiness: What Buyers Expect Before Scaling Spend',
+        description: 'Prepare the controls, security, and reliability evidence enterprise buyers require for AI deployments.',
+        excerpt: 'A readiness checklist for AI buyers that covers governance, reliability, and risk controls that protect valuation.',
+        categorySlug: 'ai-market-shifts',
+        keywords: ['ai enterprise readiness', 'governance', 'security'],
+        metaTitle: 'AI Enterprise Readiness for SaaS Buyers',
+        metaDescription:
+            'Understand the enterprise readiness checklist for AI products, including governance, reliability, and risk controls that impact valuation.',
+        publishedAt: '2026-02-09',
+        updatedAt: '2026-02-09',
+        reviewedAt: '2026-02-09',
+        author: 'Amanda White',
+        readingTime: '12 min read',
+        category: 'AI & market shifts',
+        tags: ['AI', 'enterprise', 'readiness'],
+        badge: 'Market',
+        whatYouLearn:
+            'How to package governance, security, and reliability proof that enterprise buyers require before expanding AI spend.',
+        definition:
+            'AI enterprise readiness is the set of governance, security, reliability, and compliance controls that prove your AI system is safe and scalable for large buyers.',
+        whyItMatters: [
+            'Enterprise buyers pause spending when they lack clarity on AI governance and risk controls.',
+            'Readiness evidence speeds procurement and prevents late-stage security blockers.',
+            'Clear readiness reduces valuation discounts tied to perceived operational risk.',
+        ],
+        metricOrFormula:
+            'Track “Enterprise Readiness Coverage” = (governance controls + security controls + reliability controls) / total required controls. Aim for 80%+ before enterprise expansion.',
+        benchmarks: [
+            'Enterprise buyers expect AI systems to have documented evaluation metrics and human oversight workflows.',
+            'SOC 2 Type II or equivalent is increasingly required for AI systems handling sensitive data.',
+            'Teams with incident response playbooks reduce procurement timelines by 2–4 weeks.',
+        ],
+        commonMistakes: [
+            'Treating AI governance as a feature instead of an operational system.',
+            'Failing to document model evaluation and monitoring practices.',
+            'Leaving data retention and deletion policies ambiguous.',
+        ],
+        improvements: [
+            'Create a governance appendix that explains model evaluations, bias testing, and monitoring.',
+            'Publish data retention, deletion, and access control policies.',
+            'Implement human-in-the-loop review for high-risk outputs.',
+            'Document uptime, latency, and incident response metrics quarterly.',
+        ],
+        examples: [
+            {
+                title: 'AI HR screening tool',
+                content:
+                    'The team documented bias testing and added a human review step for flagged candidates. This moved a stalled enterprise deal into procurement and reduced legal review cycles.',
+            },
+            {
+                title: 'AI finance ops assistant',
+                content:
+                    'By publishing a governance appendix and SOC 2 roadmap, the company unlocked larger pilots and expanded ARR from mid-market to enterprise accounts.',
+            },
+        ],
+        checklist: [
+            'Document AI governance, evaluation, and monitoring practices.',
+            'Provide a security checklist aligned to SOC 2 or ISO 27001.',
+            'Define data retention, deletion, and access controls.',
+            'Publish uptime, latency, and incident response metrics.',
+            'Prepare a customer-facing AI risk FAQ for procurement.',
+        ],
+        faqs: [
+            { question: 'Do we need SOC 2 for enterprise AI deals?', answer: 'Often yes, or a clear roadmap with interim controls. Buyers want proof of security posture.' },
+            { question: 'What AI governance documents are essential?', answer: 'Evaluation methodology, monitoring metrics, and human oversight processes.' },
+            { question: 'How do we address hallucination risk?', answer: 'Use guardrails, retrieval augmentation, and human review for high-impact decisions.' },
+            { question: 'Should we provide model cards?', answer: 'Yes—model cards and evaluation summaries build trust with enterprise buyers.' },
+            { question: 'Does readiness affect valuation?', answer: 'Yes. Strong controls reduce perceived risk, supporting higher multiples.' },
+            { question: 'What if we use third-party models?', answer: 'Document vendor risk management and show how you monitor and mitigate issues.' },
+        ],
+        summary:
+            'Enterprise buyers want proof that your AI system is governed, secure, and reliable. Readiness evidence shortens procurement and protects valuation.\n\nTreat readiness as a product asset—document it and keep it updated as the market evolves.',
+        internalLinks: [
+            { label: 'Risk & resilience due diligence', href: '/resources/risk-resilience-due-diligence' },
+            { label: 'AI data moat playbook', href: '/resources/ai-data-moat-playbook' },
+            { label: 'SaaS valuation during fundraising', href: '/resources/saas-valuation-during-fundraising' },
+            ...CORE_INTERNAL_LINKS,
+        ],
+        sources: STANDARD_SOURCES,
+        relatedSlugs: ['risk-resilience-due-diligence', 'ai-data-moat-playbook', 'ai-market-map-reset', 'pricing-power-playbook'],
     },
     {
         slug: 'risk-resilience-due-diligence',
