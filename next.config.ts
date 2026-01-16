@@ -16,6 +16,21 @@ const nextConfig: NextConfig = {
         destination: '/resources',
         permanent: true,
       },
+      {
+        source: '/calculator',
+        destination: '/',
+        permanent: true,
+      },
+      {
+        source: '/free-valuation',
+        destination: '/',
+        permanent: true,
+      },
+      {
+        source: '/valuation-calculator',
+        destination: '/',
+        permanent: true,
+      },
     ];
   },
 };

@@ -113,3 +113,21 @@ body {
 .article-prose li+li {
   margin-top: 0.5rem;
 }
+
+@media print {
+  body {
+    background: #ffffff !important;
+    color: #0f172a !important;
+  }
+
+  .print-hide {
+    display: none !important;
+  }
+
+  .print-reset,
+  .print-reset * {
+    color: #0f172a !important;
+    background: transparent !important;
+    box-shadow: none !important;
+  }
+}

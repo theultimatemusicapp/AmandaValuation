@@ -33,6 +33,12 @@ export const event = ({ action, category, label, value }: GTagEvent) => {
     }
 };
 
+export const trackCalculatorEvent = (action: string, payload: Record<string, unknown> = {}) => {
+    if (typeof window.gtag !== 'undefined') {
+        window.gtag('event', action, payload);
+    }
+};
+
 // Specific Resources Events
 export const trackResourceView = (slug: string) => {
     event({

@@ -1,6 +1,7 @@
 export type ValuationInputs = {
     // Company Info
     companyName: string;
+    contactName?: string;
     email: string;
     website?: string;
 

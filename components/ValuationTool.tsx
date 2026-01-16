@@ -1,14 +1,13 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useMemo, useRef, useState, type FormEvent } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowRight, ArrowLeft, Activity, Info, DollarSign, Shield, Percent, TrendingUp, ShieldCheck, Calculator } from 'lucide-react';
 import { generateFreePDF } from '@/lib/pdf-generator';
 import { calculateSaaSValuation, ValuationInputs, ValuationResult, formatCurrency } from '@/lib/valuation';
-import ProDashboard from './ProDashboard';
+import { trackCalculatorEvent } from '@/lib/analytics';
 
 const STEPS = [
-    { id: 'company', title: 'Company Info' },
     { id: 'financials', title: 'Financials' },
     { id: 'growth', title: 'Growth' },
     { id: 'risk', title: 'Risk' },
@@ -16,12 +15,6 @@ const STEPS = [
 ];
 
 const STEP_INSIGHTS = [
-    {
-        title: "Let's Get Started",
-        description: "Valuations are more than just numbers—they're a story. We start with the basics to categorize your business correctly.",
-        tip: "Investors categorize SaaS by 'Cohort'. A B2B Enterprise app is valued differently than a B2C mobile app.",
-        icon: Activity
-    },
     {
         title: "The Financial Engine",
         description: "Your revenue quality determines your multiple. Recurring revenue is the gold standard.",
@@ -52,8 +45,8 @@ export default function ValuationWizard() {
     const [currentStep, setCurrentStep] = useState(0);
     const [formData, setFormData] = useState<ValuationInputs>({
         companyName: '',
+        contactName: '',
         email: '',
-        website: '',
         arr: 0,
         netProfit: 0,
         growthYoy: 0,
@@ -69,39 +62,165 @@ export default function ValuationWizard() {
         cac: 0,
     });
 
-    const [result, setResult] = useState<ValuationResult | null>(null);
+    const [emailFormOpen, setEmailFormOpen] = useState(false);
+    const [submitStatus, setSubmitStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
+    const [submitError, setSubmitError] = useState('');
+    const [emailError, setEmailError] = useState('');
+    const [honeypot, setHoneypot] = useState('');
+    const [copyStatus, setCopyStatus] = useState<'idle' | 'copied' | 'error'>('idle');
 
-    const handleInputChange = (field: keyof ValuationInputs, value: any) => {
+    const result = useMemo<ValuationResult>(() => calculateSaaSValuation(formData), [formData]);
+    const hasStartedRef = useRef(false);
+    const hasViewedResultRef = useRef(false);
+    const copyTimeoutRef = useRef<number | null>(null);
+    const resultsStepIndex = STEPS.length - 1;
+
+    const analyticsPayload = useMemo(() => ({
+        currency: 'USD',
+        revenue_type: 'ARR',
+        has_optional_inputs: Boolean(formData.cac || formData.ltv),
+    }), [formData.cac, formData.ltv]);
+
+    const handleCalculatorInputChange = (field: keyof ValuationInputs, value: any) => {
+        if (!hasStartedRef.current) {
+            trackCalculatorEvent('calculator_start', analyticsPayload);
+            hasStartedRef.current = true;
+        }
         setFormData(prev => ({ ...prev, [field]: value }));
     };
 
-    const handleNext = async () => {
-        if (currentStep === STEPS.length - 2) {
-            // Calculate before showing results
-            const res = calculateSaaSValuation(formData);
-            setResult(res);
+    const handleContactChange = (field: 'companyName' | 'contactName' | 'email', value: string) => {
+        setFormData(prev => ({ ...prev, [field]: value }));
+    };
 
-            // Submit to Formspree
-            try {
-                await fetch('https://formspree.io/f/mnnnoogg', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        subject: `New Free Valuation - ${formData.companyName}`,
-                        ...formData,
-                        valuationEstimate: res.avgValuation
-                    })
-                });
-            } catch (err) {
-                console.error('Formspree submission failed:', err);
-            }
-        }
+    const handleNext = () => {
         setCurrentStep(prev => Math.min(prev + 1, STEPS.length - 1));
     };
 
     const handleBack = () => {
         setCurrentStep(prev => Math.max(prev - 1, 0));
     };
+
+    const handleCopyResults = async () => {
+        if (!result.avgValuation) {
+            setCopyStatus('error');
+            return;
+        }
+
+        const text = [
+            `Estimated Valuation: ${formatCurrency(result.avgValuation)}`,
+            `Range: ${formatCurrency(result.rangeLow)} - ${formatCurrency(result.rangeHigh)}`,
+            `Revenue Multiple: ${result.revenueMultiple.toFixed(1)}x`,
+            `Rule of 40: ${result.ruleOf40.toFixed(1)}%`,
+        ].join('\n');
+
+        try {
+            if (navigator.clipboard?.writeText) {
+                await navigator.clipboard.writeText(text);
+                setCopyStatus('copied');
+            } else {
+                setCopyStatus('error');
+            }
+        } catch (err) {
+            setCopyStatus('error');
+            if (process.env.NODE_ENV === 'development') {
+                console.error('Failed to copy valuation results:', err);
+            }
+        }
+    };
+
+    const validateEmail = (email: string) => /[^@\s]+@[^@\s]+\.[^@\s]+/.test(email);
+
+    const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+        setSubmitError('');
+        setEmailError('');
+
+        if (honeypot) {
+            return;
+        }
+
+        if (!validateEmail(formData.email)) {
+            setEmailError('Please enter a valid email address.');
+            return;
+        }
+
+        setSubmitStatus('submitting');
+
+        try {
+            const response = await fetch('https://formspree.io/f/mnnnoogg', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Accept: 'application/json',
+                },
+                body: JSON.stringify({
+                    subject: `New Free Valuation - ${formData.companyName || 'Anonymous'}`,
+                    companyName: formData.companyName,
+                    contactName: formData.contactName,
+                    email: formData.email,
+                    valuationEstimate: result.avgValuation,
+                    rangeLow: result.rangeLow,
+                    rangeHigh: result.rangeHigh,
+                    revenueMultiple: result.revenueMultiple,
+                    ruleOf40: result.ruleOf40,
+                    inputs: {
+                        arr: formData.arr,
+                        netProfit: formData.netProfit,
+                        growthYoy: formData.growthYoy,
+                        grossMargin: formData.grossMargin,
+                        customerChurn: formData.customerChurn,
+                        retentionRate: formData.retentionRate,
+                        nps: formData.nps,
+                        cac: formData.cac,
+                        ltv: formData.ltv,
+                    },
+                }),
+            });
+
+            if (!response.ok) {
+                setSubmitStatus('error');
+                setSubmitError('Something went wrong while sending your valuation. Please try again.');
+                trackCalculatorEvent('calculator_submit_error', analyticsPayload);
+                if (process.env.NODE_ENV === 'development') {
+                    console.error('Formspree submission failed:', await response.text());
+                }
+                return;
+            }
+
+            setSubmitStatus('success');
+            trackCalculatorEvent('calculator_submit_success', analyticsPayload);
+        } catch (err) {
+            setSubmitStatus('error');
+            setSubmitError('Something went wrong while sending your valuation. Please try again.');
+            trackCalculatorEvent('calculator_submit_error', analyticsPayload);
+            if (process.env.NODE_ENV === 'development') {
+                console.error('Formspree submission failed:', err);
+            }
+        }
+    };
+
+    useEffect(() => {
+        if (currentStep === resultsStepIndex && !hasViewedResultRef.current) {
+            trackCalculatorEvent('calculator_result_view', analyticsPayload);
+            hasViewedResultRef.current = true;
+        }
+    }, [currentStep, analyticsPayload, resultsStepIndex]);
+
+    useEffect(() => {
+        if (copyStatus === 'copied') {
+            if (copyTimeoutRef.current) {
+                window.clearTimeout(copyTimeoutRef.current);
+            }
+            copyTimeoutRef.current = window.setTimeout(() => setCopyStatus('idle'), 2000);
+        }
+    }, [copyStatus]);
+
+    useEffect(() => () => {
+        if (copyTimeoutRef.current) {
+            window.clearTimeout(copyTimeoutRef.current);
+        }
+    }, []);
 
     const stepVariants = {
         hidden: { opacity: 0, x: 20 },
@@ -110,14 +229,14 @@ export default function ValuationWizard() {
     };
 
     return (
-        <section id="valuation-tool" className="py-24 bg-slate-900 border-y border-slate-800 relative overflow-hidden">
+        <section id="valuation-tool" className="py-24 bg-slate-900 border-y border-slate-800 relative overflow-hidden print-reset">
             {/* Background Decor */}
             <div className="absolute top-0 left-0 w-[500px] h-[500px] bg-brand-500/5 blur-[100px] rounded-full pointer-events-none" />
 
             <div className="max-w-4xl mx-auto px-4">
                 <div className="text-center mb-12">
                     <h2 className="text-3xl md:text-4xl font-bold font-display mb-4">Free Valuation Calculator</h2>
-                    <p className="text-slate-400">Answer 10 questions to get your instant valuation range.</p>
+                    <p className="text-slate-400">Answer a few questions to get your instant valuation range.</p>
                 </div>
 
                 {/* Wizard Card with Split Layout */}
@@ -132,36 +251,8 @@ export default function ValuationWizard() {
 
                         <AnimatePresence mode="wait">
 
-                            {/* STEP 0: COMPANY INFO */}
+                            {/* STEP 0: FINANCIALS */}
                             {currentStep === 0 && (
-                                <motion.div key="step0" variants={stepVariants} initial="hidden" animate="visible" exit="exit" className="space-y-6">
-                                    <h3 className="text-2xl font-bold font-display mb-6">Company Information</h3>
-                                    <div className="grid grid-cols-1 gap-6">
-                                        <InputGroup
-                                            label="Business Name"
-                                            value={formData.companyName}
-                                            onChange={(v) => handleInputChange('companyName', v)}
-                                            placeholder="Enter your business name"
-                                        />
-                                        <InputGroup
-                                            label="Email Address"
-                                            value={formData.email}
-                                            onChange={(v) => handleInputChange('email', v)}
-                                            placeholder="you@company.com"
-                                            type="email"
-                                        />
-                                        <InputGroup
-                                            label="Website URL"
-                                            value={formData.website || ''}
-                                            onChange={(v) => handleInputChange('website', v)}
-                                            placeholder="https://yourbusiness.com"
-                                        />
-                                    </div>
-                                </motion.div>
-                            )}
-
-                            {/* STEP 1: FINANCIALS */}
-                            {currentStep === 1 && (
                                 <motion.div key="step1" variants={stepVariants} initial="hidden" animate="visible" exit="exit" className="space-y-6">
                                     <h3 className="text-2xl font-bold font-display mb-6">Financial Metrics</h3>
                                     <div className="grid grid-cols-1 gap-6">
@@ -169,7 +260,7 @@ export default function ValuationWizard() {
                                             label="Annual Recurring Revenue (ARR)"
                                             sub="The lifeblood of SaaS valuation. It represents your committed subscription revenue over a 12-month period, excluding one-time fees. High-quality ARR with low churn commands the highest multiples."
                                             value={formData.arr}
-                                            onChange={(v) => handleInputChange('arr', Number(v))}
+                                            onChange={(v) => handleCalculatorInputChange('arr', Number(v))}
                                             type="number"
                                             prefix="$"
                                         />
@@ -177,7 +268,7 @@ export default function ValuationWizard() {
                                             label="Net Profit (Last 12 Months)"
                                             sub="Calculated as EBITDA or Seller's Discretionary Earnings (SDE). For bootstrapped SaaS, SDE is the gold standard for valuation, adding back the founder's salary to show true earning potential."
                                             value={formData.netProfit}
-                                            onChange={(v) => handleInputChange('netProfit', Number(v))}
+                                            onChange={(v) => handleCalculatorInputChange('netProfit', Number(v))}
                                             type="number"
                                             prefix="$"
                                         />
@@ -185,7 +276,7 @@ export default function ValuationWizard() {
                                             label="YoY Growth Rate"
                                             sub="The percentage increase in revenue compared to the previous year. Strategic buyers often pay a significant 'growth premium' for companies scaling at >50% annually while maintaining efficiency."
                                             value={formData.growthYoy}
-                                            onChange={(v) => handleInputChange('growthYoy', Number(v))}
+                                            onChange={(v) => handleCalculatorInputChange('growthYoy', Number(v))}
                                             type="number"
                                             suffix="%"
                                         />
@@ -193,7 +284,7 @@ export default function ValuationWizard() {
                                             label="Gross Margin"
                                             sub="The percentage of revenue retained after Cost of Goods Sold (COGS). For SaaS, >80% is excellent. High margins justify higher multiples."
                                             value={formData.grossMargin}
-                                            onChange={(v) => handleInputChange('grossMargin', Number(v))}
+                                            onChange={(v) => handleCalculatorInputChange('grossMargin', Number(v))}
                                             type="number"
                                             suffix="%"
                                         />
@@ -201,8 +292,8 @@ export default function ValuationWizard() {
                                 </motion.div>
                             )}
 
-                            {/* STEP 2: GROWTH & CHURN */}
-                            {currentStep === 2 && (
+                            {/* STEP 1: GROWTH & CHURN */}
+                            {currentStep === 1 && (
                                 <motion.div key="step2" variants={stepVariants} initial="hidden" animate="visible" exit="exit" className="space-y-6">
                                     <h3 className="text-2xl font-bold font-display mb-6">Health Metrics</h3>
                                     <div className="grid grid-cols-1 gap-6">
@@ -210,7 +301,7 @@ export default function ValuationWizard() {
                                             label="Monthly Churn Rate"
                                             sub="The 'leaky bucket' metric. It measures the percentage of customers or revenue lost each month. Excessive churn is the #1 value killer in SaaS; anything under 3% is considered healthy for SMB SaaS."
                                             value={formData.customerChurn}
-                                            onChange={(v) => handleInputChange('customerChurn', Number(v))}
+                                            onChange={(v) => handleCalculatorInputChange('customerChurn', Number(v))}
                                             type="number"
                                             suffix="%"
                                         />
@@ -218,7 +309,7 @@ export default function ValuationWizard() {
                                             label="Net Dollar Retention"
                                             sub="A measure of how much your revenue grows from existing customers after accounting for churn and expansion. NDR over 100% indicates a highly scalable 'negative churn' environment."
                                             value={formData.retentionRate}
-                                            onChange={(v) => handleInputChange('retentionRate', Number(v))}
+                                            onChange={(v) => handleCalculatorInputChange('retentionRate', Number(v))}
                                             type="number"
                                             suffix="%"
                                         />
@@ -226,7 +317,7 @@ export default function ValuationWizard() {
                                             label="NPS Score"
                                             sub="Net Promoter Score reflects customer loyalty. High NPS (50+) typically correlates with lower churn and higher referral-based growth, creating a 'soft moat' that investors value."
                                             value={formData.nps}
-                                            onChange={(v) => handleInputChange('nps', Number(v))}
+                                            onChange={(v) => handleCalculatorInputChange('nps', Number(v))}
                                             type="number"
                                         />
                                         <div className="grid grid-cols-2 gap-4">
@@ -234,7 +325,7 @@ export default function ValuationWizard() {
                                                 label="CAC"
                                                 sub="Customer Acquisition Cost."
                                                 value={formData.cac}
-                                                onChange={(v) => handleInputChange('cac', Number(v))}
+                                                onChange={(v) => handleCalculatorInputChange('cac', Number(v))}
                                                 type="number"
                                                 prefix="$"
                                             />
@@ -242,7 +333,7 @@ export default function ValuationWizard() {
                                                 label="LTV"
                                                 sub="Lifetime Value."
                                                 value={formData.ltv}
-                                                onChange={(v) => handleInputChange('ltv', Number(v))}
+                                                onChange={(v) => handleCalculatorInputChange('ltv', Number(v))}
                                                 type="number"
                                                 prefix="$"
                                             />
@@ -251,8 +342,8 @@ export default function ValuationWizard() {
                                 </motion.div>
                             )}
 
-                            {/* STEP 3: RISK */}
-                            {currentStep === 3 && (
+                            {/* STEP 2: RISK */}
+                            {currentStep === 2 && (
                                 <motion.div key="step3" variants={stepVariants} initial="hidden" animate="visible" exit="exit" className="space-y-6">
                                     <h3 className="text-2xl font-bold font-display mb-6">Risk Profile</h3>
                                     <div className="space-y-6">
@@ -269,7 +360,7 @@ export default function ValuationWizard() {
                                             <select
                                                 className="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white focus:ring-2 focus:ring-brand-500 outline-none"
                                                 value={formData.legalIssues}
-                                                onChange={(e) => handleInputChange('legalIssues', e.target.value)}
+                                                onChange={(e) => handleCalculatorInputChange('legalIssues', e.target.value)}
                                             >
                                                 <option value="none">None - Clean Record</option>
                                                 <option value="minor">Minor - Resolved Disputes</option>
@@ -289,7 +380,7 @@ export default function ValuationWizard() {
                                             <select
                                                 className="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white focus:ring-2 focus:ring-brand-500 outline-none"
                                                 value={formData.ipOwnership}
-                                                onChange={(e) => handleInputChange('ipOwnership', e.target.value)}
+                                                onChange={(e) => handleCalculatorInputChange('ipOwnership', e.target.value)}
                                             >
                                                 <option value="fully-owned">Fully Owned (Patented/Copyrighted)</option>
                                                 <option value="semiprivate">Parial / Licensed</option>
@@ -309,7 +400,7 @@ export default function ValuationWizard() {
                                             <select
                                                 className="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white focus:ring-2 focus:ring-brand-500 outline-none"
                                                 value={formData.businessTypeMultiplier}
-                                                onChange={(e) => handleInputChange('businessTypeMultiplier', Number(e.target.value))}
+                                                onChange={(e) => handleCalculatorInputChange('businessTypeMultiplier', Number(e.target.value))}
                                             >
                                                 <option value={5}>SaaS (B2B) - Standard</option>
                                                 <option value={7}>SaaS (Enterprise) - High Value</option>
@@ -321,8 +412,8 @@ export default function ValuationWizard() {
                                 </motion.div>
                             )}
 
-                            {/* STEP 4: RESULTS CARD (SIMPLE) */}
-                            {currentStep === 4 && result && (
+                            {/* STEP 3: RESULTS CARD (SIMPLE) */}
+                            {currentStep === 3 && result && (
                                 <motion.div key="step4" variants={stepVariants} initial="hidden" animate="visible" exit="exit" className="w-full">
                                     {/* Result Card */}
                                     <div className="text-center mb-8">
@@ -402,8 +493,31 @@ export default function ValuationWizard() {
                                         </div>
                                     </div>
 
-                                    {/* Action Buttons */}
-                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                                    {/* Secondary Actions */}
+                                    <div className="space-y-3 mb-6 print-hide">
+                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                            <button
+                                                onClick={handleCopyResults}
+                                                className="flex items-center justify-center gap-2 px-6 py-3 bg-slate-800 hover:bg-slate-700 text-white rounded-xl font-semibold transition-all border border-slate-700 hover:border-slate-600"
+                                            >
+                                                Copy results
+                                            </button>
+                                            <button
+                                                onClick={() => window.print()}
+                                                className="flex items-center justify-center gap-2 px-6 py-3 bg-slate-800 hover:bg-slate-700 text-white rounded-xl font-semibold transition-all border border-slate-700 hover:border-slate-600"
+                                            >
+                                                Print / Save as PDF
+                                            </button>
+                                        </div>
+                                        {copyStatus === 'copied' && (
+                                            <p className="text-sm text-brand-300">Copied to clipboard.</p>
+                                        )}
+                                        {copyStatus === 'error' && (
+                                            <p className="text-sm text-amber-300">Copy not available on this browser.</p>
+                                        )}
+                                    </div>
+
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6 print-hide">
                                         <button
                                             onClick={() => {
                                                 generateFreePDF(result, formData);
@@ -422,8 +536,99 @@ export default function ValuationWizard() {
                                         </a>
                                     </div>
 
+                                    {/* Email CTA */}
+                                    <div className="bg-slate-900/60 border border-slate-800 rounded-2xl p-6 mb-6 print-hide">
+                                        <div className="flex flex-col gap-4">
+                                            <button
+                                                onClick={() => {
+                                                    setEmailFormOpen(true);
+                                                    trackCalculatorEvent('calculator_email_open', analyticsPayload);
+                                                }}
+                                                className="w-full flex items-center justify-center gap-2 px-6 py-4 bg-brand-500 hover:bg-brand-400 text-white rounded-xl font-semibold transition-all"
+                                            >
+                                                Email me this valuation
+                                            </button>
+
+                                            {emailFormOpen && submitStatus !== 'success' && (
+                                                <form onSubmit={handleSubmit} className="space-y-4">
+                                                    <div>
+                                                        <h4 className="text-lg font-semibold text-white">Send this valuation to your inbox</h4>
+                                                        <p className="text-sm text-slate-300 mt-1">We ask for your email only so we can send you the results + a summary. No account required.</p>
+                                                        <p className="text-xs text-slate-500 mt-2">No spam. Unsubscribe anytime.</p>
+                                                    </div>
+
+                                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                                        <div>
+                                                            <label className="block text-sm font-medium text-slate-300 mb-2">Company (optional)</label>
+                                                            <input
+                                                                type="text"
+                                                                value={formData.companyName}
+                                                                onChange={(e) => handleContactChange('companyName', e.target.value)}
+                                                                className="w-full bg-slate-900 border border-slate-700 text-white rounded-xl px-4 py-3 focus:ring-2 focus:ring-brand-500 outline-none"
+                                                                placeholder="Acme Inc."
+                                                            />
+                                                        </div>
+                                                        <div>
+                                                            <label className="block text-sm font-medium text-slate-300 mb-2">Name (optional)</label>
+                                                            <input
+                                                                type="text"
+                                                                value={formData.contactName}
+                                                                onChange={(e) => handleContactChange('contactName', e.target.value)}
+                                                                className="w-full bg-slate-900 border border-slate-700 text-white rounded-xl px-4 py-3 focus:ring-2 focus:ring-brand-500 outline-none"
+                                                                placeholder="Jane Founder"
+                                                            />
+                                                        </div>
+                                                    </div>
+
+                                                    <div>
+                                                        <label className="block text-sm font-medium text-slate-300 mb-2">Email address</label>
+                                                        <input
+                                                            type="email"
+                                                            value={formData.email}
+                                                            onChange={(e) => handleContactChange('email', e.target.value)}
+                                                            className="w-full bg-slate-900 border border-slate-700 text-white rounded-xl px-4 py-3 focus:ring-2 focus:ring-brand-500 outline-none"
+                                                            placeholder="you@company.com"
+                                                            required
+                                                        />
+                                                        {emailError && (
+                                                            <p className="text-sm text-rose-300 mt-2">{emailError}</p>
+                                                        )}
+                                                    </div>
+
+                                                    <input
+                                                        type="text"
+                                                        name="website"
+                                                        value={honeypot}
+                                                        onChange={(e) => setHoneypot(e.target.value)}
+                                                        autoComplete="off"
+                                                        tabIndex={-1}
+                                                        style={{ display: 'none' }}
+                                                    />
+
+                                                    {submitError && (
+                                                        <p className="text-sm text-rose-300">{submitError}</p>
+                                                    )}
+
+                                                    <button
+                                                        type="submit"
+                                                        disabled={submitStatus === 'submitting'}
+                                                        className="w-full flex items-center justify-center gap-2 px-6 py-3 bg-white text-slate-950 hover:bg-brand-50 rounded-xl font-semibold transition-all disabled:opacity-60 disabled:cursor-not-allowed"
+                                                    >
+                                                        {submitStatus === 'submitting' ? 'Sending...' : 'Send my valuation'}
+                                                    </button>
+                                                </form>
+                                            )}
+
+                                            {submitStatus === 'success' && (
+                                                <div className="rounded-xl border border-emerald-500/40 bg-emerald-500/10 p-4 text-emerald-100">
+                                                    <p className="font-semibold">Sent! Check your inbox in 1–2 minutes (Spam/Promotions).</p>
+                                                </div>
+                                            )}
+                                        </div>
+                                    </div>
+
                                     {/* Pro Features Teaser */}
-                                    <div className="bg-gradient-to-br from-amber-500/10 to-orange-500/10 border border-amber-500/30 rounded-xl p-6">
+                                    <div className="bg-gradient-to-br from-amber-500/10 to-orange-500/10 border border-amber-500/30 rounded-xl p-6 print-hide">
                                         <div className="flex items-start gap-3 mb-3">
                                             <svg className="w-6 h-6 text-amber-400 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" /></svg>
                                             <div>
@@ -440,7 +645,7 @@ export default function ValuationWizard() {
                                         </div>
                                     </div>
 
-                                    <div className="mt-8 text-center">
+                                    <div className="mt-8 text-center print-hide">
                                         <button
                                             onClick={() => window.location.reload()}
                                             className="text-slate-500 hover:text-slate-300 text-sm underline"
@@ -454,7 +659,7 @@ export default function ValuationWizard() {
                         </AnimatePresence>
 
                         {/* Navigation Buttons (Moved Inside Left Col) */}
-                        {currentStep < 4 && (
+                        {currentStep < resultsStepIndex && (
                             <div className="flex justify-between mt-12 pt-8 border-t border-slate-800/50">
                                 <button
                                     onClick={handleBack}
@@ -469,14 +674,14 @@ export default function ValuationWizard() {
                                     onClick={handleNext}
                                     className="flex items-center gap-2 px-8 py-3 bg-white text-slate-950 hover:bg-brand-50 rounded-xl font-bold transition-all shadow-lg hover:shadow-xl hover:-translate-y-1"
                                 >
-                                    {currentStep === 3 ? 'Calculate Valuation' : 'Next Step'} <ArrowRight className="w-4 h-4" />
+                                    {currentStep === resultsStepIndex - 1 ? 'See Results' : 'Next Step'} <ArrowRight className="w-4 h-4" />
                                 </button>
                             </div>
                         )}
                     </div>
 
                     {/* Right: Insight Panel & Progress */}
-                    <div className="w-full md:w-[340px] lg:w-[400px] bg-slate-900/50 border-t md:border-t-0 md:border-l border-slate-800 flex flex-col relative overflow-hidden transition-colors duration-500">
+                    <div className="w-full md:w-[340px] lg:w-[400px] bg-slate-900/50 border-t md:border-t-0 md:border-l border-slate-800 flex flex-col relative overflow-hidden transition-colors duration-500 print-hide">
 
                         {/* Progress Steps (Vertical List) */}
                         <div className="p-8 pb-4 border-b border-slate-800/50 relative z-20">
