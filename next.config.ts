@@ -31,6 +31,16 @@ const nextConfig: NextConfig = {
         destination: '/',
         permanent: true,
       },
+      {
+        source: '/how-to-value-saas.html',
+        destination: '/resources/how-to-value-saas',
+        permanent: true,
+      },
+      {
+        source: '/how-to-value-saas',
+        destination: '/resources/how-to-value-saas',
+        permanent: true,
+      },
     ];
   },
 };
