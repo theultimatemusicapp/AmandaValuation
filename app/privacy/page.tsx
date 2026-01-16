@@ -10,7 +10,7 @@ export default function PrivacyPage() {
                 <h1 className="text-4xl font-bold font-display text-white mb-8">Privacy Policy</h1>
 
                 <div className="prose prose-invert prose-lg max-w-none text-slate-300">
-                    <p className="text-sm text-slate-500 mb-8">Last Updated: December 30, 2025</p>
+                    <p className="text-sm text-slate-500 mb-8">Last Updated: March 12, 2026</p>
 
                     <h2>1. Introduction</h2>
                     <p>
@@ -43,12 +43,58 @@ export default function PrivacyPage() {
                         We do NOT sell your personal or financial data to third parties. We may share data with specific service providers (e.g., payment processors like Stripe, email services like Formspree) only as necessary to provide our services to you.
                     </p>
 
-                    <h2>5. Data Security</h2>
+                    <h2>5. Advertising & Analytics</h2>
+                    <p>
+                        We may display advertising on the Site, including ads provided by Google AdSense. These partners use cookies or
+                        similar technologies to serve ads based on your visits to this and other websites. Google&apos;s use of
+                        advertising cookies enables it and its partners to serve ads based on your visit to this site and/or other sites
+                        on the internet.
+                    </p>
+                    <p>
+                        We also use analytics tools (such as Google Analytics) to understand site performance, improve our content, and
+                        measure engagement. These services may collect information about your device, browser, pages visited, and usage
+                        patterns.
+                    </p>
+
+                    <h2>6. Cookies & Consent Choices</h2>
+                    <p>
+                        We use essential cookies to keep the site secure and to remember your privacy preferences. Non-essential cookies
+                        are used for analytics and advertising. When you visit the site, you can accept or decline non-essential cookies
+                        through our consent banner. You can also update your preferences by clearing cookies in your browser.
+                    </p>
+                    <ul className="list-disc pl-6 space-y-2 mb-4">
+                        <li>
+                            <strong>Google Ad Settings:</strong>{' '}
+                            <a
+                                href="https://adssettings.google.com"
+                                className="text-brand-400 hover:text-brand-300 underline underline-offset-4"
+                                target="_blank"
+                                rel="noreferrer"
+                            >
+                                Manage or opt out of personalized ads
+                            </a>
+                            .
+                        </li>
+                        <li>
+                            <strong>Google Ad Policies:</strong>{' '}
+                            <a
+                                href="https://policies.google.com/technologies/ads"
+                                className="text-brand-400 hover:text-brand-300 underline underline-offset-4"
+                                target="_blank"
+                                rel="noreferrer"
+                            >
+                                Learn how Google uses data in advertising
+                            </a>
+                            .
+                        </li>
+                    </ul>
+
+                    <h2>7. Data Security</h2>
                     <p>
                         We implement appropriate technical and organizational security measures designed to protect the security of any personal information we process. However, please also remember that we cannot guarantee that the internet itself is 100% secure.
                     </p>
 
-                    <h2>6. Contact Us</h2>
+                    <h2>8. Contact Us</h2>
                     <p>
                         If you have questions or comments about this policy, you may email us at support@saasvaluation.app.
                     </p>
