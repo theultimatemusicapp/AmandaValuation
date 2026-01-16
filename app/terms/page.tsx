@@ -10,7 +10,7 @@ export default function TermsPage() {
                 <h1 className="text-4xl font-bold font-display text-white mb-8">Terms of Service</h1>
 
                 <div className="prose prose-invert prose-lg max-w-none text-slate-300">
-                    <p className="text-sm text-slate-500 mb-8">Last Updated: December 30, 2025</p>
+                    <p className="text-sm text-slate-500 mb-8">Last Updated: March 12, 2026</p>
 
                     <h2>1. Agreement to Terms</h2>
                     <p>
@@ -38,12 +38,19 @@ export default function TermsPage() {
                     </p>
                     <p>All sales are final and no refunds will be issued unless otherwise required by law.</p>
 
-                    <h2>6. Limitation of Liability</h2>
+                    <h2>6. Advertising & Sponsored Content</h2>
+                    <p>
+                        The Site may display advertising, including ads served by third-party networks such as Google AdSense. Ads are
+                        clearly labeled as advertising or sponsored content when applicable. We do not endorse every product or service
+                        advertised, and advertisers are responsible for their offers, claims, and landing pages.
+                    </p>
+
+                    <h2>7. Limitation of Liability</h2>
                     <p>
                         In no event will we or our directors, employees, or agents be liable to you or any third party for any direct, indirect, consequential, exemplary, incidental, special, or punitive damages, including lost profit, lost revenue, loss of data, or other damages arising from your use of the site.
                     </p>
 
-                    <h2>7. Contact Us</h2>
+                    <h2>8. Contact Us</h2>
                     <p>
                         In order to resolve a complaint regarding the Site or to receive further information regarding use of the Site, please contact us at support@saasvaluation.app.
                     </p>
