@@ -35,29 +35,32 @@ export default function AboutPage() {
                                 <h2 className="text-3xl font-bold font-display text-white">Meet David Miller</h2>
                                 <div className="space-y-4 text-slate-300 leading-relaxed">
                                     <p>
-                                        David Miller is a serial SaaS entrepreneur and valuation expert with over 15 years of experience in the software industry. After selling his first bootstraped SaaS company in 2015, he realized how opaque and difficult the exit process was for first-time founders.
+                                        David Miller has been building and analyzing SaaS businesses for over a decade. After selling his first bootstrapped SaaS company in 2015, he experienced firsthand how confusing and opaque the valuation process can be for first-time founders.
                                     </p>
                                     <p>
-                                        "Founders were leaving millions on the table simply because they didn't know how to position their metrics," David says. "I built SaaS Valuation to solve that."
+                                        "Most founders don't have access to the data and frameworks that buyers and investors use," David explains. "I built SaaS Valuation to make those tools accessible to everyone."
                                     </p>
                                     <p>
-                                        Today, David advises private equity firms on SaaS due diligence and has helped over 500 founders prepare their exits. His mission with this platform is to bring institutional-grade valuation models to the open market for free.
+                                        Today, David works with SaaS founders and business advisors to help them understand their metrics and prepare for growth or exit conversations. His goal with this platform is to provide transparent, data-driven valuation insights without the typical consultant fees.
+                                    </p>
+                                    <p className="text-sm text-slate-400 italic border-l-2 border-slate-700 pl-4">
+                                        Note: The valuations provided by our calculators are estimates based on market data and industry benchmarks. They should not be considered as professional financial advice or guarantees of actual transaction value. Always consult with qualified financial and legal advisors before making business decisions.
                                     </p>
                                 </div>
                                 <div className="pt-4 flex items-center gap-4">
                                     <div className="text-center">
-                                        <div className="text-2xl font-bold text-white">15+</div>
+                                        <div className="text-2xl font-bold text-white">10+</div>
                                         <div className="text-xs text-slate-500 uppercase tracking-wide">Years Exp</div>
                                     </div>
                                     <div className="w-px h-10 bg-slate-800" />
                                     <div className="text-center">
-                                        <div className="text-2xl font-bold text-white">$150M+</div>
-                                        <div className="text-xs text-slate-500 uppercase tracking-wide">Exits Guided</div>
+                                        <div className="text-2xl font-bold text-white">SaaS</div>
+                                        <div className="text-xs text-slate-500 uppercase tracking-wide">Specialist</div>
                                     </div>
                                     <div className="w-px h-10 bg-slate-800" />
                                     <div className="text-center">
-                                        <div className="text-2xl font-bold text-white">500+</div>
-                                        <div className="text-xs text-slate-500 uppercase tracking-wide">Founders Helped</div>
+                                        <div className="text-2xl font-bold text-white">Data-Driven</div>
+                                        <div className="text-xs text-slate-500 uppercase tracking-wide">Approach</div>
                                     </div>
                                 </div>
                             </div>
@@ -87,17 +90,17 @@ export default function AboutPage() {
                         <ValueCard
                             icon={Target}
                             title="Accuracy First"
-                            description="We don't guess. Our models are built on real-time market data from thousands of successful SaaS exits."
+                            description="Our valuation models are built on market data from SaaS transactions and industry benchmarks. We prioritize transparent methodology over flashy promises."
                         />
                         <ValueCard
                             icon={Shield}
                             title="Founder Friendly"
-                            description="We are on the founder's side. Our tools are designed to maximize YOUR leverage in any negotiation."
+                            description="We believe founders should understand their company's value before entering any negotiation. Our tools provide the insights you need to make informed decisions."
                         />
                         <ValueCard
                             icon={Rocket}
-                            title="Speed & Simplicity"
-                            description="Valuation shouldn't take weeks. We deliver institutional-grade insights in seconds, not months."
+                            title="Speed & Clarity"
+                            description="Get valuation estimates in minutes, not weeks. We combine automated analysis with clear explanations so you know exactly what the numbers mean."
                         />
                     </div>
                 </div>
