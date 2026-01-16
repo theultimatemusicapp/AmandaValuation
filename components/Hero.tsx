@@ -8,7 +8,7 @@ const demoImage = "data:image/webp;base64,UklGRg69AABXRUJQVlA4IAK9AAAQ1AOdASoACL
 
 export default function Hero() {
     return (
-        <div className="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden">
+        <div className="relative pt-16 pb-16 lg:pt-24 lg:pb-24 overflow-hidden">
             {/* Background Glows */}
             <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-[500px] bg-brand-500/10 blur-[120px] rounded-full pointer-events-none" />
             <div className="absolute bottom-0 right-0 w-[300px] h-[300px] bg-blue-600/10 blur-[100px] rounded-full pointer-events-none" />
