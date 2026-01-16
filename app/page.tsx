@@ -31,10 +31,6 @@ export default async function Home() {
 
       <Hero />
 
-      <Pricing />
-
-      <Testimonials />
-
       <div className="max-w-4xl mx-auto px-4 py-12 text-center" id="free-valuation">
         <div className="inline-flex items-center gap-3 px-6 py-4 bg-slate-900/50 border border-slate-800 rounded-2xl backdrop-blur-sm">
           <div className="p-2 bg-brand-500/10 rounded-lg">
@@ -47,6 +43,10 @@ export default async function Home() {
       </div>
 
       <ValuationWizard />
+
+      <Pricing />
+
+      <Testimonials />
 
       <section className="max-w-4xl mx-auto px-4 py-12">
         <div className="space-y-6">
