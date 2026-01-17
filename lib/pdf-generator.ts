@@ -41,6 +41,28 @@ const drawSectionTitle = (doc: jsPDF, title: string, y: number) => {
     return y + 15;
 };
 
+const formatPercent = (value?: number, fallback: string = 'N/A') => {
+    if (value === undefined || Number.isNaN(value)) return fallback;
+    return `${value.toFixed(1)}%`;
+};
+
+const formatRatio = (value?: number, fallback: string = 'N/A') => {
+    if (value === undefined || Number.isNaN(value)) return fallback;
+    return `${value.toFixed(2)}x`;
+};
+
+const formatNumber = (value?: number, fallback: string = 'N/A') => {
+    if (value === undefined || Number.isNaN(value)) return fallback;
+    return `${Math.round(value).toLocaleString()}`;
+};
+
+const getBenchmarkStatus = (value?: number, min?: number, max?: number) => {
+    if (value === undefined || Number.isNaN(value)) return 'Not provided';
+    if (min !== undefined && value < min) return 'Below benchmark';
+    if (max !== undefined && value > max) return 'Above benchmark';
+    return 'On benchmark';
+};
+
 const drawDataTable = (doc: jsPDF, headers: string[], rows: any[][], y: number) => {
     const colWidth = CONTENT_WIDTH / headers.length;
 
@@ -107,6 +129,57 @@ const drawSummaryBox = (doc: jsPDF, y: number, companyName: string, avgValuation
     return y + 75;
 };
 
+const buildInsights = (data: ValuationResult, inputs: ValuationInputs) => {
+    const netProfitMargin = inputs.arr > 0 ? (inputs.netProfit / inputs.arr) * 100 : undefined;
+    const ltvCac = inputs.ltv && inputs.cac && inputs.cac > 0 ? inputs.ltv / inputs.cac : undefined;
+    const payback = inputs.cac && inputs.mrr && inputs.mrr > 0 ? inputs.cac / inputs.mrr : undefined;
+    const revenueMultiple = inputs.arr > 0 ? data.avgValuation / inputs.arr : undefined;
+
+    const qualityFlags: string[] = [];
+    if (!inputs.arr) qualityFlags.push('ARR is missing or zero.');
+    if (!inputs.netProfit) qualityFlags.push('Net profit is missing or zero.');
+    if (inputs.customerChurn === undefined) qualityFlags.push('Customer churn not provided.');
+    if (inputs.retentionRate === undefined) qualityFlags.push('Retention rate not provided.');
+    if (!inputs.ltv || !inputs.cac) qualityFlags.push('LTV/CAC not provided.');
+    if (inputs.grossMargin === undefined) qualityFlags.push('Gross margin not provided.');
+
+    const opportunities: string[] = [];
+    if (inputs.customerChurn > 5) opportunities.push('Prioritize churn reduction: highest leverage on valuation.');
+    if ((inputs.retentionRate || 0) < 90) opportunities.push('Improve net retention to unlock premium multiples.');
+    if ((inputs.grossMargin || 0) < 70) opportunities.push('Lift gross margin (pricing, COGS, infrastructure).');
+    if (ltvCac !== undefined && ltvCac < 3) opportunities.push('Improve LTV/CAC above 3x for scalable growth.');
+    if ((inputs.growthYoy || 0) < 20) opportunities.push('Increase growth rate to move into higher multiple bands.');
+    if (!opportunities.length) opportunities.push('Maintain current trajectory and document moat defensibility.');
+
+    const risks: string[] = [];
+    if (inputs.legalIssues && inputs.legalIssues !== 'none') risks.push('Legal issues increase diligence risk.');
+    if (inputs.ipOwnership !== 'fully-owned') risks.push('IP ownership risk may reduce buyer confidence.');
+    if ((inputs.runway || 0) < 6 && inputs.runway !== undefined) risks.push('Low runway indicates funding risk.');
+    if ((inputs.debtLevel || 0) > 0.5) risks.push('High leverage can compress valuation.');
+    if (!risks.length) risks.push('No major structural risks flagged from provided inputs.');
+
+    return {
+        netProfitMargin,
+        ltvCac,
+        payback,
+        revenueMultiple,
+        qualityFlags,
+        opportunities,
+        risks
+    };
+};
+
+const DATA_ROOM_CHECKLIST = [
+    'Trailing 12-month P&L and balance sheet',
+    'ARR/MRR cohort analysis and churn report',
+    'Customer contracts & top-20 customer list',
+    'Product roadmap and release cadence history',
+    'Security, compliance, and privacy documentation',
+    'IP assignments, cap table, and option plan',
+    'Infrastructure costs and vendor agreements',
+    'Support tickets, NPS, and CSAT summaries'
+];
+
 /**
  * Generate a basic FREE PDF report (1-2 pages)
  * UPDATED: Matches Pro Styling
@@ -157,11 +230,48 @@ export function generateFreePDF(data: ValuationResult, inputs: ValuationInputs) 
     y = drawSectionTitle(doc, 'Estimated Market Value', y);
     y = drawSummaryBox(doc, y, companyName, data.avgValuation, data.rangeLow, data.rangeHigh, data.confidence);
 
+    const insights = buildInsights(data, inputs);
+
     y = drawSectionTitle(doc, 'Valuation Methods', y);
     const methodRows = data.valuations.map(v => [v.method, formatCurrency(v.value)]);
     y = drawDataTable(doc, ['Method', 'Estimated Value'], methodRows, y);
 
-    // --- PAGE 3: AI ANALYSIS & UPGRADE ---
+    // --- PAGE 3: KEY METRICS ---
+    doc.addPage();
+    drawHeader(doc, 'Key Metrics', false);
+    y = 50;
+    y = drawSectionTitle(doc, 'Operating Metrics & Benchmarks', y);
+
+    const metricsRows = [
+        ['Growth (YoY)', formatPercent(inputs.growthYoy), getBenchmarkStatus(inputs.growthYoy, 20)],
+        ['Gross Margin', formatPercent(inputs.grossMargin), getBenchmarkStatus(inputs.grossMargin, 70)],
+        ['Net Profit Margin', formatPercent(insights.netProfitMargin), getBenchmarkStatus(insights.netProfitMargin, 10)],
+        ['Customer Churn', formatPercent(inputs.customerChurn), getBenchmarkStatus(inputs.customerChurn, undefined, 5)],
+        ['Net Retention', formatPercent(inputs.retentionRate), getBenchmarkStatus(inputs.retentionRate, 100)],
+        ['LTV / CAC', formatRatio(insights.ltvCac), getBenchmarkStatus(insights.ltvCac, 3)],
+        ['CAC Payback (months)', formatNumber(insights.payback), getBenchmarkStatus(insights.payback, undefined, 12)],
+        ['Revenue Multiple', formatRatio(insights.revenueMultiple), getBenchmarkStatus(insights.revenueMultiple, 4)],
+    ];
+    y = drawDataTable(doc, ['Metric', 'Value', 'Benchmark'], metricsRows, y);
+
+    y = drawSectionTitle(doc, 'Top Opportunities', y + 10);
+    doc.setFontSize(10);
+    doc.setTextColor(51, 65, 85);
+    doc.setFont('helvetica', 'normal');
+    const opportunitiesText = insights.opportunities.map((item, index) => `${index + 1}. ${item}`).join('\n');
+    const splitOpportunities = doc.splitTextToSize(opportunitiesText, CONTENT_WIDTH);
+    doc.text(splitOpportunities, MARGIN, y);
+    y += (splitOpportunities.length * 5) + 10;
+
+    y = drawSectionTitle(doc, 'Risk Flags', y);
+    doc.setFontSize(10);
+    doc.setTextColor(51, 65, 85);
+    const riskText = insights.risks.map((item, index) => `${index + 1}. ${item}`).join('\n');
+    const splitRisks = doc.splitTextToSize(riskText, CONTENT_WIDTH);
+    doc.text(splitRisks, MARGIN, y);
+    y += (splitRisks.length * 5) + 10;
+
+    // --- PAGE 4: AI ANALYSIS & DATA ROOM ---
     doc.addPage();
     drawHeader(doc, 'Expert Analysis', false);
     y = 50;
@@ -173,7 +283,24 @@ export function generateFreePDF(data: ValuationResult, inputs: ValuationInputs) 
     const analysis = generateAIAnalysis(inputs, companyName);
     const splitAnalysis = doc.splitTextToSize(analysis.replace(/\*\*/g, ''), CONTENT_WIDTH);
     doc.text(splitAnalysis, MARGIN, y);
-    y += (splitAnalysis.length * 5) + 20;
+    y += (splitAnalysis.length * 5) + 15;
+
+    y = drawSectionTitle(doc, 'Data Room Checklist', y);
+    doc.setFontSize(10);
+    doc.setTextColor(51, 65, 85);
+    doc.setFont('helvetica', 'normal');
+    const checklistText = DATA_ROOM_CHECKLIST.map(item => `• ${item}`).join('\n');
+    const splitChecklist = doc.splitTextToSize(checklistText, CONTENT_WIDTH);
+    doc.text(splitChecklist, MARGIN, y);
+    y += (splitChecklist.length * 5) + 15;
+
+    if (insights.qualityFlags.length) {
+        y = drawSectionTitle(doc, 'Data Quality Notes', y);
+        const qualityText = insights.qualityFlags.map(item => `• ${item}`).join('\n');
+        const splitQuality = doc.splitTextToSize(qualityText, CONTENT_WIDTH);
+        doc.text(splitQuality, MARGIN, y);
+        y += (splitQuality.length * 5) + 10;
+    }
 
     // Upgrade CTA Section (Pro Style)
     doc.setFillColor(248, 250, 252); // slate-50
