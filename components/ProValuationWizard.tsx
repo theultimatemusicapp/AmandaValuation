@@ -101,46 +101,39 @@ export default function ProValuationWizard({ paid }: ProValuationWizardProps) {
 
     useEffect(() => {
         const isPaid = paid === 'true';
+        const savedFullData = localStorage.getItem('pro_valuation_data');
 
-        // Initial detection: if paid, override with saved result
-        if (isPaid) {
-            const savedFullData = localStorage.getItem('pro_valuation_data');
-            if (savedFullData) {
-                try {
-                    const { data, result: savedResult } = JSON.parse(savedFullData);
-                    const resolvedResult = savedResult ?? calculateSaaSValuation(data);
-                    setFormData(data);
-                    setResult(resolvedResult);
-                    setCurrentStep(PRO_STEPS.length);
-                    localStorage.removeItem('pro_valuation_current_step');
-                    localStorage.removeItem('pro_valuation_draft');
+        if (savedFullData) {
+            try {
+                const { data, result: savedResult } = JSON.parse(savedFullData);
+                const resolvedResult = savedResult ?? calculateSaaSValuation(data);
+                setFormData(data);
+                setResult(resolvedResult);
+                setCurrentStep(PRO_STEPS.length);
+                localStorage.removeItem('pro_valuation_current_step');
+                localStorage.removeItem('pro_valuation_draft');
 
-                    if (data && savedResult) {
-                        setFormData(data);
-                        setResult(savedResult);
-                        setCurrentStep(PRO_STEPS.length);
-
-                        // Fire GA4 purchase event for revenue tracking
-                        if (typeof window !== 'undefined' && (window as any).gtag) {
-                            (window as any).gtag('event', 'purchase', {
-                                transaction_id: `pro_${Date.now()}`,
-                                value: 19.00,
-                                currency: 'USD',
-                                items: [{
-                                    item_id: 'pro_valuation',
-                                    item_name: 'Pro Valuation Report',
-                                    item_category: 'SaaS Tools',
-                                    price: 19.00,
-                                    quantity: 1
-                                }]
-                            });
-                        }
-                    }
-                } catch (err) {
-                    console.error('Failed to parse saved valuation data:', err);
+                if (isPaid && typeof window !== 'undefined' && (window as any).gtag) {
+                    (window as any).gtag('event', 'purchase', {
+                        transaction_id: `pro_${Date.now()}`,
+                        value: 19.00,
+                        currency: 'USD',
+                        items: [{
+                            item_id: 'pro_valuation',
+                            item_name: 'Pro Valuation Report',
+                            item_category: 'SaaS Tools',
+                            price: 19.00,
+                            quantity: 1
+                        }]
+                    });
                 }
+                return;
+            } catch (err) {
+                console.error('Failed to parse saved valuation data:', err);
             }
+        }
 
+        if (isPaid) {
             localStorage.removeItem('pro_valuation_current_step');
             localStorage.removeItem('pro_valuation_draft');
             return;
