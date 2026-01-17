@@ -254,9 +254,9 @@ export default function PaymentPage() {
                     />
                     <TestimonialCard
                         quote="The most comprehensive SaaS valuation tool I've found. Worth every penny."
-                        author="Marcus Thorne"
+                        author="Jordan Lee"
                         role="CEO, HR-Nexus"
-                        image="/david-miller.jpg"
+                        image="/avatar_michael.png"
                     />
                     <TestimonialCard
                         quote="As a sub-$1M ARR founder, the insights were incredibly helpful for my exit planning."
