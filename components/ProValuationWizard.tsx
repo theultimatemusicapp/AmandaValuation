@@ -76,6 +76,7 @@ type ProValuationWizardProps = {
 
 export default function ProValuationWizard({ paid }: ProValuationWizardProps) {
     const router = useRouter();
+    const isPaid = paid === 'true';
     const [currentStep, setCurrentStep] = useState(0);
     const [result, setResult] = useState<any>(null);
     const [formData, setFormData] = useState<ValuationInputs>({
@@ -100,7 +101,6 @@ export default function ProValuationWizard({ paid }: ProValuationWizardProps) {
     });
 
     useEffect(() => {
-        const isPaid = paid === 'true';
         if (isPaid) {
             const savedFullData = localStorage.getItem('pro_valuation_data');
 
@@ -202,6 +202,11 @@ export default function ProValuationWizard({ paid }: ProValuationWizardProps) {
                 });
             } catch (err) {
                 console.error('Formspree submission failed:', err);
+            }
+
+            if (isPaid) {
+                setCurrentStep(PRO_STEPS.length);
+                return;
             }
 
             // Redirect to payment
