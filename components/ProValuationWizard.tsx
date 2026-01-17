@@ -101,39 +101,39 @@ export default function ProValuationWizard({ paid }: ProValuationWizardProps) {
 
     useEffect(() => {
         const isPaid = paid === 'true';
-        const savedFullData = localStorage.getItem('pro_valuation_data');
-
-        if (savedFullData) {
-            try {
-                const { data, result: savedResult } = JSON.parse(savedFullData);
-                const resolvedResult = savedResult ?? calculateSaaSValuation(data);
-                setFormData(data);
-                setResult(resolvedResult);
-                setCurrentStep(PRO_STEPS.length);
-                localStorage.removeItem('pro_valuation_current_step');
-                localStorage.removeItem('pro_valuation_draft');
-
-                if (isPaid && typeof window !== 'undefined' && (window as any).gtag) {
-                    (window as any).gtag('event', 'purchase', {
-                        transaction_id: `pro_${Date.now()}`,
-                        value: 19.00,
-                        currency: 'USD',
-                        items: [{
-                            item_id: 'pro_valuation',
-                            item_name: 'Pro Valuation Report',
-                            item_category: 'SaaS Tools',
-                            price: 19.00,
-                            quantity: 1
-                        }]
-                    });
-                }
-                return;
-            } catch (err) {
-                console.error('Failed to parse saved valuation data:', err);
-            }
-        }
-
         if (isPaid) {
+            const savedFullData = localStorage.getItem('pro_valuation_data');
+
+            if (savedFullData) {
+                try {
+                    const { data, result: savedResult } = JSON.parse(savedFullData);
+                    const resolvedResult = savedResult ?? calculateSaaSValuation(data);
+                    setFormData(data);
+                    setResult(resolvedResult);
+                    setCurrentStep(PRO_STEPS.length);
+                    localStorage.removeItem('pro_valuation_current_step');
+                    localStorage.removeItem('pro_valuation_draft');
+
+                    if (typeof window !== 'undefined' && (window as any).gtag) {
+                        (window as any).gtag('event', 'purchase', {
+                            transaction_id: `pro_${Date.now()}`,
+                            value: 19.00,
+                            currency: 'USD',
+                            items: [{
+                                item_id: 'pro_valuation',
+                                item_name: 'Pro Valuation Report',
+                                item_category: 'SaaS Tools',
+                                price: 19.00,
+                                quantity: 1
+                            }]
+                        });
+                    }
+                    return;
+                } catch (err) {
+                    console.error('Failed to parse saved valuation data:', err);
+                }
+            }
+
             localStorage.removeItem('pro_valuation_current_step');
             localStorage.removeItem('pro_valuation_draft');
             return;
