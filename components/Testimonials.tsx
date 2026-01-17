@@ -10,7 +10,7 @@ const testimonials = [
         color: 'bg-blue-500/10 text-blue-400'
     },
     {
-        name: 'Marcus Thorne',
+        name: 'Jordan Lee',
         role: 'CEO, HR-Nexus',
         content: 'Simple, fast, and surprisingly accurate. We used the benchmark data to optimize our pricing model.',
         rating: 5,
@@ -29,7 +29,7 @@ const testimonials = [
 
 export default function Testimonials() {
     return (
-        <section className="py-24 relative overflow-hidden">
+        <section className="pt-16 pb-24 relative overflow-hidden">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
                 <div className="text-center mb-16">
                     <h2 className="text-3xl md:text-5xl font-bold font-display mb-4 italic text-slate-100">
