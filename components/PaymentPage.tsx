@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Check, X, Sparkles, Shield, Zap, FileText, Download, Star } from 'lucide-react';
 import { generateProPDF } from '@/lib/pdf-generator';
@@ -18,9 +18,25 @@ export default function PaymentPage({ returnTo = '/pro' }: PaymentPageProps) {
     const [couponSuccess, setCouponSuccess] = useState(false);
     const queryReturnTo = searchParams?.get('returnTo');
     const paidRedirectUrl = queryReturnTo || returnTo || '/pro';
+    const unlockStorageKey = 'pro_valuation_unlocked';
+    const proDataStorageKey = 'pro_valuation_data';
     const unlockUser = () => {
-        localStorage.setItem('pro_valuation_unlocked', 'true');
+        localStorage.setItem(unlockStorageKey, 'true');
     };
+
+    useEffect(() => {
+        const storedUnlocked = localStorage.getItem(unlockStorageKey) === 'true';
+        const pendingInputs = Boolean(localStorage.getItem(proDataStorageKey));
+
+        if (!pendingInputs && !storedUnlocked) {
+            console.info('[payment] redirecting to /pro (no pending inputs)', {
+                route: '/payment',
+                unlocked: storedUnlocked,
+                pendingInputs
+            });
+            router.replace('/pro');
+        }
+    }, [router, unlockStorageKey, proDataStorageKey]);
 
     const handleApplyCoupon = () => {
         // Simulated coupon validation (from legacy system)
@@ -31,6 +47,11 @@ export default function PaymentPage({ returnTo = '/pro' }: PaymentPageProps) {
             setCouponError('');
             setTimeout(() => {
                 unlockUser();
+                console.info('[payment] redirecting after coupon unlock', {
+                    route: '/payment',
+                    unlocked: true,
+                    pendingInputs: Boolean(localStorage.getItem(proDataStorageKey))
+                });
                 router.push(paidRedirectUrl);
             }, 2000);
         } else {

@@ -75,6 +75,7 @@ type ProValuationWizardProps = {
 };
 
 const UNLOCK_STORAGE_KEY = 'pro_valuation_unlocked';
+const PRO_DATA_STORAGE_KEY = 'pro_valuation_data';
 const PRO_RETURN_PATH = '/pro';
 
 export default function ProValuationWizard({ paid }: ProValuationWizardProps) {
@@ -115,7 +116,7 @@ export default function ProValuationWizard({ paid }: ProValuationWizardProps) {
         setIsUnlocked(unlocked);
 
         if (unlocked) {
-            const savedFullData = localStorage.getItem('pro_valuation_data');
+            const savedFullData = localStorage.getItem(PRO_DATA_STORAGE_KEY);
 
             if (savedFullData) {
                 try {
@@ -192,7 +193,7 @@ export default function ProValuationWizard({ paid }: ProValuationWizardProps) {
             setResult(valuationResult);
 
             // Final save for retrieval after payment
-            localStorage.setItem('pro_valuation_data', JSON.stringify({
+            localStorage.setItem(PRO_DATA_STORAGE_KEY, JSON.stringify({
                 data: formData,
                 result: valuationResult,
                 timestamp: new Date().toISOString()
@@ -223,6 +224,11 @@ export default function ProValuationWizard({ paid }: ProValuationWizardProps) {
             }
 
             // Redirect to payment
+            console.info('[pro] redirecting to payment after submit', {
+                route: PRO_RETURN_PATH,
+                unlocked: isPaid || isUnlocked,
+                pendingInputs: true
+            });
             router.push(`/payment?returnTo=${encodeURIComponent(PRO_RETURN_PATH)}`);
             return;
         }
@@ -268,10 +274,20 @@ export default function ProValuationWizard({ paid }: ProValuationWizardProps) {
     };
 
     useEffect(() => {
-        if (result && currentStep >= PRO_STEPS.length && !isUnlocked) {
+        if (!result || currentStep < PRO_STEPS.length) return;
+
+        const storedUnlocked = localStorage.getItem(UNLOCK_STORAGE_KEY) === 'true';
+        const pendingInputs = Boolean(localStorage.getItem(PRO_DATA_STORAGE_KEY));
+
+        if (!storedUnlocked && pendingInputs) {
+            console.info('[pro] redirecting to payment after results check', {
+                route: PRO_RETURN_PATH,
+                unlocked: storedUnlocked,
+                pendingInputs
+            });
             router.push(`/payment?returnTo=${encodeURIComponent(PRO_RETURN_PATH)}`);
         }
-    }, [result, currentStep, isUnlocked, router]);
+    }, [result, currentStep, router]);
 
     // If we have a result and we're on the final step (or beyond), show the dashboard
     if (result && (currentStep >= PRO_STEPS.length)) {
