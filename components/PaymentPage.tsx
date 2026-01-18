@@ -1,17 +1,22 @@
 'use client';
 
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { Check, X, Sparkles, Shield, Zap, FileText, Download, Star } from 'lucide-react';
 import { generateProPDF } from '@/lib/pdf-generator';
 import { calculateSaaSValuation } from '@/lib/valuation';
 
 export default function PaymentPage() {
     const router = useRouter();
+    const searchParams = useSearchParams();
     const [couponCode, setCouponCode] = useState('');
     const [couponError, setCouponError] = useState('');
     const [couponSuccess, setCouponSuccess] = useState(false);
-    const paidRedirectUrl = '/pro?paid=true';
+    const returnTo = searchParams?.get('returnTo') || '/pro';
+    const paidRedirectUrl = returnTo;
+    const unlockUser = () => {
+        localStorage.setItem('pro_valuation_unlocked', 'true');
+    };
 
     const handleApplyCoupon = () => {
         // Simulated coupon validation (from legacy system)
@@ -21,6 +26,7 @@ export default function PaymentPage() {
             setCouponSuccess(true);
             setCouponError('');
             setTimeout(() => {
+                unlockUser();
                 router.push(paidRedirectUrl);
             }, 2000);
         } else {
