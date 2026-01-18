@@ -19,6 +19,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
         { url: `${base}/resources/pillars`, lastModified: now, changeFrequency: 'weekly', priority: 0.7 },
         { url: `${base}/resources/clusters`, lastModified: now, changeFrequency: 'weekly', priority: 0.7 },
         { url: `${base}/resources/tools`, lastModified: now, changeFrequency: 'weekly', priority: 0.7 },
+        { url: `${base}/resources/tools-calculators/website-audit`, lastModified: now, changeFrequency: 'weekly', priority: 0.7 },
         { url: `${base}/terms`, lastModified: now, changeFrequency: 'yearly', priority: 0.2 },
     ];
 
