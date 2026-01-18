@@ -3,6 +3,7 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { RESOURCE_ARTICLES, RESOURCE_CATEGORIES } from '@/lib/resource-data';
 import SaaSNews from '@/components/SaaSNews';
+import { getAllResources } from '@/lib/mdx';
 
 const baseUrl = 'https://saasvaluation.app';
 
@@ -34,6 +35,7 @@ export default function ResourcesHub() {
     const pillars = RESOURCE_CATEGORIES.filter(category => category.type === 'pillar');
     const clusters = RESOURCE_CATEGORIES.filter(category => category.type === 'cluster');
     const tools = RESOURCE_CATEGORIES.filter(category => category.type === 'tools');
+    const mdxResources = getAllResources();
 
     const featuredArticles = RESOURCE_ARTICLES.slice(0, 3);
     const valuationCluster = RESOURCE_CATEGORIES.find(category => category.slug === 'saas-valuation');
@@ -46,6 +48,56 @@ export default function ResourcesHub() {
             'saas-valuation-checklist-template',
         ].includes(article.slug),
     );
+    const resourceLookup = mdxResources.reduce<Record<string, { slug: string; meta: any }>>((acc, resource: any) => {
+        acc[resource.slug] = resource;
+        return acc;
+    }, {});
+    const featuredGroups = [
+        {
+            title: 'Sell & Exit',
+            description: 'Exit timing, diligence readiness, and risk de-risking.',
+            slugs: [
+                'when-to-sell-your-saas-company',
+                'prepare-your-saas-for-acquisition',
+                'how-to-prepare-financials-for-saas-acquisition',
+                'due-diligence-checklist-for-saas-buyers',
+                'risk-assessment-for-saas-founders-red-flags',
+            ],
+        },
+        {
+            title: 'Valuation',
+            description: 'Multiples, metrics, and valuation narratives buyers trust.',
+            slugs: [
+                'saas-valuation-metrics-buyers-care-about',
+                'typical-saas-valuation-multiples-and-what-moves-them',
+            ],
+        },
+        {
+            title: 'Growth',
+            description: 'Retention, pricing, unit economics, and runway planning.',
+            slugs: [
+                'reducing-churn-playbook',
+                'saas-onboarding-that-improves-retention',
+                'saas-pricing-strategies-value-vs-usage-vs-tiers',
+                'ltv-cac-explained-with-examples',
+                'burn-rate-and-runway-how-long-you-have',
+                'funding-vs-bootstrapping-what-best-for-your-stage',
+                'how-to-tell-if-product-market-fit-is-real',
+            ],
+        },
+        {
+            title: 'AI & SEO',
+            description: 'AI positioning, answer engine optimization, and content strategy.',
+            slugs: [
+                'the-future-of-saas-with-ai',
+                'ai-first-saas-moat-defensibility-and-pricing',
+                'answer-engine-optimization-aeo-for-saas-2026',
+                'generative-engine-optimization-geo-ranking-in-ai',
+                'saas-seo-strategy-2026-content-clusters',
+                'how-to-write-saas-case-studies-that-convert',
+            ],
+        },
+    ];
 
     return (
         <>
@@ -180,6 +232,70 @@ export default function ResourcesHub() {
                         </div>
                     </section>
                 )}
+
+                <section className="py-14 bg-slate-50">
+                    <div className="max-w-7xl mx-auto px-6 lg:px-12 space-y-10">
+                        <div className="space-y-3">
+                            <p className="text-sm font-semibold text-teal-700 uppercase">Featured guides</p>
+                            <h2 className="text-3xl font-bold text-gray-900 font-display">Featured resource tracks</h2>
+                            <p className="text-gray-700 max-w-3xl">
+                                Explore the newest playbooks grouped by founder goals. Each guide is indexable and ready to share with
+                                advisors, buyers, or your team.
+                            </p>
+                        </div>
+                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                            {featuredGroups.map(group => (
+                                <div key={group.title} className="bg-white border border-gray-200 rounded-2xl p-6 space-y-4">
+                                    <div>
+                                        <h3 className="text-xl font-bold text-gray-900">{group.title}</h3>
+                                        <p className="text-sm text-gray-600">{group.description}</p>
+                                    </div>
+                                    <ul className="space-y-2 text-sm font-semibold text-teal-700">
+                                        {group.slugs
+                                            .map(slug => resourceLookup[slug])
+                                            .filter(Boolean)
+                                            .map(resource => (
+                                                <li key={resource.slug}>
+                                                    <Link href={`/resources/${resource.slug}`} className="hover:underline">
+                                                        {resource.meta.title}
+                                                    </Link>
+                                                </li>
+                                            ))}
+                                    </ul>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </section>
+
+                <section className="py-14 bg-white border-t border-gray-200">
+                    <div className="max-w-7xl mx-auto px-6 lg:px-12 space-y-8">
+                        <div className="space-y-3">
+                            <p className="text-sm font-semibold text-teal-700 uppercase">New resources</p>
+                            <h2 className="text-3xl font-bold text-gray-900 font-display">Latest founder playbooks</h2>
+                            <p className="text-gray-700 max-w-3xl">
+                                Every new resource is published as an individual page and included in the sitemap for discovery.
+                            </p>
+                        </div>
+                        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+                            {mdxResources.map(resource => (
+                                <Link
+                                    key={resource.slug}
+                                    href={`/resources/${resource.slug}`}
+                                    className="bg-slate-50 border border-gray-200 rounded-2xl p-6 hover:border-teal-300 hover:bg-white transition"
+                                >
+                                    <div className="space-y-3">
+                                        <p className="text-xs uppercase tracking-wide text-teal-600 font-semibold">
+                                            {resource.meta.date}
+                                        </p>
+                                        <h3 className="text-lg font-bold text-gray-900">{resource.meta.title}</h3>
+                                        <p className="text-sm text-gray-600">{resource.meta.description}</p>
+                                    </div>
+                                </Link>
+                            ))}
+                        </div>
+                    </div>
+                </section>
 
                 <section className="py-14 bg-white">
                     <div className="max-w-7xl mx-auto px-6 lg:px-12 space-y-10">
