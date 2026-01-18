@@ -27,11 +27,11 @@ export default function Header() {
                         <NavLink href="/resources">Resources</NavLink>
                         <NavLink href="/payment">Pricing</NavLink>
                         <Link
-                            href="/payment"
+                            href="/pro"
                             className="ml-4 inline-flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-400 hover:to-orange-400 text-white font-semibold rounded-lg shadow-lg transition-all hover:shadow-xl hover:-translate-y-0.5"
                         >
                             <Sparkles className="w-4 h-4" />
-                            Unlock Pro — $19
+                            Start Pro Calculator — $19
                         </Link>
                     </nav>
 
@@ -62,11 +62,11 @@ export default function Header() {
                             Pricing
                         </MobileNavLink>
                         <Link
-                            href="/payment"
+                            href="/pro"
                             onClick={() => setMobileMenuOpen(false)}
                             className="block w-full text-center px-4 py-3 bg-gradient-to-r from-amber-500 to-orange-500 text-white font-semibold rounded-lg shadow-lg mt-4"
                         >
-                            Unlock Pro — $19
+                            Start Pro Calculator — $19
                         </Link>
                     </nav>
                 </div>

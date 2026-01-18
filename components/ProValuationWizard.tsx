@@ -74,11 +74,15 @@ type ProValuationWizardProps = {
     paid?: string;
 };
 
+const UNLOCK_STORAGE_KEY = 'pro_valuation_unlocked';
+const PRO_RETURN_PATH = '/pro';
+
 export default function ProValuationWizard({ paid }: ProValuationWizardProps) {
     const router = useRouter();
     const isPaid = paid === 'true';
     const [currentStep, setCurrentStep] = useState(0);
     const [result, setResult] = useState<any>(null);
+    const [isUnlocked, setIsUnlocked] = useState(false);
     const [formData, setFormData] = useState<ValuationInputs>({
         methods: [],
         companyName: '',
@@ -101,7 +105,16 @@ export default function ProValuationWizard({ paid }: ProValuationWizardProps) {
     });
 
     useEffect(() => {
-        if (isPaid) {
+        const storedUnlocked = localStorage.getItem(UNLOCK_STORAGE_KEY) === 'true';
+        const unlocked = isPaid || storedUnlocked;
+
+        if (isPaid && !storedUnlocked) {
+            localStorage.setItem(UNLOCK_STORAGE_KEY, 'true');
+        }
+
+        setIsUnlocked(unlocked);
+
+        if (unlocked) {
             const savedFullData = localStorage.getItem('pro_valuation_data');
 
             if (savedFullData) {
@@ -156,7 +169,7 @@ export default function ProValuationWizard({ paid }: ProValuationWizardProps) {
                 console.error('Failed to parse saved draft:', err);
             }
         }
-    }, [paid]);
+    }, [paid, isPaid]);
 
     // Save state on every change
     useEffect(() => {
@@ -204,13 +217,13 @@ export default function ProValuationWizard({ paid }: ProValuationWizardProps) {
                 console.error('Formspree submission failed:', err);
             }
 
-            if (isPaid) {
+            if (isPaid || isUnlocked) {
                 setCurrentStep(PRO_STEPS.length);
                 return;
             }
 
             // Redirect to payment
-            router.push('/payment');
+            router.push(`/payment?returnTo=${encodeURIComponent(PRO_RETURN_PATH)}`);
             return;
         }
         setCurrentStep(prev => prev + 1);
@@ -254,8 +267,33 @@ export default function ProValuationWizard({ paid }: ProValuationWizardProps) {
         generateProPDF(sampleResult, sampleInputs, sampleInputs.companyName);
     };
 
+    useEffect(() => {
+        if (result && currentStep >= PRO_STEPS.length && !isUnlocked) {
+            router.push(`/payment?returnTo=${encodeURIComponent(PRO_RETURN_PATH)}`);
+        }
+    }, [result, currentStep, isUnlocked, router]);
+
     // If we have a result and we're on the final step (or beyond), show the dashboard
     if (result && (currentStep >= PRO_STEPS.length)) {
+        if (!isUnlocked) {
+            return (
+                <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 flex items-center justify-center p-6">
+                    <div className="max-w-lg w-full bg-slate-900/80 border border-slate-800 rounded-2xl p-8 text-center">
+                        <div className="w-12 h-12 rounded-full bg-amber-500/10 border border-amber-500/20 flex items-center justify-center mx-auto mb-4">
+                            <Lock className="w-6 h-6 text-amber-400" />
+                        </div>
+                        <h2 className="text-2xl font-bold text-white mb-3">Unlock your Pro results</h2>
+                        <p className="text-slate-400 mb-6">You’re almost there. Complete payment to view your full valuation dashboard.</p>
+                        <button
+                            onClick={() => router.push(`/payment?returnTo=${encodeURIComponent(PRO_RETURN_PATH)}`)}
+                            className="w-full py-3 bg-gradient-to-r from-brand-500 to-amber-500 hover:from-brand-400 hover:to-amber-400 text-white rounded-xl font-bold"
+                        >
+                            Continue to payment
+                        </button>
+                    </div>
+                </div>
+            );
+        }
         return <ProDashboard data={result} inputs={formData} />;
     }
 
