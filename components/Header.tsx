@@ -25,7 +25,7 @@ export default function Header() {
                         <NavLink href="/">Valuation Tool</NavLink>
                         <NavLink href="/pro">Pro Valuation</NavLink>
                         <NavLink href="/resources">Resources</NavLink>
-                        <NavLink href="/payment">Pricing</NavLink>
+                        <NavLink href="/pro">Pricing</NavLink>
                         <Link
                             href="/pro"
                             className="ml-4 inline-flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-400 hover:to-orange-400 text-white font-semibold rounded-lg shadow-lg transition-all hover:shadow-xl hover:-translate-y-0.5"
@@ -58,7 +58,7 @@ export default function Header() {
                         <MobileNavLink href="/resources" onClick={() => setMobileMenuOpen(false)}>
                             Resources
                         </MobileNavLink>
-                        <MobileNavLink href="/payment" onClick={() => setMobileMenuOpen(false)}>
+                        <MobileNavLink href="/pro" onClick={() => setMobileMenuOpen(false)}>
                             Pricing
                         </MobileNavLink>
                         <Link

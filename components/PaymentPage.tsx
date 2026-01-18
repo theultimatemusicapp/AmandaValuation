@@ -16,8 +16,8 @@ export default function PaymentPage({ returnTo = '/pro' }: PaymentPageProps) {
     const [couponCode, setCouponCode] = useState('');
     const [couponError, setCouponError] = useState('');
     const [couponSuccess, setCouponSuccess] = useState(false);
-    const returnTo = searchParams?.get('returnTo') || '/pro';
-    const paidRedirectUrl = returnTo;
+    const queryReturnTo = searchParams?.get('returnTo');
+    const paidRedirectUrl = queryReturnTo || returnTo || '/pro';
     const unlockUser = () => {
         localStorage.setItem('pro_valuation_unlocked', 'true');
     };
