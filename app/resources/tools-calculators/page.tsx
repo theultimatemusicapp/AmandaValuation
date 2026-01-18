@@ -1,6 +1,6 @@
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
-import { ArrowRight, Calculator, TrendingDown, TrendingUp, DollarSign, Activity, ShieldAlert, Search } from 'lucide-react';
+import { ArrowRight, Calculator, TrendingDown, TrendingUp, DollarSign, Activity, ShieldAlert, Search, Globe } from 'lucide-react';
 import { Metadata } from 'next';
 import Link from 'next/link';
 
@@ -54,6 +54,15 @@ const tools = [
         color: 'text-cyan-400',
         bgColor: 'bg-cyan-500/10',
         borderColor: 'border-cyan-500/20'
+    },
+    {
+        title: 'Website Audit',
+        description: 'Audit your SaaS website for positioning, conversion, trust, SEO, and investor readiness gaps.',
+        href: '/resources/tools-calculators/website-audit',
+        icon: Globe,
+        color: 'text-blue-400',
+        bgColor: 'bg-blue-500/10',
+        borderColor: 'border-blue-500/20'
     }
 ];
 

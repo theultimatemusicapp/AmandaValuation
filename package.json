@@ -11,10 +11,12 @@
     "start": "next start",
     "lint": "eslint",
     "validate-content": "tsx scripts/validate-content.ts",
-    "qa:crawl": "node scripts/qa-crawl.mjs http://localhost:3000"
+    "qa:crawl": "node scripts/qa-crawl.mjs http://localhost:3000",
+    "website-audit:self-test": "tsx scripts/website-audit-self-test.ts"
   },
   "dependencies": {
     "@vercel/analytics": "^1.6.1",
+    "cheerio": "^1.1.2",
     "clsx": "^2.1.1",
     "framer-motion": "^12.23.26",
     "jspdf": "^3.0.4",
@@ -31,7 +33,6 @@
     "@types/node": "^20.19.27",
     "@types/react": "^19",
     "@types/react-dom": "^19",
-    "cheerio": "^1.1.2",
     "eslint": "^9",
     "eslint-config-next": "16.1.1",
     "gray-matter": "^4.0.3",
