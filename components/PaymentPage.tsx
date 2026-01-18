@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { Check, X, Sparkles, Shield, Zap, FileText, Download, Star } from 'lucide-react';
 import { generateProPDF } from '@/lib/pdf-generator';
 import { calculateSaaSValuation } from '@/lib/valuation';
@@ -12,9 +12,11 @@ type PaymentPageProps = {
 
 export default function PaymentPage({ returnTo = '/pro' }: PaymentPageProps) {
     const router = useRouter();
+    const searchParams = useSearchParams();
     const [couponCode, setCouponCode] = useState('');
     const [couponError, setCouponError] = useState('');
     const [couponSuccess, setCouponSuccess] = useState(false);
+    const returnTo = searchParams?.get('returnTo') || '/pro';
     const paidRedirectUrl = returnTo;
     const unlockUser = () => {
         localStorage.setItem('pro_valuation_unlocked', 'true');
