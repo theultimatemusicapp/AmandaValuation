@@ -27,7 +27,7 @@ export function getResourceBySlug(slug: string) {
 
 export function getAllResources() {
     const slugs = getResourceSlugs();
-    const resources = slugs.map(slug => getResourceBySlug(slug)).filter(Boolean);
+    const resources = slugs.map(slug => getResourceBySlug(slug)).filter((resource): resource is { slug: string; meta: any; content: string } => Boolean(resource));
     // Sort by date if present
     return resources.sort((a: any, b: any) => {
         return new Date(b.meta.date).getTime() - new Date(a.meta.date).getTime();
