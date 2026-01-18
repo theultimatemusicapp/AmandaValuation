@@ -165,6 +165,15 @@ export default function ProValuationWizard({ paid }: ProValuationWizardProps) {
         }
     }, [paid]);
 
+    const handleReset = () => {
+        if (typeof window !== 'undefined') {
+            localStorage.removeItem('pro_valuation_current_step');
+            localStorage.removeItem('pro_valuation_draft');
+            localStorage.removeItem('pro_valuation_data');
+            window.location.href = '/pro';
+        }
+    };
+
     // Save state on every change
     useEffect(() => {
         if (currentStep < PRO_STEPS.length) {
@@ -256,9 +265,23 @@ export default function ProValuationWizard({ paid }: ProValuationWizardProps) {
         generateProPDF(sampleResult, sampleInputs, sampleInputs.companyName);
     };
 
-    // If we have a result and we're on the final step (or beyond), show the dashboard
     if (result && (currentStep >= PRO_STEPS.length)) {
-        return <ProDashboard data={result} inputs={formData} />;
+        return (
+            <>
+                <div className="bg-slate-900 border-b border-slate-800 p-4 sticky top-0 z-50">
+                    <div className="max-w-7xl mx-auto flex justify-between items-center">
+                        <div className="text-white font-bold">Pro Dashboard</div>
+                        <button
+                            onClick={handleReset}
+                            className="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg text-sm font-semibold transition-all border border-slate-700"
+                        >
+                            Start New Valuation
+                        </button>
+                    </div>
+                </div>
+                <ProDashboard data={result} inputs={formData} />
+            </>
+        );
     }
 
     return (
@@ -299,9 +322,14 @@ export default function ProValuationWizard({ paid }: ProValuationWizardProps) {
                                         <InputField label="Email Address" value={formData.email} onChange={(v) => updateField('email', v)} placeholder="you@company.com" type="email" helpText="Used to send your final report and for follow-up communications." />
                                         <InputField label="Website URL" value={formData.website || ''} onChange={(v) => updateField('website', v)} placeholder="https://yourbusiness.com" type="text" helpText="Your company's primary landing page." />
                                     </div>
-                                    <button onClick={handleNext} className="w-full py-3 bg-brand-500 hover:bg-brand-400 text-white rounded-xl font-bold flex items-center justify-center gap-2">
-                                        Next <ArrowRight className="w-5 h-5" />
-                                    </button>
+                                    <div className="flex gap-3">
+                                        <button onClick={handleReset} className="px-6 py-3 bg-slate-800/50 hover:bg-slate-800 text-slate-400 rounded-xl font-bold flex items-center justify-center gap-2 border border-slate-700">
+                                            Reset
+                                        </button>
+                                        <button onClick={handleNext} className="flex-1 py-3 bg-brand-500 hover:bg-brand-400 text-white rounded-xl font-bold flex items-center justify-center gap-2">
+                                            Next <ArrowRight className="w-5 h-5" />
+                                        </button>
+                                    </div>
                                 </motion.div>
                             )}
 
