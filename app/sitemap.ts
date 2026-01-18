@@ -1,9 +1,11 @@
 import { MetadataRoute } from 'next';
 import { RESOURCE_ARTICLES, RESOURCE_CATEGORIES } from '@/lib/resource-data';
+import { getAllResources } from '@/lib/mdx';
 
 export default function sitemap(): MetadataRoute.Sitemap {
     const base = 'https://saasvaluation.app';
     const now = new Date();
+    const mdxResources = getAllResources();
 
     const staticPages: MetadataRoute.Sitemap = [
         { url: base, lastModified: now, changeFrequency: 'weekly', priority: 1 },
@@ -34,5 +36,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
         priority: 0.6,
     }));
 
-    return [...staticPages, ...categoryPages, ...articlePages];
+    const mdxPages: MetadataRoute.Sitemap = mdxResources.map(resource => ({
+        url: `${base}/resources/${resource.slug}`,
+        lastModified: resource.meta?.date ? new Date(resource.meta.date) : now,
+        changeFrequency: 'monthly',
+        priority: 0.6,
+    }));
+
+    return [...staticPages, ...categoryPages, ...articlePages, ...mdxPages];
 }

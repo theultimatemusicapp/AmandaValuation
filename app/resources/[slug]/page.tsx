@@ -1,6 +1,7 @@
 import { Metadata, ResolvingMetadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
+import { MDXRemote } from 'next-mdx-remote/rsc';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import {
@@ -13,6 +14,7 @@ import {
     ArticleChecklistSection,
 } from '@/components/Article';
 import { RESOURCE_ARTICLES, RESOURCE_CATEGORIES, ResourceArticle, ResourceCategory } from '@/lib/resource-data';
+import { getResourceBySlug, getResourceSlugs } from '@/lib/mdx';
 
 const baseUrl = 'https://saasvaluation.app';
 
@@ -22,8 +24,9 @@ export async function generateMetadata({ params }: PageParams, parent: Resolving
     const { slug } = await params;
     const category = RESOURCE_CATEGORIES.find(item => item.slug === slug);
     const article = RESOURCE_ARTICLES.find(item => item.slug === slug);
+    const mdxResource = getResourceBySlug(slug);
 
-    if (!category && !article) {
+    if (!category && !article && !mdxResource) {
         return (await parent) as Metadata;
     }
 
@@ -43,6 +46,32 @@ export async function generateMetadata({ params }: PageParams, parent: Resolving
                 card: 'summary_large_image',
                 title,
                 description: category.description,
+            },
+        };
+    }
+
+    if (mdxResource) {
+        const metaTitle = mdxResource.meta?.title ?? 'SaaS Resource';
+        const metaDescription = mdxResource.meta?.description ?? '';
+        const keywords = Array.isArray(mdxResource.meta?.tags) ? mdxResource.meta.tags.join(', ') : undefined;
+
+        return {
+            title: `${metaTitle} | SaaS Valuation Resources`,
+            description: metaDescription,
+            keywords,
+            alternates: { canonical: `${baseUrl}/resources/${slug}` },
+            openGraph: {
+                title: metaTitle,
+                description: metaDescription,
+                url: `${baseUrl}/resources/${slug}`,
+            },
+            twitter: {
+                card: 'summary_large_image',
+                title: metaTitle,
+                description: metaDescription,
+            },
+            other: {
+                'article:section': 'Resources',
             },
         };
     }
@@ -71,7 +100,11 @@ export async function generateMetadata({ params }: PageParams, parent: Resolving
 }
 
 export function generateStaticParams() {
-    const slugs = [...RESOURCE_CATEGORIES.map(item => item.slug), ...RESOURCE_ARTICLES.map(item => item.slug)];
+    const slugs = [
+        ...RESOURCE_CATEGORIES.map(item => item.slug),
+        ...RESOURCE_ARTICLES.map(item => item.slug),
+        ...getResourceSlugs(),
+    ];
     return slugs.map(slug => ({ slug }));
 }
 
@@ -79,8 +112,9 @@ export default async function ResourcePage({ params }: PageParams) {
     const { slug } = await params;
     const category = RESOURCE_CATEGORIES.find(item => item.slug === slug);
     const article = RESOURCE_ARTICLES.find(item => item.slug === slug);
+    const mdxResource = getResourceBySlug(slug);
 
-    if (!category && !article) {
+    if (!category && !article && !mdxResource) {
         notFound();
     }
 
@@ -131,6 +165,77 @@ export default async function ResourcePage({ params }: PageParams) {
                                 className="px-4 py-2 rounded-lg border border-gray-200 text-gray-900 font-semibold hover:bg-gray-50"
                             >
                                 Run the valuation calculator
+                            </Link>
+                        </div>
+                    </section>
+                </div>
+                <Footer />
+            </>
+        );
+    }
+
+    if (mdxResource) {
+        const { meta, content } = mdxResource;
+        const tags = Array.isArray(meta?.tags) ? meta.tags : [];
+
+        return (
+            <>
+                <Header />
+                <div className="min-h-screen bg-slate-50">
+                    <Breadcrumbs
+                        items={[
+                            { label: 'Home', href: '/' },
+                            { label: 'Resources', href: '/resources' },
+                            { label: meta?.title ?? 'Resource' },
+                        ]}
+                    />
+                    <section className="bg-white py-12">
+                        <div className="max-w-4xl mx-auto px-6 lg:px-12 space-y-6">
+                            <div className="flex flex-wrap gap-2 text-sm font-semibold text-teal-700">
+                                <span className="uppercase tracking-wide">Resource</span>
+                                {meta?.date && <span className="text-gray-500">{meta.date}</span>}
+                            </div>
+                            <h1 className="text-4xl font-bold text-gray-900 font-display">{meta?.title}</h1>
+                            {meta?.description && <p className="text-lg text-gray-700">{meta.description}</p>}
+                            {meta?.author && (
+                                <p className="text-sm text-gray-500">
+                                    By <span className="font-semibold text-gray-700">{meta.author}</span>
+                                </p>
+                            )}
+                            {tags.length > 0 && (
+                                <div className="flex flex-wrap gap-2">
+                                    {tags.map((tag: string) => (
+                                        <span
+                                            key={tag}
+                                            className="px-3 py-1 rounded-full bg-slate-100 text-slate-700 text-xs font-semibold"
+                                        >
+                                            {tag}
+                                        </span>
+                                    ))}
+                                </div>
+                            )}
+                        </div>
+                    </section>
+                    <section className="bg-slate-50 py-12">
+                        <div className="max-w-4xl mx-auto px-6 lg:px-12">
+                            <article className="prose prose-slate max-w-none">
+                                <MDXRemote source={content} />
+                            </article>
+                        </div>
+                    </section>
+                    <section className="bg-white py-10">
+                        <div className="max-w-4xl mx-auto px-6 lg:px-12 flex flex-wrap gap-4">
+                            <Link
+                                href="/resources"
+                                className="px-4 py-2 rounded-lg bg-teal-600 text-white font-semibold hover:bg-teal-700"
+                            >
+                                Back to resources hub
+                            </Link>
+                            <Link
+                                href="/#free-valuation"
+                                className="px-4 py-2 rounded-lg border border-gray-200 text-gray-900 font-semibold hover:bg-gray-50"
+                            >
+                                Get a free valuation
                             </Link>
                         </div>
                     </section>
