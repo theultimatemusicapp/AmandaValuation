@@ -6,7 +6,11 @@ import { Check, X, Sparkles, Shield, Zap, FileText, Download, Star } from 'lucid
 import { generateProPDF } from '@/lib/pdf-generator';
 import { calculateSaaSValuation } from '@/lib/valuation';
 
-export default function PaymentPage() {
+type PaymentPageProps = {
+    returnTo?: string;
+};
+
+export default function PaymentPage({ returnTo = '/pro' }: PaymentPageProps) {
     const router = useRouter();
     const searchParams = useSearchParams();
     const [couponCode, setCouponCode] = useState('');
