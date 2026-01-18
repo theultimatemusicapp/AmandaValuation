@@ -3,16 +3,17 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 
 type ProValuationPageProps = {
-    searchParams?: {
+    searchParams?: Promise<{
         paid?: string;
-    };
+    }>;
 };
 
-export default function ProValuation({ searchParams }: ProValuationPageProps) {
+export default async function ProValuation({ searchParams }: ProValuationPageProps) {
+    const resolvedParams = (await searchParams) ?? {};
     return (
         <>
             <Header />
-            <ProValuationWizard paid={searchParams?.paid} />
+            <ProValuationWizard paid={resolvedParams.paid} />
             <Footer />
         </>
     );

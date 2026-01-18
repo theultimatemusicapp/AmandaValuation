@@ -2,11 +2,20 @@ import PaymentPage from '@/components/PaymentPage';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 
-export default function Payment() {
+type PaymentPageProps = {
+    searchParams?: Promise<{
+        returnTo?: string;
+    }>;
+};
+
+export default async function Payment({ searchParams }: PaymentPageProps) {
+    const resolvedParams = (await searchParams) ?? {};
+    const returnTo = resolvedParams.returnTo ?? '/pro';
+
     return (
         <>
             <Header />
-            <PaymentPage />
+            <PaymentPage returnTo={returnTo} />
             <Footer />
         </>
     );

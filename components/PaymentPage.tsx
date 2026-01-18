@@ -6,12 +6,19 @@ import { Check, X, Sparkles, Shield, Zap, FileText, Download, Star } from 'lucid
 import { generateProPDF } from '@/lib/pdf-generator';
 import { calculateSaaSValuation } from '@/lib/valuation';
 
-export default function PaymentPage() {
+type PaymentPageProps = {
+    returnTo?: string;
+};
+
+export default function PaymentPage({ returnTo = '/pro' }: PaymentPageProps) {
     const router = useRouter();
     const [couponCode, setCouponCode] = useState('');
     const [couponError, setCouponError] = useState('');
     const [couponSuccess, setCouponSuccess] = useState(false);
-    const paidRedirectUrl = '/pro?paid=true';
+    const paidRedirectUrl = returnTo;
+    const unlockUser = () => {
+        localStorage.setItem('pro_valuation_unlocked', 'true');
+    };
 
     const handleApplyCoupon = () => {
         // Simulated coupon validation (from legacy system)
@@ -21,6 +28,7 @@ export default function PaymentPage() {
             setCouponSuccess(true);
             setCouponError('');
             setTimeout(() => {
+                unlockUser();
                 router.push(paidRedirectUrl);
             }, 2000);
         } else {
