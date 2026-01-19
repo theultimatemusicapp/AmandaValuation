@@ -245,26 +245,23 @@ export default function ResourcesHub() {
                         </div>
                         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                             {featuredGroups.map(group => (
-                                <div key={group.title} className="bg-white border border-gray-200 rounded-2xl overflow-hidden hover:shadow-lg transition-shadow group flex flex-col">
-                                    <div className="p-6 space-y-4 flex-1">
-                                        <div>
-                                            <h3 className="text-xl font-bold text-gray-900">{group.title}</h3>
-                                            <p className="text-sm text-gray-600">{group.description}</p>
-                                        </div>
-                                        <ul className="space-y-2 text-sm font-semibold text-teal-700">
-                                            {group.slugs
-                                                .map(slug => resourceLookup[slug])
-                                                .filter(Boolean)
-                                                .map(resource => (
-                                                    <li key={resource.slug}>
-                                                        <Link href={`/resources/${resource.slug}`} className="hover:underline flex items-center gap-2">
-                                                            <span className="w-1.5 h-1.5 bg-teal-500 rounded-full" />
-                                                            {resource.meta.title}
-                                                        </Link>
-                                                    </li>
-                                                ))}
-                                        </ul>
+                                <div key={group.title} className="bg-white border border-gray-200 rounded-2xl p-6 space-y-4">
+                                    <div>
+                                        <h3 className="text-xl font-bold text-gray-900">{group.title}</h3>
+                                        <p className="text-sm text-gray-600">{group.description}</p>
                                     </div>
+                                    <ul className="space-y-2 text-sm font-semibold text-teal-700">
+                                        {group.slugs
+                                            .map(slug => resourceLookup[slug])
+                                            .filter(Boolean)
+                                            .map(resource => (
+                                                <li key={resource.slug}>
+                                                    <Link href={`/resources/${resource.slug}`} className="hover:underline">
+                                                        {resource.meta.title}
+                                                    </Link>
+                                                </li>
+                                            ))}
+                                    </ul>
                                 </div>
                             ))}
                         </div>
@@ -282,33 +279,19 @@ export default function ResourcesHub() {
                         </div>
                         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
                             {mdxResources.map(resource => (
-                                <div
+                                <Link
                                     key={resource.slug}
-                                    className="bg-slate-50 border border-gray-200 rounded-2xl overflow-hidden hover:border-teal-300 hover:bg-white transition flex flex-col group"
+                                    href={`/resources/${resource.slug}`}
+                                    className="bg-slate-50 border border-gray-200 rounded-2xl p-6 hover:border-teal-300 hover:bg-white transition"
                                 >
-                                    {resource.meta.image && (
-                                        <Link href={`/resources/${resource.slug}`}>
-                                            <div className="aspect-video w-full overflow-hidden border-b border-gray-100">
-                                                <img
-                                                    src={resource.meta.image}
-                                                    alt={resource.meta.title}
-                                                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                                                />
-                                            </div>
-                                        </Link>
-                                    )}
-                                    <div className="p-6 space-y-3">
+                                    <div className="space-y-3">
                                         <p className="text-xs uppercase tracking-wide text-teal-600 font-semibold">
                                             {resource.meta.date}
                                         </p>
-                                        <h3 className="text-lg font-bold text-gray-900">
-                                            <Link href={`/resources/${resource.slug}`} className="hover:underline">
-                                                {resource.meta.title}
-                                            </Link>
-                                        </h3>
-                                        <p className="text-sm text-gray-600 line-clamp-2">{resource.meta.description}</p>
+                                        <h3 className="text-lg font-bold text-gray-900">{resource.meta.title}</h3>
+                                        <p className="text-sm text-gray-600">{resource.meta.description}</p>
                                     </div>
-                                </div>
+                                </Link>
                             ))}
                         </div>
                     </div>
@@ -370,45 +353,32 @@ export default function ResourcesHub() {
                             </p>
                             <div className="space-y-4">
                                 {featuredArticles.map(article => (
-                                    <div key={article.slug} className="bg-gray-50 border border-gray-200 rounded-xl overflow-hidden hover:shadow-md transition-shadow group flex flex-col">
-                                        {article.image && (
-                                            <Link href={`/resources/${article.slug}`}>
-                                                <div className="aspect-video w-full overflow-hidden border-b border-gray-100">
-                                                    <img
-                                                        src={article.image}
-                                                        alt={article.title}
-                                                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                                                    />
-                                                </div>
+                                    <div key={article.slug} className="bg-gray-50 border border-gray-200 rounded-xl p-4">
+                                        <div className="flex items-center gap-2 text-sm text-teal-700 font-semibold">
+                                            <span className="px-2 py-0.5 rounded-full bg-teal-100 text-teal-800 text-xs">
+                                                {article.badge}
+                                            </span>
+                                            <span>{article.updatedAt}</span>
+                                        </div>
+                                        <h3 className="text-xl font-semibold mt-2 text-gray-900">
+                                            <Link href={`/resources/${article.slug}`} className="hover:underline">
+                                                {article.title}
                                             </Link>
-                                        )}
-                                        <div className="p-4 space-y-2 flex-1">
-                                            <div className="flex items-center gap-2 text-sm text-teal-700 font-semibold">
-                                                <span className="px-2 py-0.5 rounded-full bg-teal-100 text-teal-800 text-xs">
-                                                    {article.badge}
-                                                </span>
-                                                <span>{article.updatedAt}</span>
-                                            </div>
-                                            <h3 className="text-xl font-semibold mt-1 text-gray-900">
-                                                <Link href={`/resources/${article.slug}`} className="hover:underline">
-                                                    {article.title}
-                                                </Link>
-                                            </h3>
-                                            <p className="text-gray-700 text-sm line-clamp-2">{article.excerpt}</p>
-                                            <div className="mt-3 flex gap-3 text-sm font-semibold">
-                                                <Link
-                                                    href={`/resources/${article.slug}`}
-                                                    className="text-teal-700 hover:underline"
-                                                >
-                                                    Read the guide
-                                                </Link>
-                                                <Link
-                                                    href={`/resources/${article.categorySlug}`}
-                                                    className="text-gray-700 hover:underline"
-                                                >
-                                                    View category
-                                                </Link>
-                                            </div>
+                                        </h3>
+                                        <p className="text-gray-700 text-sm mt-2">{article.excerpt}</p>
+                                        <div className="mt-3 flex gap-3">
+                                            <Link
+                                                href={`/resources/${article.slug}`}
+                                                className="text-teal-700 font-semibold text-sm hover:underline"
+                                            >
+                                                Read the guide
+                                            </Link>
+                                            <Link
+                                                href={`/resources/${article.categorySlug}`}
+                                                className="text-gray-700 font-semibold text-sm hover:underline"
+                                            >
+                                                View category
+                                            </Link>
                                         </div>
                                     </div>
                                 ))}
@@ -465,41 +435,28 @@ export default function ResourcesHub() {
 function CategoryCard({ category }: { category: (typeof RESOURCE_CATEGORIES)[number] }) {
     const articles = RESOURCE_ARTICLES.filter(article => article.categorySlug === category.slug);
     return (
-        <div className="bg-white border border-gray-200 rounded-xl overflow-hidden hover:shadow-lg transition-shadow flex flex-col group">
-            {category.image && (
-                <Link href={`/resources/${category.slug}`}>
-                    <div className="aspect-video w-full overflow-hidden border-b border-gray-100 bg-gray-50">
-                        <img
-                            src={category.image}
-                            alt={category.title}
-                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                        />
-                    </div>
-                </Link>
-            )}
-            <div className="p-6 space-y-4 flex-1 flex flex-col">
-                <div className="flex items-center justify-between">
-                    <h3 className="text-xl font-bold text-gray-900">
-                        <Link href={`/resources/${category.slug}`} className="hover:underline">
-                            {category.title}
-                        </Link>
-                    </h3>
-                    <span className="inline-flex items-center gap-2 bg-gray-100 text-gray-900 px-3 py-1 rounded-full text-sm font-semibold">
-                        {category.badge}
-                    </span>
-                </div>
-                <p className="text-gray-700 text-sm line-clamp-3">{category.description}</p>
-                <ul className="space-y-2 flex-grow">
-                    {articles.map(article => (
-                        <li key={article.slug} className="text-teal-700 font-semibold hover:text-teal-800 text-sm flex items-start gap-2">
-                            <span className="mt-1.5 w-1.5 h-1.5 bg-teal-500 rounded-full flex-shrink-0" />
-                            <Link href={`/resources/${article.slug}`} className="group-hover:underline">
-                                {article.title}
-                            </Link>
-                        </li>
-                    ))}
-                </ul>
+        <div className="bg-white border border-gray-200 rounded-xl p-6 space-y-4 hover:shadow-lg transition-shadow">
+            <div className="flex items-center justify-between">
+                <h3 className="text-xl font-bold text-gray-900">
+                    <Link href={`/resources/${category.slug}`} className="hover:underline">
+                        {category.title}
+                    </Link>
+                </h3>
+                <span className="inline-flex items-center gap-2 bg-gray-100 text-gray-900 px-3 py-1 rounded-full text-sm font-semibold">
+                    {category.badge}
+                </span>
             </div>
+            <p className="text-gray-700">{category.description}</p>
+            <ul className="space-y-2">
+                {articles.map(article => (
+                    <li key={article.slug} className="text-teal-700 font-semibold hover:text-teal-800 text-sm flex items-start gap-2">
+                        <span className="mt-1.5 w-1.5 h-1.5 bg-teal-500 rounded-full flex-shrink-0" />
+                        <Link href={`/resources/${article.slug}`} className="group-hover:underline">
+                            {article.title}
+                        </Link>
+                    </li>
+                ))}
+            </ul>
         </div>
     );
 }

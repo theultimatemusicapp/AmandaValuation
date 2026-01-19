@@ -214,17 +214,6 @@ export default async function ResourcePage({ params }: PageParams) {
                                     ))}
                                 </div>
                             )}
-                            {meta?.image && (
-                                <div className="pt-4">
-                                    <div className="aspect-video w-full overflow-hidden rounded-2xl border border-gray-200 bg-gray-50 shadow-sm">
-                                        <img
-                                            src={meta.image}
-                                            alt={meta.title ?? 'Resource image'}
-                                            className="w-full h-full object-cover"
-                                        />
-                                    </div>
-                                </div>
-                            )}
                         </div>
                     </section>
                     <section className="bg-slate-50 py-12">
@@ -305,17 +294,6 @@ export default async function ResourcePage({ params }: PageParams) {
                                 Back to resources
                             </Link>
                         </div>
-                        {article!.image && (
-                            <div className="pt-2">
-                                <div className="aspect-video w-full overflow-hidden rounded-2xl border border-gray-200 bg-gray-50 shadow-sm">
-                                    <img
-                                        src={article!.image}
-                                        alt={article!.title}
-                                        className="w-full h-full object-cover"
-                                    />
-                                </div>
-                            </div>
-                        )}
                         <div className="grid lg:grid-cols-[1.4fr_1fr] gap-6 pt-2">
                             <TrustModule author={article!.author} updated={article!.updatedAt} reviewed={article!.reviewedAt} />
                             <TableOfContents items={tocItems} />
