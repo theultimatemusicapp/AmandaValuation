@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { RESOURCE_ARTICLES, RESOURCE_CATEGORIES } from '@/lib/resource-data';
@@ -282,9 +283,21 @@ export default function ResourcesHub() {
                                 <Link
                                     key={resource.slug}
                                     href={`/resources/${resource.slug}`}
-                                    className="bg-slate-50 border border-gray-200 rounded-2xl p-6 hover:border-teal-300 hover:bg-white transition"
+                                    className="group bg-slate-50 border border-gray-200 rounded-2xl overflow-hidden hover:border-teal-300 hover:bg-white transition"
                                 >
-                                    <div className="space-y-3">
+                                    {resource.meta.image ? (
+                                        <div className="relative h-40 w-full">
+                                            <Image
+                                                src={resource.meta.image}
+                                                alt={resource.meta.title ?? 'Resource cover image'}
+                                                fill
+                                                sizes="(min-width: 1280px) 33vw, (min-width: 768px) 50vw, 100vw"
+                                                unoptimized
+                                                className="object-cover transition-transform duration-300 group-hover:scale-[1.02]"
+                                            />
+                                        </div>
+                                    ) : null}
+                                    <div className="space-y-3 p-6">
                                         <p className="text-xs uppercase tracking-wide text-teal-600 font-semibold">
                                             {resource.meta.date}
                                         </p>
