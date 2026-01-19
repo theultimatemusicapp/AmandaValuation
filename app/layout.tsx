@@ -25,6 +25,15 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <Script
+          id="adsense-script"
+          async
+          strategy="beforeInteractive"
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6483721386563068"
+          crossOrigin="anonymous"
+        />
+      </head>
       <body className={`${inter.variable} ${outfit.variable} antialiased bg-slate-950 text-slate-100 font-sans`}>
         {children}
         <CookieConsentBanner />
