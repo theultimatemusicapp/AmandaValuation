@@ -55,6 +55,20 @@ export default function ProDashboard({ data, inputs }: ProDashboardProps) {
                     </button>
                     <button
                         onClick={() => {
+                            if (confirm('Are you sure you want to start a new valuation? This will clear your current results.')) {
+                                localStorage.removeItem('pro_valuation_unlocked');
+                                localStorage.removeItem('pro_valuation_data');
+                                localStorage.removeItem('pro_valuation_current_step');
+                                localStorage.removeItem('pro_valuation_draft');
+                                window.location.href = '/pro';
+                            }
+                        }}
+                        className="flex items-center gap-2 px-4 py-2 rounded-lg border border-red-900/30 bg-red-950/20 text-red-400 hover:bg-red-900/30 transition-colors text-sm font-medium"
+                    >
+                        Start New Valuation
+                    </button>
+                    <button
+                        onClick={() => {
                             const { generateProPDF } = require('@/lib/pdf-generator');
                             generateProPDF(data, inputs || {}, inputs?.companyName || 'Your SaaS');
                         }}

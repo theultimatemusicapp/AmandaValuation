@@ -184,6 +184,16 @@ export default function ProValuationWizard({ paid }: ProValuationWizardProps) {
         setFormData(prev => ({ ...prev, [field]: value }));
     };
 
+    const handleReset = () => {
+        if (confirm('Are you sure you want to clear your progress and start a new valuation?')) {
+            localStorage.removeItem('pro_valuation_current_step');
+            localStorage.removeItem('pro_valuation_draft');
+            localStorage.removeItem(PRO_DATA_STORAGE_KEY);
+            localStorage.removeItem(UNLOCK_STORAGE_KEY);
+            window.location.href = '/pro';
+        }
+    };
+
     const [isSubmitting, setIsSubmitting] = useState(false);
 
     const handleNext = async () => {
