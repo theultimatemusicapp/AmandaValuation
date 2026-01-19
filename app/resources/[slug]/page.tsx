@@ -181,6 +181,12 @@ export default async function ResourcePage({ params }: PageParams) {
                             title={article!.title}
                             intro={article!.excerpt}
                         />
+
+                        {article!.image && (
+                            <div className="aspect-video w-full rounded-2xl overflow-hidden shadow-2xl border border-gray-100 bg-gray-50">
+                                <img src={article!.image} alt={article!.title} className="w-full h-full object-cover" />
+                            </div>
+                        )}
                         <div className="flex gap-4 text-sm font-semibold flex-wrap text-teal-700">
                             <Link href={`/resources/${categoryInfo.slug}`} className="hover:underline">
                                 View category
@@ -249,24 +255,37 @@ export default async function ResourcePage({ params }: PageParams) {
 
 function ArticleCard({ article, category }: { article: ResourceArticle; category: ResourceCategory }) {
     return (
-        <div className="bg-white border border-gray-200 rounded-xl p-6 space-y-3 hover:shadow-lg transition-shadow">
-            <div className="flex items-center gap-2 text-sm text-teal-700 font-semibold">
-                <span className="px-2 py-0.5 rounded-full bg-teal-100 text-teal-800 text-xs">{article.badge}</span>
-                <span>{article.updatedAt}</span>
-            </div>
-            <h3 className="text-xl font-bold text-gray-900">
-                <Link href={`/resources/${article.slug}`} className="hover:underline">
-                    {article.title}
+        <div className="bg-white border border-gray-200 rounded-xl overflow-hidden hover:shadow-lg transition-shadow group flex flex-col">
+            {article.image && (
+                <Link href={`/resources/${article.slug}`}>
+                    <div className="aspect-video w-full overflow-hidden border-b border-gray-100">
+                        <img
+                            src={article.image}
+                            alt={article.title}
+                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                        />
+                    </div>
                 </Link>
-            </h3>
-            <p className="text-gray-700 text-sm">{article.excerpt}</p>
-            <div className="flex gap-3 text-sm font-semibold">
-                <Link href={`/resources/${article.slug}`} className="text-teal-700 hover:underline">
-                    Read guide
-                </Link>
-                <Link href={`/resources/${category.slug}`} className="text-gray-700 hover:underline">
-                    {category.badge}
-                </Link>
+            )}
+            <div className="p-6 space-y-3 flex-1 flex flex-col">
+                <div className="flex items-center gap-2 text-sm text-teal-700 font-semibold">
+                    <span className="px-2 py-0.5 rounded-full bg-teal-100 text-teal-800 text-xs">{article.badge}</span>
+                    <span>{article.updatedAt}</span>
+                </div>
+                <h3 className="text-xl font-bold text-gray-900 group">
+                    <Link href={`/resources/${article.slug}`} className="hover:underline">
+                        {article.title}
+                    </Link>
+                </h3>
+                <p className="text-gray-700 text-sm line-clamp-2">{article.excerpt}</p>
+                <div className="mt-auto pt-3 flex gap-3 text-sm font-semibold">
+                    <Link href={`/resources/${article.slug}`} className="text-teal-700 hover:underline">
+                        Read guide
+                    </Link>
+                    <Link href={`/resources/${category.slug}`} className="text-gray-700 hover:underline">
+                        {category.badge}
+                    </Link>
+                </div>
             </div>
         </div>
     );

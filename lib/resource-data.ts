@@ -44,6 +44,7 @@ export interface ResourceArticle {
     internalLinks: { label: string; href: string }[];
     sources: { label: string; url: string }[];
     relatedSlugs: string[];
+    image?: string;
 }
 
 const CORE_INTERNAL_LINKS = [
@@ -612,6 +613,7 @@ export const RESOURCE_ARTICLES: ResourceArticle[] = [
             'churn-and-retention-valuation',
             'gross-margin-and-valuation',
         ],
+        image: '/images/resources/saas_valuation_multiples.png',
     },
     {
         slug: 'rule-of-40-saas',
@@ -713,6 +715,7 @@ export const RESOURCE_ARTICLES: ResourceArticle[] = [
         ],
         sources: STANDARD_SOURCES,
         relatedSlugs: ['nrr-mastery', 'efficiency-metrics-burn-multiple', 'pricing-power-playbook', 'how-to-value-a-saas'],
+        image: '/images/resources/rule_of_40.png',
     },
     {
         slug: 'how-to-value-a-saas',
@@ -877,6 +880,7 @@ export const RESOURCE_ARTICLES: ResourceArticle[] = [
         ],
         sources: STANDARD_SOURCES,
         relatedSlugs: ['how-to-value-a-saas', 'efficiency-metrics-burn-multiple', 'pricing-power-playbook', 'founder-pathways-to-exit'],
+        image: '/images/resources/exit_readiness.png',
     },
     {
         slug: 'micro-saas-valuation-under-1m-arr',
@@ -962,6 +966,7 @@ export const RESOURCE_ARTICLES: ResourceArticle[] = [
         ],
         sources: STANDARD_SOURCES,
         relatedSlugs: ['founder-pathways-to-exit', 'risk-resilience-due-diligence', 'saas-exit-calculator-logic', 'pricing-power-playbook'],
+        image: '/images/resources/micro_saas_valuation.png',
     },
     {
         slug: 'ai-saas-valuation-bubble',
@@ -1044,6 +1049,7 @@ export const RESOURCE_ARTICLES: ResourceArticle[] = [
         ],
         sources: STANDARD_SOURCES,
         relatedSlugs: ['pricing-power-playbook', 'how-to-value-a-saas', 'rule-of-40-saas', 'risk-resilience-due-diligence'],
+        image: '/images/resources/valuing_ai_trends.png',
     },
     {
         slug: 'nrr-mastery',
@@ -1126,6 +1132,7 @@ export const RESOURCE_ARTICLES: ResourceArticle[] = [
         ],
         sources: STANDARD_SOURCES,
         relatedSlugs: ['rule-of-40-saas', 'pricing-power-playbook', 'efficiency-metrics-burn-multiple', 'how-to-value-a-saas'],
+        image: '/images/resources/strategies_for_customer_retention.png',
     },
     {
         slug: 'pricing-power-playbook',
@@ -1290,6 +1297,7 @@ export const RESOURCE_ARTICLES: ResourceArticle[] = [
         ],
         sources: STANDARD_SOURCES,
         relatedSlugs: ['micro-saas-valuation-under-1m-arr', 'founder-pathways-to-exit', 'ai-saas-valuation-bubble', 'rule-of-40-saas'],
+        image: '/images/resources/customer_concentration.png',
     },
     {
         slug: 'efficiency-metrics-burn-multiple',
@@ -1372,6 +1380,7 @@ export const RESOURCE_ARTICLES: ResourceArticle[] = [
         ],
         sources: STANDARD_SOURCES,
         relatedSlugs: ['rule-of-40-saas', 'nrr-mastery', 'saas-exit-calculator-logic', 'pricing-power-playbook'],
+        image: '/images/resources/capital_efficiency.png',
     },
     {
         slug: 'founder-pathways-to-exit',
