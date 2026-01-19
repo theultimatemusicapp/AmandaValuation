@@ -9,6 +9,7 @@ export interface ResourceCategory {
     intro: string;
     keywords: string[];
     articleSlugs: string[];
+    image?: string;
 }
 
 export interface ResourceArticle {

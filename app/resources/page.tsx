@@ -332,28 +332,49 @@ export default function ResourcesHub() {
 function CategoryCard({ category }: { category: (typeof RESOURCE_CATEGORIES)[number] }) {
     const articles = RESOURCE_ARTICLES.filter(article => article.categorySlug === category.slug);
     return (
-        <div className="bg-white border border-gray-200 rounded-xl p-6 space-y-4 hover:shadow-lg transition-shadow">
-            <div className="flex items-center justify-between">
-                <h3 className="text-xl font-bold text-gray-900">
-                    <Link href={`/resources/${category.slug}`} className="hover:underline">
-                        {category.title}
-                    </Link>
-                </h3>
-                <span className="inline-flex items-center gap-2 bg-gray-100 text-gray-900 px-3 py-1 rounded-full text-sm font-semibold">
-                    {category.badge}
-                </span>
-            </div>
-            <p className="text-gray-700">{category.description}</p>
-            <ul className="space-y-2">
-                {articles.map(article => (
-                    <li key={article.slug} className="text-teal-700 font-semibold hover:text-teal-800 text-sm flex items-start gap-2">
-                        <span className="mt-1.5 w-1.5 h-1.5 bg-teal-500 rounded-full flex-shrink-0" />
-                        <Link href={`/resources/${article.slug}`} className="group-hover:underline">
-                            {article.title}
+        <div className="bg-white border border-gray-200 rounded-xl overflow-hidden hover:shadow-lg transition-shadow flex flex-col group">
+            {category.image && (
+                <Link href={`/resources/${category.slug}`}>
+                    <div className="aspect-video w-full overflow-hidden border-b border-gray-100 bg-gray-50">
+                        <img
+                            src={category.image}
+                            alt={category.title}
+                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                        />
+                    </div>
+                </Link>
+            )}
+            <div className="p-6 space-y-4 flex-1 flex flex-col">
+                <div className="flex items-center justify-between">
+                    <h3 className="text-xl font-bold text-gray-900">
+                        <Link href={`/resources/${category.slug}`} className="hover:underline">
+                            {category.title}
                         </Link>
-                    </li>
-                ))}
-            </ul>
+                    </h3>
+                    <span className="inline-flex items-center gap-2 bg-gray-100 text-gray-900 px-3 py-1 rounded-full text-sm font-semibold">
+                        {category.badge}
+                    </span>
+                </div>
+                <p className="text-gray-700 text-sm line-clamp-3">{category.description}</p>
+                <ul className="space-y-2 flex-grow">
+                    {articles.map(article => (
+                        <li key={article.slug} className="text-teal-700 font-semibold hover:text-teal-800 text-sm flex items-start gap-2">
+                            <span className="mt-1.5 w-1.5 h-1.5 bg-teal-500 rounded-full flex-shrink-0" />
+                            <Link href={`/resources/${article.slug}`} className="group-hover:underline">
+                                {article.title}
+                            </Link>
+                        </li>
+                    ))}
+                </ul>
+                <div className="pt-2 border-t border-gray-100 flex items-center justify-between">
+                    <Link
+                        href={`/resources/${category.slug}`}
+                        className="text-teal-700 font-bold text-sm hover:underline flex items-center gap-1"
+                    >
+                        Explore {category.type} →
+                    </Link>
+                </div>
+            </div>
         </div>
     );
 }
