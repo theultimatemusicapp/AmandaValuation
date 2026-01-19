@@ -9,7 +9,6 @@ export interface ResourceCategory {
     intro: string;
     keywords: string[];
     articleSlugs: string[];
-    image?: string;
 }
 
 export interface ResourceArticle {
@@ -45,7 +44,6 @@ export interface ResourceArticle {
     internalLinks: { label: string; href: string }[];
     sources: { label: string; url: string }[];
     relatedSlugs: string[];
-    image?: string;
 }
 
 const CORE_INTERNAL_LINKS = [
