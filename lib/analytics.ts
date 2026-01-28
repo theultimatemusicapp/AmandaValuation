@@ -20,6 +20,8 @@ export const pageview = (url: string) => {
         window.gtag('config', GA_TRACKING_ID, {
             page_path: url,
         });
+    } else if (process.env.NODE_ENV === 'development') {
+        console.warn('[Analytics] Pageview blocked or gtag not initialized:', url);
     }
 };
 
@@ -30,6 +32,8 @@ export const event = ({ action, category, label, value }: GTagEvent) => {
             event_label: label,
             value: value,
         });
+    } else if (process.env.NODE_ENV === 'development') {
+        console.warn('[Analytics] Event blocked:', action, { category, label, value });
     }
 };
 

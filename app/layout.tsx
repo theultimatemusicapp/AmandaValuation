@@ -4,6 +4,7 @@ import Script from "next/script";
 import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 import CookieConsentBanner from "@/components/CookieConsentBanner";
+import { GA_TRACKING_ID } from "@/lib/analytics";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 const outfit = Outfit({ subsets: ["latin"], variable: "--font-outfit" });
@@ -59,7 +60,7 @@ export default function RootLayout({
         </Script>
         <Script
           strategy="afterInteractive"
-          src={`https://www.googletagmanager.com/gtag/js?id=G-772JV93TYR`}
+          src={`https://www.googletagmanager.com/gtag/js?id=${GA_TRACKING_ID}`}
         />
         <Script
           id="google-analytics"
@@ -68,15 +69,21 @@ export default function RootLayout({
           {`
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
+            
+            // Default consent state
             gtag('consent', 'default', {
-              ad_storage: 'denied',
-              analytics_storage: 'denied',
-              functionality_storage: 'denied',
-              personalization_storage: 'denied',
-              security_storage: 'granted'
+              'ad_storage': 'denied',
+              'analytics_storage': 'denied',
+              'functionality_storage': 'denied',
+              'personalization_storage': 'denied',
+              'security_storage': 'granted'
             });
+            
             gtag('js', new Date());
-            gtag('config', 'G-772JV93TYR', { anonymize_ip: true });
+            gtag('config', '${GA_TRACKING_ID}', { 
+              anonymize_ip: true,
+              page_path: window.location.pathname,
+            });
           `}
         </Script>
       </body>
